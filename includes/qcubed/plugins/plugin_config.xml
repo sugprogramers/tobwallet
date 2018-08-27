@@ -1,0 +1,86 @@
+<?xml version="1.0"?>
+<plugins>
+	
+
+<plugin>
+	<name><![CDATA[QFlot]]></name>
+	<description><![CDATA[Use a JavaScript-based plotting library called Flot to create nice-looking charts. Based on jQuery.]]></description>
+	<version>0.4</version>
+	<platform_version>1.1</platform_version>
+	<author name="Eduardo Garcia aka enzo" email="enzo [at] anexusit [dot] com"/>
+	<files>
+		<file type="control" filename="includes/QFlot.class.php"/>
+		<file type="control" filename="includes/QFlotSeries.class.php"/>
+		<file type="js" filename="js/jquery.flot.pack.js"/>
+		<file type="js" filename="js/excanvas.pack.js"/>
+		<file type="example" filename="example/qflot-bar.php"/>
+		<file type="example" filename="example/qflot-bar.tpl.php"/>
+		<file type="example" filename="example/qflot-timeseries.php"/>
+		<file type="example" filename="example/qflot-timeseries.tpl.php"/>
+	</files>
+	<includes>
+		<include_files classname="QFlot" filename="includes/QFlot.class.php"/>
+		<include_files classname="QFlotSeries" filename="includes/QFlotSeries.class.php"/>
+	</includes>
+	<examples>
+		<example filename="example/qflot-bar.php" description="QFlot: Display a bar chart"/>
+		<example filename="example/qflot-timeseries.php" description="QFlot: Display a time series chart"/>
+	</examples>
+</plugin>
+
+<plugin>
+	<name><![CDATA[QAutoCompleteTextBox]]></name>
+	<description><![CDATA[Two implementations of auto-complete functionality: matching the user input against a pre-defined list, showing them the matches: server-side (Ajax)and client-side.]]></description>
+	<version>0.12</version>
+	<platform_version>1.1</platform_version>
+	<author name="Alex Weinstein, a.k.a. alex94040" email="alex94040 [at] yahoo [dot] com"/>
+	<files>
+		<file type="control" filename="includes/QAutoCompleteTextBoxBase.class.php"/>
+		<file type="control" filename="includes/QAjaxAutoCompleteTextBox.class.php"/>
+		<file type="control" filename="includes/QJavaScriptAutoCompleteTextBox.class.php"/>
+		<file type="image" filename="images/indicator.gif"/>
+		<file type="js" filename="js/jquery.autocomplete.js"/>
+		<file type="js" filename="js/jquery.bgiframe.js"/>
+		<file type="css" filename="css/jquery.autocomplete.css"/>
+		<file type="example" filename="example/autocomplete.php"/>
+		<file type="example" filename="example/autocomplete.tpl.php"/>
+	</files>
+	<includes>
+		<include_files classname="QAutoCompleteTextBoxBase" filename="includes/QAutoCompleteTextBoxBase.class.php"/>
+		<include_files classname="QAjaxAutoCompleteTextBox" filename="includes/QAjaxAutoCompleteTextBox.class.php"/>
+		<include_files classname="QJavaScriptAutoCompleteTextBox" filename="includes/QJavaScriptAutoCompleteTextBox.class.php"/>
+	</includes>
+	<examples>
+		<example filename="example/autocomplete.php" description="* Auto-complete Textbox Example"/>
+	</examples>
+</plugin>
+
+<plugin>
+	<name><![CDATA[QSelect2ListBox]]></name>
+	<description><![CDATA[Selector control based on <a href="http://ivaynberg.github.com/select2/">jQuery select2 plugin</a>.]]></description>
+	<version>0.1</version>
+	<platform_version>2.1</platform_version>
+	<author name="Vardan Akopian" email="vakopian+github [at] gmail [dot] com"/>
+	<files>
+		<file type="js" filename="select2-release-3.2/select2.min.js" />
+		<file type="css" filename="select2-release-3.2/select2.css" />
+		<file type="image" filename="select2-release-3.2/select2.png" />
+		<file type="image" filename="select2-release-3.2/select2x2.png" />
+		<file type="image" filename="select2-release-3.2/spinner.gif" />
+		<file type="control" filename="includes/QSelect2ListBox.class.php" />
+		<file type="control" filename="includes/QSelect2ListBoxBase.class.php" />
+		<file type="control" filename="includes/QSelect2ListBoxGen.class.php" />
+		<file type="example" filename="example/select2listbox.php" />
+		<file type="example" filename="example/select2listbox.tpl.php" />
+	</files>
+	<includes>
+		<include_files classname="QSelect2ListBox" filename="includes/QSelect2ListBox.class.php" />
+		<include_files classname="QSelect2ListBoxBase" filename="includes/QSelect2ListBoxBase.class.php" />
+		<include_files classname="QSelect2ListBoxGen" filename="includes/QSelect2ListBoxGen.class.php" />
+	</includes>
+	<examples>
+		<example filename="example/select2listbox.php" description="QSelect2ListBox: QSelect2ListBox: selector control based on select2 JQuery plugin" />
+	</examples>
+</plugin>
+
+</plugins>

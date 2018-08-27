@@ -1,0 +1,31 @@
+<?xml version="1.0"?>
+<plugins>
+	
+
+<plugin>
+	<name><![CDATA[QFlot]]></name>
+	<description><![CDATA[Use a JavaScript-based plotting library called Flot to create nice-looking charts. Based on jQuery.]]></description>
+	<version>0.4</version>
+	<platform_version>1.1</platform_version>
+	<author name="Eduardo Garcia aka enzo" email="enzo [at] anexusit [dot] com"/>
+	<files>
+		<file type="control" filename="includes/QFlot.class.php"/>
+		<file type="control" filename="includes/QFlotSeries.class.php"/>
+		<file type="js" filename="js/jquery.flot.pack.js"/>
+		<file type="js" filename="js/excanvas.pack.js"/>
+		<file type="example" filename="example/qflot-bar.php"/>
+		<file type="example" filename="example/qflot-bar.tpl.php"/>
+		<file type="example" filename="example/qflot-timeseries.php"/>
+		<file type="example" filename="example/qflot-timeseries.tpl.php"/>
+	</files>
+	<includes>
+		<include_files classname="QFlot" filename="includes/QFlot.class.php"/>
+		<include_files classname="QFlotSeries" filename="includes/QFlotSeries.class.php"/>
+	</includes>
+	<examples>
+		<example filename="example/qflot-bar.php" description="QFlot: Display a bar chart"/>
+		<example filename="example/qflot-timeseries.php" description="QFlot: Display a time series chart"/>
+	</examples>
+</plugin>
+
+</plugins>

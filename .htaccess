@@ -1,0 +1,140 @@
+RewriteEngine On
+#RewriteCond %{HTTPS} off
+#RewriteRule ^(.*)$ https://%{HTTP_HOST}%{REQUEST_URI} [L,R=301]
+
+Options FollowSymLinks
+#(+) y (nada)  muestra o denega el list de url directorios
+RewriteEngine on
+Options All -Indexes
+#Impedir que se pueda ver el listado de contenidos de un directorio
+#FollowSymLinks means if a dir is a symbol link, follow the link
+#Indexes means a dir can be show as list if no index page.
+RewriteCond %{SCRIPT_FILENAME} -d [OR]
+RewriteCond %{SCRIPT_FILENAME} -f
+#RewriteRule "(^|/)\." - [F]
+RewriteRule "(\.(bak|config|dist|fla|inc|ini|log|psd|sh|sql|swp)|~)$" - [F]
+#limita el acceso para archivos en su totalidad en local y general puerto 80
+
+#ReWriteCond %{REQUEST_URI} template/ [OR]
+#ReWriteCond %{REQUEST_URI} data/ [OR]
+#ReWriteCond %{REQUEST_URI} .well-known/ 
+#RewriteCond %{HTTP_REFERER} !^http://localhost/docufresh/.*$ [NC]
+ #RewriteCond %{HTTP_REFERER} !^http://(www\.)?example.org/.*$ [NC]
+#RewriteRule .*\.(jpe?g|gif|bmp|png|js|css|php|html|txt|)$ - [F]
+ #RewriteRule .*\.(jpe?g|gif|bmp|png|js|css|php|html|txt|)$  http://example.org/IMG/no_robar_ancho_de_banda.gif [NC,R,L]
+
+DirectoryIndex  index.html
+
+
+#http://www.jpereira.net/web/un-poco-de-seguridad-con-htaccess
+#http://www.webempresa.com/blog/10-sencillos-consejos-reforzar-seguridad-wordpress-usando-htaccess.html
+ErrorDocument 404   /Error.php?error=404
+ErrorDocument 403   /Error.php?error=403
+ErrorDocument 400   /Error.php?error=400
+ErrorDocument 406   /Error.php?error=406
+ErrorDocument 412   /Error.php?error=412
+ErrorDocument 416   /Error.php?error=416
+ErrorDocument 501   /Error.php?error=501
+ErrorDocument 401   /Error.php?error=401
+ErrorDocument 500   /Error.php?error=500
+RewriteRule ^error$  /Error.php?error=400 [L]
+
+
+#reglas
+RewriteRule ^logout$    LogOut.php [L]
+RewriteRule ^logoutuser$    LogOutUser.php [L]
+RewriteRule ^login/(.*)$    LoginUser.php/$1 [L]
+RewriteRule ^login$    LoginUser.php [L]
+RewriteRule ^profileuser/(.*)$    ProfileUser.php/$1 [L]
+RewriteRule ^profileuser$    ProfileUser.php [L]
+RewriteRule ^forgot/(.*)$    ViewForgotPassword.php/$1 [L]
+RewriteRule ^forgot$    ViewForgotPassword.php [L]
+RewriteRule ^register/(.*)$    ViewRegisterUser.php/$1 [L]
+RewriteRule ^register$    ViewRegisterUser.php [L]
+RewriteRule ^mining/(.*)$    ViewMiningOptions.php/$1 [L]
+RewriteRule ^mining$    ViewMiningOptions.php [L]
+RewriteRule ^success$    success.php [L]
+RewriteRule ^cancel$    cancel.php [L]
+RewriteRule ^ipn$    ipn.php [L]
+RewriteRule ^miningoptions/(.*)$    ViewUserMiningOptions.php/$1 [L]
+RewriteRule ^miningoptions$    ViewUserMiningOptions.php [L]
+RewriteRule ^kcoinversion/(.*)$    KcoinVersion.php/$1 [L]
+RewriteRule ^kcoinversion$    KcoinVersion.php [L]
+
+
+
+
+RewriteRule ^modelo/(.*)$    ViewListModelo.php/$1 [L]
+RewriteRule ^modelo    ViewListModelo.php [L]
+RewriteRule ^materia_prima/(.*)$    ViewListMateriaPrima.php/$1 [L]
+RewriteRule ^materia_prima    ViewListMateriaPrima.php [L]
+RewriteRule ^productodefecto/(.*)$    ViewListProductoDefecto.php/$1 [L]
+RewriteRule ^productodefecto    ViewListProductoDefecto.php [L]
+RewriteRule ^producto/(.*)$    ViewListProducto.php/$1 [L]
+RewriteRule ^producto$    ViewListProducto.php [L]
+RewriteRule ^confeccion/(.*)$    ViewListConfeccion.php/$1 [L]
+RewriteRule ^confeccion    ViewListConfeccion.php [L]
+RewriteRule ^movimientoproducto/(.*)$    ViewListMovimientoProducto.php/$1 [L]
+RewriteRule ^movimientoproducto    ViewListMovimientoProducto.php [L]
+RewriteRule ^tiendaproducto/(.*)$    ViewListProductoTienda.php/$1 [L]
+RewriteRule ^tiendaproducto    ViewListProductoTienda.php [L]
+RewriteRule ^misventas/(.*)$    ViewListMisVentas.php/$1 [L]
+RewriteRule ^misventas    ViewListMisVentas.php [L]
+RewriteRule ^miscancelaciones/(.*)$    ViewListMisCancelaciones.php/$1 [L]
+RewriteRule ^miscancelaciones    ViewListMisCancelaciones.php [L]
+RewriteRule ^misdespachos/(.*)$    ViewListMisDespachos.php/$1 [L]
+RewriteRule ^misdespachos    ViewListMisDespachos.php [L]
+RewriteRule ^cancelarproducto/(.*)$    ViewListCancelarProducto.php/$1 [L]
+RewriteRule ^cancelarproducto    ViewListCancelarProducto.php [L]
+RewriteRule ^despacharproducto/(.*)$    ViewListDespacharProducto.php/$1 [L]
+RewriteRule ^despacharproducto    ViewListDespacharProducto.php [L]
+RewriteRule ^nuevaventa/(.*)$    NuevaVenta.php/$1 [L]
+RewriteRule ^nuevaventa    NuevaVenta.php [L]
+RewriteRule ^productosdetienda/(.*)$    ViewListProductoDisponibles.php/$1 [L]
+RewriteRule ^productosdetienda$    ViewListProductoDisponibles.php [L]
+
+RewriteRule ^profileadmin/(.*)$    ProfileAdmin.php/$1 [L]
+RewriteRule ^profileadmin$    ProfileAdmin.php [L]
+RewriteRule ^users/(.*)$    ViewListUsers.php/$1 [L]
+RewriteRule ^users$    ViewListUsers.php [L]
+RewriteRule ^shops/(.*)$    ViewListShops.php/$1 [L]
+RewriteRule ^shops$    ViewListShops.php [L]
+
+RewriteRule ^dashboarduser/(.*)$    DashboardUser.php/$1 [L]
+RewriteRule ^dashboarduser$    DashboardUser.php [L]
+
+RewriteRule ^dashboardadmin/(.*)$    DashboardAdmin.php/$1 [L]
+RewriteRule ^dashboardadmin$    DashboardAdmin.php [L]
+
+#Reporte Administrador
+RewriteRule ^reporteventasdiariasadmin/(.*)$    AdminVentasDiarias.php/$1 [L]
+RewriteRule ^reporteventasdiariasadmin$    AdminVentasDiarias.php [L]
+
+RewriteRule ^reporteventasmensualesadmin/(.*)$    AdminVentasMensuales.php/$1 [L]
+RewriteRule ^reporteventasmensualesadmin$    AdminVentasMensuales.php [L]
+
+RewriteRule ^reporteventasempleadoadmin/(.*)$    AdminVentasEmpleado.php/$1 [L]
+RewriteRule ^reporteventasempleadoadmin    AdminVentasEmpleado.php [L]
+
+RewriteRule ^reporteventasprooductoadmin/(.*)$    AdminVentasProductos.php/$1 [L]
+RewriteRule ^reporteventasprooductoadmin    AdminVentasProductos.php [L]
+
+RewriteRule ^reporteventastiendaadmin/(.*)$    AdminVentasTienda.php/$1 [L]
+RewriteRule ^reporteventastiendaadmin    AdminVentasTienda.php [L]
+
+#Reporte Vendedor
+
+RewriteRule ^reporteventasdiariasvendedor/(.*)$    VendedorVentasDiarias.php/$1 [L]
+RewriteRule ^reporteventasdiariasvendedor$    VendedorVentasDiarias.php [L]
+
+RewriteRule ^reporteventasproductovendedor/(.*)$    VendedorVentasProductos.php/$1 [L]
+RewriteRule ^reporteventasproductovendedor$    VendedorVentasProductos.php [L]
+
+RewriteRule ^reporteventasmensualesvendedor/(.*)$    VendedorVentasMensuales.php/$1 [L]
+RewriteRule ^reporteventasmensualesvendedor    VendedorVentasMensuales.php [L]
+
+
+#To tobwallet
+
+RewriteRule ^organizations/(.*)$    ViewListOrganizations.php/$1 [L]
+RewriteRule ^organizations$    ViewListOrganizations.php [L]

@@ -1,0 +1,46 @@
+/*****KYC.HTML*****/
+body{
+	background: #FFFFFF;
+}
+
+#reg{
+	color:#373545;
+}
+
+
+h3{
+	padding-top: 100px;
+	padding-left: 30px;
+	font-weight: bold;
+	color: #581D89;
+}
+
+hr {
+    width: 400px;
+    border-top: 1px solid #f8f8f8;
+    border-bottom: 1px solid rgba(0,0,0,0.2);
+}
+
+
+.navbar-inverse {
+      background: #502684;
+      color: white;
+    }
+    .navbar-inverse .navbar-brand, .navbar-inverse a{
+      color:white;
+    }
+    .navbar-inverse .navbar-nav>li>a {
+      color: white;
+    } 
+
+#circle{
+	height: 300px;
+	width: 300px;
+}
+
+
+form{
+	padding-top: 30px;
+	padding-left: 30px;
+	box-sizing: border-box;
+}

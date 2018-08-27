@@ -1,0 +1,44 @@
+<!DOCTYPE html 
+    PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+           "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+<head r>
+
+    <title>jQuery Google Chart Demo</title>
+
+    <script src="jquery-1.3.2.min.js" type="text/javascript"></script>
+    <script src="jgcharts.pack.js" type="text/javascript"></script>
+
+  
+
+</head>
+
+
+  <body>
+
+
+  <script type="text/javascript">
+
+        $(document).ready(function()
+
+        {   var api = new jGCharts.Api();
+	    var opt = 
+            { 
+	      data : [153, 10, 40],  
+	      legend      : ['Data 1','Data 2','Data 3'], 
+              axis_labels : ['2001','2002','2003'], 
+	      type : 'p3',//default bvg 
+	      size : '880x340'		
+            };
+
+            jQuery('<img>').attr('src', api.make(opt)).appendTo("#bar_chart"); 
+
+        });
+
+    </script>
+
+<div id="bar_chart"></div>
+
+</body>
+</html>
