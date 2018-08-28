@@ -36,6 +36,7 @@
 		protected $txtImagePhoto;
 		protected $txtStatusUser;
 		protected $txtWalletAddress;
+		protected $txtUserType;
 
 		// Other ListBoxes (if applicable) via Unique ReverseReferences and ManyToMany References
 
@@ -84,6 +85,7 @@
 			$this->txtImagePhoto = $this->mctUser->txtImagePhoto_Create();
 			$this->txtStatusUser = $this->mctUser->txtStatusUser_Create();
 			$this->txtWalletAddress = $this->mctUser->txtWalletAddress_Create();
+			$this->txtUserType = $this->mctUser->txtUserType_Create();
 
 			// Create Buttons and Actions on this Form
 			$this->btnSave = new QButton($this);

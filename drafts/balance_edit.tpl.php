@@ -17,15 +17,15 @@
 	</div>
 
 	<div id="formControls">
-		<?php $this->txtIdBalance->RenderWithName(); ?>
+		<?php $this->lblIdBalance->RenderWithName(); ?>
 
 		<?php $this->calDate->RenderWithName(); ?>
 
-		<?php $this->lstIdClientObject->RenderWithName(); ?>
-
-		<?php $this->lstIdOrganizationObject->RenderWithName(); ?>
-
 		<?php $this->txtAmountExchangedCoins->RenderWithName(); ?>
+
+		<?php $this->lstIdUserObject->RenderWithName(); ?>
+
+		<?php $this->lstIdOfferObject->RenderWithName(); ?>
 
 	</div>
 

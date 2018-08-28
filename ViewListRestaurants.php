@@ -60,10 +60,10 @@ class ViewListRestaurantForm extends QForm {
         $this->dtgRestaurants->SortDirection = true;
         
         $this->dtgRestaurants->MetaAddColumn('IdRestaurant', "Name=ID");
-        $this->dtgRestaurants->MetaAddColumn('Email');
-        $this->dtgRestaurants->MetaAddColumn('OwnerFirstName');
-        $this->dtgRestaurants->MetaAddColumn('OwnerLastName');
-        $this->dtgRestaurants->MetaAddColumn('OwnerMiddleName');
+        //$this->dtgRestaurants->MetaAddColumn('Email');
+        //$this->dtgRestaurants->MetaAddColumn('OwnerFirstName');
+        //$this->dtgRestaurants->MetaAddColumn('OwnerLastName');
+        //$this->dtgRestaurants->MetaAddColumn('OwnerMiddleName');
         $this->dtgRestaurants->MetaAddColumn('Country');
         $this->dtgRestaurants->MetaAddColumn('City');
         $this->dtgRestaurants->MetaAddColumn('Address');
@@ -107,9 +107,9 @@ class ViewListRestaurantForm extends QForm {
      public function actionFilter_Click($strFormId, $strControlId, $strParameter) {
         if (trim($this->txtNombre->Text != "")) {
             $searchTipo = QQ::OrCondition(
-                    QQ::Like(QQN::Restaurant()->OwnerFirstName, "%".trim($this->txtNombre->Text)."%"),
+                    QQ::Like(QQN::Restaurant()->RestaurantName, "%".trim($this->txtNombre->Text)."%")/*,
                     QQ::Like(QQN::Restaurant()->OwnerLastName, "%".trim($this->txtNombre->Text)."%"),
-                    QQ::Like(QQN::Restaurant()->Email, "%".trim($this->txtNombre->Text)."%")
+                    QQ::Like(QQN::Restaurant()->Email, "%".trim($this->txtNombre->Text)."%")*/
                     
              );
         }

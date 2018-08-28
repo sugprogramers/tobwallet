@@ -187,6 +187,11 @@ class ViewListUsuarioForm extends QForm {
              QApplication::ExecuteJavaScript("showWarning('" . htmlentities("Wallet Address is empty.") . "');");
         }
     }
+    
+    
+    
+    
+    
 
     public function statusRender(User $obj) {
 
@@ -212,7 +217,9 @@ class ViewListUsuarioForm extends QForm {
                       . '<br>'
                       . '<a href="'.__UPLOAD_PATH__."/".$obj->ImagePhoto.'"  target="_blank">Photo</a></div>';
         
-    }
+     }
+
+
 
 
     public function loginRender(Usuario $obj) {

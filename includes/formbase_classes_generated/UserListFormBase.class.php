@@ -68,6 +68,7 @@
 			$this->dtgUsers->MetaAddColumn('ImagePhoto');
 			$this->dtgUsers->MetaAddColumn('StatusUser');
 			$this->dtgUsers->MetaAddColumn('WalletAddress');
+			$this->dtgUsers->MetaAddColumn('UserType');
 		}
 	}
 ?>

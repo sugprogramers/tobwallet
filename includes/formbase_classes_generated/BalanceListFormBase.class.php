@@ -57,9 +57,9 @@
 			// can traverse down QQN::balance() to display fields that are down the hierarchy)
 			$this->dtgBalances->MetaAddColumn('IdBalance');
 			$this->dtgBalances->MetaAddColumn('Date');
-			$this->dtgBalances->MetaAddColumn(QQN::Balance()->IdClientObject);
-			$this->dtgBalances->MetaAddColumn(QQN::Balance()->IdOrganizationObject);
 			$this->dtgBalances->MetaAddColumn('AmountExchangedCoins');
+			$this->dtgBalances->MetaAddColumn(QQN::Balance()->IdUserObject);
+			$this->dtgBalances->MetaAddColumn(QQN::Balance()->IdOfferObject);
 		}
 	}
 ?>

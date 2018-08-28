@@ -7,7 +7,7 @@
 	<div id="formControls">
 		<?php $_CONTROL->lblIdUser->RenderWithName(); ?>
 
-		<?php $_CONTROL->txtName->RenderWithName(); ?>
+		<?php $_CONTROL->txtEmail->RenderWithName(); ?>
 
 		<?php $_CONTROL->txtPassword->RenderWithName(); ?>
 
@@ -30,6 +30,8 @@
 		<?php $_CONTROL->txtStatusUser->RenderWithName(); ?>
 
 		<?php $_CONTROL->txtWalletAddress->RenderWithName(); ?>
+
+		<?php $_CONTROL->txtUserType->RenderWithName(); ?>
 
 	</div>
 

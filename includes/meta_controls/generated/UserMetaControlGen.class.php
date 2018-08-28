@@ -42,6 +42,8 @@
 	 * @property-read QLabel $StatusUserLabel
 	 * @property QTextBox $WalletAddressControl
 	 * @property-read QLabel $WalletAddressLabel
+	 * @property QTextBox $UserTypeControl
+	 * @property-read QLabel $UserTypeLabel
 	 * @property-read string $TitleVerb a verb indicating whether or not this is being edited or created
 	 * @property-read boolean $EditMode a boolean indicating whether or not this is being edited or created
 	 */
@@ -135,6 +137,11 @@
 		 * @access protected
 		 */
 		protected $txtWalletAddress;
+		/**
+		 * @var QTextBox txtUserType
+		 * @access protected
+		 */
+		protected $txtUserType;
 
 		// Controls that allow the viewing of User's individual data fields
 		/**
@@ -197,6 +204,11 @@
 		 * @access protected
 		 */
 		protected $lblWalletAddress;
+		/**
+		 * @var QLabel lblUserType
+		 * @access protected
+		 */
+		protected $lblUserType;
 
 		// QListBox Controls (if applicable) to edit Unique ReverseReferences and ManyToMany References
 
@@ -634,6 +646,33 @@
 			return $this->lblWalletAddress;
 		}
 
+		/**
+		 * Create and setup QTextBox txtUserType
+		 * @param string $strControlId optional ControlId to use
+		 * @return QTextBox
+		 */
+		public function txtUserType_Create($strControlId = null) {
+			$this->txtUserType = new QTextBox($this->objParentObject, $strControlId);
+			$this->txtUserType->Name = QApplication::Translate('User Type');
+			$this->txtUserType->Text = $this->objUser->UserType;
+			$this->txtUserType->Required = true;
+			$this->txtUserType->MaxLength = User::UserTypeMaxLength;
+			return $this->txtUserType;
+		}
+
+		/**
+		 * Create and setup QLabel lblUserType
+		 * @param string $strControlId optional ControlId to use
+		 * @return QLabel
+		 */
+		public function lblUserType_Create($strControlId = null) {
+			$this->lblUserType = new QLabel($this->objParentObject, $strControlId);
+			$this->lblUserType->Name = QApplication::Translate('User Type');
+			$this->lblUserType->Text = $this->objUser->UserType;
+			$this->lblUserType->Required = true;
+			return $this->lblUserType;
+		}
+
 
 
 		/**
@@ -683,6 +722,9 @@
 			if ($this->txtWalletAddress) $this->txtWalletAddress->Text = $this->objUser->WalletAddress;
 			if ($this->lblWalletAddress) $this->lblWalletAddress->Text = $this->objUser->WalletAddress;
 
+			if ($this->txtUserType) $this->txtUserType->Text = $this->objUser->UserType;
+			if ($this->lblUserType) $this->lblUserType->Text = $this->objUser->UserType;
+
 		}
 
 
@@ -718,6 +760,7 @@
 				if ($this->txtImagePhoto) $this->objUser->ImagePhoto = $this->txtImagePhoto->Text;
 				if ($this->txtStatusUser) $this->objUser->StatusUser = $this->txtStatusUser->Text;
 				if ($this->txtWalletAddress) $this->objUser->WalletAddress = $this->txtWalletAddress->Text;
+				if ($this->txtUserType) $this->objUser->UserType = $this->txtUserType->Text;
 
 				// Update any UniqueReverseReferences (if any) for controls that have been created for it
 
@@ -838,6 +881,12 @@
 				case 'WalletAddressLabel':
 					if (!$this->lblWalletAddress) return $this->lblWalletAddress_Create();
 					return $this->lblWalletAddress;
+				case 'UserTypeControl':
+					if (!$this->txtUserType) return $this->txtUserType_Create();
+					return $this->txtUserType;
+				case 'UserTypeLabel':
+					if (!$this->lblUserType) return $this->lblUserType_Create();
+					return $this->lblUserType;
 				default:
 					try {
 						return parent::__get($strName);
@@ -886,6 +935,8 @@
 						return ($this->txtStatusUser = QType::Cast($mixValue, 'QControl'));
 					case 'WalletAddressControl':
 						return ($this->txtWalletAddress = QType::Cast($mixValue, 'QControl'));
+					case 'UserTypeControl':
+						return ($this->txtUserType = QType::Cast($mixValue, 'QControl'));
 					default:
 						return parent::__set($strName, $mixValue);
 				}

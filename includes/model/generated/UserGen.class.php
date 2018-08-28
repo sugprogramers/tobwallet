@@ -28,10 +28,11 @@
 	 * @property string $ImagePhoto the value for strImagePhoto 
 	 * @property integer $StatusUser the value for intStatusUser (Not Null)
 	 * @property string $WalletAddress the value for strWalletAddress 
-	 * @property-read Client $_ClientAsIdUser the value for the private _objClientAsIdUser (Read-Only) if set due to an expansion on the client.IdUser reverse relationship
-	 * @property-read Client[] $_ClientAsIdUserArray the value for the private _objClientAsIdUserArray (Read-Only) if set due to an ExpandAsArray on the client.IdUser reverse relationship
-	 * @property-read Owner $_OwnerAsIdUser the value for the private _objOwnerAsIdUser (Read-Only) if set due to an expansion on the owner.IdUser reverse relationship
-	 * @property-read Owner[] $_OwnerAsIdUserArray the value for the private _objOwnerAsIdUserArray (Read-Only) if set due to an ExpandAsArray on the owner.IdUser reverse relationship
+	 * @property string $UserType the value for strUserType (Not Null)
+	 * @property-read Balance $_BalanceAsIdUser the value for the private _objBalanceAsIdUser (Read-Only) if set due to an expansion on the balance.IdUser reverse relationship
+	 * @property-read Balance[] $_BalanceAsIdUserArray the value for the private _objBalanceAsIdUserArray (Read-Only) if set due to an ExpandAsArray on the balance.IdUser reverse relationship
+	 * @property-read Restaurant $_RestaurantAsIdUser the value for the private _objRestaurantAsIdUser (Read-Only) if set due to an expansion on the restaurant.IdUser reverse relationship
+	 * @property-read Restaurant[] $_RestaurantAsIdUserArray the value for the private _objRestaurantAsIdUserArray (Read-Only) if set due to an ExpandAsArray on the restaurant.IdUser reverse relationship
 	 * @property-read boolean $__Restored whether or not this object was restored from the database (as opposed to created new)
 	 */
 	class UserGen extends QBaseClass implements IteratorAggregate {
@@ -155,36 +156,45 @@
 
 
 		/**
-		 * Private member variable that stores a reference to a single ClientAsIdUser object
-		 * (of type Client), if this User object was restored with
-		 * an expansion on the client association table.
-		 * @var Client _objClientAsIdUser;
+		 * Protected member variable that maps to the database column user.UserType
+		 * @var string strUserType
 		 */
-		private $_objClientAsIdUser;
+		protected $strUserType;
+		const UserTypeMaxLength = 1;
+		const UserTypeDefault = null;
+
 
 		/**
-		 * Private member variable that stores a reference to an array of ClientAsIdUser objects
-		 * (of type Client[]), if this User object was restored with
-		 * an ExpandAsArray on the client association table.
-		 * @var Client[] _objClientAsIdUserArray;
+		 * Private member variable that stores a reference to a single BalanceAsIdUser object
+		 * (of type Balance), if this User object was restored with
+		 * an expansion on the balance association table.
+		 * @var Balance _objBalanceAsIdUser;
 		 */
-		private $_objClientAsIdUserArray = null;
+		private $_objBalanceAsIdUser;
 
 		/**
-		 * Private member variable that stores a reference to a single OwnerAsIdUser object
-		 * (of type Owner), if this User object was restored with
-		 * an expansion on the owner association table.
-		 * @var Owner _objOwnerAsIdUser;
+		 * Private member variable that stores a reference to an array of BalanceAsIdUser objects
+		 * (of type Balance[]), if this User object was restored with
+		 * an ExpandAsArray on the balance association table.
+		 * @var Balance[] _objBalanceAsIdUserArray;
 		 */
-		private $_objOwnerAsIdUser;
+		private $_objBalanceAsIdUserArray = null;
 
 		/**
-		 * Private member variable that stores a reference to an array of OwnerAsIdUser objects
-		 * (of type Owner[]), if this User object was restored with
-		 * an ExpandAsArray on the owner association table.
-		 * @var Owner[] _objOwnerAsIdUserArray;
+		 * Private member variable that stores a reference to a single RestaurantAsIdUser object
+		 * (of type Restaurant), if this User object was restored with
+		 * an expansion on the restaurant association table.
+		 * @var Restaurant _objRestaurantAsIdUser;
 		 */
-		private $_objOwnerAsIdUserArray = null;
+		private $_objRestaurantAsIdUser;
+
+		/**
+		 * Private member variable that stores a reference to an array of RestaurantAsIdUser objects
+		 * (of type Restaurant[]), if this User object was restored with
+		 * an ExpandAsArray on the restaurant association table.
+		 * @var Restaurant[] _objRestaurantAsIdUserArray;
+		 */
+		private $_objRestaurantAsIdUserArray = null;
 
 		/**
 		 * Protected array of virtual attributes for this object (e.g. extra/other calculated and/or non-object bound
@@ -228,6 +238,7 @@
 			$this->strImagePhoto = User::ImagePhotoDefault;
 			$this->intStatusUser = User::StatusUserDefault;
 			$this->strWalletAddress = User::WalletAddressDefault;
+			$this->strUserType = User::UserTypeDefault;
 		}
 
 
@@ -508,6 +519,7 @@
 			$objBuilder->AddSelectItem($strTableName, 'ImagePhoto', $strAliasPrefix . 'ImagePhoto');
 			$objBuilder->AddSelectItem($strTableName, 'StatusUser', $strAliasPrefix . 'StatusUser');
 			$objBuilder->AddSelectItem($strTableName, 'WalletAddress', $strAliasPrefix . 'WalletAddress');
+			$objBuilder->AddSelectItem($strTableName, 'UserType', $strAliasPrefix . 'UserType');
 		}
 
 
@@ -545,40 +557,40 @@
 							$strAliasPrefix = 'user__';
 
 
-						// Expanding reverse references: ClientAsIdUser
-						$strAlias = $strAliasPrefix . 'clientasiduser__IdClient';
+						// Expanding reverse references: BalanceAsIdUser
+						$strAlias = $strAliasPrefix . 'balanceasiduser__IdBalance';
 						$strAliasName = array_key_exists($strAlias, $strColumnAliasArray) ? $strColumnAliasArray[$strAlias] : $strAlias;
 						if ((array_key_exists($strAlias, $strExpandAsArrayNodes)) &&
 							(!is_null($objDbRow->GetColumn($strAliasName)))) {
-							if(null === $objPreviousItem->_objClientAsIdUserArray)
-								$objPreviousItem->_objClientAsIdUserArray = array();
-							if ($intPreviousChildItemCount = count($objPreviousItem->_objClientAsIdUserArray)) {
-								$objPreviousChildItems = $objPreviousItem->_objClientAsIdUserArray;
-								$objChildItem = Client::InstantiateDbRow($objDbRow, $strAliasPrefix . 'clientasiduser__', $strExpandAsArrayNodes, $objPreviousChildItems, $strColumnAliasArray);
+							if(null === $objPreviousItem->_objBalanceAsIdUserArray)
+								$objPreviousItem->_objBalanceAsIdUserArray = array();
+							if ($intPreviousChildItemCount = count($objPreviousItem->_objBalanceAsIdUserArray)) {
+								$objPreviousChildItems = $objPreviousItem->_objBalanceAsIdUserArray;
+								$objChildItem = Balance::InstantiateDbRow($objDbRow, $strAliasPrefix . 'balanceasiduser__', $strExpandAsArrayNodes, $objPreviousChildItems, $strColumnAliasArray);
 								if ($objChildItem) {
-									$objPreviousItem->_objClientAsIdUserArray[] = $objChildItem;
+									$objPreviousItem->_objBalanceAsIdUserArray[] = $objChildItem;
 								}
 							} else {
-								$objPreviousItem->_objClientAsIdUserArray[] = Client::InstantiateDbRow($objDbRow, $strAliasPrefix . 'clientasiduser__', $strExpandAsArrayNodes, null, $strColumnAliasArray);
+								$objPreviousItem->_objBalanceAsIdUserArray[] = Balance::InstantiateDbRow($objDbRow, $strAliasPrefix . 'balanceasiduser__', $strExpandAsArrayNodes, null, $strColumnAliasArray);
 							}
 							$blnExpandedViaArray = true;
 						}
 
-						// Expanding reverse references: OwnerAsIdUser
-						$strAlias = $strAliasPrefix . 'ownerasiduser__IdOwner';
+						// Expanding reverse references: RestaurantAsIdUser
+						$strAlias = $strAliasPrefix . 'restaurantasiduser__IdRestaurant';
 						$strAliasName = array_key_exists($strAlias, $strColumnAliasArray) ? $strColumnAliasArray[$strAlias] : $strAlias;
 						if ((array_key_exists($strAlias, $strExpandAsArrayNodes)) &&
 							(!is_null($objDbRow->GetColumn($strAliasName)))) {
-							if(null === $objPreviousItem->_objOwnerAsIdUserArray)
-								$objPreviousItem->_objOwnerAsIdUserArray = array();
-							if ($intPreviousChildItemCount = count($objPreviousItem->_objOwnerAsIdUserArray)) {
-								$objPreviousChildItems = $objPreviousItem->_objOwnerAsIdUserArray;
-								$objChildItem = Owner::InstantiateDbRow($objDbRow, $strAliasPrefix . 'ownerasiduser__', $strExpandAsArrayNodes, $objPreviousChildItems, $strColumnAliasArray);
+							if(null === $objPreviousItem->_objRestaurantAsIdUserArray)
+								$objPreviousItem->_objRestaurantAsIdUserArray = array();
+							if ($intPreviousChildItemCount = count($objPreviousItem->_objRestaurantAsIdUserArray)) {
+								$objPreviousChildItems = $objPreviousItem->_objRestaurantAsIdUserArray;
+								$objChildItem = Restaurant::InstantiateDbRow($objDbRow, $strAliasPrefix . 'restaurantasiduser__', $strExpandAsArrayNodes, $objPreviousChildItems, $strColumnAliasArray);
 								if ($objChildItem) {
-									$objPreviousItem->_objOwnerAsIdUserArray[] = $objChildItem;
+									$objPreviousItem->_objRestaurantAsIdUserArray[] = $objChildItem;
 								}
 							} else {
-								$objPreviousItem->_objOwnerAsIdUserArray[] = Owner::InstantiateDbRow($objDbRow, $strAliasPrefix . 'ownerasiduser__', $strExpandAsArrayNodes, null, $strColumnAliasArray);
+								$objPreviousItem->_objRestaurantAsIdUserArray[] = Restaurant::InstantiateDbRow($objDbRow, $strAliasPrefix . 'restaurantasiduser__', $strExpandAsArrayNodes, null, $strColumnAliasArray);
 							}
 							$blnExpandedViaArray = true;
 						}
@@ -623,16 +635,18 @@
 			$objToReturn->intStatusUser = $objDbRow->GetColumn($strAliasName, 'Integer');
 			$strAliasName = array_key_exists($strAliasPrefix . 'WalletAddress', $strColumnAliasArray) ? $strColumnAliasArray[$strAliasPrefix . 'WalletAddress'] : $strAliasPrefix . 'WalletAddress';
 			$objToReturn->strWalletAddress = $objDbRow->GetColumn($strAliasName, 'VarChar');
+			$strAliasName = array_key_exists($strAliasPrefix . 'UserType', $strColumnAliasArray) ? $strColumnAliasArray[$strAliasPrefix . 'UserType'] : $strAliasPrefix . 'UserType';
+			$objToReturn->strUserType = $objDbRow->GetColumn($strAliasName, 'VarChar');
 
 			if (isset($arrPreviousItems) && is_array($arrPreviousItems)) {
 				foreach ($arrPreviousItems as $objPreviousItem) {
 					if ($objToReturn->IdUser != $objPreviousItem->IdUser) {
 						continue;
 					}
-					if (array_diff($objPreviousItem->_objClientAsIdUserArray, $objToReturn->_objClientAsIdUserArray) != null) {
+					if (array_diff($objPreviousItem->_objBalanceAsIdUserArray, $objToReturn->_objBalanceAsIdUserArray) != null) {
 						continue;
 					}
-					if (array_diff($objPreviousItem->_objOwnerAsIdUserArray, $objToReturn->_objOwnerAsIdUserArray) != null) {
+					if (array_diff($objPreviousItem->_objRestaurantAsIdUserArray, $objToReturn->_objRestaurantAsIdUserArray) != null) {
 						continue;
 					}
 
@@ -656,30 +670,30 @@
 
 
 
-			// Check for ClientAsIdUser Virtual Binding
-			$strAlias = $strAliasPrefix . 'clientasiduser__IdClient';
+			// Check for BalanceAsIdUser Virtual Binding
+			$strAlias = $strAliasPrefix . 'balanceasiduser__IdBalance';
 			$strAliasName = array_key_exists($strAlias, $strColumnAliasArray) ? $strColumnAliasArray[$strAlias] : $strAlias;
 			$blnExpanded = $strExpandAsArrayNodes && array_key_exists($strAlias, $strExpandAsArrayNodes);
-			if ($blnExpanded && null === $objToReturn->_objClientAsIdUserArray)
-				$objToReturn->_objClientAsIdUserArray = array();
+			if ($blnExpanded && null === $objToReturn->_objBalanceAsIdUserArray)
+				$objToReturn->_objBalanceAsIdUserArray = array();
 			if (!is_null($objDbRow->GetColumn($strAliasName))) {
 				if ($blnExpanded)
-					$objToReturn->_objClientAsIdUserArray[] = Client::InstantiateDbRow($objDbRow, $strAliasPrefix . 'clientasiduser__', $strExpandAsArrayNodes, null, $strColumnAliasArray);
+					$objToReturn->_objBalanceAsIdUserArray[] = Balance::InstantiateDbRow($objDbRow, $strAliasPrefix . 'balanceasiduser__', $strExpandAsArrayNodes, null, $strColumnAliasArray);
 				else
-					$objToReturn->_objClientAsIdUser = Client::InstantiateDbRow($objDbRow, $strAliasPrefix . 'clientasiduser__', $strExpandAsArrayNodes, null, $strColumnAliasArray);
+					$objToReturn->_objBalanceAsIdUser = Balance::InstantiateDbRow($objDbRow, $strAliasPrefix . 'balanceasiduser__', $strExpandAsArrayNodes, null, $strColumnAliasArray);
 			}
 
-			// Check for OwnerAsIdUser Virtual Binding
-			$strAlias = $strAliasPrefix . 'ownerasiduser__IdOwner';
+			// Check for RestaurantAsIdUser Virtual Binding
+			$strAlias = $strAliasPrefix . 'restaurantasiduser__IdRestaurant';
 			$strAliasName = array_key_exists($strAlias, $strColumnAliasArray) ? $strColumnAliasArray[$strAlias] : $strAlias;
 			$blnExpanded = $strExpandAsArrayNodes && array_key_exists($strAlias, $strExpandAsArrayNodes);
-			if ($blnExpanded && null === $objToReturn->_objOwnerAsIdUserArray)
-				$objToReturn->_objOwnerAsIdUserArray = array();
+			if ($blnExpanded && null === $objToReturn->_objRestaurantAsIdUserArray)
+				$objToReturn->_objRestaurantAsIdUserArray = array();
 			if (!is_null($objDbRow->GetColumn($strAliasName))) {
 				if ($blnExpanded)
-					$objToReturn->_objOwnerAsIdUserArray[] = Owner::InstantiateDbRow($objDbRow, $strAliasPrefix . 'ownerasiduser__', $strExpandAsArrayNodes, null, $strColumnAliasArray);
+					$objToReturn->_objRestaurantAsIdUserArray[] = Restaurant::InstantiateDbRow($objDbRow, $strAliasPrefix . 'restaurantasiduser__', $strExpandAsArrayNodes, null, $strColumnAliasArray);
 				else
-					$objToReturn->_objOwnerAsIdUser = Owner::InstantiateDbRow($objDbRow, $strAliasPrefix . 'ownerasiduser__', $strExpandAsArrayNodes, null, $strColumnAliasArray);
+					$objToReturn->_objRestaurantAsIdUser = Restaurant::InstantiateDbRow($objDbRow, $strAliasPrefix . 'restaurantasiduser__', $strExpandAsArrayNodes, null, $strColumnAliasArray);
 			}
 
 			return $objToReturn;
@@ -798,7 +812,8 @@
 							`Birthday`,
 							`ImagePhoto`,
 							`StatusUser`,
-							`WalletAddress`
+							`WalletAddress`,
+							`UserType`
 						) VALUES (
 							' . $objDatabase->SqlVariable($this->strEmail) . ',
 							' . $objDatabase->SqlVariable($this->strPassword) . ',
@@ -811,7 +826,8 @@
 							' . $objDatabase->SqlVariable($this->dttBirthday) . ',
 							' . $objDatabase->SqlVariable($this->strImagePhoto) . ',
 							' . $objDatabase->SqlVariable($this->intStatusUser) . ',
-							' . $objDatabase->SqlVariable($this->strWalletAddress) . '
+							' . $objDatabase->SqlVariable($this->strWalletAddress) . ',
+							' . $objDatabase->SqlVariable($this->strUserType) . '
 						)
 					');
 
@@ -838,7 +854,8 @@
 							`Birthday` = ' . $objDatabase->SqlVariable($this->dttBirthday) . ',
 							`ImagePhoto` = ' . $objDatabase->SqlVariable($this->strImagePhoto) . ',
 							`StatusUser` = ' . $objDatabase->SqlVariable($this->intStatusUser) . ',
-							`WalletAddress` = ' . $objDatabase->SqlVariable($this->strWalletAddress) . '
+							`WalletAddress` = ' . $objDatabase->SqlVariable($this->strWalletAddress) . ',
+							`UserType` = ' . $objDatabase->SqlVariable($this->strUserType) . '
 						WHERE
 							`IdUser` = ' . $objDatabase->SqlVariable($this->intIdUser) . '
 					');
@@ -929,6 +946,7 @@
 			$this->strImagePhoto = $objReloaded->strImagePhoto;
 			$this->intStatusUser = $objReloaded->intStatusUser;
 			$this->strWalletAddress = $objReloaded->strWalletAddress;
+			$this->strUserType = $objReloaded->strUserType;
 		}
 
 
@@ -1040,6 +1058,13 @@
 					 */
 					return $this->strWalletAddress;
 
+				case 'UserType':
+					/**
+					 * Gets the value for strUserType (Not Null)
+					 * @return string
+					 */
+					return $this->strUserType;
+
 
 				///////////////////
 				// Member Objects
@@ -1050,37 +1075,37 @@
 				// (If restored via a "Many-to" expansion)
 				////////////////////////////
 
-				case '_ClientAsIdUser':
+				case '_BalanceAsIdUser':
 					/**
-					 * Gets the value for the private _objClientAsIdUser (Read-Only)
-					 * if set due to an expansion on the client.IdUser reverse relationship
-					 * @return Client
+					 * Gets the value for the private _objBalanceAsIdUser (Read-Only)
+					 * if set due to an expansion on the balance.IdUser reverse relationship
+					 * @return Balance
 					 */
-					return $this->_objClientAsIdUser;
+					return $this->_objBalanceAsIdUser;
 
-				case '_ClientAsIdUserArray':
+				case '_BalanceAsIdUserArray':
 					/**
-					 * Gets the value for the private _objClientAsIdUserArray (Read-Only)
-					 * if set due to an ExpandAsArray on the client.IdUser reverse relationship
-					 * @return Client[]
+					 * Gets the value for the private _objBalanceAsIdUserArray (Read-Only)
+					 * if set due to an ExpandAsArray on the balance.IdUser reverse relationship
+					 * @return Balance[]
 					 */
-					return $this->_objClientAsIdUserArray;
+					return $this->_objBalanceAsIdUserArray;
 
-				case '_OwnerAsIdUser':
+				case '_RestaurantAsIdUser':
 					/**
-					 * Gets the value for the private _objOwnerAsIdUser (Read-Only)
-					 * if set due to an expansion on the owner.IdUser reverse relationship
-					 * @return Owner
+					 * Gets the value for the private _objRestaurantAsIdUser (Read-Only)
+					 * if set due to an expansion on the restaurant.IdUser reverse relationship
+					 * @return Restaurant
 					 */
-					return $this->_objOwnerAsIdUser;
+					return $this->_objRestaurantAsIdUser;
 
-				case '_OwnerAsIdUserArray':
+				case '_RestaurantAsIdUserArray':
 					/**
-					 * Gets the value for the private _objOwnerAsIdUserArray (Read-Only)
-					 * if set due to an ExpandAsArray on the owner.IdUser reverse relationship
-					 * @return Owner[]
+					 * Gets the value for the private _objRestaurantAsIdUserArray (Read-Only)
+					 * if set due to an ExpandAsArray on the restaurant.IdUser reverse relationship
+					 * @return Restaurant[]
 					 */
-					return $this->_objOwnerAsIdUserArray;
+					return $this->_objRestaurantAsIdUserArray;
 
 
 				case '__Restored':
@@ -1265,6 +1290,19 @@
 						throw $objExc;
 					}
 
+				case 'UserType':
+					/**
+					 * Sets the value for strUserType (Not Null)
+					 * @param string $mixValue
+					 * @return string
+					 */
+					try {
+						return ($this->strUserType = QType::Cast($mixValue, QType::String));
+					} catch (QCallerException $objExc) {
+						$objExc->IncrementOffset();
+						throw $objExc;
+					}
+
 
 				///////////////////
 				// Member Objects
@@ -1298,20 +1336,20 @@
 
 			
 		
-		// Related Objects' Methods for ClientAsIdUser
+		// Related Objects' Methods for BalanceAsIdUser
 		//-------------------------------------------------------------------
 
 		/**
-		 * Gets all associated ClientsAsIdUser as an array of Client objects
+		 * Gets all associated BalancesAsIdUser as an array of Balance objects
 		 * @param QQClause[] $objOptionalClauses additional optional QQClause objects for this query
-		 * @return Client[]
+		 * @return Balance[]
 		*/
-		public function GetClientAsIdUserArray($objOptionalClauses = null) {
+		public function GetBalanceAsIdUserArray($objOptionalClauses = null) {
 			if ((is_null($this->intIdUser)))
 				return array();
 
 			try {
-				return Client::LoadArrayByIdUser($this->intIdUser, $objOptionalClauses);
+				return Balance::LoadArrayByIdUser($this->intIdUser, $objOptionalClauses);
 			} catch (QCallerException $objExc) {
 				$objExc->IncrementOffset();
 				throw $objExc;
@@ -1319,26 +1357,26 @@
 		}
 
 		/**
-		 * Counts all associated ClientsAsIdUser
+		 * Counts all associated BalancesAsIdUser
 		 * @return int
 		*/
-		public function CountClientsAsIdUser() {
+		public function CountBalancesAsIdUser() {
 			if ((is_null($this->intIdUser)))
 				return 0;
 
-			return Client::CountByIdUser($this->intIdUser);
+			return Balance::CountByIdUser($this->intIdUser);
 		}
 
 		/**
-		 * Associates a ClientAsIdUser
-		 * @param Client $objClient
+		 * Associates a BalanceAsIdUser
+		 * @param Balance $objBalance
 		 * @return void
 		*/
-		public function AssociateClientAsIdUser(Client $objClient) {
+		public function AssociateBalanceAsIdUser(Balance $objBalance) {
 			if ((is_null($this->intIdUser)))
-				throw new QUndefinedPrimaryKeyException('Unable to call AssociateClientAsIdUser on this unsaved User.');
-			if ((is_null($objClient->IdClient)))
-				throw new QUndefinedPrimaryKeyException('Unable to call AssociateClientAsIdUser on this User with an unsaved Client.');
+				throw new QUndefinedPrimaryKeyException('Unable to call AssociateBalanceAsIdUser on this unsaved User.');
+			if ((is_null($objBalance->IdBalance)))
+				throw new QUndefinedPrimaryKeyException('Unable to call AssociateBalanceAsIdUser on this User with an unsaved Balance.');
 
 			// Get the Database Object for this Class
 			$objDatabase = User::GetDatabase();
@@ -1346,24 +1384,24 @@
 			// Perform the SQL Query
 			$objDatabase->NonQuery('
 				UPDATE
-					`client`
+					`balance`
 				SET
 					`IdUser` = ' . $objDatabase->SqlVariable($this->intIdUser) . '
 				WHERE
-					`IdClient` = ' . $objDatabase->SqlVariable($objClient->IdClient) . '
+					`IdBalance` = ' . $objDatabase->SqlVariable($objBalance->IdBalance) . '
 			');
 		}
 
 		/**
-		 * Unassociates a ClientAsIdUser
-		 * @param Client $objClient
+		 * Unassociates a BalanceAsIdUser
+		 * @param Balance $objBalance
 		 * @return void
 		*/
-		public function UnassociateClientAsIdUser(Client $objClient) {
+		public function UnassociateBalanceAsIdUser(Balance $objBalance) {
 			if ((is_null($this->intIdUser)))
-				throw new QUndefinedPrimaryKeyException('Unable to call UnassociateClientAsIdUser on this unsaved User.');
-			if ((is_null($objClient->IdClient)))
-				throw new QUndefinedPrimaryKeyException('Unable to call UnassociateClientAsIdUser on this User with an unsaved Client.');
+				throw new QUndefinedPrimaryKeyException('Unable to call UnassociateBalanceAsIdUser on this unsaved User.');
+			if ((is_null($objBalance->IdBalance)))
+				throw new QUndefinedPrimaryKeyException('Unable to call UnassociateBalanceAsIdUser on this User with an unsaved Balance.');
 
 			// Get the Database Object for this Class
 			$objDatabase = User::GetDatabase();
@@ -1371,47 +1409,47 @@
 			// Perform the SQL Query
 			$objDatabase->NonQuery('
 				UPDATE
-					`client`
-				SET
-					`IdUser` = null
-				WHERE
-					`IdClient` = ' . $objDatabase->SqlVariable($objClient->IdClient) . ' AND
-					`IdUser` = ' . $objDatabase->SqlVariable($this->intIdUser) . '
-			');
-		}
-
-		/**
-		 * Unassociates all ClientsAsIdUser
-		 * @return void
-		*/
-		public function UnassociateAllClientsAsIdUser() {
-			if ((is_null($this->intIdUser)))
-				throw new QUndefinedPrimaryKeyException('Unable to call UnassociateClientAsIdUser on this unsaved User.');
-
-			// Get the Database Object for this Class
-			$objDatabase = User::GetDatabase();
-
-			// Perform the SQL Query
-			$objDatabase->NonQuery('
-				UPDATE
-					`client`
+					`balance`
 				SET
 					`IdUser` = null
 				WHERE
+					`IdBalance` = ' . $objDatabase->SqlVariable($objBalance->IdBalance) . ' AND
 					`IdUser` = ' . $objDatabase->SqlVariable($this->intIdUser) . '
 			');
 		}
 
 		/**
-		 * Deletes an associated ClientAsIdUser
-		 * @param Client $objClient
+		 * Unassociates all BalancesAsIdUser
 		 * @return void
 		*/
-		public function DeleteAssociatedClientAsIdUser(Client $objClient) {
+		public function UnassociateAllBalancesAsIdUser() {
 			if ((is_null($this->intIdUser)))
-				throw new QUndefinedPrimaryKeyException('Unable to call UnassociateClientAsIdUser on this unsaved User.');
-			if ((is_null($objClient->IdClient)))
-				throw new QUndefinedPrimaryKeyException('Unable to call UnassociateClientAsIdUser on this User with an unsaved Client.');
+				throw new QUndefinedPrimaryKeyException('Unable to call UnassociateBalanceAsIdUser on this unsaved User.');
+
+			// Get the Database Object for this Class
+			$objDatabase = User::GetDatabase();
+
+			// Perform the SQL Query
+			$objDatabase->NonQuery('
+				UPDATE
+					`balance`
+				SET
+					`IdUser` = null
+				WHERE
+					`IdUser` = ' . $objDatabase->SqlVariable($this->intIdUser) . '
+			');
+		}
+
+		/**
+		 * Deletes an associated BalanceAsIdUser
+		 * @param Balance $objBalance
+		 * @return void
+		*/
+		public function DeleteAssociatedBalanceAsIdUser(Balance $objBalance) {
+			if ((is_null($this->intIdUser)))
+				throw new QUndefinedPrimaryKeyException('Unable to call UnassociateBalanceAsIdUser on this unsaved User.');
+			if ((is_null($objBalance->IdBalance)))
+				throw new QUndefinedPrimaryKeyException('Unable to call UnassociateBalanceAsIdUser on this User with an unsaved Balance.');
 
 			// Get the Database Object for this Class
 			$objDatabase = User::GetDatabase();
@@ -1419,20 +1457,20 @@
 			// Perform the SQL Query
 			$objDatabase->NonQuery('
 				DELETE FROM
-					`client`
+					`balance`
 				WHERE
-					`IdClient` = ' . $objDatabase->SqlVariable($objClient->IdClient) . ' AND
+					`IdBalance` = ' . $objDatabase->SqlVariable($objBalance->IdBalance) . ' AND
 					`IdUser` = ' . $objDatabase->SqlVariable($this->intIdUser) . '
 			');
 		}
 
 		/**
-		 * Deletes all associated ClientsAsIdUser
+		 * Deletes all associated BalancesAsIdUser
 		 * @return void
 		*/
-		public function DeleteAllClientsAsIdUser() {
+		public function DeleteAllBalancesAsIdUser() {
 			if ((is_null($this->intIdUser)))
-				throw new QUndefinedPrimaryKeyException('Unable to call UnassociateClientAsIdUser on this unsaved User.');
+				throw new QUndefinedPrimaryKeyException('Unable to call UnassociateBalanceAsIdUser on this unsaved User.');
 
 			// Get the Database Object for this Class
 			$objDatabase = User::GetDatabase();
@@ -1440,7 +1478,7 @@
 			// Perform the SQL Query
 			$objDatabase->NonQuery('
 				DELETE FROM
-					`client`
+					`balance`
 				WHERE
 					`IdUser` = ' . $objDatabase->SqlVariable($this->intIdUser) . '
 			');
@@ -1448,20 +1486,20 @@
 
 			
 		
-		// Related Objects' Methods for OwnerAsIdUser
+		// Related Objects' Methods for RestaurantAsIdUser
 		//-------------------------------------------------------------------
 
 		/**
-		 * Gets all associated OwnersAsIdUser as an array of Owner objects
+		 * Gets all associated RestaurantsAsIdUser as an array of Restaurant objects
 		 * @param QQClause[] $objOptionalClauses additional optional QQClause objects for this query
-		 * @return Owner[]
+		 * @return Restaurant[]
 		*/
-		public function GetOwnerAsIdUserArray($objOptionalClauses = null) {
+		public function GetRestaurantAsIdUserArray($objOptionalClauses = null) {
 			if ((is_null($this->intIdUser)))
 				return array();
 
 			try {
-				return Owner::LoadArrayByIdUser($this->intIdUser, $objOptionalClauses);
+				return Restaurant::LoadArrayByIdUser($this->intIdUser, $objOptionalClauses);
 			} catch (QCallerException $objExc) {
 				$objExc->IncrementOffset();
 				throw $objExc;
@@ -1469,26 +1507,26 @@
 		}
 
 		/**
-		 * Counts all associated OwnersAsIdUser
+		 * Counts all associated RestaurantsAsIdUser
 		 * @return int
 		*/
-		public function CountOwnersAsIdUser() {
+		public function CountRestaurantsAsIdUser() {
 			if ((is_null($this->intIdUser)))
 				return 0;
 
-			return Owner::CountByIdUser($this->intIdUser);
+			return Restaurant::CountByIdUser($this->intIdUser);
 		}
 
 		/**
-		 * Associates a OwnerAsIdUser
-		 * @param Owner $objOwner
+		 * Associates a RestaurantAsIdUser
+		 * @param Restaurant $objRestaurant
 		 * @return void
 		*/
-		public function AssociateOwnerAsIdUser(Owner $objOwner) {
+		public function AssociateRestaurantAsIdUser(Restaurant $objRestaurant) {
 			if ((is_null($this->intIdUser)))
-				throw new QUndefinedPrimaryKeyException('Unable to call AssociateOwnerAsIdUser on this unsaved User.');
-			if ((is_null($objOwner->IdOwner)))
-				throw new QUndefinedPrimaryKeyException('Unable to call AssociateOwnerAsIdUser on this User with an unsaved Owner.');
+				throw new QUndefinedPrimaryKeyException('Unable to call AssociateRestaurantAsIdUser on this unsaved User.');
+			if ((is_null($objRestaurant->IdRestaurant)))
+				throw new QUndefinedPrimaryKeyException('Unable to call AssociateRestaurantAsIdUser on this User with an unsaved Restaurant.');
 
 			// Get the Database Object for this Class
 			$objDatabase = User::GetDatabase();
@@ -1496,24 +1534,24 @@
 			// Perform the SQL Query
 			$objDatabase->NonQuery('
 				UPDATE
-					`owner`
+					`restaurant`
 				SET
 					`IdUser` = ' . $objDatabase->SqlVariable($this->intIdUser) . '
 				WHERE
-					`IdOwner` = ' . $objDatabase->SqlVariable($objOwner->IdOwner) . '
+					`IdRestaurant` = ' . $objDatabase->SqlVariable($objRestaurant->IdRestaurant) . '
 			');
 		}
 
 		/**
-		 * Unassociates a OwnerAsIdUser
-		 * @param Owner $objOwner
+		 * Unassociates a RestaurantAsIdUser
+		 * @param Restaurant $objRestaurant
 		 * @return void
 		*/
-		public function UnassociateOwnerAsIdUser(Owner $objOwner) {
+		public function UnassociateRestaurantAsIdUser(Restaurant $objRestaurant) {
 			if ((is_null($this->intIdUser)))
-				throw new QUndefinedPrimaryKeyException('Unable to call UnassociateOwnerAsIdUser on this unsaved User.');
-			if ((is_null($objOwner->IdOwner)))
-				throw new QUndefinedPrimaryKeyException('Unable to call UnassociateOwnerAsIdUser on this User with an unsaved Owner.');
+				throw new QUndefinedPrimaryKeyException('Unable to call UnassociateRestaurantAsIdUser on this unsaved User.');
+			if ((is_null($objRestaurant->IdRestaurant)))
+				throw new QUndefinedPrimaryKeyException('Unable to call UnassociateRestaurantAsIdUser on this User with an unsaved Restaurant.');
 
 			// Get the Database Object for this Class
 			$objDatabase = User::GetDatabase();
@@ -1521,47 +1559,47 @@
 			// Perform the SQL Query
 			$objDatabase->NonQuery('
 				UPDATE
-					`owner`
-				SET
-					`IdUser` = null
-				WHERE
-					`IdOwner` = ' . $objDatabase->SqlVariable($objOwner->IdOwner) . ' AND
-					`IdUser` = ' . $objDatabase->SqlVariable($this->intIdUser) . '
-			');
-		}
-
-		/**
-		 * Unassociates all OwnersAsIdUser
-		 * @return void
-		*/
-		public function UnassociateAllOwnersAsIdUser() {
-			if ((is_null($this->intIdUser)))
-				throw new QUndefinedPrimaryKeyException('Unable to call UnassociateOwnerAsIdUser on this unsaved User.');
-
-			// Get the Database Object for this Class
-			$objDatabase = User::GetDatabase();
-
-			// Perform the SQL Query
-			$objDatabase->NonQuery('
-				UPDATE
-					`owner`
+					`restaurant`
 				SET
 					`IdUser` = null
 				WHERE
+					`IdRestaurant` = ' . $objDatabase->SqlVariable($objRestaurant->IdRestaurant) . ' AND
 					`IdUser` = ' . $objDatabase->SqlVariable($this->intIdUser) . '
 			');
 		}
 
 		/**
-		 * Deletes an associated OwnerAsIdUser
-		 * @param Owner $objOwner
+		 * Unassociates all RestaurantsAsIdUser
 		 * @return void
 		*/
-		public function DeleteAssociatedOwnerAsIdUser(Owner $objOwner) {
+		public function UnassociateAllRestaurantsAsIdUser() {
 			if ((is_null($this->intIdUser)))
-				throw new QUndefinedPrimaryKeyException('Unable to call UnassociateOwnerAsIdUser on this unsaved User.');
-			if ((is_null($objOwner->IdOwner)))
-				throw new QUndefinedPrimaryKeyException('Unable to call UnassociateOwnerAsIdUser on this User with an unsaved Owner.');
+				throw new QUndefinedPrimaryKeyException('Unable to call UnassociateRestaurantAsIdUser on this unsaved User.');
+
+			// Get the Database Object for this Class
+			$objDatabase = User::GetDatabase();
+
+			// Perform the SQL Query
+			$objDatabase->NonQuery('
+				UPDATE
+					`restaurant`
+				SET
+					`IdUser` = null
+				WHERE
+					`IdUser` = ' . $objDatabase->SqlVariable($this->intIdUser) . '
+			');
+		}
+
+		/**
+		 * Deletes an associated RestaurantAsIdUser
+		 * @param Restaurant $objRestaurant
+		 * @return void
+		*/
+		public function DeleteAssociatedRestaurantAsIdUser(Restaurant $objRestaurant) {
+			if ((is_null($this->intIdUser)))
+				throw new QUndefinedPrimaryKeyException('Unable to call UnassociateRestaurantAsIdUser on this unsaved User.');
+			if ((is_null($objRestaurant->IdRestaurant)))
+				throw new QUndefinedPrimaryKeyException('Unable to call UnassociateRestaurantAsIdUser on this User with an unsaved Restaurant.');
 
 			// Get the Database Object for this Class
 			$objDatabase = User::GetDatabase();
@@ -1569,20 +1607,20 @@
 			// Perform the SQL Query
 			$objDatabase->NonQuery('
 				DELETE FROM
-					`owner`
+					`restaurant`
 				WHERE
-					`IdOwner` = ' . $objDatabase->SqlVariable($objOwner->IdOwner) . ' AND
+					`IdRestaurant` = ' . $objDatabase->SqlVariable($objRestaurant->IdRestaurant) . ' AND
 					`IdUser` = ' . $objDatabase->SqlVariable($this->intIdUser) . '
 			');
 		}
 
 		/**
-		 * Deletes all associated OwnersAsIdUser
+		 * Deletes all associated RestaurantsAsIdUser
 		 * @return void
 		*/
-		public function DeleteAllOwnersAsIdUser() {
+		public function DeleteAllRestaurantsAsIdUser() {
 			if ((is_null($this->intIdUser)))
-				throw new QUndefinedPrimaryKeyException('Unable to call UnassociateOwnerAsIdUser on this unsaved User.');
+				throw new QUndefinedPrimaryKeyException('Unable to call UnassociateRestaurantAsIdUser on this unsaved User.');
 
 			// Get the Database Object for this Class
 			$objDatabase = User::GetDatabase();
@@ -1590,7 +1628,7 @@
 			// Perform the SQL Query
 			$objDatabase->NonQuery('
 				DELETE FROM
-					`owner`
+					`restaurant`
 				WHERE
 					`IdUser` = ' . $objDatabase->SqlVariable($this->intIdUser) . '
 			');
@@ -1619,6 +1657,7 @@
 			$strToReturn .= '<element name="ImagePhoto" type="xsd:string"/>';
 			$strToReturn .= '<element name="StatusUser" type="xsd:int"/>';
 			$strToReturn .= '<element name="WalletAddress" type="xsd:string"/>';
+			$strToReturn .= '<element name="UserType" type="xsd:string"/>';
 			$strToReturn .= '<element name="__blnRestored" type="xsd:boolean"/>';
 			$strToReturn .= '</sequence></complexType>';
 			return $strToReturn;
@@ -1667,6 +1706,8 @@
 				$objToReturn->intStatusUser = $objSoapObject->StatusUser;
 			if (property_exists($objSoapObject, 'WalletAddress'))
 				$objToReturn->strWalletAddress = $objSoapObject->WalletAddress;
+			if (property_exists($objSoapObject, 'UserType'))
+				$objToReturn->strUserType = $objSoapObject->UserType;
 			if (property_exists($objSoapObject, '__blnRestored'))
 				$objToReturn->__blnRestored = $objSoapObject->__blnRestored;
 			return $objToReturn;
@@ -1714,6 +1755,7 @@
 			$iArray['ImagePhoto'] = $this->strImagePhoto;
 			$iArray['StatusUser'] = $this->intStatusUser;
 			$iArray['WalletAddress'] = $this->strWalletAddress;
+			$iArray['UserType'] = $this->strUserType;
 			return new ArrayIterator($iArray);
 		}
 
@@ -1748,10 +1790,11 @@
      * @property-read QQNode $ImagePhoto
      * @property-read QQNode $StatusUser
      * @property-read QQNode $WalletAddress
+     * @property-read QQNode $UserType
      *
      *
-     * @property-read QQReverseReferenceNodeClient $ClientAsIdUser
-     * @property-read QQReverseReferenceNodeOwner $OwnerAsIdUser
+     * @property-read QQReverseReferenceNodeBalance $BalanceAsIdUser
+     * @property-read QQReverseReferenceNodeRestaurant $RestaurantAsIdUser
 
      * @property-read QQNode $_PrimaryKeyNode
      **/
@@ -1787,10 +1830,12 @@
 					return new QQNode('StatusUser', 'StatusUser', 'Integer', $this);
 				case 'WalletAddress':
 					return new QQNode('WalletAddress', 'WalletAddress', 'VarChar', $this);
-				case 'ClientAsIdUser':
-					return new QQReverseReferenceNodeClient($this, 'clientasiduser', 'reverse_reference', 'IdUser');
-				case 'OwnerAsIdUser':
-					return new QQReverseReferenceNodeOwner($this, 'ownerasiduser', 'reverse_reference', 'IdUser');
+				case 'UserType':
+					return new QQNode('UserType', 'UserType', 'VarChar', $this);
+				case 'BalanceAsIdUser':
+					return new QQReverseReferenceNodeBalance($this, 'balanceasiduser', 'reverse_reference', 'IdUser');
+				case 'RestaurantAsIdUser':
+					return new QQReverseReferenceNodeRestaurant($this, 'restaurantasiduser', 'reverse_reference', 'IdUser');
 
 				case '_PrimaryKeyNode':
 					return new QQNode('IdUser', 'IdUser', 'Integer', $this);
@@ -1819,10 +1864,11 @@
      * @property-read QQNode $ImagePhoto
      * @property-read QQNode $StatusUser
      * @property-read QQNode $WalletAddress
+     * @property-read QQNode $UserType
      *
      *
-     * @property-read QQReverseReferenceNodeClient $ClientAsIdUser
-     * @property-read QQReverseReferenceNodeOwner $OwnerAsIdUser
+     * @property-read QQReverseReferenceNodeBalance $BalanceAsIdUser
+     * @property-read QQReverseReferenceNodeRestaurant $RestaurantAsIdUser
 
      * @property-read QQNode $_PrimaryKeyNode
      **/
@@ -1858,10 +1904,12 @@
 					return new QQNode('StatusUser', 'StatusUser', 'integer', $this);
 				case 'WalletAddress':
 					return new QQNode('WalletAddress', 'WalletAddress', 'string', $this);
-				case 'ClientAsIdUser':
-					return new QQReverseReferenceNodeClient($this, 'clientasiduser', 'reverse_reference', 'IdUser');
-				case 'OwnerAsIdUser':
-					return new QQReverseReferenceNodeOwner($this, 'ownerasiduser', 'reverse_reference', 'IdUser');
+				case 'UserType':
+					return new QQNode('UserType', 'UserType', 'string', $this);
+				case 'BalanceAsIdUser':
+					return new QQReverseReferenceNodeBalance($this, 'balanceasiduser', 'reverse_reference', 'IdUser');
+				case 'RestaurantAsIdUser':
+					return new QQReverseReferenceNodeRestaurant($this, 'restaurantasiduser', 'reverse_reference', 'IdUser');
 
 				case '_PrimaryKeyNode':
 					return new QQNode('IdUser', 'IdUser', 'integer', $this);

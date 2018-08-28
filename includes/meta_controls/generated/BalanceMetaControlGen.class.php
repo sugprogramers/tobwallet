@@ -16,16 +16,16 @@
 	 * @package My QCubed Application
 	 * @subpackage MetaControls
 	 * @property-read Balance $Balance the actual Balance data class being edited
-	 * @property QIntegerTextBox $IdBalanceControl
+	 * @property QLabel $IdBalanceControl
 	 * @property-read QLabel $IdBalanceLabel
 	 * @property QDateTimePicker $DateControl
 	 * @property-read QLabel $DateLabel
-	 * @property QListBox $IdClientControl
-	 * @property-read QLabel $IdClientLabel
-	 * @property QListBox $IdOrganizationControl
-	 * @property-read QLabel $IdOrganizationLabel
 	 * @property QFloatTextBox $AmountExchangedCoinsControl
 	 * @property-read QLabel $AmountExchangedCoinsLabel
+	 * @property QListBox $IdUserControl
+	 * @property-read QLabel $IdUserLabel
+	 * @property QListBox $IdOfferControl
+	 * @property-read QLabel $IdOfferLabel
 	 * @property-read string $TitleVerb a verb indicating whether or not this is being edited or created
 	 * @property-read boolean $EditMode a boolean indicating whether or not this is being edited or created
 	 */
@@ -55,57 +55,52 @@
 
 		// Controls that allow the editing of Balance's individual data fields
 		/**
-		 * @var QIntegerTextBox txtIdBalance
+		 * @var QLabel lblIdBalance
 		 * @access protected
 		 */
-		protected $txtIdBalance;
+		protected $lblIdBalance;
 		/**
 		 * @var QDateTimePicker calDate
 		 * @access protected
 		 */
 		protected $calDate;
 		/**
-		 * @var QListBox lstIdClientObject
-		 * @access protected
-		 */
-		protected $lstIdClientObject;
-		/**
-		 * @var QListBox lstIdOrganizationObject
-		 * @access protected
-		 */
-		protected $lstIdOrganizationObject;
-		/**
 		 * @var QFloatTextBox txtAmountExchangedCoins
 		 * @access protected
 		 */
 		protected $txtAmountExchangedCoins;
-
-		// Controls that allow the viewing of Balance's individual data fields
 		/**
-		 * @var QLabel lblIdBalance
+		 * @var QListBox lstIdUserObject
 		 * @access protected
 		 */
-		protected $lblIdBalance;
+		protected $lstIdUserObject;
+		/**
+		 * @var QListBox lstIdOfferObject
+		 * @access protected
+		 */
+		protected $lstIdOfferObject;
+
+		// Controls that allow the viewing of Balance's individual data fields
 		/**
 		 * @var QLabel lblDate
 		 * @access protected
 		 */
 		protected $lblDate;
 		/**
-		 * @var QLabel lblIdClient
-		 * @access protected
-		 */
-		protected $lblIdClient;
-		/**
-		 * @var QLabel lblIdOrganization
-		 * @access protected
-		 */
-		protected $lblIdOrganization;
-		/**
 		 * @var QLabel lblAmountExchangedCoins
 		 * @access protected
 		 */
 		protected $lblAmountExchangedCoins;
+		/**
+		 * @var QLabel lblIdUser
+		 * @access protected
+		 */
+		protected $lblIdUser;
+		/**
+		 * @var QLabel lblIdOffer
+		 * @access protected
+		 */
+		protected $lblIdOffer;
 
 		// QListBox Controls (if applicable) to edit Unique ReverseReferences and ManyToMany References
 
@@ -205,30 +200,17 @@
 		///////////////////////////////////////////////
 
 		/**
-		 * Create and setup QIntegerTextBox txtIdBalance
-		 * @param string $strControlId optional ControlId to use
-		 * @return QIntegerTextBox
-		 */
-		public function txtIdBalance_Create($strControlId = null) {
-			$this->txtIdBalance = new QIntegerTextBox($this->objParentObject, $strControlId);
-			$this->txtIdBalance->Name = QApplication::Translate('Id Balance');
-			$this->txtIdBalance->Text = $this->objBalance->IdBalance;
-			$this->txtIdBalance->Required = true;
-			return $this->txtIdBalance;
-		}
-
-		/**
 		 * Create and setup QLabel lblIdBalance
 		 * @param string $strControlId optional ControlId to use
-		 * @param string $strFormat optional sprintf format to use
 		 * @return QLabel
 		 */
-		public function lblIdBalance_Create($strControlId = null, $strFormat = null) {
+		public function lblIdBalance_Create($strControlId = null) {
 			$this->lblIdBalance = new QLabel($this->objParentObject, $strControlId);
 			$this->lblIdBalance->Name = QApplication::Translate('Id Balance');
-			$this->lblIdBalance->Text = $this->objBalance->IdBalance;
-			$this->lblIdBalance->Required = true;
-			$this->lblIdBalance->Format = $strFormat;
+			if ($this->blnEditMode)
+				$this->lblIdBalance->Text = $this->objBalance->IdBalance;
+			else
+				$this->lblIdBalance->Text = 'N/A';
 			return $this->lblIdBalance;
 		}
 
@@ -265,74 +247,6 @@
 
 
 		/**
-		 * Create and setup QListBox lstIdClientObject
-		 * @param string $strControlId optional ControlId to use
-		 * @return QListBox
-		 */
-		public function lstIdClientObject_Create($strControlId = null) {
-			$this->lstIdClientObject = new QListBox($this->objParentObject, $strControlId);
-			$this->lstIdClientObject->Name = QApplication::Translate('Id Client Object');
-			$this->lstIdClientObject->Required = true;
-			if (!$this->blnEditMode)
-				$this->lstIdClientObject->AddItem(QApplication::Translate('- Select One -'), null);
-			$objIdClientObjectArray = Client::LoadAll();
-			if ($objIdClientObjectArray) foreach ($objIdClientObjectArray as $objIdClientObject) {
-				$objListItem = new QListItem($objIdClientObject->__toString(), $objIdClientObject->IdClient);
-				if (($this->objBalance->IdClientObject) && ($this->objBalance->IdClientObject->IdClient == $objIdClientObject->IdClient))
-					$objListItem->Selected = true;
-				$this->lstIdClientObject->AddItem($objListItem);
-			}
-			return $this->lstIdClientObject;
-		}
-
-		/**
-		 * Create and setup QLabel lblIdClient
-		 * @param string $strControlId optional ControlId to use
-		 * @return QLabel
-		 */
-		public function lblIdClient_Create($strControlId = null) {
-			$this->lblIdClient = new QLabel($this->objParentObject, $strControlId);
-			$this->lblIdClient->Name = QApplication::Translate('Id Client Object');
-			$this->lblIdClient->Text = ($this->objBalance->IdClientObject) ? $this->objBalance->IdClientObject->__toString() : null;
-			$this->lblIdClient->Required = true;
-			return $this->lblIdClient;
-		}
-
-		/**
-		 * Create and setup QListBox lstIdOrganizationObject
-		 * @param string $strControlId optional ControlId to use
-		 * @return QListBox
-		 */
-		public function lstIdOrganizationObject_Create($strControlId = null) {
-			$this->lstIdOrganizationObject = new QListBox($this->objParentObject, $strControlId);
-			$this->lstIdOrganizationObject->Name = QApplication::Translate('Id Organization Object');
-			$this->lstIdOrganizationObject->Required = true;
-			if (!$this->blnEditMode)
-				$this->lstIdOrganizationObject->AddItem(QApplication::Translate('- Select One -'), null);
-			$objIdOrganizationObjectArray = Organization::LoadAll();
-			if ($objIdOrganizationObjectArray) foreach ($objIdOrganizationObjectArray as $objIdOrganizationObject) {
-				$objListItem = new QListItem($objIdOrganizationObject->__toString(), $objIdOrganizationObject->IdOrganization);
-				if (($this->objBalance->IdOrganizationObject) && ($this->objBalance->IdOrganizationObject->IdOrganization == $objIdOrganizationObject->IdOrganization))
-					$objListItem->Selected = true;
-				$this->lstIdOrganizationObject->AddItem($objListItem);
-			}
-			return $this->lstIdOrganizationObject;
-		}
-
-		/**
-		 * Create and setup QLabel lblIdOrganization
-		 * @param string $strControlId optional ControlId to use
-		 * @return QLabel
-		 */
-		public function lblIdOrganization_Create($strControlId = null) {
-			$this->lblIdOrganization = new QLabel($this->objParentObject, $strControlId);
-			$this->lblIdOrganization->Name = QApplication::Translate('Id Organization Object');
-			$this->lblIdOrganization->Text = ($this->objBalance->IdOrganizationObject) ? $this->objBalance->IdOrganizationObject->__toString() : null;
-			$this->lblIdOrganization->Required = true;
-			return $this->lblIdOrganization;
-		}
-
-		/**
 		 * Create and setup QFloatTextBox txtAmountExchangedCoins
 		 * @param string $strControlId optional ControlId to use
 		 * @return QFloatTextBox
@@ -360,6 +274,74 @@
 			return $this->lblAmountExchangedCoins;
 		}
 
+		/**
+		 * Create and setup QListBox lstIdUserObject
+		 * @param string $strControlId optional ControlId to use
+		 * @return QListBox
+		 */
+		public function lstIdUserObject_Create($strControlId = null) {
+			$this->lstIdUserObject = new QListBox($this->objParentObject, $strControlId);
+			$this->lstIdUserObject->Name = QApplication::Translate('Id User Object');
+			$this->lstIdUserObject->Required = true;
+			if (!$this->blnEditMode)
+				$this->lstIdUserObject->AddItem(QApplication::Translate('- Select One -'), null);
+			$objIdUserObjectArray = User::LoadAll();
+			if ($objIdUserObjectArray) foreach ($objIdUserObjectArray as $objIdUserObject) {
+				$objListItem = new QListItem($objIdUserObject->__toString(), $objIdUserObject->IdUser);
+				if (($this->objBalance->IdUserObject) && ($this->objBalance->IdUserObject->IdUser == $objIdUserObject->IdUser))
+					$objListItem->Selected = true;
+				$this->lstIdUserObject->AddItem($objListItem);
+			}
+			return $this->lstIdUserObject;
+		}
+
+		/**
+		 * Create and setup QLabel lblIdUser
+		 * @param string $strControlId optional ControlId to use
+		 * @return QLabel
+		 */
+		public function lblIdUser_Create($strControlId = null) {
+			$this->lblIdUser = new QLabel($this->objParentObject, $strControlId);
+			$this->lblIdUser->Name = QApplication::Translate('Id User Object');
+			$this->lblIdUser->Text = ($this->objBalance->IdUserObject) ? $this->objBalance->IdUserObject->__toString() : null;
+			$this->lblIdUser->Required = true;
+			return $this->lblIdUser;
+		}
+
+		/**
+		 * Create and setup QListBox lstIdOfferObject
+		 * @param string $strControlId optional ControlId to use
+		 * @return QListBox
+		 */
+		public function lstIdOfferObject_Create($strControlId = null) {
+			$this->lstIdOfferObject = new QListBox($this->objParentObject, $strControlId);
+			$this->lstIdOfferObject->Name = QApplication::Translate('Id Offer Object');
+			$this->lstIdOfferObject->Required = true;
+			if (!$this->blnEditMode)
+				$this->lstIdOfferObject->AddItem(QApplication::Translate('- Select One -'), null);
+			$objIdOfferObjectArray = Offer::LoadAll();
+			if ($objIdOfferObjectArray) foreach ($objIdOfferObjectArray as $objIdOfferObject) {
+				$objListItem = new QListItem($objIdOfferObject->__toString(), $objIdOfferObject->IdOffer);
+				if (($this->objBalance->IdOfferObject) && ($this->objBalance->IdOfferObject->IdOffer == $objIdOfferObject->IdOffer))
+					$objListItem->Selected = true;
+				$this->lstIdOfferObject->AddItem($objListItem);
+			}
+			return $this->lstIdOfferObject;
+		}
+
+		/**
+		 * Create and setup QLabel lblIdOffer
+		 * @param string $strControlId optional ControlId to use
+		 * @return QLabel
+		 */
+		public function lblIdOffer_Create($strControlId = null) {
+			$this->lblIdOffer = new QLabel($this->objParentObject, $strControlId);
+			$this->lblIdOffer->Name = QApplication::Translate('Id Offer Object');
+			$this->lblIdOffer->Text = ($this->objBalance->IdOfferObject) ? $this->objBalance->IdOfferObject->__toString() : null;
+			$this->lblIdOffer->Required = true;
+			return $this->lblIdOffer;
+		}
+
 
 
 		/**
@@ -371,42 +353,41 @@
 			if ($blnReload)
 				$this->objBalance->Reload();
 
-			if ($this->txtIdBalance) $this->txtIdBalance->Text = $this->objBalance->IdBalance;
-			if ($this->lblIdBalance) $this->lblIdBalance->Text = $this->objBalance->IdBalance;
+			if ($this->lblIdBalance) if ($this->blnEditMode) $this->lblIdBalance->Text = $this->objBalance->IdBalance;
 
 			if ($this->calDate) $this->calDate->DateTime = $this->objBalance->Date;
 			if ($this->lblDate) $this->lblDate->Text = sprintf($this->objBalance->Date) ? $this->objBalance->Date->qFormat($this->strDateDateTimeFormat) : null;
 
-			if ($this->lstIdClientObject) {
-					$this->lstIdClientObject->RemoveAllItems();
-				if (!$this->blnEditMode)
-					$this->lstIdClientObject->AddItem(QApplication::Translate('- Select One -'), null);
-				$objIdClientObjectArray = Client::LoadAll();
-				if ($objIdClientObjectArray) foreach ($objIdClientObjectArray as $objIdClientObject) {
-					$objListItem = new QListItem($objIdClientObject->__toString(), $objIdClientObject->IdClient);
-					if (($this->objBalance->IdClientObject) && ($this->objBalance->IdClientObject->IdClient == $objIdClientObject->IdClient))
-						$objListItem->Selected = true;
-					$this->lstIdClientObject->AddItem($objListItem);
-				}
-			}
-			if ($this->lblIdClient) $this->lblIdClient->Text = ($this->objBalance->IdClientObject) ? $this->objBalance->IdClientObject->__toString() : null;
-
-			if ($this->lstIdOrganizationObject) {
-					$this->lstIdOrganizationObject->RemoveAllItems();
-				if (!$this->blnEditMode)
-					$this->lstIdOrganizationObject->AddItem(QApplication::Translate('- Select One -'), null);
-				$objIdOrganizationObjectArray = Organization::LoadAll();
-				if ($objIdOrganizationObjectArray) foreach ($objIdOrganizationObjectArray as $objIdOrganizationObject) {
-					$objListItem = new QListItem($objIdOrganizationObject->__toString(), $objIdOrganizationObject->IdOrganization);
-					if (($this->objBalance->IdOrganizationObject) && ($this->objBalance->IdOrganizationObject->IdOrganization == $objIdOrganizationObject->IdOrganization))
-						$objListItem->Selected = true;
-					$this->lstIdOrganizationObject->AddItem($objListItem);
-				}
-			}
-			if ($this->lblIdOrganization) $this->lblIdOrganization->Text = ($this->objBalance->IdOrganizationObject) ? $this->objBalance->IdOrganizationObject->__toString() : null;
-
 			if ($this->txtAmountExchangedCoins) $this->txtAmountExchangedCoins->Text = $this->objBalance->AmountExchangedCoins;
 			if ($this->lblAmountExchangedCoins) $this->lblAmountExchangedCoins->Text = $this->objBalance->AmountExchangedCoins;
+
+			if ($this->lstIdUserObject) {
+					$this->lstIdUserObject->RemoveAllItems();
+				if (!$this->blnEditMode)
+					$this->lstIdUserObject->AddItem(QApplication::Translate('- Select One -'), null);
+				$objIdUserObjectArray = User::LoadAll();
+				if ($objIdUserObjectArray) foreach ($objIdUserObjectArray as $objIdUserObject) {
+					$objListItem = new QListItem($objIdUserObject->__toString(), $objIdUserObject->IdUser);
+					if (($this->objBalance->IdUserObject) && ($this->objBalance->IdUserObject->IdUser == $objIdUserObject->IdUser))
+						$objListItem->Selected = true;
+					$this->lstIdUserObject->AddItem($objListItem);
+				}
+			}
+			if ($this->lblIdUser) $this->lblIdUser->Text = ($this->objBalance->IdUserObject) ? $this->objBalance->IdUserObject->__toString() : null;
+
+			if ($this->lstIdOfferObject) {
+					$this->lstIdOfferObject->RemoveAllItems();
+				if (!$this->blnEditMode)
+					$this->lstIdOfferObject->AddItem(QApplication::Translate('- Select One -'), null);
+				$objIdOfferObjectArray = Offer::LoadAll();
+				if ($objIdOfferObjectArray) foreach ($objIdOfferObjectArray as $objIdOfferObject) {
+					$objListItem = new QListItem($objIdOfferObject->__toString(), $objIdOfferObject->IdOffer);
+					if (($this->objBalance->IdOfferObject) && ($this->objBalance->IdOfferObject->IdOffer == $objIdOfferObject->IdOffer))
+						$objListItem->Selected = true;
+					$this->lstIdOfferObject->AddItem($objListItem);
+				}
+			}
+			if ($this->lblIdOffer) $this->lblIdOffer->Text = ($this->objBalance->IdOfferObject) ? $this->objBalance->IdOfferObject->__toString() : null;
 
 		}
 
@@ -431,11 +412,10 @@
 		public function SaveBalance() {
 			try {
 				// Update any fields for controls that have been created
-				if ($this->txtIdBalance) $this->objBalance->IdBalance = $this->txtIdBalance->Text;
 				if ($this->calDate) $this->objBalance->Date = $this->calDate->DateTime;
-				if ($this->lstIdClientObject) $this->objBalance->IdClient = $this->lstIdClientObject->SelectedValue;
-				if ($this->lstIdOrganizationObject) $this->objBalance->IdOrganization = $this->lstIdOrganizationObject->SelectedValue;
 				if ($this->txtAmountExchangedCoins) $this->objBalance->AmountExchangedCoins = $this->txtAmountExchangedCoins->Text;
+				if ($this->lstIdUserObject) $this->objBalance->IdUser = $this->lstIdUserObject->SelectedValue;
+				if ($this->lstIdOfferObject) $this->objBalance->IdOffer = $this->lstIdOfferObject->SelectedValue;
 
 				// Update any UniqueReverseReferences (if any) for controls that have been created for it
 
@@ -479,8 +459,8 @@
 
 				// Controls that point to Balance fields -- will be created dynamically if not yet created
 				case 'IdBalanceControl':
-					if (!$this->txtIdBalance) return $this->txtIdBalance_Create();
-					return $this->txtIdBalance;
+					if (!$this->lblIdBalance) return $this->lblIdBalance_Create();
+					return $this->lblIdBalance;
 				case 'IdBalanceLabel':
 					if (!$this->lblIdBalance) return $this->lblIdBalance_Create();
 					return $this->lblIdBalance;
@@ -490,24 +470,24 @@
 				case 'DateLabel':
 					if (!$this->lblDate) return $this->lblDate_Create();
 					return $this->lblDate;
-				case 'IdClientControl':
-					if (!$this->lstIdClientObject) return $this->lstIdClientObject_Create();
-					return $this->lstIdClientObject;
-				case 'IdClientLabel':
-					if (!$this->lblIdClient) return $this->lblIdClient_Create();
-					return $this->lblIdClient;
-				case 'IdOrganizationControl':
-					if (!$this->lstIdOrganizationObject) return $this->lstIdOrganizationObject_Create();
-					return $this->lstIdOrganizationObject;
-				case 'IdOrganizationLabel':
-					if (!$this->lblIdOrganization) return $this->lblIdOrganization_Create();
-					return $this->lblIdOrganization;
 				case 'AmountExchangedCoinsControl':
 					if (!$this->txtAmountExchangedCoins) return $this->txtAmountExchangedCoins_Create();
 					return $this->txtAmountExchangedCoins;
 				case 'AmountExchangedCoinsLabel':
 					if (!$this->lblAmountExchangedCoins) return $this->lblAmountExchangedCoins_Create();
 					return $this->lblAmountExchangedCoins;
+				case 'IdUserControl':
+					if (!$this->lstIdUserObject) return $this->lstIdUserObject_Create();
+					return $this->lstIdUserObject;
+				case 'IdUserLabel':
+					if (!$this->lblIdUser) return $this->lblIdUser_Create();
+					return $this->lblIdUser;
+				case 'IdOfferControl':
+					if (!$this->lstIdOfferObject) return $this->lstIdOfferObject_Create();
+					return $this->lstIdOfferObject;
+				case 'IdOfferLabel':
+					if (!$this->lblIdOffer) return $this->lblIdOffer_Create();
+					return $this->lblIdOffer;
 				default:
 					try {
 						return parent::__get($strName);
@@ -531,15 +511,15 @@
 				switch ($strName) {
 					// Controls that point to Balance fields
 					case 'IdBalanceControl':
-						return ($this->txtIdBalance = QType::Cast($mixValue, 'QControl'));
+						return ($this->lblIdBalance = QType::Cast($mixValue, 'QControl'));
 					case 'DateControl':
 						return ($this->calDate = QType::Cast($mixValue, 'QControl'));
-					case 'IdClientControl':
-						return ($this->lstIdClientObject = QType::Cast($mixValue, 'QControl'));
-					case 'IdOrganizationControl':
-						return ($this->lstIdOrganizationObject = QType::Cast($mixValue, 'QControl'));
 					case 'AmountExchangedCoinsControl':
 						return ($this->txtAmountExchangedCoins = QType::Cast($mixValue, 'QControl'));
+					case 'IdUserControl':
+						return ($this->lstIdUserObject = QType::Cast($mixValue, 'QControl'));
+					case 'IdOfferControl':
+						return ($this->lstIdOfferObject = QType::Cast($mixValue, 'QControl'));
 					default:
 						return parent::__set($strName, $mixValue);
 				}

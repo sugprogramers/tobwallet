@@ -15,13 +15,13 @@
 	 *
 	 * @package My QCubed Application
 	 * @subpackage GeneratedDataObjects
-	 * @property integer $IdBalance the value for intIdBalance (PK)
+	 * @property-read integer $IdBalance the value for intIdBalance (Read-Only PK)
 	 * @property QDateTime $Date the value for dttDate (Not Null)
-	 * @property integer $IdClient the value for intIdClient (Not Null)
-	 * @property integer $IdOrganization the value for intIdOrganization (Not Null)
 	 * @property double $AmountExchangedCoins the value for fltAmountExchangedCoins (Not Null)
-	 * @property Client $IdClientObject the value for the Client object referenced by intIdClient (Not Null)
-	 * @property Organization $IdOrganizationObject the value for the Organization object referenced by intIdOrganization (Not Null)
+	 * @property integer $IdUser the value for intIdUser (Not Null)
+	 * @property integer $IdOffer the value for intIdOffer (Not Null)
+	 * @property User $IdUserObject the value for the User object referenced by intIdUser (Not Null)
+	 * @property Offer $IdOfferObject the value for the Offer object referenced by intIdOffer (Not Null)
 	 * @property-read boolean $__Restored whether or not this object was restored from the database (as opposed to created new)
 	 */
 	class BalanceGen extends QBaseClass implements IteratorAggregate {
@@ -31,19 +31,12 @@
 		///////////////////////////////////////////////////////////////////////
 
 		/**
-		 * Protected member variable that maps to the database PK column balance.IdBalance
+		 * Protected member variable that maps to the database PK Identity column balance.IdBalance
 		 * @var integer intIdBalance
 		 */
 		protected $intIdBalance;
 		const IdBalanceDefault = null;
 
-
-		/**
-		 * Protected internal member variable that stores the original version of the PK column value (if restored)
-		 * Used by Save() to update a PK column during UPDATE
-		 * @var integer __intIdBalance;
-		 */
-		protected $__intIdBalance;
 
 		/**
 		 * Protected member variable that maps to the database column balance.Date
@@ -54,27 +47,27 @@
 
 
 		/**
-		 * Protected member variable that maps to the database column balance.IdClient
-		 * @var integer intIdClient
-		 */
-		protected $intIdClient;
-		const IdClientDefault = null;
-
-
-		/**
-		 * Protected member variable that maps to the database column balance.IdOrganization
-		 * @var integer intIdOrganization
-		 */
-		protected $intIdOrganization;
-		const IdOrganizationDefault = null;
-
-
-		/**
 		 * Protected member variable that maps to the database column balance.AmountExchangedCoins
 		 * @var double fltAmountExchangedCoins
 		 */
 		protected $fltAmountExchangedCoins;
 		const AmountExchangedCoinsDefault = null;
+
+
+		/**
+		 * Protected member variable that maps to the database column balance.IdUser
+		 * @var integer intIdUser
+		 */
+		protected $intIdUser;
+		const IdUserDefault = null;
+
+
+		/**
+		 * Protected member variable that maps to the database column balance.IdOffer
+		 * @var integer intIdOffer
+		 */
+		protected $intIdOffer;
+		const IdOfferDefault = null;
 
 
 		/**
@@ -101,23 +94,23 @@
 
 		/**
 		 * Protected member variable that contains the object pointed by the reference
-		 * in the database column balance.IdClient.
+		 * in the database column balance.IdUser.
 		 *
-		 * NOTE: Always use the IdClientObject property getter to correctly retrieve this Client object.
+		 * NOTE: Always use the IdUserObject property getter to correctly retrieve this User object.
 		 * (Because this class implements late binding, this variable reference MAY be null.)
-		 * @var Client objIdClientObject
+		 * @var User objIdUserObject
 		 */
-		protected $objIdClientObject;
+		protected $objIdUserObject;
 
 		/**
 		 * Protected member variable that contains the object pointed by the reference
-		 * in the database column balance.IdOrganization.
+		 * in the database column balance.IdOffer.
 		 *
-		 * NOTE: Always use the IdOrganizationObject property getter to correctly retrieve this Organization object.
+		 * NOTE: Always use the IdOfferObject property getter to correctly retrieve this Offer object.
 		 * (Because this class implements late binding, this variable reference MAY be null.)
-		 * @var Organization objIdOrganizationObject
+		 * @var Offer objIdOfferObject
 		 */
-		protected $objIdOrganizationObject;
+		protected $objIdOfferObject;
 
 
 
@@ -128,9 +121,9 @@
 		{
 			$this->intIdBalance = Balance::IdBalanceDefault;
 			$this->dttDate = (Balance::DateDefault === null)?null:new QDateTime(Balance::DateDefault);
-			$this->intIdClient = Balance::IdClientDefault;
-			$this->intIdOrganization = Balance::IdOrganizationDefault;
 			$this->fltAmountExchangedCoins = Balance::AmountExchangedCoinsDefault;
+			$this->intIdUser = Balance::IdUserDefault;
+			$this->intIdOffer = Balance::IdOfferDefault;
 		}
 
 
@@ -400,9 +393,9 @@
 
 			$objBuilder->AddSelectItem($strTableName, 'IdBalance', $strAliasPrefix . 'IdBalance');
 			$objBuilder->AddSelectItem($strTableName, 'Date', $strAliasPrefix . 'Date');
-			$objBuilder->AddSelectItem($strTableName, 'IdClient', $strAliasPrefix . 'IdClient');
-			$objBuilder->AddSelectItem($strTableName, 'IdOrganization', $strAliasPrefix . 'IdOrganization');
 			$objBuilder->AddSelectItem($strTableName, 'AmountExchangedCoins', $strAliasPrefix . 'AmountExchangedCoins');
+			$objBuilder->AddSelectItem($strTableName, 'IdUser', $strAliasPrefix . 'IdUser');
+			$objBuilder->AddSelectItem($strTableName, 'IdOffer', $strAliasPrefix . 'IdOffer');
 		}
 
 
@@ -435,15 +428,14 @@
 
 			$strAliasName = array_key_exists($strAliasPrefix . 'IdBalance', $strColumnAliasArray) ? $strColumnAliasArray[$strAliasPrefix . 'IdBalance'] : $strAliasPrefix . 'IdBalance';
 			$objToReturn->intIdBalance = $objDbRow->GetColumn($strAliasName, 'Integer');
-			$objToReturn->__intIdBalance = $objDbRow->GetColumn($strAliasName, 'Integer');
 			$strAliasName = array_key_exists($strAliasPrefix . 'Date', $strColumnAliasArray) ? $strColumnAliasArray[$strAliasPrefix . 'Date'] : $strAliasPrefix . 'Date';
 			$objToReturn->dttDate = $objDbRow->GetColumn($strAliasName, 'DateTime');
-			$strAliasName = array_key_exists($strAliasPrefix . 'IdClient', $strColumnAliasArray) ? $strColumnAliasArray[$strAliasPrefix . 'IdClient'] : $strAliasPrefix . 'IdClient';
-			$objToReturn->intIdClient = $objDbRow->GetColumn($strAliasName, 'Integer');
-			$strAliasName = array_key_exists($strAliasPrefix . 'IdOrganization', $strColumnAliasArray) ? $strColumnAliasArray[$strAliasPrefix . 'IdOrganization'] : $strAliasPrefix . 'IdOrganization';
-			$objToReturn->intIdOrganization = $objDbRow->GetColumn($strAliasName, 'Integer');
 			$strAliasName = array_key_exists($strAliasPrefix . 'AmountExchangedCoins', $strColumnAliasArray) ? $strColumnAliasArray[$strAliasPrefix . 'AmountExchangedCoins'] : $strAliasPrefix . 'AmountExchangedCoins';
 			$objToReturn->fltAmountExchangedCoins = $objDbRow->GetColumn($strAliasName, 'Float');
+			$strAliasName = array_key_exists($strAliasPrefix . 'IdUser', $strColumnAliasArray) ? $strColumnAliasArray[$strAliasPrefix . 'IdUser'] : $strAliasPrefix . 'IdUser';
+			$objToReturn->intIdUser = $objDbRow->GetColumn($strAliasName, 'Integer');
+			$strAliasName = array_key_exists($strAliasPrefix . 'IdOffer', $strColumnAliasArray) ? $strColumnAliasArray[$strAliasPrefix . 'IdOffer'] : $strAliasPrefix . 'IdOffer';
+			$objToReturn->intIdOffer = $objDbRow->GetColumn($strAliasName, 'Integer');
 
 			if (isset($arrPreviousItems) && is_array($arrPreviousItems)) {
 				foreach ($arrPreviousItems as $objPreviousItem) {
@@ -468,17 +460,17 @@
 			if (!$strAliasPrefix)
 				$strAliasPrefix = 'balance__';
 
-			// Check for IdClientObject Early Binding
-			$strAlias = $strAliasPrefix . 'IdClient__IdClient';
+			// Check for IdUserObject Early Binding
+			$strAlias = $strAliasPrefix . 'IdUser__IdUser';
 			$strAliasName = array_key_exists($strAlias, $strColumnAliasArray) ? $strColumnAliasArray[$strAlias] : $strAlias;
 			if (!is_null($objDbRow->GetColumn($strAliasName)))
-				$objToReturn->objIdClientObject = Client::InstantiateDbRow($objDbRow, $strAliasPrefix . 'IdClient__', $strExpandAsArrayNodes, null, $strColumnAliasArray);
+				$objToReturn->objIdUserObject = User::InstantiateDbRow($objDbRow, $strAliasPrefix . 'IdUser__', $strExpandAsArrayNodes, null, $strColumnAliasArray);
 
-			// Check for IdOrganizationObject Early Binding
-			$strAlias = $strAliasPrefix . 'IdOrganization__IdOrganization';
+			// Check for IdOfferObject Early Binding
+			$strAlias = $strAliasPrefix . 'IdOffer__IdOffer';
 			$strAliasName = array_key_exists($strAlias, $strColumnAliasArray) ? $strColumnAliasArray[$strAlias] : $strAlias;
 			if (!is_null($objDbRow->GetColumn($strAliasName)))
-				$objToReturn->objIdOrganizationObject = Organization::InstantiateDbRow($objDbRow, $strAliasPrefix . 'IdOrganization__', $strExpandAsArrayNodes, null, $strColumnAliasArray);
+				$objToReturn->objIdOfferObject = Offer::InstantiateDbRow($objDbRow, $strAliasPrefix . 'IdOffer__', $strExpandAsArrayNodes, null, $strColumnAliasArray);
 
 
 
@@ -544,16 +536,16 @@
 			
 		/**
 		 * Load an array of Balance objects,
-		 * by IdClient Index(es)
-		 * @param integer $intIdClient
+		 * by IdUser Index(es)
+		 * @param integer $intIdUser
 		 * @param QQClause[] $objOptionalClauses additional optional QQClause objects for this query
 		 * @return Balance[]
 		*/
-		public static function LoadArrayByIdClient($intIdClient, $objOptionalClauses = null) {
-			// Call Balance::QueryArray to perform the LoadArrayByIdClient query
+		public static function LoadArrayByIdUser($intIdUser, $objOptionalClauses = null) {
+			// Call Balance::QueryArray to perform the LoadArrayByIdUser query
 			try {
 				return Balance::QueryArray(
-					QQ::Equal(QQN::Balance()->IdClient, $intIdClient),
+					QQ::Equal(QQN::Balance()->IdUser, $intIdUser),
 					$objOptionalClauses);
 			} catch (QCallerException $objExc) {
 				$objExc->IncrementOffset();
@@ -563,29 +555,29 @@
 
 		/**
 		 * Count Balances
-		 * by IdClient Index(es)
-		 * @param integer $intIdClient
+		 * by IdUser Index(es)
+		 * @param integer $intIdUser
 		 * @return int
 		*/
-		public static function CountByIdClient($intIdClient) {
-			// Call Balance::QueryCount to perform the CountByIdClient query
+		public static function CountByIdUser($intIdUser) {
+			// Call Balance::QueryCount to perform the CountByIdUser query
 			return Balance::QueryCount(
-				QQ::Equal(QQN::Balance()->IdClient, $intIdClient)
+				QQ::Equal(QQN::Balance()->IdUser, $intIdUser)
 			);
 		}
 			
 		/**
 		 * Load an array of Balance objects,
-		 * by IdOrganization Index(es)
-		 * @param integer $intIdOrganization
+		 * by IdOffer Index(es)
+		 * @param integer $intIdOffer
 		 * @param QQClause[] $objOptionalClauses additional optional QQClause objects for this query
 		 * @return Balance[]
 		*/
-		public static function LoadArrayByIdOrganization($intIdOrganization, $objOptionalClauses = null) {
-			// Call Balance::QueryArray to perform the LoadArrayByIdOrganization query
+		public static function LoadArrayByIdOffer($intIdOffer, $objOptionalClauses = null) {
+			// Call Balance::QueryArray to perform the LoadArrayByIdOffer query
 			try {
 				return Balance::QueryArray(
-					QQ::Equal(QQN::Balance()->IdOrganization, $intIdOrganization),
+					QQ::Equal(QQN::Balance()->IdOffer, $intIdOffer),
 					$objOptionalClauses);
 			} catch (QCallerException $objExc) {
 				$objExc->IncrementOffset();
@@ -595,14 +587,14 @@
 
 		/**
 		 * Count Balances
-		 * by IdOrganization Index(es)
-		 * @param integer $intIdOrganization
+		 * by IdOffer Index(es)
+		 * @param integer $intIdOffer
 		 * @return int
 		*/
-		public static function CountByIdOrganization($intIdOrganization) {
-			// Call Balance::QueryCount to perform the CountByIdOrganization query
+		public static function CountByIdOffer($intIdOffer) {
+			// Call Balance::QueryCount to perform the CountByIdOffer query
 			return Balance::QueryCount(
-				QQ::Equal(QQN::Balance()->IdOrganization, $intIdOrganization)
+				QQ::Equal(QQN::Balance()->IdOffer, $intIdOffer)
 			);
 		}
 
@@ -623,7 +615,7 @@
 		 * Save this Balance
 		 * @param bool $blnForceInsert
 		 * @param bool $blnForceUpdate
-		 * @return void
+		 * @return int
 		 */
 		public function Save($blnForceInsert = false, $blnForceUpdate = false) {
 			// Get the Database Object for this Class
@@ -636,21 +628,20 @@
 					// Perform an INSERT query
 					$objDatabase->NonQuery('
 						INSERT INTO `balance` (
-							`IdBalance`,
 							`Date`,
-							`IdClient`,
-							`IdOrganization`,
-							`AmountExchangedCoins`
+							`AmountExchangedCoins`,
+							`IdUser`,
+							`IdOffer`
 						) VALUES (
-							' . $objDatabase->SqlVariable($this->intIdBalance) . ',
 							' . $objDatabase->SqlVariable($this->dttDate) . ',
-							' . $objDatabase->SqlVariable($this->intIdClient) . ',
-							' . $objDatabase->SqlVariable($this->intIdOrganization) . ',
-							' . $objDatabase->SqlVariable($this->fltAmountExchangedCoins) . '
+							' . $objDatabase->SqlVariable($this->fltAmountExchangedCoins) . ',
+							' . $objDatabase->SqlVariable($this->intIdUser) . ',
+							' . $objDatabase->SqlVariable($this->intIdOffer) . '
 						)
 					');
 
-
+					// Update Identity column and return its value
+					$mixToReturn = $this->intIdBalance = $objDatabase->InsertId('balance', 'IdBalance');
 				} else {
 					// Perform an UPDATE query
 
@@ -661,13 +652,12 @@
 						UPDATE
 							`balance`
 						SET
-							`IdBalance` = ' . $objDatabase->SqlVariable($this->intIdBalance) . ',
 							`Date` = ' . $objDatabase->SqlVariable($this->dttDate) . ',
-							`IdClient` = ' . $objDatabase->SqlVariable($this->intIdClient) . ',
-							`IdOrganization` = ' . $objDatabase->SqlVariable($this->intIdOrganization) . ',
-							`AmountExchangedCoins` = ' . $objDatabase->SqlVariable($this->fltAmountExchangedCoins) . '
+							`AmountExchangedCoins` = ' . $objDatabase->SqlVariable($this->fltAmountExchangedCoins) . ',
+							`IdUser` = ' . $objDatabase->SqlVariable($this->intIdUser) . ',
+							`IdOffer` = ' . $objDatabase->SqlVariable($this->intIdOffer) . '
 						WHERE
-							`IdBalance` = ' . $objDatabase->SqlVariable($this->__intIdBalance) . '
+							`IdBalance` = ' . $objDatabase->SqlVariable($this->intIdBalance) . '
 					');
 				}
 
@@ -678,7 +668,6 @@
 
 			// Update __blnRestored and any Non-Identity PK Columns (if applicable)
 			$this->__blnRestored = true;
-			$this->__intIdBalance = $this->intIdBalance;
 
 
 			// Return
@@ -745,12 +734,10 @@
 			$objReloaded = Balance::Load($this->intIdBalance);
 
 			// Update $this's local variables to match
-			$this->intIdBalance = $objReloaded->intIdBalance;
-			$this->__intIdBalance = $this->intIdBalance;
 			$this->dttDate = $objReloaded->dttDate;
-			$this->IdClient = $objReloaded->IdClient;
-			$this->IdOrganization = $objReloaded->IdOrganization;
 			$this->fltAmountExchangedCoins = $objReloaded->fltAmountExchangedCoins;
+			$this->IdUser = $objReloaded->IdUser;
+			$this->IdOffer = $objReloaded->IdOffer;
 		}
 
 
@@ -773,7 +760,7 @@
 				///////////////////
 				case 'IdBalance':
 					/**
-					 * Gets the value for intIdBalance (PK)
+					 * Gets the value for intIdBalance (Read-Only PK)
 					 * @return integer
 					 */
 					return $this->intIdBalance;
@@ -785,20 +772,6 @@
 					 */
 					return $this->dttDate;
 
-				case 'IdClient':
-					/**
-					 * Gets the value for intIdClient (Not Null)
-					 * @return integer
-					 */
-					return $this->intIdClient;
-
-				case 'IdOrganization':
-					/**
-					 * Gets the value for intIdOrganization (Not Null)
-					 * @return integer
-					 */
-					return $this->intIdOrganization;
-
 				case 'AmountExchangedCoins':
 					/**
 					 * Gets the value for fltAmountExchangedCoins (Not Null)
@@ -806,33 +779,47 @@
 					 */
 					return $this->fltAmountExchangedCoins;
 
+				case 'IdUser':
+					/**
+					 * Gets the value for intIdUser (Not Null)
+					 * @return integer
+					 */
+					return $this->intIdUser;
+
+				case 'IdOffer':
+					/**
+					 * Gets the value for intIdOffer (Not Null)
+					 * @return integer
+					 */
+					return $this->intIdOffer;
+
 
 				///////////////////
 				// Member Objects
 				///////////////////
-				case 'IdClientObject':
+				case 'IdUserObject':
 					/**
-					 * Gets the value for the Client object referenced by intIdClient (Not Null)
-					 * @return Client
+					 * Gets the value for the User object referenced by intIdUser (Not Null)
+					 * @return User
 					 */
 					try {
-						if ((!$this->objIdClientObject) && (!is_null($this->intIdClient)))
-							$this->objIdClientObject = Client::Load($this->intIdClient);
-						return $this->objIdClientObject;
+						if ((!$this->objIdUserObject) && (!is_null($this->intIdUser)))
+							$this->objIdUserObject = User::Load($this->intIdUser);
+						return $this->objIdUserObject;
 					} catch (QCallerException $objExc) {
 						$objExc->IncrementOffset();
 						throw $objExc;
 					}
 
-				case 'IdOrganizationObject':
+				case 'IdOfferObject':
 					/**
-					 * Gets the value for the Organization object referenced by intIdOrganization (Not Null)
-					 * @return Organization
+					 * Gets the value for the Offer object referenced by intIdOffer (Not Null)
+					 * @return Offer
 					 */
 					try {
-						if ((!$this->objIdOrganizationObject) && (!is_null($this->intIdOrganization)))
-							$this->objIdOrganizationObject = Organization::Load($this->intIdOrganization);
-						return $this->objIdOrganizationObject;
+						if ((!$this->objIdOfferObject) && (!is_null($this->intIdOffer)))
+							$this->objIdOfferObject = Offer::Load($this->intIdOffer);
+						return $this->objIdOfferObject;
 					} catch (QCallerException $objExc) {
 						$objExc->IncrementOffset();
 						throw $objExc;
@@ -871,19 +858,6 @@
 				///////////////////
 				// Member Variables
 				///////////////////
-				case 'IdBalance':
-					/**
-					 * Sets the value for intIdBalance (PK)
-					 * @param integer $mixValue
-					 * @return integer
-					 */
-					try {
-						return ($this->intIdBalance = QType::Cast($mixValue, QType::Integer));
-					} catch (QCallerException $objExc) {
-						$objExc->IncrementOffset();
-						throw $objExc;
-					}
-
 				case 'Date':
 					/**
 					 * Sets the value for dttDate (Not Null)
@@ -892,34 +866,6 @@
 					 */
 					try {
 						return ($this->dttDate = QType::Cast($mixValue, QType::DateTime));
-					} catch (QCallerException $objExc) {
-						$objExc->IncrementOffset();
-						throw $objExc;
-					}
-
-				case 'IdClient':
-					/**
-					 * Sets the value for intIdClient (Not Null)
-					 * @param integer $mixValue
-					 * @return integer
-					 */
-					try {
-						$this->objIdClientObject = null;
-						return ($this->intIdClient = QType::Cast($mixValue, QType::Integer));
-					} catch (QCallerException $objExc) {
-						$objExc->IncrementOffset();
-						throw $objExc;
-					}
-
-				case 'IdOrganization':
-					/**
-					 * Sets the value for intIdOrganization (Not Null)
-					 * @param integer $mixValue
-					 * @return integer
-					 */
-					try {
-						$this->objIdOrganizationObject = null;
-						return ($this->intIdOrganization = QType::Cast($mixValue, QType::Integer));
 					} catch (QCallerException $objExc) {
 						$objExc->IncrementOffset();
 						throw $objExc;
@@ -938,68 +884,96 @@
 						throw $objExc;
 					}
 
+				case 'IdUser':
+					/**
+					 * Sets the value for intIdUser (Not Null)
+					 * @param integer $mixValue
+					 * @return integer
+					 */
+					try {
+						$this->objIdUserObject = null;
+						return ($this->intIdUser = QType::Cast($mixValue, QType::Integer));
+					} catch (QCallerException $objExc) {
+						$objExc->IncrementOffset();
+						throw $objExc;
+					}
+
+				case 'IdOffer':
+					/**
+					 * Sets the value for intIdOffer (Not Null)
+					 * @param integer $mixValue
+					 * @return integer
+					 */
+					try {
+						$this->objIdOfferObject = null;
+						return ($this->intIdOffer = QType::Cast($mixValue, QType::Integer));
+					} catch (QCallerException $objExc) {
+						$objExc->IncrementOffset();
+						throw $objExc;
+					}
+
 
 				///////////////////
 				// Member Objects
 				///////////////////
-				case 'IdClientObject':
+				case 'IdUserObject':
 					/**
-					 * Sets the value for the Client object referenced by intIdClient (Not Null)
-					 * @param Client $mixValue
-					 * @return Client
+					 * Sets the value for the User object referenced by intIdUser (Not Null)
+					 * @param User $mixValue
+					 * @return User
 					 */
 					if (is_null($mixValue)) {
-						$this->intIdClient = null;
-						$this->objIdClientObject = null;
+						$this->intIdUser = null;
+						$this->objIdUserObject = null;
 						return null;
 					} else {
-						// Make sure $mixValue actually is a Client object
+						// Make sure $mixValue actually is a User object
 						try {
-							$mixValue = QType::Cast($mixValue, 'Client');
+							$mixValue = QType::Cast($mixValue, 'User');
 						} catch (QInvalidCastException $objExc) {
 							$objExc->IncrementOffset();
 							throw $objExc;
 						}
 
-						// Make sure $mixValue is a SAVED Client object
-						if (is_null($mixValue->IdClient))
-							throw new QCallerException('Unable to set an unsaved IdClientObject for this Balance');
+						// Make sure $mixValue is a SAVED User object
+						if (is_null($mixValue->IdUser))
+							throw new QCallerException('Unable to set an unsaved IdUserObject for this Balance');
 
 						// Update Local Member Variables
-						$this->objIdClientObject = $mixValue;
-						$this->intIdClient = $mixValue->IdClient;
+						$this->objIdUserObject = $mixValue;
+						$this->intIdUser = $mixValue->IdUser;
 
 						// Return $mixValue
 						return $mixValue;
 					}
 					break;
 
-				case 'IdOrganizationObject':
+				case 'IdOfferObject':
 					/**
-					 * Sets the value for the Organization object referenced by intIdOrganization (Not Null)
-					 * @param Organization $mixValue
-					 * @return Organization
+					 * Sets the value for the Offer object referenced by intIdOffer (Not Null)
+					 * @param Offer $mixValue
+					 * @return Offer
 					 */
 					if (is_null($mixValue)) {
-						$this->intIdOrganization = null;
-						$this->objIdOrganizationObject = null;
+						$this->intIdOffer = null;
+						$this->objIdOfferObject = null;
 						return null;
 					} else {
-						// Make sure $mixValue actually is a Organization object
+						// Make sure $mixValue actually is a Offer object
 						try {
-							$mixValue = QType::Cast($mixValue, 'Organization');
+							$mixValue = QType::Cast($mixValue, 'Offer');
 						} catch (QInvalidCastException $objExc) {
 							$objExc->IncrementOffset();
 							throw $objExc;
 						}
 
-						// Make sure $mixValue is a SAVED Organization object
-						if (is_null($mixValue->IdOrganization))
-							throw new QCallerException('Unable to set an unsaved IdOrganizationObject for this Balance');
+						// Make sure $mixValue is a SAVED Offer object
+						if (is_null($mixValue->IdOffer))
+							throw new QCallerException('Unable to set an unsaved IdOfferObject for this Balance');
 
 						// Update Local Member Variables
-						$this->objIdOrganizationObject = $mixValue;
-						$this->intIdOrganization = $mixValue->IdOrganization;
+						$this->objIdOfferObject = $mixValue;
+						$this->intIdOffer = $mixValue->IdOffer;
 
 						// Return $mixValue
 						return $mixValue;
@@ -1045,9 +1019,9 @@
 			$strToReturn = '<complexType name="Balance"><sequence>';
 			$strToReturn .= '<element name="IdBalance" type="xsd:int"/>';
 			$strToReturn .= '<element name="Date" type="xsd:dateTime"/>';
-			$strToReturn .= '<element name="IdClientObject" type="xsd1:Client"/>';
-			$strToReturn .= '<element name="IdOrganizationObject" type="xsd1:Organization"/>';
 			$strToReturn .= '<element name="AmountExchangedCoins" type="xsd:float"/>';
+			$strToReturn .= '<element name="IdUserObject" type="xsd1:User"/>';
+			$strToReturn .= '<element name="IdOfferObject" type="xsd1:Offer"/>';
 			$strToReturn .= '<element name="__blnRestored" type="xsd:boolean"/>';
 			$strToReturn .= '</sequence></complexType>';
 			return $strToReturn;
@@ -1056,8 +1030,8 @@
 		public static function AlterSoapComplexTypeArray(&$strComplexTypeArray) {
 			if (!array_key_exists('Balance', $strComplexTypeArray)) {
 				$strComplexTypeArray['Balance'] = Balance::GetSoapComplexTypeXml();
-				Client::AlterSoapComplexTypeArray($strComplexTypeArray);
-				Organization::AlterSoapComplexTypeArray($strComplexTypeArray);
+				User::AlterSoapComplexTypeArray($strComplexTypeArray);
+				Offer::AlterSoapComplexTypeArray($strComplexTypeArray);
 			}
 		}
 
@@ -1076,14 +1050,14 @@
 				$objToReturn->intIdBalance = $objSoapObject->IdBalance;
 			if (property_exists($objSoapObject, 'Date'))
 				$objToReturn->dttDate = new QDateTime($objSoapObject->Date);
-			if ((property_exists($objSoapObject, 'IdClientObject')) &&
-				($objSoapObject->IdClientObject))
-				$objToReturn->IdClientObject = Client::GetObjectFromSoapObject($objSoapObject->IdClientObject);
-			if ((property_exists($objSoapObject, 'IdOrganizationObject')) &&
-				($objSoapObject->IdOrganizationObject))
-				$objToReturn->IdOrganizationObject = Organization::GetObjectFromSoapObject($objSoapObject->IdOrganizationObject);
 			if (property_exists($objSoapObject, 'AmountExchangedCoins'))
 				$objToReturn->fltAmountExchangedCoins = $objSoapObject->AmountExchangedCoins;
+			if ((property_exists($objSoapObject, 'IdUserObject')) &&
+				($objSoapObject->IdUserObject))
+				$objToReturn->IdUserObject = User::GetObjectFromSoapObject($objSoapObject->IdUserObject);
+			if ((property_exists($objSoapObject, 'IdOfferObject')) &&
+				($objSoapObject->IdOfferObject))
+				$objToReturn->IdOfferObject = Offer::GetObjectFromSoapObject($objSoapObject->IdOfferObject);
 			if (property_exists($objSoapObject, '__blnRestored'))
 				$objToReturn->__blnRestored = $objSoapObject->__blnRestored;
 			return $objToReturn;
@@ -1104,14 +1078,14 @@
 		public static function GetSoapObjectFromObject($objObject, $blnBindRelatedObjects) {
 			if ($objObject->dttDate)
 				$objObject->dttDate = $objObject->dttDate->qFormat(QDateTime::FormatSoap);
-			if ($objObject->objIdClientObject)
-				$objObject->objIdClientObject = Client::GetSoapObjectFromObject($objObject->objIdClientObject, false);
+			if ($objObject->objIdUserObject)
+				$objObject->objIdUserObject = User::GetSoapObjectFromObject($objObject->objIdUserObject, false);
 			else if (!$blnBindRelatedObjects)
-				$objObject->intIdClient = null;
-			if ($objObject->objIdOrganizationObject)
-				$objObject->objIdOrganizationObject = Organization::GetSoapObjectFromObject($objObject->objIdOrganizationObject, false);
+				$objObject->intIdUser = null;
+			if ($objObject->objIdOfferObject)
+				$objObject->objIdOfferObject = Offer::GetSoapObjectFromObject($objObject->objIdOfferObject, false);
 			else if (!$blnBindRelatedObjects)
-				$objObject->intIdOrganization = null;
+				$objObject->intIdOffer = null;
 			return $objObject;
 		}
 
@@ -1128,9 +1102,9 @@
 			///////////////////
 			$iArray['IdBalance'] = $this->intIdBalance;
 			$iArray['Date'] = $this->dttDate;
-			$iArray['IdClient'] = $this->intIdClient;
-			$iArray['IdOrganization'] = $this->intIdOrganization;
 			$iArray['AmountExchangedCoins'] = $this->fltAmountExchangedCoins;
+			$iArray['IdUser'] = $this->intIdUser;
+			$iArray['IdOffer'] = $this->intIdOffer;
 			return new ArrayIterator($iArray);
 		}
 
@@ -1154,11 +1128,11 @@
      *
      * @property-read QQNode $IdBalance
      * @property-read QQNode $Date
-     * @property-read QQNode $IdClient
-     * @property-read QQNodeClient $IdClientObject
-     * @property-read QQNode $IdOrganization
-     * @property-read QQNodeOrganization $IdOrganizationObject
      * @property-read QQNode $AmountExchangedCoins
+     * @property-read QQNode $IdUser
+     * @property-read QQNodeUser $IdUserObject
+     * @property-read QQNode $IdOffer
+     * @property-read QQNodeOffer $IdOfferObject
      *
      *
 
@@ -1174,16 +1148,16 @@
 					return new QQNode('IdBalance', 'IdBalance', 'Integer', $this);
 				case 'Date':
 					return new QQNode('Date', 'Date', 'DateTime', $this);
-				case 'IdClient':
-					return new QQNode('IdClient', 'IdClient', 'Integer', $this);
-				case 'IdClientObject':
-					return new QQNodeClient('IdClient', 'IdClientObject', 'Integer', $this);
-				case 'IdOrganization':
-					return new QQNode('IdOrganization', 'IdOrganization', 'Integer', $this);
-				case 'IdOrganizationObject':
-					return new QQNodeOrganization('IdOrganization', 'IdOrganizationObject', 'Integer', $this);
 				case 'AmountExchangedCoins':
 					return new QQNode('AmountExchangedCoins', 'AmountExchangedCoins', 'Float', $this);
+				case 'IdUser':
+					return new QQNode('IdUser', 'IdUser', 'Integer', $this);
+				case 'IdUserObject':
+					return new QQNodeUser('IdUser', 'IdUserObject', 'Integer', $this);
+				case 'IdOffer':
+					return new QQNode('IdOffer', 'IdOffer', 'Integer', $this);
+				case 'IdOfferObject':
+					return new QQNodeOffer('IdOffer', 'IdOfferObject', 'Integer', $this);
 
 				case '_PrimaryKeyNode':
 					return new QQNode('IdBalance', 'IdBalance', 'Integer', $this);
@@ -1201,11 +1175,11 @@
     /**
      * @property-read QQNode $IdBalance
      * @property-read QQNode $Date
-     * @property-read QQNode $IdClient
-     * @property-read QQNodeClient $IdClientObject
-     * @property-read QQNode $IdOrganization
-     * @property-read QQNodeOrganization $IdOrganizationObject
      * @property-read QQNode $AmountExchangedCoins
+     * @property-read QQNode $IdUser
+     * @property-read QQNodeUser $IdUserObject
+     * @property-read QQNode $IdOffer
+     * @property-read QQNodeOffer $IdOfferObject
      *
      *
 
@@ -1221,16 +1195,16 @@
 					return new QQNode('IdBalance', 'IdBalance', 'integer', $this);
 				case 'Date':
 					return new QQNode('Date', 'Date', 'QDateTime', $this);
-				case 'IdClient':
-					return new QQNode('IdClient', 'IdClient', 'integer', $this);
-				case 'IdClientObject':
-					return new QQNodeClient('IdClient', 'IdClientObject', 'integer', $this);
-				case 'IdOrganization':
-					return new QQNode('IdOrganization', 'IdOrganization', 'integer', $this);
-				case 'IdOrganizationObject':
-					return new QQNodeOrganization('IdOrganization', 'IdOrganizationObject', 'integer', $this);
 				case 'AmountExchangedCoins':
 					return new QQNode('AmountExchangedCoins', 'AmountExchangedCoins', 'double', $this);
+				case 'IdUser':
+					return new QQNode('IdUser', 'IdUser', 'integer', $this);
+				case 'IdUserObject':
+					return new QQNodeUser('IdUser', 'IdUserObject', 'integer', $this);
+				case 'IdOffer':
+					return new QQNode('IdOffer', 'IdOffer', 'integer', $this);
+				case 'IdOfferObject':
+					return new QQNodeOffer('IdOffer', 'IdOfferObject', 'integer', $this);
 
 				case '_PrimaryKeyNode':
 					return new QQNode('IdBalance', 'IdBalance', 'integer', $this);

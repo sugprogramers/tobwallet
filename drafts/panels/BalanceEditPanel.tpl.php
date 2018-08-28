@@ -5,15 +5,15 @@
 	// code re-generations do not overwrite your changes.
 ?>
 	<div id="formControls">
-		<?php $_CONTROL->txtIdBalance->RenderWithName(); ?>
+		<?php $_CONTROL->lblIdBalance->RenderWithName(); ?>
 
 		<?php $_CONTROL->calDate->RenderWithName(); ?>
 
-		<?php $_CONTROL->lstIdClientObject->RenderWithName(); ?>
-
-		<?php $_CONTROL->lstIdOrganizationObject->RenderWithName(); ?>
-
 		<?php $_CONTROL->txtAmountExchangedCoins->RenderWithName(); ?>
+
+		<?php $_CONTROL->lstIdUserObject->RenderWithName(); ?>
+
+		<?php $_CONTROL->lstIdOfferObject->RenderWithName(); ?>
 
 	</div>
 

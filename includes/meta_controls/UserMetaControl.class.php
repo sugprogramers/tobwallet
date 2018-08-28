@@ -19,6 +19,8 @@
 	 * @subpackage MetaControls
 	 */
 	class UserMetaControl extends UserMetaControlGen {
+            public $objUser;
+	    public $blnEditMode;
 		// Initialize fields with default values from database definition
 /*
 		public function __construct($objParentObject, User $objUser) {

@@ -17,20 +17,20 @@
     margin-bottom: 10px;
 }
        </style>
-        <div class="form-group row">
+        <!-- <div class="form-group row">
             <label class="col-sm-4 control-label">Email / Password</label>
             <div class="col-sm-4">
                 <div class="input-group">
                     <span class="input-group-addon">
                         <i class="icon wb-user" aria-hidden="true"></i>
                     </span>
-                    <?php $_CONTROL->txtEmail->RenderWithError(); ?>
+                    <?php //$_CONTROL->txtEmail->RenderWithError(); ?>
                 </div>                     
             </div>
             <div class="col-sm-4 unidos">
-                <?php $_CONTROL->txtPassword->RenderWithError(); ?>
+                <?php //$_CONTROL->txtPassword->RenderWithError(); ?>
             </div>
-        </div>
+        </div> -->
 
       <!--  <div class="form-group row">
             <label class="col-sm-4 control-label"><?php _p("Password"); ?> </label>
@@ -44,36 +44,36 @@
             </div>
         </div> -->
        
-        <div class="form-group row">
+        <!-- <div class="form-group row">
             <label class="col-sm-4 control-label">Owner First/Middle/Last Name </label>
             <div class="col-sm-4">
                 <div class="input-group">
                     <span class="input-group-addon">
                         <i class="icon fa-font" aria-hidden="true"></i>
                     </span>
-                    <?php $_CONTROL->txtFirstname->RenderWithError(); ?>
+                    <?php //$_CONTROL->txtFirstname->RenderWithError(); ?>
                 </div>                     
             </div>
             
             <div class="col-sm-2 unidos">
-                 <!-- <div class="input-group">
+                 <div class="input-group">
                   <span class="input-group-addon">
                         <i class="icon wb-text" aria-hidden="true"></i>
-                    </span> -->
-                    <?php $_CONTROL->txtMiddlename->RenderWithError(); ?>
-                <!--</div>  -->                   
+                    </span>
+                    <?php //$_CONTROL->txtMiddlename->RenderWithError(); ?>
+                </div>                 
             </div>
             
             
              <div class="col-sm-2 unidos" >
-                <!-- <div class="input-group">
+                <div class="input-group">
                     <span class="input-group-addon">
                         <i class="icon wb-text" aria-hidden="true"></i>
-                    </span>-->
-                    <?php $_CONTROL->txtLastname->RenderWithError(); ?>
-                <!-- </div> -->                   
+                    </span>
+                    <?php //$_CONTROL->txtLastname->RenderWithError(); ?>
+                </div> 
             </div>
-        </div>
+        </div> -->
 
         <div class="form-group row">
             <label class="col-sm-4 control-label"><?php _p("Country/City"); ?> </label>

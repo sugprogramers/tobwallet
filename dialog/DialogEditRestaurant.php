@@ -5,11 +5,11 @@ class DialogEditRestaurant extends QDialogBox {
     //public $mctUsuario;
     public $mctRestaurant;
     
-    public $txtEmail;
-    public $txtPassword;
-    public $txtFirstname;
-    public $txtMiddlename;
-    public $txtLastname;
+    //public $txtEmail;
+    //public $txtPassword;
+    //public $txtFirstname;
+    //public $txtMiddlename;
+    //public $txtLastname;
     public $txtCountry;
     public $txtCity;
     //public $txtPhone;
@@ -52,24 +52,24 @@ class DialogEditRestaurant extends QDialogBox {
         $this->mctRestaurant = RestaurantMetaControl::CreateFromPathInfo($this);
 
         //$this->txtEmail = $this->mctUsuario->txtEmail_Create();
-        $this->txtEmail = $this->mctRestaurant->txtEmail_Create();
-        $this->txtEmail->Placeholder = "Email";
+        //$this->txtEmail = $this->mctRestaurant->txtEmail_Create();
+        //$this->txtEmail->Placeholder = "Email";
 
         //$this->txtPassword = $this->mctUsuario->txtPassword_Create();
-        $this->txtPassword = $this->mctRestaurant->txtPassword_Create();
-        $this->txtPassword->Placeholder = htmlentities("Password");
+        //$this->txtPassword = $this->mctRestaurant->txtPassword_Create();
+        //$this->txtPassword->Placeholder = htmlentities("Password");
 
         //$this->txtFirstname = $this->mctUsuario->txtFirstName_Create();
-        $this->txtFirstname = $this->mctRestaurant->txtOwnerFirstName_Create();
-        $this->txtFirstname->Placeholder = "First Name";
+        //$this->txtFirstname = $this->mctRestaurant->txtOwnerFirstName_Create();
+        //$this->txtFirstname->Placeholder = "First Name";
         
         //$this->txtMiddlename = $this->mctUsuario->txtMiddleName_Create();
-        $this->txtMiddlename = $this->mctRestaurant->txtOwnerMiddleName_Create();
-        $this->txtMiddlename->Placeholder = "Middle Name";
+        //$this->txtMiddlename = $this->mctRestaurant->txtOwnerMiddleName_Create();
+        //$this->txtMiddlename->Placeholder = "Middle Name";
 
         //$this->txtLastname = $this->mctUsuario->txtLastName_Create();
-        $this->txtLastname = $this->mctRestaurant->txtOwnerLastName_Create();
-        $this->txtLastname->Placeholder = "Last Name";
+        //$this->txtLastname = $this->mctRestaurant->txtOwnerLastName_Create();
+        //$this->txtLastname->Placeholder = "Last Name";
 
         //$this->txtCountry = $this->mctUsuario->txtCountry_Create();
         $this->txtCountry = $this->mctRestaurant->txtCountry_Create();
@@ -135,10 +135,10 @@ class DialogEditRestaurant extends QDialogBox {
     public function btnSave_Click($strFormId, $strControlId, $strParameter) {
        
         try {
-            if (!isEmail(trim($this->txtEmail->Text))) {
+            /*if (!isEmail(trim($this->txtEmail->Text))) {
                 $this->txtEmail->SetFocus();
                 throw new Exception("Debe ingresar un email válido");
-            }
+            }*/
             
             if(strcmp(trim($this->txtPassword->Text), "") === 0){
                 $this->txtPassword->SetFocus();

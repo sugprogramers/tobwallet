@@ -291,11 +291,11 @@
 			} else if (is_string($mixContent)) switch ($mixContent) {
 				case 'IdBalance': return QQN::Balance()->IdBalance;
 				case 'Date': return QQN::Balance()->Date;
-				case 'IdClient': return QQN::Balance()->IdClient;
-				case 'IdClientObject': return QQN::Balance()->IdClientObject;
-				case 'IdOrganization': return QQN::Balance()->IdOrganization;
-				case 'IdOrganizationObject': return QQN::Balance()->IdOrganizationObject;
 				case 'AmountExchangedCoins': return QQN::Balance()->AmountExchangedCoins;
+				case 'IdUser': return QQN::Balance()->IdUser;
+				case 'IdUserObject': return QQN::Balance()->IdUserObject;
+				case 'IdOffer': return QQN::Balance()->IdOffer;
+				case 'IdOfferObject': return QQN::Balance()->IdOfferObject;
 				default: throw new QCallerException('Simple Property not found in BalanceDataGrid content: ' . $mixContent);
 			} else if ($mixContent instanceof QQAssociationNode)
 				throw new QCallerException('Content QQNode cannot go through any "To Many" association nodes.');

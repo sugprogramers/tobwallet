@@ -175,7 +175,7 @@
                     <span class="input-group-addon">
                         <i class="icon fa-list" aria-hidden="true"></i>
                     </span>
-                    <?php $_CONTROL->lstMiningOption->RenderWithError(); ?>
+                    <?php //$_CONTROL->lstMiningOption->RenderWithError(); ?>
                 </div>                     
             </div>
         </div> -->
@@ -199,7 +199,7 @@
                     <span class="input-group-addon">
                         <i class="icon fa-list" aria-hidden="true"></i>
                     </span>
-                    <?php $_CONTROL->txtNumberMasterNode->RenderWithError(); ?>
+                    <?php //$_CONTROL->txtNumberMasterNode->RenderWithError(); ?>
                 </div>                     
             </div>
         </div> -->

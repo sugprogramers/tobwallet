@@ -93,6 +93,7 @@
 			$this->dtgUsers->MetaAddColumn('ImagePhoto');
 			$this->dtgUsers->MetaAddColumn('StatusUser');
 			$this->dtgUsers->MetaAddColumn('WalletAddress');
+			$this->dtgUsers->MetaAddColumn('UserType');
 
 			// Setup the Create New button
 			$this->btnCreateNew = new QButton($this);

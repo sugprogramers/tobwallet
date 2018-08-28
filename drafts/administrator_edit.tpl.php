@@ -19,7 +19,7 @@
 	<div id="formControls">
 		<?php $this->lblIdAdministrator->RenderWithName(); ?>
 
-		<?php $this->txtName->RenderWithName(); ?>
+		<?php $this->txtEmail->RenderWithName(); ?>
 
 		<?php $this->txtPassword->RenderWithName(); ?>
 

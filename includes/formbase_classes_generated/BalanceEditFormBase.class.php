@@ -23,11 +23,11 @@
 		protected $mctBalance;
 
 		// Controls for Balance's Data Fields
-		protected $txtIdBalance;
+		protected $lblIdBalance;
 		protected $calDate;
-		protected $lstIdClientObject;
-		protected $lstIdOrganizationObject;
 		protected $txtAmountExchangedCoins;
+		protected $lstIdUserObject;
+		protected $lstIdOfferObject;
 
 		// Other ListBoxes (if applicable) via Unique ReverseReferences and ManyToMany References
 
@@ -63,11 +63,11 @@
 			$this->mctBalance = BalanceMetaControl::CreateFromPathInfo($this);
 
 			// Call MetaControl's methods to create qcontrols based on Balance's data fields
-			$this->txtIdBalance = $this->mctBalance->txtIdBalance_Create();
+			$this->lblIdBalance = $this->mctBalance->lblIdBalance_Create();
 			$this->calDate = $this->mctBalance->calDate_Create();
-			$this->lstIdClientObject = $this->mctBalance->lstIdClientObject_Create();
-			$this->lstIdOrganizationObject = $this->mctBalance->lstIdOrganizationObject_Create();
 			$this->txtAmountExchangedCoins = $this->mctBalance->txtAmountExchangedCoins_Create();
+			$this->lstIdUserObject = $this->mctBalance->lstIdUserObject_Create();
+			$this->lstIdOfferObject = $this->mctBalance->lstIdOfferObject_Create();
 
 			// Create Buttons and Actions on this Form
 			$this->btnSave = new QButton($this);
