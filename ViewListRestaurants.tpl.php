@@ -1,5 +1,5 @@
 <?php
-    $strPageTitle = QApplication::Translate('Administrator') . ' - ' . QApplication::Translate('View Users');
+    $strPageTitle = QApplication::Translate('Administrator') . ' - ' . QApplication::Translate('View Restaurants');
     require(__CONFIGURATION__ . '/header.inc.php');
 ?>
 
@@ -51,13 +51,13 @@
 <!-- Page -->
 <div class="page">
     <div class="page-header">
-        <h1 class="page-title"> <i class="site-menu-icon wb-users" aria-hidden="true"></i> Users</h1>
+        <h1 class="page-title"> <i class="site-menu-icon fas fa-coffee" aria-hidden="true"></i> Restaurants</h1>
     </div>
     <div class="page-content container-fluid">
         <!-- Panel Table Add Row -->
         <div class="panel">
             <header class="panel-heading">
-                <h3 class="panel-title">View Users</h3>
+                <h3 class="panel-title">View Restaurants</h3>
             </header>
             <div class="panel-body" style="min-height:260px;">
 
@@ -66,10 +66,10 @@
                     <div id="Found1" style="display:none;" class="vertical-align text-center" >
                         <div class="page-content vertical-align-middle">
                             <header>
-                                <div class="animation-slide-top" style="font-size: 65px;margin-right:0px;padding: 0px;color:#ccc;"><i class="icon wb-users" aria-hidden="true"></i></div>
-                                <p   style="font-size: 22px;color: #848484;">No registered users were found.</p>
+                                <div class="animation-slide-top" style="font-size: 65px;margin-right:0px;padding: 0px;color:#ccc;"><i class="fas fa-coffee" aria-hidden="true"></i></div>
+                                <p   style="font-size: 22px;color: #848484;">No registered restaurants were found.</p>
                             </header>
-                            <p class="error-advise animation-slide-left" style="font-size: 12px;">You must register a new user.</p>
+                            <p class="error-advise animation-slide-left" style="font-size: 12px;">You must register a new restaurant.</p>
                             <br>
                         </div> 
                     </div>
@@ -104,7 +104,8 @@
                         
                         <div class="example">
                             <div class="table-responsive">
-                                <?php $this->dtgUsuarios->Render(); ?>
+                                <!-- <?php //$this->dtgUsuarios->Render(); ?> -->
+                                <?php $this->dtgRestaurants->Render(); ?>
                                 
                             </div>
 
@@ -112,7 +113,7 @@
                     </div>
 
                 </div>
-                <div class="site-action" > <?php $this->btnNewUsuario->Render(); ?></div>
+                <div class="site-action" > <?php $this->btnNewRestaurant->Render(); ?></div>
                 <!-- End Example Basic Sort -->
             </div>
             <!-- End Panel Body -->
@@ -123,11 +124,10 @@
 </div>
 <!-- End Page -->
 
-<?php $this->dlgDialogEditUser->Render(); ?>
+<?php $this->dlgDialogEditRestaurant->Render(); ?>
 <?php //$this->dlgDialogPermit->Render(); ?>
 <?php $this->dlgConfirm->Render(); ?>
-
-
+<?php $this->dlgQRConfirm->Render(); ?>
 
 
 
@@ -159,17 +159,7 @@
 
 
 
-
-
-
-
 <?php $this->RenderEnd(); ?>
-
-
-
-
-
-
 
 
 <script>
@@ -182,14 +172,7 @@
 
 
 
-
 <?php require(__CONFIGURATION__ . '/footer.inc.php'); ?>
-
-
-
-
- 
-
 
 </body>
 

@@ -32,7 +32,6 @@
             </div>
         </div>
 
-
       <!--  <div class="form-group row">
             <label class="col-sm-4 control-label"><?php _p("Password"); ?> </label>
             <div class="col-sm-8">
@@ -44,10 +43,9 @@
                 </div>                     
             </div>
         </div> -->
-
        
         <div class="form-group row">
-            <label class="col-sm-4 control-label">First/Middle/Last Name </label>
+            <label class="col-sm-4 control-label">Owner First/Middle/Last Name </label>
             <div class="col-sm-4">
                 <div class="input-group">
                     <span class="input-group-addon">
@@ -56,7 +54,6 @@
                     <?php $_CONTROL->txtFirstname->RenderWithError(); ?>
                 </div>                     
             </div>
-            
             
             <div class="col-sm-2 unidos">
                  <!-- <div class="input-group">
@@ -77,9 +74,6 @@
                 <!-- </div> -->                   
             </div>
         </div>
-
-
-
 
         <div class="form-group row">
             <label class="col-sm-4 control-label"><?php _p("Country/City"); ?> </label>
@@ -102,7 +96,7 @@
             </div>
         </div>
 
-        
+        <!-- 
          <div class="form-group row">
             <label class="col-sm-4 control-label"><?php _p("Phone"); ?> </label>
             <div class="col-sm-8">
@@ -110,13 +104,15 @@
                     <span class="input-group-addon">
                         <i class="icon fa-phone" aria-hidden="true"></i>
                     </span>
-                    <?php $_CONTROL->txtPhone->RenderWithError(); ?>
+                    <?php //$_CONTROL->txtPhone->RenderWithError(); ?>
                 </div>                     
             </div>
         </div>
+         -->
         
-        <!-- <div class="form-group row">
-            <label class="col-sm-4 control-label"><?php //_p("Year Graduation /Your Cohort"); ?> </label>
+        <!-- 
+        <div class="form-group row">
+            <label class="col-sm-4 control-label"><? //php _p("Year Graduation /Your Cohort"); ?> </label>
             <div class="col-sm-4">
                 <div class="input-group">
                     <span class="input-group-addon">
@@ -128,10 +124,11 @@
             <div class="col-sm-4 unidos">
                 <?php //$_CONTROL->txtCohort->RenderWithError(); ?>
             </div>
-        </div> -->
+        </div>
+         -->
         
         <!--<div class="form-group row">
-            <label class="col-sm-4 control-label"><?php _p("Your Cohort"); ?> </label>
+            <label class="col-sm-4 control-label"><?php //_p("Your Cohort"); ?> </label>
             <div class="col-sm-8">
                 <div class="input-group">
                     <span class="input-group-addon">
@@ -142,69 +139,108 @@
             </div>
         </div> -->
        
-        
+        <!-- 
         <div class="form-group row">
-            <label class="col-sm-4 control-label"><?php _p("Birthday"); ?> </label>
+            <label class="col-sm-4 control-label"><?php //_p("Birthday"); ?> </label>
             <div class="col-sm-8">
                 <div class="input-group">
                     <span class="input-group-addon">
                         <i class="icon fa-calendar" aria-hidden="true"></i>
                     </span>
-                    <?php $_CONTROL->txtBirthday->RenderWithError(); ?>
+                    <?php //$_CONTROL->txtBirthday->RenderWithError(); ?>
                 </div>                     
             </div>
         </div>
+         -->
         
-        
+        <!-- 
         <div class="form-group row">
-            <label class="col-sm-4 control-label"><?php _p("Status"); ?> </label>
+            <label class="col-sm-4 control-label"><?php //_p("Status"); ?> </label>
             <div class="col-sm-8">
                 <div class="input-group">
                     <span class="input-group-addon">
                         <i class="icon fa-list" aria-hidden="true"></i>
                     </span>
-                    <?php $_CONTROL->lstStatus->RenderWithError(); ?>
+                    <?php //$_CONTROL->lstStatus->RenderWithError(); ?>
                 </div>                     
             </div>
         </div>
+         -->
        
-        <!-- <div class="form-group row">
-            <label class="col-sm-4 control-label"><?php _p("Plan"); ?> </label>
+        <!-- 
+       <div class="form-group row">
+            <label class="col-sm-4 control-label"><?php //_p("Plan"); ?> </label>
             <div class="col-sm-8">
                 <div class="input-group">
                     <span class="input-group-addon">
                         <i class="icon fa-list" aria-hidden="true"></i>
                     </span>
-                    <?php $_CONTROL->lstMiningOption->RenderWithError(); ?>
+                    <?php //$_CONTROL->lstMiningOption->RenderWithError(); ?>
                 </div>                     
             </div>
-        </div> -->
-        
+        </div>
+         -->
+         
         <div class="form-group row">
-            <label class="col-sm-4 control-label"><?php _p("Wallet Address"); ?> </label>
+            <label class="col-sm-4 control-label"><?php _p("Restaurant Name"); ?> </label>
             <div class="col-sm-8">
                 <div class="input-group">
                     <span class="input-group-addon">
                         <i class="icon fa-list" aria-hidden="true"></i>
                     </span>
-                    <?php $_CONTROL->txtWalletAddress->RenderWithError(); ?>
+                    <?php $_CONTROL->txtRestaurantName->RenderWithError(); ?>
+                </div>                     
+            </div>
+        </div>
+         
+         
+        <div class="form-group row">
+            <label class="col-sm-4 control-label"><?php _p("Longitude/Latitude"); ?> </label>
+            <div class="col-sm-4">
+                <div class="input-group">
+                    <span class="input-group-addon">
+                        <i class="fas fa-globe" aria-hidden="true"></i>
+                    </span>
+                    <?php $_CONTROL->txtLongitude->RenderWithError(); ?>
+                </div>                     
+            </div>
+            
+             <div class="col-sm-4 unidos">
+                <!-- <div class="input-group">
+                    <span class="input-group-addon">
+                        <i class="icon fa-phone" aria-hidden="true"></i>
+                    </span> -->
+                    <?php $_CONTROL->txtLatitude->RenderWithError(); ?>
+                <!-- </div> -->                    
+            </div>
+        </div>
+         
+        
+        <div class="form-group row">
+            <label class="col-sm-4 control-label"><?php _p("Address"); ?> </label>
+            <div class="col-sm-8">
+                <div class="input-group">
+                    <span class="input-group-addon">
+                        <i class="icon fa-list" aria-hidden="true"></i>
+                    </span>
+                    <?php $_CONTROL->txtAddress->RenderWithError(); ?>
                 </div>                     
             </div>
         </div>
         
-        <!-- <div class="form-group row">
-            <label class="col-sm-4 control-label"><?php _p("Number Master Node"); ?> </label>
+         <!-- 
+        <div class="form-group row">
+            <label class="col-sm-4 control-label"><?php //_p("Number Master Node"); ?> </label>
             <div class="col-sm-8">
                 <div class="input-group">
                     <span class="input-group-addon">
                         <i class="icon fa-list" aria-hidden="true"></i>
                     </span>
-                    <?php $_CONTROL->txtNumberMasterNode->RenderWithError(); ?>
+                    <?php //$_CONTROL->txtNumberMasterNode->RenderWithError(); ?>
                 </div>                     
             </div>
-        </div> -->
-        
-        
+        </div>
+          -->
         
     </div>                    
 
