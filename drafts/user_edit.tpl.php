@@ -19,7 +19,7 @@
 	<div id="formControls">
 		<?php $this->lblIdUser->RenderWithName(); ?>
 
-		<?php $this->txtName->RenderWithName(); ?>
+		<?php $this->txtEmail->RenderWithName(); ?>
 
 		<?php $this->txtPassword->RenderWithName(); ?>
 
@@ -42,6 +42,8 @@
 		<?php $this->txtStatusUser->RenderWithName(); ?>
 
 		<?php $this->txtWalletAddress->RenderWithName(); ?>
+
+		<?php $this->txtUserType->RenderWithName(); ?>
 
 	</div>
 

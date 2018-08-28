@@ -7,7 +7,7 @@
 	<div id="formControls">
 		<?php $_CONTROL->lblIdAdministrator->RenderWithName(); ?>
 
-		<?php $_CONTROL->txtName->RenderWithName(); ?>
+		<?php $_CONTROL->txtEmail->RenderWithName(); ?>
 
 		<?php $_CONTROL->txtPassword->RenderWithName(); ?>
 
