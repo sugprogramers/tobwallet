@@ -359,7 +359,7 @@ function javarefresh(idfrom,idbutton,idwating){
 <?php
 if ($usuario) {
     
-    if($usuario->UserType == 'Customer'){
+    if($usuario->UserType == 'C'){
 ?>
 
                             <ul class="site-menu">
@@ -395,7 +395,7 @@ if ($usuario) {
                             </ul>
                         
                         
-    <?php }else if($usuario->UserType == 'Owner'){
+    <?php }else if($usuario->UserType == 'O'){
     ?>
                         <ul class="site-menu">
                                 <li class="site-menu-category"><span class="label label-primary">User</span></li>

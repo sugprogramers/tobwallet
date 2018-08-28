@@ -66,6 +66,11 @@ class LoginForm extends QForm {
             if ($User->Password == trim($this->txtPassword->Text)) {
                 $User->Password = 'NULL';
                 
+                $_SESSION['DatosUsuario'] = serialize($User);
+                
+                QApplication::Redirect(__VIRTUAL_DIRECTORY__ . __SUBDIRECTORY__ . '/mining');
+                return;
+                
                 if( $User->StatusUser == 2 ){
                     $_SESSION['DatosUsuarioNoVerificado'] = serialize($User);
                     QApplication::Redirect(__VIRTUAL_DIRECTORY__ . __SUBDIRECTORY__ . '/mining');    
