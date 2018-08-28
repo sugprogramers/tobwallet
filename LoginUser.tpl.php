@@ -100,7 +100,7 @@
                     <span class="input-group-addon">
                       <span class="icon wb-user" aria-hidden="true"></span>
                     </span>
-                   <?= $this->txtName->Render(); ?>    
+                   <?= $this->txtEmail->Render(); ?>    
                   </div>
                         
                         

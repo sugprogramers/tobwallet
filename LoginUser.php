@@ -16,13 +16,13 @@ class LoginForm extends QForm {
         $Datos3 = @unserialize($_SESSION['DatosUsuarioNoVerificado']);
 
         if ($Datos1) {
-            QApplication::Redirect(__VIRTUAL_DIRECTORY__ . __SUBDIRECTORY__ . '/organizations');
+            QApplication::Redirect(__VIRTUAL_DIRECTORY__ . __SUBDIRECTORY__ . '/users');
         } elseif ($Datos2) {
             QApplication::Redirect(__VIRTUAL_DIRECTORY__ . __SUBDIRECTORY__ . '/miningoptions');
         } else {
             if ($Datos3) {
             QApplication::Redirect(__VIRTUAL_DIRECTORY__ . __SUBDIRECTORY__ . '/mining');
-        }
+            }
         }
     }
 

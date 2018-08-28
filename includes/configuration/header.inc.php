@@ -17,7 +17,8 @@
         <link rel="stylesheet" href="<?php _p(__VIRTUAL_DIRECTORY__ . __SUBDIRECTORY__); ?>/template/assets/css/site.min.css">
         <!-- Se agrega para cambiar color-->
         <!-- <link rel="stylesheet" href="<?php _p(__VIRTUAL_DIRECTORY__ . __SUBDIRECTORY__); ?>/template/assets/skin/cyan.css"> -->
-        <link rel="stylesheet" href="<?php _p(__VIRTUAL_DIRECTORY__ . __SUBDIRECTORY__); ?>/template/assets/skin/purple.css">
+        <!-- <link rel="stylesheet" href="<?php _p(__VIRTUAL_DIRECTORY__ . __SUBDIRECTORY__); ?>/template/assets/skin/purple.css"> -->
+        <link rel="stylesheet" href="<?php _p(__VIRTUAL_DIRECTORY__ . __SUBDIRECTORY__); ?>/template/assets/skin/green.css">
         
         <!-- Plugins -->
         <link rel="stylesheet" href="<?php _p(__VIRTUAL_DIRECTORY__ . __SUBDIRECTORY__); ?>/template/assets/vendor/animsition/animsition.min.css">
@@ -489,6 +490,24 @@ if ($usuario) {
 
                                     </ul>
                                 </li>
+                                
+                                <li id="activeRestaurants" class="site-menu-item has-sub">
+                                    <a href="javascript:void(0)" data-slug="layout">
+                                        <i class="site-menu-icon wb-users" aria-hidden="true"></i>
+                                        <span class="site-menu-title">Restaurants</span>
+                                        <span class="site-menu-arrow"></span>
+                                    </a>
+                                    <ul class="site-menu-sub">
+                                        <li id="activeViewRestaurants" class="site-menu-item">
+                                            <a class="animsition-link" href="<?php _p(__VIRTUAL_DIRECTORY__ . __SUBDIRECTORY__); ?>/restaurants" data-slug="layout-menu-collapsed">
+                                                <i class="site-menu-icon " aria-hidden="true"></i>
+                                                <span class="site-menu-title">View Restaurants</span>
+                                            </a>
+                                        </li>
+
+                                    </ul>
+                                </li>
+                                
                                 <!--
                                 <li id="reportAdmin" class="site-menu-item has-sub">
                                     <a href="javascript:void(0)" data-slug="layout">

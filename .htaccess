@@ -97,6 +97,10 @@ RewriteRule ^profileadmin/(.*)$    ProfileAdmin.php/$1 [L]
 RewriteRule ^profileadmin$    ProfileAdmin.php [L]
 RewriteRule ^users/(.*)$    ViewListUsers.php/$1 [L]
 RewriteRule ^users$    ViewListUsers.php [L]
+
+RewriteRule ^restaurants/(.*)$    ViewListRestaurants.php/$1 [L]
+RewriteRule ^restaurants$    ViewListRestaurants.php [L]
+
 RewriteRule ^shops/(.*)$    ViewListShops.php/$1 [L]
 RewriteRule ^shops$    ViewListShops.php [L]
 
