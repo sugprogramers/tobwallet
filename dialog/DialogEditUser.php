@@ -14,6 +14,8 @@ class DialogEditUser extends QDialogBox {
     public $txtBirthday;
     public $txtYearGraduation;
     public $lstStatus;
+    public $lstUserType;
+    public $txtUserType;
     public $txtStatus;
     public $txtCohort;
     public $txtMiningOption;
@@ -83,6 +85,12 @@ class DialogEditUser extends QDialogBox {
         $this->lstStatus->AddItem(new QListItem("Rejected", 3));
         $this->lstStatus->AddItem(new QListItem("Mining", 4));
         
+        $this->txtUserType = $this->mctUsuario->txtStatusUser_Create();
+        $this->lstUserType = new QListBox($this);
+        $this->lstUserType->CssClass = "form-control input-sm editHidden"; 
+        $this->lstUserType->AddItem(new QListItem("Customer", 1));
+        $this->lstUserType->AddItem(new QListItem("Owner", 2));
+        
         /*$this->txtMiningOption = $this->mctUsuario->txtMiningOption_Create();
         $this->lstMiningOption = new QListBox($this);
         $this->lstMiningOption->CssClass = "form-control input-sm editHidden"; 
@@ -131,7 +139,7 @@ class DialogEditUser extends QDialogBox {
             
             //cuando es new
             if ($this->mctUsuario->objUser->IdUser == null) {
-                $this->mctUsuario->objUser->ImageDriver = '';
+                //$this->mctUsuario->objUser->ImageDriver = '';
                 $this->mctUsuario->objUser->ImagePhoto = '';
                 //$this->mctUsuario->objUser->MiningOption =  0;
                 
@@ -142,23 +150,23 @@ class DialogEditUser extends QDialogBox {
                 
                 
             }
-            $oldStatus = $this->mctUsuario->objUser->StatusUser;
+            //$oldStatus = $this->mctUsuario->objUser->StatusUser;
             
             //siempre
             $this->txtStatus->Text = $this->lstStatus->SelectedValue;
+            
             //$this->txtMiningOption->Text = $this->lstMiningOption->SelectedValue;
             //salvar
             $this->mctUsuario->SaveUser();
             
-            $newStatus = $this->mctUsuario->objUser->StatusUser;            
+            /*$newStatus = $this->mctUsuario->objUser->StatusUser;            
             if($newStatus == 2 && $newStatus != $oldStatus ){
                 simpleEmailSend($this->mctUsuario->objUser->IdUser, $this->mctUsuario->objUser->Email, 'Welcome to Kcoin, your account in now active!', "Hi ".$this->mctUsuario->objUser->FirstName.", Welcome to kcoin. You can now login remember your username is your email address. <br><br>Good Luck Mining Kcoins.<br><br>".__DOMAIN_BASE__);
             }
             
-             if($newStatus == 3 && $newStatus != $oldStatus ){
+            if($newStatus == 3 && $newStatus != $oldStatus ){
                simpleEmailSend($this->mctUsuario->objUser->IdUser, $this->mctUsuario->objUser->Email, 'User Rejected', "Your Kcoin account has been rejected, You don´t meet the Requirements to join the Kcoin Community. Please reply or contact the Kellogg House of Blockchains if you need further assistance.");
-                 
-            }
+            }*/
             
 
             $this->CloseSelf(TRUE);

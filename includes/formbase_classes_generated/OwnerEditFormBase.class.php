@@ -23,7 +23,7 @@
 		protected $mctOwner;
 
 		// Controls for Owner's Data Fields
-		protected $txtIdOwner;
+		protected $lblIdOwner;
 		protected $lstIdUserObject;
 
 		// Other ListBoxes (if applicable) via Unique ReverseReferences and ManyToMany References
@@ -60,7 +60,7 @@
 			$this->mctOwner = OwnerMetaControl::CreateFromPathInfo($this);
 
 			// Call MetaControl's methods to create qcontrols based on Owner's data fields
-			$this->txtIdOwner = $this->mctOwner->txtIdOwner_Create();
+			$this->lblIdOwner = $this->mctOwner->lblIdOwner_Create();
 			$this->lstIdUserObject = $this->mctOwner->lstIdUserObject_Create();
 
 			// Create Buttons and Actions on this Form

@@ -17,7 +17,7 @@
 	</div>
 
 	<div id="formControls">
-		<?php $this->txtIdOwner->RenderWithName(); ?>
+		<?php $this->lblIdOwner->RenderWithName(); ?>
 
 		<?php $this->lstIdUserObject->RenderWithName(); ?>
 

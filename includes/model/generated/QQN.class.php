@@ -13,16 +13,10 @@
 			return new QQNodeBalance('balance', null, null);
 		}
 		/**
-		 * @return QQNodeClient
+		 * @return QQNodeOffer
 		 */
-		static public function Client() {
-			return new QQNodeClient('client', null, null);
-		}
-		/**
-		 * @return QQNodeOrganization
-		 */
-		static public function Organization() {
-			return new QQNodeOrganization('organization', null, null);
+		static public function Offer() {
+			return new QQNodeOffer('offer', null, null);
 		}
 		/**
 		 * @return QQNodeOrganizationtype
@@ -31,28 +25,16 @@
 			return new QQNodeOrganizationtype('organizationtype', null, null);
 		}
 		/**
-		 * @return QQNodeOwner
+		 * @return QQNodeRestaurant
 		 */
-		static public function Owner() {
-			return new QQNodeOwner('owner', null, null);
-		}
-		/**
-		 * @return QQNodeQueueemail
-		 */
-		static public function Queueemail() {
-			return new QQNodeQueueemail('queueemail', null, null);
+		static public function Restaurant() {
+			return new QQNodeRestaurant('restaurant', null, null);
 		}
 		/**
 		 * @return QQNodeUser
 		 */
 		static public function User() {
 			return new QQNodeUser('user', null, null);
-		}
-		/**
-		 * @return QQNodeVersionkcoin
-		 */
-		static public function Versionkcoin() {
-			return new QQNodeVersionkcoin('versionkcoin', null, null);
 		}
 	}
 ?>

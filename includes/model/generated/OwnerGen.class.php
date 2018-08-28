@@ -15,7 +15,7 @@
 	 *
 	 * @package My QCubed Application
 	 * @subpackage GeneratedDataObjects
-	 * @property integer $IdOwner the value for intIdOwner (PK)
+	 * @property-read integer $IdOwner the value for intIdOwner (Read-Only PK)
 	 * @property integer $IdUser the value for intIdUser (Not Null)
 	 * @property User $IdUserObject the value for the User object referenced by intIdUser (Not Null)
 	 * @property-read Organization $_OrganizationAsIdOwner the value for the private _objOrganizationAsIdOwner (Read-Only) if set due to an expansion on the organization.IdOwner reverse relationship
@@ -29,19 +29,12 @@
 		///////////////////////////////////////////////////////////////////////
 
 		/**
-		 * Protected member variable that maps to the database PK column owner.IdOwner
+		 * Protected member variable that maps to the database PK Identity column owner.IdOwner
 		 * @var integer intIdOwner
 		 */
 		protected $intIdOwner;
 		const IdOwnerDefault = null;
 
-
-		/**
-		 * Protected internal member variable that stores the original version of the PK column value (if restored)
-		 * Used by Save() to update a PK column during UPDATE
-		 * @var integer __intIdOwner;
-		 */
-		protected $__intIdOwner;
 
 		/**
 		 * Protected member variable that maps to the database column owner.IdUser
@@ -449,7 +442,6 @@
 
 			$strAliasName = array_key_exists($strAliasPrefix . 'IdOwner', $strColumnAliasArray) ? $strColumnAliasArray[$strAliasPrefix . 'IdOwner'] : $strAliasPrefix . 'IdOwner';
 			$objToReturn->intIdOwner = $objDbRow->GetColumn($strAliasName, 'Integer');
-			$objToReturn->__intIdOwner = $objDbRow->GetColumn($strAliasName, 'Integer');
 			$strAliasName = array_key_exists($strAliasPrefix . 'IdUser', $strColumnAliasArray) ? $strColumnAliasArray[$strAliasPrefix . 'IdUser'] : $strAliasPrefix . 'IdUser';
 			$objToReturn->intIdUser = $objDbRow->GetColumn($strAliasName, 'Integer');
 
@@ -609,7 +601,7 @@
 		 * Save this Owner
 		 * @param bool $blnForceInsert
 		 * @param bool $blnForceUpdate
-		 * @return void
+		 * @return int
 		 */
 		public function Save($blnForceInsert = false, $blnForceUpdate = false) {
 			// Get the Database Object for this Class
@@ -622,15 +614,14 @@
 					// Perform an INSERT query
 					$objDatabase->NonQuery('
 						INSERT INTO `owner` (
-							`IdOwner`,
 							`IdUser`
 						) VALUES (
-							' . $objDatabase->SqlVariable($this->intIdOwner) . ',
 							' . $objDatabase->SqlVariable($this->intIdUser) . '
 						)
 					');
 
-
+					// Update Identity column and return its value
+					$mixToReturn = $this->intIdOwner = $objDatabase->InsertId('owner', 'IdOwner');
 				} else {
 					// Perform an UPDATE query
 
@@ -641,10 +632,9 @@
 						UPDATE
 							`owner`
 						SET
-							`IdOwner` = ' . $objDatabase->SqlVariable($this->intIdOwner) . ',
 							`IdUser` = ' . $objDatabase->SqlVariable($this->intIdUser) . '
 						WHERE
-							`IdOwner` = ' . $objDatabase->SqlVariable($this->__intIdOwner) . '
+							`IdOwner` = ' . $objDatabase->SqlVariable($this->intIdOwner) . '
 					');
 				}
 
@@ -655,7 +645,6 @@
 
 			// Update __blnRestored and any Non-Identity PK Columns (if applicable)
 			$this->__blnRestored = true;
-			$this->__intIdOwner = $this->intIdOwner;
 
 
 			// Return
@@ -722,8 +711,6 @@
 			$objReloaded = Owner::Load($this->intIdOwner);
 
 			// Update $this's local variables to match
-			$this->intIdOwner = $objReloaded->intIdOwner;
-			$this->__intIdOwner = $this->intIdOwner;
 			$this->IdUser = $objReloaded->IdUser;
 		}
 
@@ -747,7 +734,7 @@
 				///////////////////
 				case 'IdOwner':
 					/**
-					 * Gets the value for intIdOwner (PK)
+					 * Gets the value for intIdOwner (Read-Only PK)
 					 * @return integer
 					 */
 					return $this->intIdOwner;
@@ -826,19 +813,6 @@
 				///////////////////
 				// Member Variables
 				///////////////////
-				case 'IdOwner':
-					/**
-					 * Sets the value for intIdOwner (PK)
-					 * @param integer $mixValue
-					 * @return integer
-					 */
-					try {
-						return ($this->intIdOwner = QType::Cast($mixValue, QType::Integer));
-					} catch (QCallerException $objExc) {
-						$objExc->IncrementOffset();
-						throw $objExc;
-					}
-
 				case 'IdUser':
 					/**
 					 * Sets the value for intIdUser (Not Null)

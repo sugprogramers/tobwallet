@@ -5,7 +5,7 @@
 	// code re-generations do not overwrite your changes.
 ?>
 	<div id="formControls">
-		<?php $_CONTROL->txtIdOwner->RenderWithName(); ?>
+		<?php $_CONTROL->lblIdOwner->RenderWithName(); ?>
 
 		<?php $_CONTROL->lstIdUserObject->RenderWithName(); ?>
 

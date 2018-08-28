@@ -84,6 +84,8 @@ if (!defined('SERVER_INSTANCE')) {
              */
             define('__INCLUDES__', __DOCROOT__ . __SUBDIRECTORY__ . '/includes');
             define('__CONFIGURATION__', __INCLUDES__ . '/configuration');
+            
+            define('__QR_IMAGES__', __DOCROOT__ . __SUBDIRECTORY__ . '/qrimages');
 
             define('__TMP__', __DOCROOT__ . __SUBDIRECTORY__ . '/tmp');
             define('__TMP_PATH__', __SUBDIRECTORY__ . '/tmp');

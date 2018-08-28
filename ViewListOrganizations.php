@@ -1,7 +1,7 @@
 <?php
 
 require('includes/configuration/prepend.inc.php');
-require_once('dialog/DialogEditOrganzation.php');
+//require_once('dialog/DialogEditOrganzation.php');
 require_once('dialog/DialogConfirm.php');
 require('general.php');
 

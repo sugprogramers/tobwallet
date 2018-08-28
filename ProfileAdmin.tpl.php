@@ -18,7 +18,7 @@
                             <a class="avatar avatar-lg" href="javascript:void(0)">
                                 <img src="<?php _p(__VIRTUAL_DIRECTORY__ . __SUBDIRECTORY__); ?>/template/assets/images/ic_profile.png" alt="...">
                             </a>
-                            <h4 class="profile-user"><?php echo $this->organization->FirstName . " " . $this->organization->LastName; ?></h4>
+                            <h4 class="profile-user"><?php echo $this->user->FirstName . " " . $this->user->LastName; ?></h4>
                             <p class="profile-job">Administrador</p>
                             <p>You are the administrator and can manage all the users according to the permissions that you want..</p>
                             <div class="profile-social">
@@ -68,7 +68,7 @@
                                             <span class="input-group-addon">
                                                 <span class="icon wb-user" aria-hidden="true"></span>
                                             </span>
-                                            <?php $this->txtName->Render(); ?>    
+                                            <?php $this->txtEmail->Render(); ?>    
                                         </div>
                                     </div>
                                     <div class="col-sm-8 form-group ">

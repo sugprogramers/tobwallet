@@ -25,12 +25,6 @@
 	 * @property string $Country the value for strCountry 
 	 * @property string $City the value for strCity 
 	 * @property string $Address the value for strAddress 
-	 * @property integer $IdOrganizationType the value for intIdOrganizationType (Not Null)
-	 * @property integer $IdOwner the value for intIdOwner (Not Null)
-	 * @property Organizationtype $IdOrganizationTypeObject the value for the Organizationtype object referenced by intIdOrganizationType (Not Null)
-	 * @property Owner $IdOwnerObject the value for the Owner object referenced by intIdOwner (Not Null)
-	 * @property-read Balance $_BalanceAsIdOrganization the value for the private _objBalanceAsIdOrganization (Read-Only) if set due to an expansion on the balance.IdOrganization reverse relationship
-	 * @property-read Balance[] $_BalanceAsIdOrganizationArray the value for the private _objBalanceAsIdOrganizationArray (Read-Only) if set due to an ExpandAsArray on the balance.IdOrganization reverse relationship
 	 * @property-read boolean $__Restored whether or not this object was restored from the database (as opposed to created new)
 	 */
 	class OrganizationGen extends QBaseClass implements IteratorAggregate {
@@ -129,38 +123,6 @@
 
 
 		/**
-		 * Protected member variable that maps to the database column organization.IdOrganizationType
-		 * @var integer intIdOrganizationType
-		 */
-		protected $intIdOrganizationType;
-		const IdOrganizationTypeDefault = null;
-
-
-		/**
-		 * Protected member variable that maps to the database column organization.IdOwner
-		 * @var integer intIdOwner
-		 */
-		protected $intIdOwner;
-		const IdOwnerDefault = null;
-
-
-		/**
-		 * Private member variable that stores a reference to a single BalanceAsIdOrganization object
-		 * (of type Balance), if this Organization object was restored with
-		 * an expansion on the balance association table.
-		 * @var Balance _objBalanceAsIdOrganization;
-		 */
-		private $_objBalanceAsIdOrganization;
-
-		/**
-		 * Private member variable that stores a reference to an array of BalanceAsIdOrganization objects
-		 * (of type Balance[]), if this Organization object was restored with
-		 * an ExpandAsArray on the balance association table.
-		 * @var Balance[] _objBalanceAsIdOrganizationArray;
-		 */
-		private $_objBalanceAsIdOrganizationArray = null;
-
-		/**
 		 * Protected array of virtual attributes for this object (e.g. extra/other calculated and/or non-object bound
 		 * columns from the run-time database query result for this object).  Used by InstantiateDbRow and
 		 * GetVirtualAttribute.
@@ -182,26 +144,6 @@
 		// PROTECTED MEMBER OBJECTS
 		///////////////////////////////
 
-		/**
-		 * Protected member variable that contains the object pointed by the reference
-		 * in the database column organization.IdOrganizationType.
-		 *
-		 * NOTE: Always use the IdOrganizationTypeObject property getter to correctly retrieve this Organizationtype object.
-		 * (Because this class implements late binding, this variable reference MAY be null.)
-		 * @var Organizationtype objIdOrganizationTypeObject
-		 */
-		protected $objIdOrganizationTypeObject;
-
-		/**
-		 * Protected member variable that contains the object pointed by the reference
-		 * in the database column organization.IdOwner.
-		 *
-		 * NOTE: Always use the IdOwnerObject property getter to correctly retrieve this Owner object.
-		 * (Because this class implements late binding, this variable reference MAY be null.)
-		 * @var Owner objIdOwnerObject
-		 */
-		protected $objIdOwnerObject;
-
 
 
 		/**
@@ -219,8 +161,6 @@
 			$this->strCountry = Organization::CountryDefault;
 			$this->strCity = Organization::CityDefault;
 			$this->strAddress = Organization::AddressDefault;
-			$this->intIdOrganizationType = Organization::IdOrganizationTypeDefault;
-			$this->intIdOwner = Organization::IdOwnerDefault;
 		}
 
 
@@ -498,8 +438,6 @@
 			$objBuilder->AddSelectItem($strTableName, 'Country', $strAliasPrefix . 'Country');
 			$objBuilder->AddSelectItem($strTableName, 'City', $strAliasPrefix . 'City');
 			$objBuilder->AddSelectItem($strTableName, 'Address', $strAliasPrefix . 'Address');
-			$objBuilder->AddSelectItem($strTableName, 'IdOrganizationType', $strAliasPrefix . 'IdOrganizationType');
-			$objBuilder->AddSelectItem($strTableName, 'IdOwner', $strAliasPrefix . 'IdOwner');
 		}
 
 
@@ -524,46 +462,6 @@
 			// If blank row, return null
 			if (!$objDbRow) {
 				return null;
-			}
-			// See if we're doing an array expansion on the previous item
-			$strAlias = $strAliasPrefix . 'IdOrganization';
-			$strAliasName = array_key_exists($strAlias, $strColumnAliasArray) ? $strColumnAliasArray[$strAlias] : $strAlias;
-			if (($strExpandAsArrayNodes) && is_array($arrPreviousItems) && count($arrPreviousItems)) {
-				foreach ($arrPreviousItems as $objPreviousItem) {
-					if ($objPreviousItem->intIdOrganization == $objDbRow->GetColumn($strAliasName, 'Integer')) {
-						// We are.  Now, prepare to check for ExpandAsArray clauses
-						$blnExpandedViaArray = false;
-						if (!$strAliasPrefix)
-							$strAliasPrefix = 'organization__';
-
-
-						// Expanding reverse references: BalanceAsIdOrganization
-						$strAlias = $strAliasPrefix . 'balanceasidorganization__IdBalance';
-						$strAliasName = array_key_exists($strAlias, $strColumnAliasArray) ? $strColumnAliasArray[$strAlias] : $strAlias;
-						if ((array_key_exists($strAlias, $strExpandAsArrayNodes)) &&
-							(!is_null($objDbRow->GetColumn($strAliasName)))) {
-							if(null === $objPreviousItem->_objBalanceAsIdOrganizationArray)
-								$objPreviousItem->_objBalanceAsIdOrganizationArray = array();
-							if ($intPreviousChildItemCount = count($objPreviousItem->_objBalanceAsIdOrganizationArray)) {
-								$objPreviousChildItems = $objPreviousItem->_objBalanceAsIdOrganizationArray;
-								$objChildItem = Balance::InstantiateDbRow($objDbRow, $strAliasPrefix . 'balanceasidorganization__', $strExpandAsArrayNodes, $objPreviousChildItems, $strColumnAliasArray);
-								if ($objChildItem) {
-									$objPreviousItem->_objBalanceAsIdOrganizationArray[] = $objChildItem;
-								}
-							} else {
-								$objPreviousItem->_objBalanceAsIdOrganizationArray[] = Balance::InstantiateDbRow($objDbRow, $strAliasPrefix . 'balanceasidorganization__', $strExpandAsArrayNodes, null, $strColumnAliasArray);
-							}
-							$blnExpandedViaArray = true;
-						}
-
-						// Either return false to signal array expansion, or check-to-reset the Alias prefix and move on
-						if ($blnExpandedViaArray) {
-							return false;
-						} else if ($strAliasPrefix == 'organization__') {
-							$strAliasPrefix = null;
-						}
-					}
-				}
 			}
 
 			// Create a new instance of the Organization object
@@ -590,17 +488,10 @@
 			$objToReturn->strCity = $objDbRow->GetColumn($strAliasName, 'VarChar');
 			$strAliasName = array_key_exists($strAliasPrefix . 'Address', $strColumnAliasArray) ? $strColumnAliasArray[$strAliasPrefix . 'Address'] : $strAliasPrefix . 'Address';
 			$objToReturn->strAddress = $objDbRow->GetColumn($strAliasName, 'VarChar');
-			$strAliasName = array_key_exists($strAliasPrefix . 'IdOrganizationType', $strColumnAliasArray) ? $strColumnAliasArray[$strAliasPrefix . 'IdOrganizationType'] : $strAliasPrefix . 'IdOrganizationType';
-			$objToReturn->intIdOrganizationType = $objDbRow->GetColumn($strAliasName, 'Integer');
-			$strAliasName = array_key_exists($strAliasPrefix . 'IdOwner', $strColumnAliasArray) ? $strColumnAliasArray[$strAliasPrefix . 'IdOwner'] : $strAliasPrefix . 'IdOwner';
-			$objToReturn->intIdOwner = $objDbRow->GetColumn($strAliasName, 'Integer');
 
 			if (isset($arrPreviousItems) && is_array($arrPreviousItems)) {
 				foreach ($arrPreviousItems as $objPreviousItem) {
 					if ($objToReturn->IdOrganization != $objPreviousItem->IdOrganization) {
-						continue;
-					}
-					if (array_diff($objPreviousItem->_objBalanceAsIdOrganizationArray, $objToReturn->_objBalanceAsIdOrganizationArray) != null) {
 						continue;
 					}
 
@@ -621,33 +512,8 @@
 			if (!$strAliasPrefix)
 				$strAliasPrefix = 'organization__';
 
-			// Check for IdOrganizationTypeObject Early Binding
-			$strAlias = $strAliasPrefix . 'IdOrganizationType__IdOrganizationType';
-			$strAliasName = array_key_exists($strAlias, $strColumnAliasArray) ? $strColumnAliasArray[$strAlias] : $strAlias;
-			if (!is_null($objDbRow->GetColumn($strAliasName)))
-				$objToReturn->objIdOrganizationTypeObject = Organizationtype::InstantiateDbRow($objDbRow, $strAliasPrefix . 'IdOrganizationType__', $strExpandAsArrayNodes, null, $strColumnAliasArray);
-
-			// Check for IdOwnerObject Early Binding
-			$strAlias = $strAliasPrefix . 'IdOwner__IdOwner';
-			$strAliasName = array_key_exists($strAlias, $strColumnAliasArray) ? $strColumnAliasArray[$strAlias] : $strAlias;
-			if (!is_null($objDbRow->GetColumn($strAliasName)))
-				$objToReturn->objIdOwnerObject = Owner::InstantiateDbRow($objDbRow, $strAliasPrefix . 'IdOwner__', $strExpandAsArrayNodes, null, $strColumnAliasArray);
 
 
-
-
-			// Check for BalanceAsIdOrganization Virtual Binding
-			$strAlias = $strAliasPrefix . 'balanceasidorganization__IdBalance';
-			$strAliasName = array_key_exists($strAlias, $strColumnAliasArray) ? $strColumnAliasArray[$strAlias] : $strAlias;
-			$blnExpanded = $strExpandAsArrayNodes && array_key_exists($strAlias, $strExpandAsArrayNodes);
-			if ($blnExpanded && null === $objToReturn->_objBalanceAsIdOrganizationArray)
-				$objToReturn->_objBalanceAsIdOrganizationArray = array();
-			if (!is_null($objDbRow->GetColumn($strAliasName))) {
-				if ($blnExpanded)
-					$objToReturn->_objBalanceAsIdOrganizationArray[] = Balance::InstantiateDbRow($objDbRow, $strAliasPrefix . 'balanceasidorganization__', $strExpandAsArrayNodes, null, $strColumnAliasArray);
-				else
-					$objToReturn->_objBalanceAsIdOrganization = Balance::InstantiateDbRow($objDbRow, $strAliasPrefix . 'balanceasidorganization__', $strExpandAsArrayNodes, null, $strColumnAliasArray);
-			}
 
 			return $objToReturn;
 		}
@@ -739,70 +605,6 @@
 				$objOptionalClauses
 			);
 		}
-			
-		/**
-		 * Load an array of Organization objects,
-		 * by IdOrganizationType Index(es)
-		 * @param integer $intIdOrganizationType
-		 * @param QQClause[] $objOptionalClauses additional optional QQClause objects for this query
-		 * @return Organization[]
-		*/
-		public static function LoadArrayByIdOrganizationType($intIdOrganizationType, $objOptionalClauses = null) {
-			// Call Organization::QueryArray to perform the LoadArrayByIdOrganizationType query
-			try {
-				return Organization::QueryArray(
-					QQ::Equal(QQN::Organization()->IdOrganizationType, $intIdOrganizationType),
-					$objOptionalClauses);
-			} catch (QCallerException $objExc) {
-				$objExc->IncrementOffset();
-				throw $objExc;
-			}
-		}
-
-		/**
-		 * Count Organizations
-		 * by IdOrganizationType Index(es)
-		 * @param integer $intIdOrganizationType
-		 * @return int
-		*/
-		public static function CountByIdOrganizationType($intIdOrganizationType) {
-			// Call Organization::QueryCount to perform the CountByIdOrganizationType query
-			return Organization::QueryCount(
-				QQ::Equal(QQN::Organization()->IdOrganizationType, $intIdOrganizationType)
-			);
-		}
-			
-		/**
-		 * Load an array of Organization objects,
-		 * by IdOwner Index(es)
-		 * @param integer $intIdOwner
-		 * @param QQClause[] $objOptionalClauses additional optional QQClause objects for this query
-		 * @return Organization[]
-		*/
-		public static function LoadArrayByIdOwner($intIdOwner, $objOptionalClauses = null) {
-			// Call Organization::QueryArray to perform the LoadArrayByIdOwner query
-			try {
-				return Organization::QueryArray(
-					QQ::Equal(QQN::Organization()->IdOwner, $intIdOwner),
-					$objOptionalClauses);
-			} catch (QCallerException $objExc) {
-				$objExc->IncrementOffset();
-				throw $objExc;
-			}
-		}
-
-		/**
-		 * Count Organizations
-		 * by IdOwner Index(es)
-		 * @param integer $intIdOwner
-		 * @return int
-		*/
-		public static function CountByIdOwner($intIdOwner) {
-			// Call Organization::QueryCount to perform the CountByIdOwner query
-			return Organization::QueryCount(
-				QQ::Equal(QQN::Organization()->IdOwner, $intIdOwner)
-			);
-		}
 
 
 
@@ -842,9 +644,7 @@
 							`Longitude`,
 							`Country`,
 							`City`,
-							`Address`,
-							`IdOrganizationType`,
-							`IdOwner`
+							`Address`
 						) VALUES (
 							' . $objDatabase->SqlVariable($this->strName) . ',
 							' . $objDatabase->SqlVariable($this->strPhone) . ',
@@ -854,9 +654,7 @@
 							' . $objDatabase->SqlVariable($this->strLongitude) . ',
 							' . $objDatabase->SqlVariable($this->strCountry) . ',
 							' . $objDatabase->SqlVariable($this->strCity) . ',
-							' . $objDatabase->SqlVariable($this->strAddress) . ',
-							' . $objDatabase->SqlVariable($this->intIdOrganizationType) . ',
-							' . $objDatabase->SqlVariable($this->intIdOwner) . '
+							' . $objDatabase->SqlVariable($this->strAddress) . '
 						)
 					');
 
@@ -880,9 +678,7 @@
 							`Longitude` = ' . $objDatabase->SqlVariable($this->strLongitude) . ',
 							`Country` = ' . $objDatabase->SqlVariable($this->strCountry) . ',
 							`City` = ' . $objDatabase->SqlVariable($this->strCity) . ',
-							`Address` = ' . $objDatabase->SqlVariable($this->strAddress) . ',
-							`IdOrganizationType` = ' . $objDatabase->SqlVariable($this->intIdOrganizationType) . ',
-							`IdOwner` = ' . $objDatabase->SqlVariable($this->intIdOwner) . '
+							`Address` = ' . $objDatabase->SqlVariable($this->strAddress) . '
 						WHERE
 							`IdOrganization` = ' . $objDatabase->SqlVariable($this->intIdOrganization) . '
 					');
@@ -970,8 +766,6 @@
 			$this->strCountry = $objReloaded->strCountry;
 			$this->strCity = $objReloaded->strCity;
 			$this->strAddress = $objReloaded->strAddress;
-			$this->IdOrganizationType = $objReloaded->IdOrganizationType;
-			$this->IdOwner = $objReloaded->IdOwner;
 		}
 
 
@@ -1062,73 +856,15 @@
 					 */
 					return $this->strAddress;
 
-				case 'IdOrganizationType':
-					/**
-					 * Gets the value for intIdOrganizationType (Not Null)
-					 * @return integer
-					 */
-					return $this->intIdOrganizationType;
-
-				case 'IdOwner':
-					/**
-					 * Gets the value for intIdOwner (Not Null)
-					 * @return integer
-					 */
-					return $this->intIdOwner;
-
 
 				///////////////////
 				// Member Objects
 				///////////////////
-				case 'IdOrganizationTypeObject':
-					/**
-					 * Gets the value for the Organizationtype object referenced by intIdOrganizationType (Not Null)
-					 * @return Organizationtype
-					 */
-					try {
-						if ((!$this->objIdOrganizationTypeObject) && (!is_null($this->intIdOrganizationType)))
-							$this->objIdOrganizationTypeObject = Organizationtype::Load($this->intIdOrganizationType);
-						return $this->objIdOrganizationTypeObject;
-					} catch (QCallerException $objExc) {
-						$objExc->IncrementOffset();
-						throw $objExc;
-					}
-
-				case 'IdOwnerObject':
-					/**
-					 * Gets the value for the Owner object referenced by intIdOwner (Not Null)
-					 * @return Owner
-					 */
-					try {
-						if ((!$this->objIdOwnerObject) && (!is_null($this->intIdOwner)))
-							$this->objIdOwnerObject = Owner::Load($this->intIdOwner);
-						return $this->objIdOwnerObject;
-					} catch (QCallerException $objExc) {
-						$objExc->IncrementOffset();
-						throw $objExc;
-					}
-
 
 				////////////////////////////
 				// Virtual Object References (Many to Many and Reverse References)
 				// (If restored via a "Many-to" expansion)
 				////////////////////////////
-
-				case '_BalanceAsIdOrganization':
-					/**
-					 * Gets the value for the private _objBalanceAsIdOrganization (Read-Only)
-					 * if set due to an expansion on the balance.IdOrganization reverse relationship
-					 * @return Balance
-					 */
-					return $this->_objBalanceAsIdOrganization;
-
-				case '_BalanceAsIdOrganizationArray':
-					/**
-					 * Gets the value for the private _objBalanceAsIdOrganizationArray (Read-Only)
-					 * if set due to an ExpandAsArray on the balance.IdOrganization reverse relationship
-					 * @return Balance[]
-					 */
-					return $this->_objBalanceAsIdOrganizationArray;
 
 
 				case '__Restored':
@@ -1274,102 +1010,10 @@
 						throw $objExc;
 					}
 
-				case 'IdOrganizationType':
-					/**
-					 * Sets the value for intIdOrganizationType (Not Null)
-					 * @param integer $mixValue
-					 * @return integer
-					 */
-					try {
-						$this->objIdOrganizationTypeObject = null;
-						return ($this->intIdOrganizationType = QType::Cast($mixValue, QType::Integer));
-					} catch (QCallerException $objExc) {
-						$objExc->IncrementOffset();
-						throw $objExc;
-					}
-
-				case 'IdOwner':
-					/**
-					 * Sets the value for intIdOwner (Not Null)
-					 * @param integer $mixValue
-					 * @return integer
-					 */
-					try {
-						$this->objIdOwnerObject = null;
-						return ($this->intIdOwner = QType::Cast($mixValue, QType::Integer));
-					} catch (QCallerException $objExc) {
-						$objExc->IncrementOffset();
-						throw $objExc;
-					}
-
 
 				///////////////////
 				// Member Objects
 				///////////////////
-				case 'IdOrganizationTypeObject':
-					/**
-					 * Sets the value for the Organizationtype object referenced by intIdOrganizationType (Not Null)
-					 * @param Organizationtype $mixValue
-					 * @return Organizationtype
-					 */
-					if (is_null($mixValue)) {
-						$this->intIdOrganizationType = null;
-						$this->objIdOrganizationTypeObject = null;
-						return null;
-					} else {
-						// Make sure $mixValue actually is a Organizationtype object
-						try {
-							$mixValue = QType::Cast($mixValue, 'Organizationtype');
-						} catch (QInvalidCastException $objExc) {
-							$objExc->IncrementOffset();
-							throw $objExc;
-						}
-
-						// Make sure $mixValue is a SAVED Organizationtype object
-						if (is_null($mixValue->IdOrganizationType))
-							throw new QCallerException('Unable to set an unsaved IdOrganizationTypeObject for this Organization');
-
-						// Update Local Member Variables
-						$this->objIdOrganizationTypeObject = $mixValue;
-						$this->intIdOrganizationType = $mixValue->IdOrganizationType;
-
-						// Return $mixValue
-						return $mixValue;
-					}
-					break;
-
-				case 'IdOwnerObject':
-					/**
-					 * Sets the value for the Owner object referenced by intIdOwner (Not Null)
-					 * @param Owner $mixValue
-					 * @return Owner
-					 */
-					if (is_null($mixValue)) {
-						$this->intIdOwner = null;
-						$this->objIdOwnerObject = null;
-						return null;
-					} else {
-						// Make sure $mixValue actually is a Owner object
-						try {
-							$mixValue = QType::Cast($mixValue, 'Owner');
-						} catch (QInvalidCastException $objExc) {
-							$objExc->IncrementOffset();
-							throw $objExc;
-						}
-
-						// Make sure $mixValue is a SAVED Owner object
-						if (is_null($mixValue->IdOwner))
-							throw new QCallerException('Unable to set an unsaved IdOwnerObject for this Organization');
-
-						// Update Local Member Variables
-						$this->objIdOwnerObject = $mixValue;
-						$this->intIdOwner = $mixValue->IdOwner;
-
-						// Return $mixValue
-						return $mixValue;
-					}
-					break;
-
 				default:
 					try {
 						return parent::__set($strName, $mixValue);
@@ -1397,156 +1041,6 @@
 		// ASSOCIATED OBJECTS' METHODS
 		///////////////////////////////
 
-			
-		
-		// Related Objects' Methods for BalanceAsIdOrganization
-		//-------------------------------------------------------------------
-
-		/**
-		 * Gets all associated BalancesAsIdOrganization as an array of Balance objects
-		 * @param QQClause[] $objOptionalClauses additional optional QQClause objects for this query
-		 * @return Balance[]
-		*/
-		public function GetBalanceAsIdOrganizationArray($objOptionalClauses = null) {
-			if ((is_null($this->intIdOrganization)))
-				return array();
-
-			try {
-				return Balance::LoadArrayByIdOrganization($this->intIdOrganization, $objOptionalClauses);
-			} catch (QCallerException $objExc) {
-				$objExc->IncrementOffset();
-				throw $objExc;
-			}
-		}
-
-		/**
-		 * Counts all associated BalancesAsIdOrganization
-		 * @return int
-		*/
-		public function CountBalancesAsIdOrganization() {
-			if ((is_null($this->intIdOrganization)))
-				return 0;
-
-			return Balance::CountByIdOrganization($this->intIdOrganization);
-		}
-
-		/**
-		 * Associates a BalanceAsIdOrganization
-		 * @param Balance $objBalance
-		 * @return void
-		*/
-		public function AssociateBalanceAsIdOrganization(Balance $objBalance) {
-			if ((is_null($this->intIdOrganization)))
-				throw new QUndefinedPrimaryKeyException('Unable to call AssociateBalanceAsIdOrganization on this unsaved Organization.');
-			if ((is_null($objBalance->IdBalance)))
-				throw new QUndefinedPrimaryKeyException('Unable to call AssociateBalanceAsIdOrganization on this Organization with an unsaved Balance.');
-
-			// Get the Database Object for this Class
-			$objDatabase = Organization::GetDatabase();
-
-			// Perform the SQL Query
-			$objDatabase->NonQuery('
-				UPDATE
-					`balance`
-				SET
-					`IdOrganization` = ' . $objDatabase->SqlVariable($this->intIdOrganization) . '
-				WHERE
-					`IdBalance` = ' . $objDatabase->SqlVariable($objBalance->IdBalance) . '
-			');
-		}
-
-		/**
-		 * Unassociates a BalanceAsIdOrganization
-		 * @param Balance $objBalance
-		 * @return void
-		*/
-		public function UnassociateBalanceAsIdOrganization(Balance $objBalance) {
-			if ((is_null($this->intIdOrganization)))
-				throw new QUndefinedPrimaryKeyException('Unable to call UnassociateBalanceAsIdOrganization on this unsaved Organization.');
-			if ((is_null($objBalance->IdBalance)))
-				throw new QUndefinedPrimaryKeyException('Unable to call UnassociateBalanceAsIdOrganization on this Organization with an unsaved Balance.');
-
-			// Get the Database Object for this Class
-			$objDatabase = Organization::GetDatabase();
-
-			// Perform the SQL Query
-			$objDatabase->NonQuery('
-				UPDATE
-					`balance`
-				SET
-					`IdOrganization` = null
-				WHERE
-					`IdBalance` = ' . $objDatabase->SqlVariable($objBalance->IdBalance) . ' AND
-					`IdOrganization` = ' . $objDatabase->SqlVariable($this->intIdOrganization) . '
-			');
-		}
-
-		/**
-		 * Unassociates all BalancesAsIdOrganization
-		 * @return void
-		*/
-		public function UnassociateAllBalancesAsIdOrganization() {
-			if ((is_null($this->intIdOrganization)))
-				throw new QUndefinedPrimaryKeyException('Unable to call UnassociateBalanceAsIdOrganization on this unsaved Organization.');
-
-			// Get the Database Object for this Class
-			$objDatabase = Organization::GetDatabase();
-
-			// Perform the SQL Query
-			$objDatabase->NonQuery('
-				UPDATE
-					`balance`
-				SET
-					`IdOrganization` = null
-				WHERE
-					`IdOrganization` = ' . $objDatabase->SqlVariable($this->intIdOrganization) . '
-			');
-		}
-
-		/**
-		 * Deletes an associated BalanceAsIdOrganization
-		 * @param Balance $objBalance
-		 * @return void
-		*/
-		public function DeleteAssociatedBalanceAsIdOrganization(Balance $objBalance) {
-			if ((is_null($this->intIdOrganization)))
-				throw new QUndefinedPrimaryKeyException('Unable to call UnassociateBalanceAsIdOrganization on this unsaved Organization.');
-			if ((is_null($objBalance->IdBalance)))
-				throw new QUndefinedPrimaryKeyException('Unable to call UnassociateBalanceAsIdOrganization on this Organization with an unsaved Balance.');
-
-			// Get the Database Object for this Class
-			$objDatabase = Organization::GetDatabase();
-
-			// Perform the SQL Query
-			$objDatabase->NonQuery('
-				DELETE FROM
-					`balance`
-				WHERE
-					`IdBalance` = ' . $objDatabase->SqlVariable($objBalance->IdBalance) . ' AND
-					`IdOrganization` = ' . $objDatabase->SqlVariable($this->intIdOrganization) . '
-			');
-		}
-
-		/**
-		 * Deletes all associated BalancesAsIdOrganization
-		 * @return void
-		*/
-		public function DeleteAllBalancesAsIdOrganization() {
-			if ((is_null($this->intIdOrganization)))
-				throw new QUndefinedPrimaryKeyException('Unable to call UnassociateBalanceAsIdOrganization on this unsaved Organization.');
-
-			// Get the Database Object for this Class
-			$objDatabase = Organization::GetDatabase();
-
-			// Perform the SQL Query
-			$objDatabase->NonQuery('
-				DELETE FROM
-					`balance`
-				WHERE
-					`IdOrganization` = ' . $objDatabase->SqlVariable($this->intIdOrganization) . '
-			');
-		}
-
 
 
 
@@ -1567,8 +1061,6 @@
 			$strToReturn .= '<element name="Country" type="xsd:string"/>';
 			$strToReturn .= '<element name="City" type="xsd:string"/>';
 			$strToReturn .= '<element name="Address" type="xsd:string"/>';
-			$strToReturn .= '<element name="IdOrganizationTypeObject" type="xsd1:Organizationtype"/>';
-			$strToReturn .= '<element name="IdOwnerObject" type="xsd1:Owner"/>';
 			$strToReturn .= '<element name="__blnRestored" type="xsd:boolean"/>';
 			$strToReturn .= '</sequence></complexType>';
 			return $strToReturn;
@@ -1577,8 +1069,6 @@
 		public static function AlterSoapComplexTypeArray(&$strComplexTypeArray) {
 			if (!array_key_exists('Organization', $strComplexTypeArray)) {
 				$strComplexTypeArray['Organization'] = Organization::GetSoapComplexTypeXml();
-				Organizationtype::AlterSoapComplexTypeArray($strComplexTypeArray);
-				Owner::AlterSoapComplexTypeArray($strComplexTypeArray);
 			}
 		}
 
@@ -1613,12 +1103,6 @@
 				$objToReturn->strCity = $objSoapObject->City;
 			if (property_exists($objSoapObject, 'Address'))
 				$objToReturn->strAddress = $objSoapObject->Address;
-			if ((property_exists($objSoapObject, 'IdOrganizationTypeObject')) &&
-				($objSoapObject->IdOrganizationTypeObject))
-				$objToReturn->IdOrganizationTypeObject = Organizationtype::GetObjectFromSoapObject($objSoapObject->IdOrganizationTypeObject);
-			if ((property_exists($objSoapObject, 'IdOwnerObject')) &&
-				($objSoapObject->IdOwnerObject))
-				$objToReturn->IdOwnerObject = Owner::GetObjectFromSoapObject($objSoapObject->IdOwnerObject);
 			if (property_exists($objSoapObject, '__blnRestored'))
 				$objToReturn->__blnRestored = $objSoapObject->__blnRestored;
 			return $objToReturn;
@@ -1637,14 +1121,6 @@
 		}
 
 		public static function GetSoapObjectFromObject($objObject, $blnBindRelatedObjects) {
-			if ($objObject->objIdOrganizationTypeObject)
-				$objObject->objIdOrganizationTypeObject = Organizationtype::GetSoapObjectFromObject($objObject->objIdOrganizationTypeObject, false);
-			else if (!$blnBindRelatedObjects)
-				$objObject->intIdOrganizationType = null;
-			if ($objObject->objIdOwnerObject)
-				$objObject->objIdOwnerObject = Owner::GetSoapObjectFromObject($objObject->objIdOwnerObject, false);
-			else if (!$blnBindRelatedObjects)
-				$objObject->intIdOwner = null;
 			return $objObject;
 		}
 
@@ -1669,8 +1145,6 @@
 			$iArray['Country'] = $this->strCountry;
 			$iArray['City'] = $this->strCity;
 			$iArray['Address'] = $this->strAddress;
-			$iArray['IdOrganizationType'] = $this->intIdOrganizationType;
-			$iArray['IdOwner'] = $this->intIdOwner;
 			return new ArrayIterator($iArray);
 		}
 
@@ -1702,13 +1176,8 @@
      * @property-read QQNode $Country
      * @property-read QQNode $City
      * @property-read QQNode $Address
-     * @property-read QQNode $IdOrganizationType
-     * @property-read QQNodeOrganizationtype $IdOrganizationTypeObject
-     * @property-read QQNode $IdOwner
-     * @property-read QQNodeOwner $IdOwnerObject
      *
      *
-     * @property-read QQReverseReferenceNodeBalance $BalanceAsIdOrganization
 
      * @property-read QQNode $_PrimaryKeyNode
      **/
@@ -1738,16 +1207,6 @@
 					return new QQNode('City', 'City', 'VarChar', $this);
 				case 'Address':
 					return new QQNode('Address', 'Address', 'VarChar', $this);
-				case 'IdOrganizationType':
-					return new QQNode('IdOrganizationType', 'IdOrganizationType', 'Integer', $this);
-				case 'IdOrganizationTypeObject':
-					return new QQNodeOrganizationtype('IdOrganizationType', 'IdOrganizationTypeObject', 'Integer', $this);
-				case 'IdOwner':
-					return new QQNode('IdOwner', 'IdOwner', 'Integer', $this);
-				case 'IdOwnerObject':
-					return new QQNodeOwner('IdOwner', 'IdOwnerObject', 'Integer', $this);
-				case 'BalanceAsIdOrganization':
-					return new QQReverseReferenceNodeBalance($this, 'balanceasidorganization', 'reverse_reference', 'IdOrganization');
 
 				case '_PrimaryKeyNode':
 					return new QQNode('IdOrganization', 'IdOrganization', 'Integer', $this);
@@ -1773,13 +1232,8 @@
      * @property-read QQNode $Country
      * @property-read QQNode $City
      * @property-read QQNode $Address
-     * @property-read QQNode $IdOrganizationType
-     * @property-read QQNodeOrganizationtype $IdOrganizationTypeObject
-     * @property-read QQNode $IdOwner
-     * @property-read QQNodeOwner $IdOwnerObject
      *
      *
-     * @property-read QQReverseReferenceNodeBalance $BalanceAsIdOrganization
 
      * @property-read QQNode $_PrimaryKeyNode
      **/
@@ -1809,16 +1263,6 @@
 					return new QQNode('City', 'City', 'string', $this);
 				case 'Address':
 					return new QQNode('Address', 'Address', 'string', $this);
-				case 'IdOrganizationType':
-					return new QQNode('IdOrganizationType', 'IdOrganizationType', 'integer', $this);
-				case 'IdOrganizationTypeObject':
-					return new QQNodeOrganizationtype('IdOrganizationType', 'IdOrganizationTypeObject', 'integer', $this);
-				case 'IdOwner':
-					return new QQNode('IdOwner', 'IdOwner', 'integer', $this);
-				case 'IdOwnerObject':
-					return new QQNodeOwner('IdOwner', 'IdOwnerObject', 'integer', $this);
-				case 'BalanceAsIdOrganization':
-					return new QQReverseReferenceNodeBalance($this, 'balanceasidorganization', 'reverse_reference', 'IdOrganization');
 
 				case '_PrimaryKeyNode':
 					return new QQNode('IdOrganization', 'IdOrganization', 'integer', $this);

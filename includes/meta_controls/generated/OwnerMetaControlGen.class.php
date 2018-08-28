@@ -16,7 +16,7 @@
 	 * @package My QCubed Application
 	 * @subpackage MetaControls
 	 * @property-read Owner $Owner the actual Owner data class being edited
-	 * @property QIntegerTextBox $IdOwnerControl
+	 * @property QLabel $IdOwnerControl
 	 * @property-read QLabel $IdOwnerLabel
 	 * @property QListBox $IdUserControl
 	 * @property-read QLabel $IdUserLabel
@@ -49,10 +49,10 @@
 
 		// Controls that allow the editing of Owner's individual data fields
 		/**
-		 * @var QIntegerTextBox txtIdOwner
+		 * @var QLabel lblIdOwner
 		 * @access protected
 		 */
-		protected $txtIdOwner;
+		protected $lblIdOwner;
 		/**
 		 * @var QListBox lstIdUserObject
 		 * @access protected
@@ -60,11 +60,6 @@
 		protected $lstIdUserObject;
 
 		// Controls that allow the viewing of Owner's individual data fields
-		/**
-		 * @var QLabel lblIdOwner
-		 * @access protected
-		 */
-		protected $lblIdOwner;
 		/**
 		 * @var QLabel lblIdUser
 		 * @access protected
@@ -169,30 +164,17 @@
 		///////////////////////////////////////////////
 
 		/**
-		 * Create and setup QIntegerTextBox txtIdOwner
-		 * @param string $strControlId optional ControlId to use
-		 * @return QIntegerTextBox
-		 */
-		public function txtIdOwner_Create($strControlId = null) {
-			$this->txtIdOwner = new QIntegerTextBox($this->objParentObject, $strControlId);
-			$this->txtIdOwner->Name = QApplication::Translate('Id Owner');
-			$this->txtIdOwner->Text = $this->objOwner->IdOwner;
-			$this->txtIdOwner->Required = true;
-			return $this->txtIdOwner;
-		}
-
-		/**
 		 * Create and setup QLabel lblIdOwner
 		 * @param string $strControlId optional ControlId to use
-		 * @param string $strFormat optional sprintf format to use
 		 * @return QLabel
 		 */
-		public function lblIdOwner_Create($strControlId = null, $strFormat = null) {
+		public function lblIdOwner_Create($strControlId = null) {
 			$this->lblIdOwner = new QLabel($this->objParentObject, $strControlId);
 			$this->lblIdOwner->Name = QApplication::Translate('Id Owner');
-			$this->lblIdOwner->Text = $this->objOwner->IdOwner;
-			$this->lblIdOwner->Required = true;
-			$this->lblIdOwner->Format = $strFormat;
+			if ($this->blnEditMode)
+				$this->lblIdOwner->Text = $this->objOwner->IdOwner;
+			else
+				$this->lblIdOwner->Text = 'N/A';
 			return $this->lblIdOwner;
 		}
 
@@ -241,8 +223,7 @@
 			if ($blnReload)
 				$this->objOwner->Reload();
 
-			if ($this->txtIdOwner) $this->txtIdOwner->Text = $this->objOwner->IdOwner;
-			if ($this->lblIdOwner) $this->lblIdOwner->Text = $this->objOwner->IdOwner;
+			if ($this->lblIdOwner) if ($this->blnEditMode) $this->lblIdOwner->Text = $this->objOwner->IdOwner;
 
 			if ($this->lstIdUserObject) {
 					$this->lstIdUserObject->RemoveAllItems();
@@ -281,7 +262,6 @@
 		public function SaveOwner() {
 			try {
 				// Update any fields for controls that have been created
-				if ($this->txtIdOwner) $this->objOwner->IdOwner = $this->txtIdOwner->Text;
 				if ($this->lstIdUserObject) $this->objOwner->IdUser = $this->lstIdUserObject->SelectedValue;
 
 				// Update any UniqueReverseReferences (if any) for controls that have been created for it
@@ -326,8 +306,8 @@
 
 				// Controls that point to Owner fields -- will be created dynamically if not yet created
 				case 'IdOwnerControl':
-					if (!$this->txtIdOwner) return $this->txtIdOwner_Create();
-					return $this->txtIdOwner;
+					if (!$this->lblIdOwner) return $this->lblIdOwner_Create();
+					return $this->lblIdOwner;
 				case 'IdOwnerLabel':
 					if (!$this->lblIdOwner) return $this->lblIdOwner_Create();
 					return $this->lblIdOwner;
@@ -360,7 +340,7 @@
 				switch ($strName) {
 					// Controls that point to Owner fields
 					case 'IdOwnerControl':
-						return ($this->txtIdOwner = QType::Cast($mixValue, 'QControl'));
+						return ($this->lblIdOwner = QType::Cast($mixValue, 'QControl'));
 					case 'IdUserControl':
 						return ($this->lstIdUserObject = QType::Cast($mixValue, 'QControl'));
 					default:

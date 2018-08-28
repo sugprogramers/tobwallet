@@ -65,8 +65,6 @@
 			$this->dtgOrganizations->MetaAddColumn('Country');
 			$this->dtgOrganizations->MetaAddColumn('City');
 			$this->dtgOrganizations->MetaAddColumn('Address');
-			$this->dtgOrganizations->MetaAddColumn(QQN::Organization()->IdOrganizationTypeObject);
-			$this->dtgOrganizations->MetaAddColumn(QQN::Organization()->IdOwnerObject);
 		}
 	}
 ?>

@@ -36,10 +36,6 @@
 	 * @property-read QLabel $CityLabel
 	 * @property QTextBox $AddressControl
 	 * @property-read QLabel $AddressLabel
-	 * @property QListBox $IdOrganizationTypeControl
-	 * @property-read QLabel $IdOrganizationTypeLabel
-	 * @property QListBox $IdOwnerControl
-	 * @property-read QLabel $IdOwnerLabel
 	 * @property-read string $TitleVerb a verb indicating whether or not this is being edited or created
 	 * @property-read boolean $EditMode a boolean indicating whether or not this is being edited or created
 	 */
@@ -118,16 +114,6 @@
 		 * @access protected
 		 */
 		protected $txtAddress;
-		/**
-		 * @var QListBox lstIdOrganizationTypeObject
-		 * @access protected
-		 */
-		protected $lstIdOrganizationTypeObject;
-		/**
-		 * @var QListBox lstIdOwnerObject
-		 * @access protected
-		 */
-		protected $lstIdOwnerObject;
 
 		// Controls that allow the viewing of Organization's individual data fields
 		/**
@@ -175,16 +161,6 @@
 		 * @access protected
 		 */
 		protected $lblAddress;
-		/**
-		 * @var QLabel lblIdOrganizationType
-		 * @access protected
-		 */
-		protected $lblIdOrganizationType;
-		/**
-		 * @var QLabel lblIdOwner
-		 * @access protected
-		 */
-		protected $lblIdOwner;
 
 		// QListBox Controls (if applicable) to edit Unique ReverseReferences and ManyToMany References
 
@@ -529,74 +505,6 @@
 			return $this->lblAddress;
 		}
 
-		/**
-		 * Create and setup QListBox lstIdOrganizationTypeObject
-		 * @param string $strControlId optional ControlId to use
-		 * @return QListBox
-		 */
-		public function lstIdOrganizationTypeObject_Create($strControlId = null) {
-			$this->lstIdOrganizationTypeObject = new QListBox($this->objParentObject, $strControlId);
-			$this->lstIdOrganizationTypeObject->Name = QApplication::Translate('Id Organization Type Object');
-			$this->lstIdOrganizationTypeObject->Required = true;
-			if (!$this->blnEditMode)
-				$this->lstIdOrganizationTypeObject->AddItem(QApplication::Translate('- Select One -'), null);
-			$objIdOrganizationTypeObjectArray = Organizationtype::LoadAll();
-			if ($objIdOrganizationTypeObjectArray) foreach ($objIdOrganizationTypeObjectArray as $objIdOrganizationTypeObject) {
-				$objListItem = new QListItem($objIdOrganizationTypeObject->__toString(), $objIdOrganizationTypeObject->IdOrganizationType);
-				if (($this->objOrganization->IdOrganizationTypeObject) && ($this->objOrganization->IdOrganizationTypeObject->IdOrganizationType == $objIdOrganizationTypeObject->IdOrganizationType))
-					$objListItem->Selected = true;
-				$this->lstIdOrganizationTypeObject->AddItem($objListItem);
-			}
-			return $this->lstIdOrganizationTypeObject;
-		}
-
-		/**
-		 * Create and setup QLabel lblIdOrganizationType
-		 * @param string $strControlId optional ControlId to use
-		 * @return QLabel
-		 */
-		public function lblIdOrganizationType_Create($strControlId = null) {
-			$this->lblIdOrganizationType = new QLabel($this->objParentObject, $strControlId);
-			$this->lblIdOrganizationType->Name = QApplication::Translate('Id Organization Type Object');
-			$this->lblIdOrganizationType->Text = ($this->objOrganization->IdOrganizationTypeObject) ? $this->objOrganization->IdOrganizationTypeObject->__toString() : null;
-			$this->lblIdOrganizationType->Required = true;
-			return $this->lblIdOrganizationType;
-		}
-
-		/**
-		 * Create and setup QListBox lstIdOwnerObject
-		 * @param string $strControlId optional ControlId to use
-		 * @return QListBox
-		 */
-		public function lstIdOwnerObject_Create($strControlId = null) {
-			$this->lstIdOwnerObject = new QListBox($this->objParentObject, $strControlId);
-			$this->lstIdOwnerObject->Name = QApplication::Translate('Id Owner Object');
-			$this->lstIdOwnerObject->Required = true;
-			if (!$this->blnEditMode)
-				$this->lstIdOwnerObject->AddItem(QApplication::Translate('- Select One -'), null);
-			$objIdOwnerObjectArray = Owner::LoadAll();
-			if ($objIdOwnerObjectArray) foreach ($objIdOwnerObjectArray as $objIdOwnerObject) {
-				$objListItem = new QListItem($objIdOwnerObject->__toString(), $objIdOwnerObject->IdOwner);
-				if (($this->objOrganization->IdOwnerObject) && ($this->objOrganization->IdOwnerObject->IdOwner == $objIdOwnerObject->IdOwner))
-					$objListItem->Selected = true;
-				$this->lstIdOwnerObject->AddItem($objListItem);
-			}
-			return $this->lstIdOwnerObject;
-		}
-
-		/**
-		 * Create and setup QLabel lblIdOwner
-		 * @param string $strControlId optional ControlId to use
-		 * @return QLabel
-		 */
-		public function lblIdOwner_Create($strControlId = null) {
-			$this->lblIdOwner = new QLabel($this->objParentObject, $strControlId);
-			$this->lblIdOwner->Name = QApplication::Translate('Id Owner Object');
-			$this->lblIdOwner->Text = ($this->objOrganization->IdOwnerObject) ? $this->objOrganization->IdOwnerObject->__toString() : null;
-			$this->lblIdOwner->Required = true;
-			return $this->lblIdOwner;
-		}
-
 
 
 		/**
@@ -637,34 +545,6 @@
 			if ($this->txtAddress) $this->txtAddress->Text = $this->objOrganization->Address;
 			if ($this->lblAddress) $this->lblAddress->Text = $this->objOrganization->Address;
 
-			if ($this->lstIdOrganizationTypeObject) {
-					$this->lstIdOrganizationTypeObject->RemoveAllItems();
-				if (!$this->blnEditMode)
-					$this->lstIdOrganizationTypeObject->AddItem(QApplication::Translate('- Select One -'), null);
-				$objIdOrganizationTypeObjectArray = Organizationtype::LoadAll();
-				if ($objIdOrganizationTypeObjectArray) foreach ($objIdOrganizationTypeObjectArray as $objIdOrganizationTypeObject) {
-					$objListItem = new QListItem($objIdOrganizationTypeObject->__toString(), $objIdOrganizationTypeObject->IdOrganizationType);
-					if (($this->objOrganization->IdOrganizationTypeObject) && ($this->objOrganization->IdOrganizationTypeObject->IdOrganizationType == $objIdOrganizationTypeObject->IdOrganizationType))
-						$objListItem->Selected = true;
-					$this->lstIdOrganizationTypeObject->AddItem($objListItem);
-				}
-			}
-			if ($this->lblIdOrganizationType) $this->lblIdOrganizationType->Text = ($this->objOrganization->IdOrganizationTypeObject) ? $this->objOrganization->IdOrganizationTypeObject->__toString() : null;
-
-			if ($this->lstIdOwnerObject) {
-					$this->lstIdOwnerObject->RemoveAllItems();
-				if (!$this->blnEditMode)
-					$this->lstIdOwnerObject->AddItem(QApplication::Translate('- Select One -'), null);
-				$objIdOwnerObjectArray = Owner::LoadAll();
-				if ($objIdOwnerObjectArray) foreach ($objIdOwnerObjectArray as $objIdOwnerObject) {
-					$objListItem = new QListItem($objIdOwnerObject->__toString(), $objIdOwnerObject->IdOwner);
-					if (($this->objOrganization->IdOwnerObject) && ($this->objOrganization->IdOwnerObject->IdOwner == $objIdOwnerObject->IdOwner))
-						$objListItem->Selected = true;
-					$this->lstIdOwnerObject->AddItem($objListItem);
-				}
-			}
-			if ($this->lblIdOwner) $this->lblIdOwner->Text = ($this->objOrganization->IdOwnerObject) ? $this->objOrganization->IdOwnerObject->__toString() : null;
-
 		}
 
 
@@ -697,8 +577,6 @@
 				if ($this->txtCountry) $this->objOrganization->Country = $this->txtCountry->Text;
 				if ($this->txtCity) $this->objOrganization->City = $this->txtCity->Text;
 				if ($this->txtAddress) $this->objOrganization->Address = $this->txtAddress->Text;
-				if ($this->lstIdOrganizationTypeObject) $this->objOrganization->IdOrganizationType = $this->lstIdOrganizationTypeObject->SelectedValue;
-				if ($this->lstIdOwnerObject) $this->objOrganization->IdOwner = $this->lstIdOwnerObject->SelectedValue;
 
 				// Update any UniqueReverseReferences (if any) for controls that have been created for it
 
@@ -801,18 +679,6 @@
 				case 'AddressLabel':
 					if (!$this->lblAddress) return $this->lblAddress_Create();
 					return $this->lblAddress;
-				case 'IdOrganizationTypeControl':
-					if (!$this->lstIdOrganizationTypeObject) return $this->lstIdOrganizationTypeObject_Create();
-					return $this->lstIdOrganizationTypeObject;
-				case 'IdOrganizationTypeLabel':
-					if (!$this->lblIdOrganizationType) return $this->lblIdOrganizationType_Create();
-					return $this->lblIdOrganizationType;
-				case 'IdOwnerControl':
-					if (!$this->lstIdOwnerObject) return $this->lstIdOwnerObject_Create();
-					return $this->lstIdOwnerObject;
-				case 'IdOwnerLabel':
-					if (!$this->lblIdOwner) return $this->lblIdOwner_Create();
-					return $this->lblIdOwner;
 				default:
 					try {
 						return parent::__get($strName);
@@ -855,10 +721,6 @@
 						return ($this->txtCity = QType::Cast($mixValue, 'QControl'));
 					case 'AddressControl':
 						return ($this->txtAddress = QType::Cast($mixValue, 'QControl'));
-					case 'IdOrganizationTypeControl':
-						return ($this->lstIdOrganizationTypeObject = QType::Cast($mixValue, 'QControl'));
-					case 'IdOwnerControl':
-						return ($this->lstIdOwnerObject = QType::Cast($mixValue, 'QControl'));
 					default:
 						return parent::__set($strName, $mixValue);
 				}

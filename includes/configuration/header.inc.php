@@ -358,6 +358,8 @@ function javarefresh(idfrom,idbutton,idwating){
                     <div>
 <?php
 if ($usuario) {
+    
+    if($usuario->UserType == 'Customer'){
 ?>
 
                             <ul class="site-menu">
@@ -390,43 +392,63 @@ if ($usuario) {
                                         </li>
                                     </ul>
                                 </li>
-                 
-    <!--                            
- <li id="reportUser" class="site-menu-item has-sub">
+                            </ul>
+                        
+                        
+    <?php }else if($usuario->UserType == 'Owner'){
+    ?>
+                        <ul class="site-menu">
+                                <li class="site-menu-category"><span class="label label-primary">User</span></li>
+                                
+                           <!--  <li id="activeDashboardAdmin" class="site-menu-item">
+                                    <a href="<?php _p(__VIRTUAL_DIRECTORY__ . __SUBDIRECTORY__); ?>/dashboarduser" data-slug="dashboard"><i class="site-menu-icon wb-dashboard" aria-hidden="true"></i><span class="site-menu-title">Dashboard</span></a></li>
+                            -->
+                                
+                                
+                                <li id="activeProfile" class="site-menu-item has-sub">
                                     <a href="javascript:void(0)" data-slug="layout">
-                                        <i class="site-menu-icon wb-stats-bars" aria-hidden="true"></i>
-                                        <span class="site-menu-title">Reportes</span>
+                                        <i class="site-menu-icon wb-user" aria-hidden="true"></i>
+                                        <span class="site-menu-title">Profile</span>
                                         <span class="site-menu-arrow"></span>
                                     </a>
                                     <ul class="site-menu-sub">
-                                         <li id="ventadiaria" class="site-menu-item">
-                                            <a class="animsition-link" href="<?php _p(__VIRTUAL_DIRECTORY__ . __SUBDIRECTORY__); ?>/reporteventasdiariasvendedor" data-slug="layout-menu-collapsed">
+                                        <li id="activeViewProfile" class="site-menu-item">
+                                            <a class="animsition-link" href="<?php _p(__VIRTUAL_DIRECTORY__ . __SUBDIRECTORY__); ?>/profileuser" data-slug="layout-menu-collapsed">
                                                 <i class="site-menu-icon " aria-hidden="true"></i>
-                                                <span class="site-menu-title">Ventas Diarias</span>
-                                            </a>
-                                        </li>
-                                         <li id="ventamensual" class="site-menu-item">
-                                            <a class="animsition-link" href="<?php _p(__VIRTUAL_DIRECTORY__ . __SUBDIRECTORY__); ?>/reporteventasmensualesvendedor" data-slug="layout-menu-collapsed">
-                                                <i class="site-menu-icon " aria-hidden="true"></i>
-                                                <span class="site-menu-title">Ventas Mensuales</span>
+                                                <span class="site-menu-title">View Profile</span>
                                             </a>
                                         </li>
                                         
-                                        <li id="ventaproducto" class="site-menu-item">
-                                            <a class="animsition-link" href="<?php _p(__VIRTUAL_DIRECTORY__ . __SUBDIRECTORY__); ?>/reporteventasproductovendedor" data-slug="layout-menu-collapsed">
+                                         <li id="activeMiningOptions" class="site-menu-item">
+                                            <a class="animsition-link" href="<?php _p(__VIRTUAL_DIRECTORY__ . __SUBDIRECTORY__); ?>/miningoptions" data-slug="layout-menu-collapsed">
                                                 <i class="site-menu-icon " aria-hidden="true"></i>
-                                                <span class="site-menu-title">Ventas por Producto</span>
+                                                <span class="site-menu-title">Mining Info</span>
+                                            </a>
+                                        </li>
+                                    </ul>
+                                </li>
+                                
+                                <li id="activeRestaurants" class="site-menu-item has-sub">
+                                    <a href="javascript:void(0)" data-slug="layout">
+                                        <i class="site-menu-icon wb-users" aria-hidden="true"></i>
+                                        <span class="site-menu-title">Restaurants</span>
+                                        <span class="site-menu-arrow"></span>
+                                    </a>
+                                    <ul class="site-menu-sub">
+                                        <li id="activeViewRestaurants" class="site-menu-item">
+                                            <a class="animsition-link" href="<?php _p(__VIRTUAL_DIRECTORY__ . __SUBDIRECTORY__); ?>/restaurants" data-slug="layout-menu-collapsed">
+                                                <i class="site-menu-icon " aria-hidden="true"></i>
+                                                <span class="site-menu-title">View Restaurants</span>
                                             </a>
                                         </li>
 
                                     </ul>
- </li>                                
-                                
-       -->                         
-
+                                </li>
                             </ul>
+                        
+                        
     <?php
-} else if ($admin) {
+}} else if ($admin) {
     ?>
                             <ul class="site-menu">
                                 <li class="site-menu-category"><span class="label label-primary">Admin</span></li>

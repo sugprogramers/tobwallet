@@ -1,9 +1,9 @@
 <?php
 	/**
 	 * This is the "Meta" DataGrid class for the List functionality
-	 * of the Organization class.  This code-generated class
+	 * of the RestaurantCopy1 class.  This code-generated class
 	 * contains a QDataGrid class which can be used by any QForm or QPanel,
-	 * listing a collection of Organization objects.  It includes
+	 * listing a collection of RestaurantCopy1 objects.  It includes
 	 * functionality to perform pagination and sorting on columns.
 	 *
 	 * To take advantage of some (or all) of these control objects, you
@@ -18,7 +18,7 @@
 	 * @subpackage MetaControls
 	 *
 	 */
-	class OrganizationDataGridGen extends QDataGrid {
+	class RestaurantCopy1DataGridGen extends QDataGrid {
 		protected $conAdditionalConditions;
 		protected $clsAdditionalClauses;
 
@@ -40,9 +40,9 @@
 
 		/**
 		 * Given the description of the Column's contents, this is a simple, express
-		 * way of adding a column to this Organization datagrid.  The description of a column's
+		 * way of adding a column to this RestaurantCopy1 datagrid.  The description of a column's
 		 * content can be either a text string description of a simple field name
-		 * in the Organization object, or it can be any QQNode extending from QQN::Organization().
+		 * in the RestaurantCopy1 object, or it can be any QQNode extending from QQN::RestaurantCopy1().
 		 *
 		 * MetaAddColumn will automatically pre-configure the column with the name, html
 		 * and sort rules given the content being specified.
@@ -50,7 +50,7 @@
 		 * Any of these things can be overridden with OverrideParameters.
 		 *
 		 * Finally, $mixContents can also be an array of contents, if displaying and/or
-		 * sorting using two fields from the Organization object.
+		 * sorting using two fields from the RestaurantCopy1 object.
 		 *
 		 * @param mixed $mixContents
 		 * @param string $objOverrideParameters[]
@@ -134,7 +134,7 @@
 		 *
 		 * Also, $mixContent cannot be an array.  Only a single field can be specified.
 		 *
-		 * @param mixed $mixContent string or QQNode from Organization
+		 * @param mixed $mixContent string or QQNode from RestaurantCopy1
 		 * @param string $strTypeClassName the name of the TypeClass to use $NameArray against
 		 * @param mixed $objOverrideParameters
 		 */
@@ -194,10 +194,10 @@
 		public function MetaAddEditLinkColumn($strLinkUrl, $strLinkHtml = 'Edit', $strColumnTitle = 'Edit', $intArgumentType = QMetaControlArgumentType::PathInfo) {
 			switch ($intArgumentType) {
 				case QMetaControlArgumentType::QueryString:
-					$strLinkUrl .= (strpos($strLinkUrl, '?') !== false ? '&' : '?').'intIdOrganization=<?=urlencode($_ITEM->IdOrganization)?>';
+					$strLinkUrl .= (strpos($strLinkUrl, '?') !== false ? '&' : '?').'intIdRestaurant=<?=urlencode($_ITEM->IdRestaurant)?>';
 					break;
 				case QMetaControlArgumentType::PathInfo:
-					$strLinkUrl .= '/<?=urlencode($_ITEM->IdOrganization)?>';
+					$strLinkUrl .= '/<?=urlencode($_ITEM->IdRestaurant)?>';
 					break;
 				default:
 					throw new QCallerException('Unable to pass arguments with this intArgumentType: ' . $intArgumentType);
@@ -218,7 +218,7 @@
 		 * @param string $strColumnTitle the HTML of the link text
 		 */
 		public function MetaAddEditProxyColumn(QControlProxy $pxyControl, $strLinkHtml = 'Edit', $strColumnTitle = 'Edit') {
-			$strHtml = '<a href="#" <?= $_FORM->GetControl("' . $pxyControl->ControlId . '")->RenderAsEvents($_ITEM->IdOrganization, false); ?>>' . $strLinkHtml . '</a>';
+			$strHtml = '<a href="#" <?= $_FORM->GetControl("' . $pxyControl->ControlId . '")->RenderAsEvents($_ITEM->IdRestaurant, false); ?>>' . $strLinkHtml . '</a>';
 			$colEditColumn = new QDataGridColumn($strColumnTitle, $strHtml, 'HtmlEntities=False');
 			$this->AddColumn($colEditColumn);
 			return $colEditColumn;
@@ -245,7 +245,7 @@
 
 			// Remember!  We need to first set the TotalItemCount, which will affect the calcuation of LimitClause below
 			if ($this->Paginator) {
-				$this->TotalItemCount = Organization::QueryCount($objConditions);
+				$this->TotalItemCount = RestaurantCopy1::QueryCount($objConditions);
 			}
 
 			// If a column is selected to be sorted, and if that column has a OrderByClause set on it, then let's add
@@ -257,16 +257,16 @@
 			if ($objClause = $this->LimitClause)
 				array_push($objClauses, $objClause);
 
-			// Set the DataSource to be a Query result from Organization, given the clauses above
-			$this->DataSource = Organization::QueryArray($objConditions, $objClauses);
+			// Set the DataSource to be a Query result from RestaurantCopy1, given the clauses above
+			$this->DataSource = RestaurantCopy1::QueryArray($objConditions, $objClauses);
 		}
 
 
 		/**
 		 * Used internally by the Meta-based Add Column tools.
 		 *
-		 * Given a QQNode or a Text String, this will return a Organization-based QQNode.
-		 * It will also verify that it is a proper Organization-based QQNode, and will throw an exception otherwise.
+		 * Given a QQNode or a Text String, this will return a RestaurantCopy1-based QQNode.
+		 * It will also verify that it is a proper RestaurantCopy1-based QQNode, and will throw an exception otherwise.
 		 *
 		 * @param mixed $mixContent
 		 * @return QQNode
@@ -275,7 +275,7 @@
 			if ($mixContent instanceof QQNode) {
 				if (!$mixContent->_ParentNode)
 					throw new QCallerException('Content QQNode cannot be a Top Level Node');
-				if ($mixContent->_RootTableName == 'organization') {
+				if ($mixContent->_RootTableName == 'restaurant_copy1') {
 					if (($mixContent instanceof QQReverseReferenceNode) && !($mixContent->_PropertyName))
 						throw new QCallerException('Content QQNode cannot go through any "To Many" association nodes.');
 					$objCurrentNode = $mixContent;
@@ -287,19 +287,23 @@
 					}
 					return $mixContent;
 				} else
-					throw new QCallerException('Content QQNode has a root table of "' . $mixContent->_RootTableName . '". Must be a root of "organization".');
+					throw new QCallerException('Content QQNode has a root table of "' . $mixContent->_RootTableName . '". Must be a root of "restaurant_copy1".');
 			} else if (is_string($mixContent)) switch ($mixContent) {
-				case 'IdOrganization': return QQN::Organization()->IdOrganization;
-				case 'Name': return QQN::Organization()->Name;
-				case 'Phone': return QQN::Organization()->Phone;
-				case 'QrCode': return QQN::Organization()->QrCode;
-				case 'OrganizationImage': return QQN::Organization()->OrganizationImage;
-				case 'Latitude': return QQN::Organization()->Latitude;
-				case 'Longitude': return QQN::Organization()->Longitude;
-				case 'Country': return QQN::Organization()->Country;
-				case 'City': return QQN::Organization()->City;
-				case 'Address': return QQN::Organization()->Address;
-				default: throw new QCallerException('Simple Property not found in OrganizationDataGrid content: ' . $mixContent);
+				case 'IdRestaurant': return QQN::RestaurantCopy1()->IdRestaurant;
+				case 'Email': return QQN::RestaurantCopy1()->Email;
+				case 'Password': return QQN::RestaurantCopy1()->Password;
+				case 'OwnerFirstName': return QQN::RestaurantCopy1()->OwnerFirstName;
+				case 'OwnerLastName': return QQN::RestaurantCopy1()->OwnerLastName;
+				case 'OwnerMiddleName': return QQN::RestaurantCopy1()->OwnerMiddleName;
+				case 'Country': return QQN::RestaurantCopy1()->Country;
+				case 'City': return QQN::RestaurantCopy1()->City;
+				case 'Address': return QQN::RestaurantCopy1()->Address;
+				case 'RestaurantName': return QQN::RestaurantCopy1()->RestaurantName;
+				case 'Longitude': return QQN::RestaurantCopy1()->Longitude;
+				case 'Latitude': return QQN::RestaurantCopy1()->Latitude;
+				case 'Qrcode': return QQN::RestaurantCopy1()->Qrcode;
+				case 'Qtycoins': return QQN::RestaurantCopy1()->Qtycoins;
+				default: throw new QCallerException('Simple Property not found in RestaurantCopy1DataGrid content: ' . $mixContent);
 			} else if ($mixContent instanceof QQAssociationNode)
 				throw new QCallerException('Content QQNode cannot go through any "To Many" association nodes.');
 			else

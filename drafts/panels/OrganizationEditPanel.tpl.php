@@ -25,10 +25,6 @@
 
 		<?php $_CONTROL->txtAddress->RenderWithName(); ?>
 
-		<?php $_CONTROL->lstIdOrganizationTypeObject->RenderWithName(); ?>
-
-		<?php $_CONTROL->lstIdOwnerObject->RenderWithName(); ?>
-
 	</div>
 
 	<div id="formActions">
