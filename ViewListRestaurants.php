@@ -319,7 +319,7 @@ class ViewListRestaurantForm extends QForm {
     public function qr_Click($strFormId, $strControlId, $strParameter){
         $this->dlgQRConfirm->Title = addslashes("<i class='fas fa-qrcode'></i> QR Code");
         $this->dlgQRConfirm->txtMessage = "You want to generate QR code?";
-        $this->dlgQRConfirm->ID = intval($strParameter);
+        $this->dlgQRConfirm->loadDefault($strParameter);
         $this->dlgQRConfirm->ShowDialogBox();
     }
 
