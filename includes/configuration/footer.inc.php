@@ -121,6 +121,8 @@
 
 <script src="<?php _p(__VIRTUAL_DIRECTORY__ . __SUBDIRECTORY__); ?>/template/assets/vendor/formatter-js/jquery.formatter.min.js"></script>
 <script src="<?php _p(__VIRTUAL_DIRECTORY__ . __SUBDIRECTORY__); ?>/template/assets/js/components/formatter-js.min.js"></script>
+<script src="<?php _p(__VIRTUAL_DIRECTORY__ . __SUBDIRECTORY__); ?>/template/assets/js/qrcode/html5-qrcode.min.js"></script>
+<script src="<?php _p(__VIRTUAL_DIRECTORY__ . __SUBDIRECTORY__); ?>/template/assets/js/qrcode/jsqrcode-combined.min.js"></script>
 
 <script>
 
