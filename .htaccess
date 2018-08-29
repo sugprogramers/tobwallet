@@ -144,3 +144,6 @@ RewriteRule ^organizations/(.*)$    ViewListOrganizations.php/$1 [L]
 RewriteRule ^organizations$    ViewListOrganizations.php [L]
 RewriteRule ^availableoffer/(.*)$    ViewListOffersToClient.php/$1 [L]
 RewriteRule ^availableoffer    ViewListOffersToClient.php [L]
+
+RewriteRule ^ownerRestaurants/(.*)$    ViewListOwnerRestaurants.php/$1 [L]
+RewriteRule ^ownerRestaurants$    ViewListOwnerRestaurants.php [L]

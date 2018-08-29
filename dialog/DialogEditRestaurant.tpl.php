@@ -17,63 +17,6 @@
     margin-bottom: 10px;
 }
        </style>
-        <!-- <div class="form-group row">
-            <label class="col-sm-4 control-label">Email / Password</label>
-            <div class="col-sm-4">
-                <div class="input-group">
-                    <span class="input-group-addon">
-                        <i class="icon wb-user" aria-hidden="true"></i>
-                    </span>
-                    <?php //$_CONTROL->txtEmail->RenderWithError(); ?>
-                </div>                     
-            </div>
-            <div class="col-sm-4 unidos">
-                <?php //$_CONTROL->txtPassword->RenderWithError(); ?>
-            </div>
-        </div> -->
-
-      <!--  <div class="form-group row">
-            <label class="col-sm-4 control-label"><?php _p("Password"); ?> </label>
-            <div class="col-sm-8">
-                <div class="input-group">
-                    <span class="input-group-addon">
-                        <i class="icon fa-key" aria-hidden="true"></i>
-                    </span>
-                    
-                </div>                     
-            </div>
-        </div> -->
-       
-        <!-- <div class="form-group row">
-            <label class="col-sm-4 control-label">Owner First/Middle/Last Name </label>
-            <div class="col-sm-4">
-                <div class="input-group">
-                    <span class="input-group-addon">
-                        <i class="icon fa-font" aria-hidden="true"></i>
-                    </span>
-                    <?php //$_CONTROL->txtFirstname->RenderWithError(); ?>
-                </div>                     
-            </div>
-            
-            <div class="col-sm-2 unidos">
-                 <div class="input-group">
-                  <span class="input-group-addon">
-                        <i class="icon wb-text" aria-hidden="true"></i>
-                    </span>
-                    <?php //$_CONTROL->txtMiddlename->RenderWithError(); ?>
-                </div>                 
-            </div>
-            
-            
-             <div class="col-sm-2 unidos" >
-                <div class="input-group">
-                    <span class="input-group-addon">
-                        <i class="icon wb-text" aria-hidden="true"></i>
-                    </span>
-                    <?php //$_CONTROL->txtLastname->RenderWithError(); ?>
-                </div> 
-            </div>
-        </div> -->
 
         <div class="form-group row">
             <label class="col-sm-4 control-label"><?php _p("Country/City"); ?> </label>
@@ -95,91 +38,6 @@
                 <!-- </div> -->                    
             </div>
         </div>
-
-        <!-- 
-         <div class="form-group row">
-            <label class="col-sm-4 control-label"><?php _p("Phone"); ?> </label>
-            <div class="col-sm-8">
-                <div class="input-group">
-                    <span class="input-group-addon">
-                        <i class="icon fa-phone" aria-hidden="true"></i>
-                    </span>
-                    <?php //$_CONTROL->txtPhone->RenderWithError(); ?>
-                </div>                     
-            </div>
-        </div>
-         -->
-        
-        <!-- 
-        <div class="form-group row">
-            <label class="col-sm-4 control-label"><? //php _p("Year Graduation /Your Cohort"); ?> </label>
-            <div class="col-sm-4">
-                <div class="input-group">
-                    <span class="input-group-addon">
-                        <i class="icon fa-calendar-check-o" aria-hidden="true"></i>
-                    </span>
-                    <?php //$_CONTROL->txtYearGraduation->RenderWithError(); ?>
-                </div>                     
-            </div>
-            <div class="col-sm-4 unidos">
-                <?php //$_CONTROL->txtCohort->RenderWithError(); ?>
-            </div>
-        </div>
-         -->
-        
-        <!--<div class="form-group row">
-            <label class="col-sm-4 control-label"><?php //_p("Your Cohort"); ?> </label>
-            <div class="col-sm-8">
-                <div class="input-group">
-                    <span class="input-group-addon">
-                        <i class="icon fa-book" aria-hidden="true"></i>
-                    </span>
-                    
-                </div>                     
-            </div>
-        </div> -->
-       
-        <!-- 
-        <div class="form-group row">
-            <label class="col-sm-4 control-label"><?php //_p("Birthday"); ?> </label>
-            <div class="col-sm-8">
-                <div class="input-group">
-                    <span class="input-group-addon">
-                        <i class="icon fa-calendar" aria-hidden="true"></i>
-                    </span>
-                    <?php //$_CONTROL->txtBirthday->RenderWithError(); ?>
-                </div>                     
-            </div>
-        </div>
-         -->
-        
-        <!-- 
-        <div class="form-group row">
-            <label class="col-sm-4 control-label"><?php //_p("Status"); ?> </label>
-            <div class="col-sm-8">
-                <div class="input-group">
-                    <span class="input-group-addon">
-                        <i class="icon fa-list" aria-hidden="true"></i>
-                    </span>
-                    <?php //$_CONTROL->lstStatus->RenderWithError(); ?>
-                </div>                     
-            </div>
-        </div>
-         -->
-       
-        <!-- 
-       <div class="form-group row">
-            <label class="col-sm-4 control-label"><?php //_p("Plan"); ?> </label>
-            <div class="col-sm-8">
-                <div class="input-group">
-                    <span class="input-group-addon">
-                        <i class="icon fa-list" aria-hidden="true"></i>
-                    </span>
-                    <?php //$_CONTROL->lstMiningOption->RenderWithError(); ?>
-                </div>                     
-            </div>
-        </div>
-         -->
          
         <div class="form-group row">
             <label class="col-sm-4 control-label"><?php _p("Restaurant Name"); ?> </label>
@@ -228,22 +86,16 @@
             </div>
         </div>
         
-         <!-- 
+        <?php if($_CONTROL->hasQR == TRUE){?> 
         <div class="form-group row">
-            <label class="col-sm-4 control-label"><?php //_p("Number Master Node"); ?> </label>
+            <label class="col-sm-4 control-label"><?php _p("QR Code"); ?> </label>
             <div class="col-sm-8">
-                <div class="input-group">
-                    <span class="input-group-addon">
-                        <i class="icon fa-list" aria-hidden="true"></i>
-                    </span>
-                    <?php //$_CONTROL->txtNumberMasterNode->RenderWithError(); ?>
-                </div>                     
+                <img src="<?php _p(__VIRTUAL_DIRECTORY__ . __SUBDIRECTORY__ . '/qrimages/' . $_CONTROL->mctRestaurant->objRestaurant->IdRestaurant . '.png')?>" />
             </div>
         </div>
-          -->
-        
-    </div>                    
-
+        <?php }?>
+       
+    </div>
 
 </div>
 <!-- start ui-dialog-footer -->

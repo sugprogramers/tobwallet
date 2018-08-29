@@ -72,7 +72,7 @@ class ViewUserMiningOptions extends QForm {
      
      
       public function planRender(User $obj) {
-            if ($obj->MiningOption == 1) {
+            /*if ($obj->MiningOption == 1) {
                 $this->lblPlan->Text = 'Plan for mining <br> <div class="label label-table label-primary">Light</div>';
             } else if ($obj->MiningOption == 2) {
                 $this->lblPlan->Text = 'Plan for mining <br> <div class="label label-table label-success">Standard</div>';
@@ -84,7 +84,7 @@ class ViewUserMiningOptions extends QForm {
                 $this->lblPlan->Text = 'Plan for mining <br> <div class="label label-table label-dark">Pro Plus</div>';
             } else {
                 $this->lblPlan->Text = '';
-            }
+            }*/
         
     }
 

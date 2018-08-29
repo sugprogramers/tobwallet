@@ -39,16 +39,16 @@ require(__CONFIGURATION__ . '/header.inc.php');
                     </div>
 
                     
-                    <?php if($this->organization->MiningOption != 0){ ?>  
+                    <?php //if($this->organization->MiningOption != 0){ ?>  
                      <div class="col-lg-12 form-group">
                      <blockquote class="blockquote blockquote-success" style="margin-bottom: 0px;">
                         <p>Mining within the KcoinPool.</p>
                     </blockquote>
                     </div>
                              
-                    <?php  } ?>       
+                    <?php  //} ?>       
                     
-                    <?php if($this->organization->MiningOption == 0){ ?>  
+                    <?php //if($this->organization->MiningOption == 0){ ?>  
                     <div class="col-lg-12 form-group">
                      <blockquote class="blockquote blockquote-danger" style="margin-bottom: 0px;">
                         <p>Mining within the KcoinPool (Select one to start).</p>
@@ -56,7 +56,7 @@ require(__CONFIGURATION__ . '/header.inc.php');
                         <p></p>
                         <p><b>*Note:</b> This is a non-revenue project. The entire purpose of having pool mining is to spread server nodes around the world so we can make our block chain decentralized, faster and more stable. People that support this initiative will be rewarded with kcoins earned by Master nodes.</p>
                     </div>
-                     <?php  } ?>   
+                     <?php  //} ?>   
 
                     <div class="col-lg-12 form-group">
                         <label class="control-label" for="txtLastName"><?php _p("Wallet Address"); ?></label>
@@ -88,7 +88,7 @@ require(__CONFIGURATION__ . '/header.inc.php');
                     
                     
                     
-                     <?php if($this->organization->MiningOption == 0){ ?>  
+                     <?php //if($this->organization->MiningOption == 0){ ?>  
                                
                      <div class="col-lg-12 form-group">
                          <div style="font-size: 16px;"> Kcoin mining pool is a way for miners to pool their resources together and share their hashing power while splitting the reward equally according to the amount of shares they contributed to solving a block. </div>
@@ -289,7 +289,7 @@ require(__CONFIGURATION__ . '/header.inc.php');
                                 </div>
                             </div>
                      </div>
-                     <?php  } ?>   
+                     <?php  //} ?>   
                     
                     
                     

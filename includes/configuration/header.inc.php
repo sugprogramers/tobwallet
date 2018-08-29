@@ -419,12 +419,12 @@ if ($usuario) {
                                             </a>
                                         </li>
                                         
-                                         <li id="activeMiningOptions" class="site-menu-item">
-                                            <a class="animsition-link" href="<?php _p(__VIRTUAL_DIRECTORY__ . __SUBDIRECTORY__); ?>/miningoptions" data-slug="layout-menu-collapsed">
+                                        <!-- <li id="activeMiningOptions" class="site-menu-item">
+                                            <a class="animsition-link" href="<?php //_p(__VIRTUAL_DIRECTORY__ . __SUBDIRECTORY__); ?>/miningoptions" data-slug="layout-menu-collapsed">
                                                 <i class="site-menu-icon " aria-hidden="true"></i>
                                                 <span class="site-menu-title">Mining Info</span>
                                             </a>
-                                        </li>
+                                        </li> -->
                                     </ul>
                                 </li>
                                 
@@ -436,7 +436,7 @@ if ($usuario) {
                                     </a>
                                     <ul class="site-menu-sub">
                                         <li id="activeViewRestaurants" class="site-menu-item">
-                                            <a class="animsition-link" href="<?php _p(__VIRTUAL_DIRECTORY__ . __SUBDIRECTORY__); ?>/restaurants" data-slug="layout-menu-collapsed">
+                                            <a class="animsition-link" href="<?php _p(__VIRTUAL_DIRECTORY__ . __SUBDIRECTORY__); ?>/ownerRestaurants" data-slug="layout-menu-collapsed">
                                                 <i class="site-menu-icon " aria-hidden="true"></i>
                                                 <span class="site-menu-title">View Restaurants</span>
                                             </a>

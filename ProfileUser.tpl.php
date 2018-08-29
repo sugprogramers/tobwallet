@@ -20,7 +20,7 @@ require(__CONFIGURATION__ . '/header.inc.php');
                             <a class="avatar avatar-lg" href="javascript:void(0)">
                                 <img src="<?php _p(__VIRTUAL_DIRECTORY__ . __SUBDIRECTORY__); ?>/template/assets/images/ic_profile.png" alt="...">
                             </a>
-                            <h4 class="profile-user"><?php echo $this->organization->FirstName . " " . $this->organization->LastName; ?></h4>
+                            <h4 class="profile-user"><?php echo $this->user->FirstName . " " . $this->user->LastName; ?></h4>
                             <p class="profile-job">User</p>
                             <p>You are a user that has the necessary permissions as assigned by the administrator.</p>
                             <div class="profile-social">
@@ -73,7 +73,7 @@ require(__CONFIGURATION__ . '/header.inc.php');
                                             <span class="input-group-addon">
                                                 <span class="icon wb-user" aria-hidden="true"></span>
                                             </span>
-                                            <?php $this->txtName->Render(); ?>    
+                                            <?php $this->txtEmail->Render(); ?>    
                                         </div>
                                     </div>
                                     <div class="col-sm-8 form-group ">
@@ -86,7 +86,6 @@ require(__CONFIGURATION__ . '/header.inc.php');
                                             </span>
                                             <?php $this->txtFirstName->Render(); ?>
                                         </div>
-
                                     </div>
 
                                     <div class="col-lg-8 form-group">
@@ -200,7 +199,7 @@ require(__CONFIGURATION__ . '/header.inc.php');
                                                     <span class="input-group-addon">
                                                         <span class="icon fa-laptop" aria-hidden="true"></span>
                                                     </span>
-                                                    <?php $this->txtMac->Render(); ?>  
+                                                    <?php //$this->txtMac->Render(); ?>  
                                                 </div>
 
                                             </div>
@@ -213,7 +212,7 @@ require(__CONFIGURATION__ . '/header.inc.php');
                                                         <span class="icon fa-key" aria-hidden="true"></span>
                                                     </span>
 
-                                                    <?php $this->txtTokenMac->Render(); ?>  
+                                                    <?php //$this->txtTokenMac->Render(); ?>  
                                                 </div>
 
                                             </div>
@@ -221,7 +220,7 @@ require(__CONFIGURATION__ . '/header.inc.php');
                                             <div class="col-lg-12 form-group">
                                                 <label class="control-label" for="txtLastName"><?php _p("Status Token"); ?></label>
                                                 <div class="input-group input-group-icon">
-                                                    <?php $this->lblStatusTokenMac->Render(); ?>  
+                                                    <?php //$this->lblStatusTokenMac->Render(); ?>  
                                                 </div>
 
 

@@ -1,30 +1,37 @@
 <?php
 
 require('includes/configuration/prepend.inc.php');
-require_once('dialog/DialogEditUser.php');
+//require_once('dialog/DialogEditUser.php');
+require_once('dialog/DialogEditRestaurant.php');
 require_once('dialog/DialogConfirm.php');
+require_once('dialog/DialogQR.php');
 require('general.php');
 
-class ViewListUsuarioForm extends QForm {
+
+class ViewListOwnerRestaurantForm extends QForm {
 
     protected $user;
+    protected $restaurant;
+    
     protected $dtgUsuarios;
-    protected $btnNewUsuario;
+    protected $dtgRestaurants;
+    
+    protected $btnNewRestaurant;
     protected $dlgConfirm;
-    protected $dlgDialogEditUser;
+    protected $dlgDialogEditRestaurant;
     protected $dlgDialogPermit;
     protected $lblWallet;
     
     protected $txtNombre;
-     protected $btnFilter;
+    protected $btnFilter;
     
+    protected  $dlgQRConfirm;
 
     protected function Form_Run() {
-
-        $Datos1 = @unserialize($_SESSION['DatosAdministrador']);
+        $Datos1 = @unserialize($_SESSION['DatosUsuario']);
 
         if ($Datos1) {
-            $this->user = Administrator::LoadByEmail($Datos1->Email);
+            $this->user = User::LoadByEmail($Datos1->Email);
         } else {
             QApplication::Redirect(__VIRTUAL_DIRECTORY__ . __SUBDIRECTORY__ . '/login');
         }
@@ -34,51 +41,40 @@ class ViewListUsuarioForm extends QForm {
     protected function Form_Create() {
         $this->objDefaultWaitIcon = new QWaitIcon($this);
 
-        $this->dlgDialogEditUser = new DialogEditUser($this, 'close_edit');
+        $this->dlgDialogEditRestaurant = new DialogEditRestaurant($this, 'close_edit');
         $this->dlgConfirm = new DialogConfirm($this, "close_confirm");
-
-        $this->dtgUsuarios = new UserDataGrid($this);
-        $this->dtgUsuarios->Paginator = new QPaginator($this->dtgUsuarios);
-        $this->dtgUsuarios->Paginator->strLabelForPrevious = '<i class="icon wb-chevron-left-mini"></i>';
-        $this->dtgUsuarios->Paginator->strLabelForNext = '<i class="icon wb-chevron-right-mini"></i>';
-        $this->dtgUsuarios->ItemsPerPage = 20;
-        $this->dtgUsuarios->CssClass = 'table table-bordered table-striped toggle-circle';
-        $this->dtgUsuarios->UseAjax = true;
-        $this->dtgUsuarios->WaitIcon = $this->objDefaultWaitIcon;
-        $this->dtgUsuarios->ShowFilter = false;
-        $this->dtgUsuarios->SortColumnIndex = 4;
-        $this->dtgUsuarios->SortDirection = true;
-
-
-        $this->dtgUsuarios->MetaAddColumn('IdUser', "Name=ID");
-        $this->dtgUsuarios->MetaAddColumn('Email');
-        //$this->dtgUsuarios->MetaAddColumn('Password');
-        $this->dtgUsuarios->MetaAddColumn('FirstName');
-        $this->dtgUsuarios->MetaAddColumn('LastName');
-        /*
-          $this->dtgUsuarios->AddColumn(new QDataGridColumn('Permiso', '<?= $_FORM->permisoRender($_ITEM); ?>', 'HtmlEntities=false', 'Width=50'));
-          $this->dtgUsuarios->AddColumn(new QDataGridColumn('Login', '<?= $_FORM->loginRender($_ITEM); ?>', 'HtmlEntities=false', 'Width=50'));
-         */
-        /*$this->dtgUsuarios->AddColumn(new QDataGridColumn('Plan', '<?= $_FORM->planRender($_ITEM); ?>', 'HtmlEntities=false',
-              array('OrderByClause' => QQ::OrderBy(QQN::User()->MiningOption), 'ReverseOrderByClause' => QQ::OrderBy(QQN::User()->MiningOption, false))
-                
-                ));*/
-        $this->dtgUsuarios->AddColumn(new QDataGridColumn('Status', '<?= $_FORM->statusRender($_ITEM); ?>', 'HtmlEntities=false', 'Width=100',
-              array('OrderByClause' => QQ::OrderBy(QQN::User()->StatusUser), 'ReverseOrderByClause' => QQ::OrderBy(QQN::User()->StatusUser, false))
-                ));
+        $this->dlgQRConfirm = new DialogQR($this, "close_edit");
         
-        $this->dtgUsuarios->AddColumn(new QDataGridColumn('Images', '<?= $_FORM->imagesRender($_ITEM); ?>', 'HtmlEntities=false'));
+        $this->dtgRestaurants = new RestaurantDataGrid($this);
+        $this->dtgRestaurants->Paginator = new QPaginator($this->dtgRestaurants);
+        $this->dtgRestaurants->Paginator->strLabelForPrevious = '<i class="icon wb-chevron-left-mini"></i>';
+        $this->dtgRestaurants->Paginator->strLabelForNext = '<i class="icon wb-chevron-right-mini"></i>';
+        $this->dtgRestaurants->ItemsPerPage = 20;
+        $this->dtgRestaurants->CssClass = 'table table-bordered table-striped toggle-circle';
+        $this->dtgRestaurants->UseAjax = true;
+        $this->dtgRestaurants->WaitIcon = $this->objDefaultWaitIcon;
+        $this->dtgRestaurants->ShowFilter = false;
+        $this->dtgRestaurants->SortColumnIndex = 4;
+        $this->dtgRestaurants->SortDirection = true;
         
-        $this->dtgUsuarios->AddColumn(new QDataGridColumn('', '<?= $_FORM->actionsRender($_ITEM); ?>', 'HtmlEntities=false', 'Width=100'));
+        $this->dtgRestaurants->MetaAddColumn('IdRestaurant', "Name=ID");
+        $this->dtgRestaurants->MetaAddColumn('Country');
+        $this->dtgRestaurants->MetaAddColumn('City');
+        $this->dtgRestaurants->MetaAddColumn('Address');
+        $this->dtgRestaurants->MetaAddColumn('RestaurantName');
+        $this->dtgRestaurants->MetaAddColumn('Longitude');
+        $this->dtgRestaurants->MetaAddColumn('Latitude');
+        
+        $this->dtgRestaurants->AddColumn(new QDataGridColumn('', '<?= $_FORM->actionsRender($_ITEM); ?>', 'HtmlEntities=false', 'Width=100'));
         
         $this->lblWallet = new QLabel($this);
         $this->lblWallet->HtmlEntities = false;
         
-        $this->btnNewUsuario = new QButton($this);
-        $this->btnNewUsuario->Text = '<i class="icon wb-plus" aria-hidden="true"></i>';
-        $this->btnNewUsuario->CssClass = "site-action-toggle btn-raised btn btn-primary btn-floating";
-        $this->btnNewUsuario->HtmlEntities = false;
-        $this->btnNewUsuario->AddAction(new QClickEvent(), new QAjaxAction('btnNewUsuario_Click'));
+        $this->btnNewRestaurant = new QButton($this);
+        $this->btnNewRestaurant->Text = '<i class="icon wb-plus" aria-hidden="true"></i>';
+        $this->btnNewRestaurant->CssClass = "site-action-toggle btn-raised btn btn-primary btn-floating";
+        $this->btnNewRestaurant->HtmlEntities = false;
+        $this->btnNewRestaurant->AddAction(new QClickEvent(), new QAjaxAction('btnNewRestaurant_Click'));
         
         $this->txtNombre = new QTextBox($this);
         $this->txtNombre->Placeholder = "Email or Firtname or Lastname";
@@ -91,7 +87,7 @@ class ViewListUsuarioForm extends QForm {
     }
 
     protected function items_Found() {
-        $countProjects = User::CountAll();
+        $countProjects = Restaurant::CountAll();
         if ($countProjects == 0) {
             QApplication::ExecuteJavaScript("itemsFound(1);");
         } else {
@@ -102,28 +98,26 @@ class ViewListUsuarioForm extends QForm {
      public function actionFilter_Click($strFormId, $strControlId, $strParameter) {
         if (trim($this->txtNombre->Text != "")) {
             $searchTipo = QQ::OrCondition(
-                    QQ::Like(QQN::User()->FirstName, "%".trim($this->txtNombre->Text)."%"),
-                    QQ::Like(QQN::User()->LastName, "%".trim($this->txtNombre->Text)."%"),
-                    QQ::Like(QQN::User()->Email, "%".trim($this->txtNombre->Text)."%")
+                    QQ::Like(QQN::Restaurant()->RestaurantName, "%".trim($this->txtNombre->Text)."%")/*,
+                    QQ::Like(QQN::Restaurant()->OwnerLastName, "%".trim($this->txtNombre->Text)."%"),
+                    QQ::Like(QQN::Restaurant()->Email, "%".trim($this->txtNombre->Text)."%")*/
              );
         }
         else {
             $searchTipo = QQ::All();
         }
-
-        $this->dtgUsuarios->AdditionalConditions = QQ::AndCondition(
-            $searchTipo
-        );
-
-        $this->dtgUsuarios->Refresh();
+        
+        $this->dtgRestaurants->AdditionalConditions = QQ::AndCondition($searchTipo);
+        $this->dtgRestaurants->Refresh();
 
         QApplication::ExecuteJavaScript("showSuccess('Filter correctly!');");
     }
 
-    public function btnNewUsuario_Click($strFormId, $strControlId, $strParameter) {
-        $this->dlgDialogEditUser->Title = addslashes("<i class='icon wb-plus'></i> New User");
-        $this->dlgDialogEditUser->createNew();
-        $this->dlgDialogEditUser->ShowDialogBox();
+    public function btnNewRestaurant_Click($strFormId, $strControlId, $strParameter) {
+        $this->dlgDialogEditRestaurant->Title = addslashes("<i class='icon wb-plus'></i> New Restaurant");
+        $this->dlgDialogEditRestaurant->createNew();
+        $this->dlgDialogEditRestaurant->strIdUser = $this->user->IdUser;
+        $this->dlgDialogEditRestaurant->ShowDialogBox();
     }
 
     public function planRenderLabel(User $obj) {
@@ -144,14 +138,14 @@ class ViewListUsuarioForm extends QForm {
     }
     
     
-    public function planRender(User $obj) {
-        $controlID = 'plan' . $obj->IdUser;
-        $addCtrl = $this->dtgUsuarios->GetChildControl($controlID);
+    public function planRender(Restaurant $obj) {
+        $controlID = 'plan' . $obj->IdRestaurant;
+        $addCtrl = $this->dtgRestaurants->GetChildControl($controlID);
         if (!$addCtrl) {
-            $addCtrl = new QLabel($this->dtgUsuarios, $controlID);
+            $addCtrl = new QLabel($this->dtgRestaurants, $controlID);
             $addCtrl->HtmlEntities = FALSE;
             $addCtrl->Cursor = QCursor::Pointer;            
-            $addCtrl->ActionParameter = $obj->IdUser;
+            $addCtrl->ActionParameter = $obj->IdRestaurant;
             $addCtrl->AddAction(new QClickEvent(), new QAjaxAction('plan_Click'));
         }
         $addCtrl->Text = $this->planRenderLabel($obj);
@@ -160,10 +154,10 @@ class ViewListUsuarioForm extends QForm {
     
     protected function plan_Click($strFormId, $strControlId, $strParameter) {
         
-        $User = User::LoadByIdUser($strParameter);
-        if($User && $User->MiningOption>0) {
+        $Restaurant = Restaurant::LoadByIdRestaurant($strParameter);
+        if($Restaurant && $Restaurant->MiningOption>0) {
             
-            $this->lblWallet->Text = "<b>For the user:</b> $User->Email <br><br><b>The wallet Address is:</b> $User->WalletAddress";
+            $this->lblWallet->Text = "<b>For the user:</b> $User->Email <br><br><b>The wallet Address is:</b> $Restaurant->Address";
             QApplication::ExecuteJavaScript("$('#ventaModal').modal('show');");
         }
         else{
@@ -171,12 +165,8 @@ class ViewListUsuarioForm extends QForm {
         }
     }
     
-    
-    
-    
-    
 
-    public function statusRender(User $obj) {
+    /*public function statusRender(User $obj) {
 
         if ($obj->StatusUser == 1) {
             return '<div class="label label-table label-warning">Register</div>';
@@ -189,30 +179,30 @@ class ViewListUsuarioForm extends QForm {
         } else {
             return '<div class="label label-table label-default">None</div>';
         }
-    }
+    }*/
 
     
     
      public function imagesRender(User $obj) {
          
          
-         return   '<div style="font-size:12px;"><a href="'.__UPLOAD_PATH__."/".$obj->ImagePhoto.'" target="_blank" >Driver License</a>'
+         return   '<div style="font-size:12px;"><a href="'.__UPLOAD_PATH__."/".$obj->ImageDriver.'" target="_blank" >Driver License</a>'
                       . '<br>'
                       . '<a href="'.__UPLOAD_PATH__."/".$obj->ImagePhoto.'"  target="_blank">Photo</a></div>';
         
-    }
+     }
 
-    public function loginRender(Usuario $obj) {
-        $controlID = 'login' . $obj->IdUsuario;
-        $addCtrl = $this->dtgUsuarios->GetChildControl($controlID);
+    public function loginRender(Restaurant $obj) {
+        $controlID = 'login' . $obj->IdRestaurant;
+        $addCtrl = $this->dtgRestaurants->GetChildControl($controlID);
         if (!$addCtrl) {
-            $addCtrl = new QLabel($this->dtgUsuarios, $controlID);
+            $addCtrl = new QLabel($this->dtgRestaurants, $controlID);
             $addCtrl->HtmlEntities = FALSE;
             $addCtrl->Cursor = QCursor::Pointer;
             $addCtrl->Text = '<div  class="btn btn-sm btn-icon btn-flat btn-default" data-toggle="tooltip" data-original-title="Login">
                             <i class="icon fa-sign-in" aria-hidden="true"></i>
                           </div>';
-            $addCtrl->ActionParameter = $obj->IdUsuario;
+            $addCtrl->ActionParameter = $obj->IdRestaurant;
             $addCtrl->AddAction(new QClickEvent(), new QAjaxAction('login_Click'));
         }
         return '<center>' . $addCtrl->Render(false) . '</center>';
@@ -229,25 +219,24 @@ class ViewListUsuarioForm extends QForm {
         }
     }
 
-    public function permisoRender(Usuario $obj) {
-        $controlID = 'perm' . $obj->IdUsuario;
-        $addCtrl = $this->dtgUsuarios->GetChildControl($controlID);
+    public function permisoRender(Restaurant $obj) {
+        $controlID = 'perm' . $obj->IdRestaurant;
+        $addCtrl = $this->dtgRestaurants->GetChildControl($controlID);
         if (!$addCtrl) {
-            $addCtrl = new QLabel($this->dtgUsuarios, $controlID);
+            $addCtrl = new QLabel($this->dtgRestaurants, $controlID);
             $addCtrl->HtmlEntities = FALSE;
             $addCtrl->Cursor = QCursor::Pointer;
             $addCtrl->Text = '<div  class="btn btn-sm btn-icon btn-flat btn-default" data-toggle="tooltip" data-original-title="Permiso">
                             <i class="icon fa-check" aria-hidden="true"></i>
                           </div>';
-            $addCtrl->ActionParameter = $obj->IdUsuario;
+            $addCtrl->ActionParameter = $obj->IdRestaurant;
             $addCtrl->AddAction(new QClickEvent(), new QAjaxAction('permiso_Click'));
         }
         return '<center>' . $addCtrl->Render(false) . '</center>';
     }
 
     protected function permiso_Click($strFormId, $strControlId, $strParameter) {
-
-
+        
         $this->dlgDialogPermit->Title = addslashes("<i class='icon wb-edit'></i> Permisos Usuario");
         $this->dlgDialogPermit->loadDefault($strParameter);
         $this->dlgDialogPermit->ShowDialogBox();
@@ -256,40 +245,53 @@ class ViewListUsuarioForm extends QForm {
         //QApplication::ExecuteJavaScript($strJavaScript);
     }
 
-    public function actionsRender(User $id) {
-        $controlID = 'edit' . $id->IdUser;
-        $editCtrl = $this->dtgUsuarios->GetChildControl($controlID);
+    public function actionsRender(Restaurant $id) {
+        $controlID = 'edit' . $id->IdRestaurant;
+        $editCtrl = $this->dtgRestaurants->GetChildControl($controlID);
         if (!$editCtrl) {
-            $editCtrl = new QLabel($this->dtgUsuarios, $controlID);
+            $editCtrl = new QLabel($this->dtgRestaurants, $controlID);
             $editCtrl->HtmlEntities = FALSE;
             $editCtrl->Cursor = QCursor::Pointer;
             $editCtrl->Text = '<div  class="btn btn-sm btn-icon btn-flat btn-default" data-toggle="tooltip" data-original-title="Edit">
                             <i class="icon wb-edit" aria-hidden="true"></i>
                           </div>';
-            $editCtrl->ActionParameter = $id->IdUser;
+            $editCtrl->ActionParameter = $id->IdRestaurant;
             $editCtrl->AddAction(new QClickEvent(), new QAjaxAction('edit_Click'));
         }
 
-        $controlID2 = 'del' . $id->IdUser;
-        $deleteCtrl = $this->dtgUsuarios->GetChildControl($controlID2);
+        $controlID2 = 'del' . $id->IdRestaurant;
+        $deleteCtrl = $this->dtgRestaurants->GetChildControl($controlID2);
         if (!$deleteCtrl) {
-            $deleteCtrl = new QLabel($this->dtgUsuarios, $controlID2);
+            $deleteCtrl = new QLabel($this->dtgRestaurants, $controlID2);
             $deleteCtrl->HtmlEntities = FALSE;
             $deleteCtrl->Cursor = QCursor::Pointer;
             $deleteCtrl->Text = '<div  class="btn btn-sm btn-icon btn-flat btn-default" data-toggle="tooltip" data-original-title="Delete">
                             <i class="icon wb-trash" aria-hidden="true"></i>
                           </div>';
-            $deleteCtrl->ActionParameter = $id->IdUser;
+            $deleteCtrl->ActionParameter = $id->IdRestaurant;
             $deleteCtrl->AddAction(new QClickEvent(), new QAjaxAction('delete_Click'));
         }
+        
+        $controlID3 = 'qr' . $id->IdRestaurant;
+        $qrCtrl = $this->dtgRestaurants->GetChildControl($controlID3);
+        if (!$qrCtrl){
+            $qrCtrl = new QLabel($this->dtgRestaurants, $controlID3);
+            $qrCtrl->HtmlEntities=FALSE;
+            $qrCtrl->Cursor = QCursor::Pointer;
+            $qrCtrl->Text = '<div  class="btn btn-sm btn-icon btn-flat btn-default" data-toggle="tooltip" data-original-title="QR Code">
+                            <i class="fas fa-qrcode" aria-hidden="true"></i>
+                          </div>';
+            $qrCtrl->ActionParameter = $id->IdRestaurant;
+            $qrCtrl->AddAction(new QClickEvent(), new QAjaxAction('qr_Click'));
+        }
 
-        return "<center>" . $editCtrl->Render(false) . ' ' . $deleteCtrl->Render(false) . "</center>";
+        return "<center>" . $editCtrl->Render(false) . ' ' . $deleteCtrl->Render(false) . ' ' . $qrCtrl->Render(false) . "</center>";
     }
 
     public function edit_Click($strFormId, $strControlId, $strParameter) {
-        $this->dlgDialogEditUser->Title = addslashes("<i class='icon wb-edit'></i> Edit User");
-        $this->dlgDialogEditUser->loadDefault($strParameter);
-        $this->dlgDialogEditUser->ShowDialogBox();
+        $this->dlgDialogEditRestaurant->Title = addslashes("<i class='icon wb-edit'></i> Edit Restaurant");
+        $this->dlgDialogEditRestaurant->loadDefault($strParameter);
+        $this->dlgDialogEditRestaurant->ShowDialogBox();
     }
 
     public function delete_Click($strFormId, $strControlId, $strParameter) {
@@ -298,11 +300,18 @@ class ViewListUsuarioForm extends QForm {
         $this->dlgConfirm->ID = intval($strParameter);
         $this->dlgConfirm->ShowDialogBox();
     }
+    
+    public function qr_Click($strFormId, $strControlId, $strParameter){
+        $this->dlgQRConfirm->Title = addslashes("<i class='fas fa-qrcode'></i> QR Code");
+        $this->dlgQRConfirm->txtMessage = "You want to generate QR code?";
+        $this->dlgQRConfirm->loadDefault($strParameter);
+        $this->dlgQRConfirm->ShowDialogBox();
+    }
 
     protected function delete($id) {
         try {
-            $users = User::LoadByIdUser(intval($id));
-            $users->Delete();
+            $restaurants = Restaurant::LoadByIdRestaurant(intval($id));
+            $restaurants->Delete();
             $this->items_Found();
             QApplication::ExecuteJavaScript("showSuccess('Deleted successfully!');");
         } catch (QMySqliDatabaseException $ex) {
@@ -312,7 +321,7 @@ class ViewListUsuarioForm extends QForm {
 
     public function close_edit($update) {
         if ($update) {
-            $this->dtgUsuarios->Refresh();
+            $this->dtgRestaurants->Refresh();
             $this->items_Found();
             QApplication::ExecuteJavaScript("showSuccess('Data updated correctly');");
         }
@@ -322,10 +331,10 @@ class ViewListUsuarioForm extends QForm {
         if ($answer) {
             $this->delete($id);
         }
-        $this->dtgUsuarios->Refresh();
+        $this->dtgRestaurants->Refresh();
     }
 
 }
 
-ViewListUsuarioForm::Run('ViewListUsuarioForm');
+ViewListOwnerRestaurantForm::Run('ViewListOwnerRestaurantForm');
 ?>

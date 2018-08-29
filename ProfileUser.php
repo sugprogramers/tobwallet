@@ -97,15 +97,15 @@ class ProfileUser extends QForm {
         $this->btnSave->AddAction(new QClickEvent(), new QAjaxAction('btnSave_Click'));
 
 
-        $this->txtMac = new QTextBox($this);
+        /*$this->txtMac = new QTextBox($this);
         $this->txtMac->CssClass = "form-control";
         $this->txtMac->Text = $this->user->Mac;
-        $this->txtMac->Enabled = false ;
+        $this->txtMac->Enabled = false ;*/
 
-        $this->txtTokenMac = new QTextBox($this);
+        /*$this->txtTokenMac = new QTextBox($this);
         $this->txtTokenMac->CssClass = "form-control";
         $this->txtTokenMac->Text = $this->user->TokenMac;
-        $this->txtTokenMac->Enabled = false ;
+        $this->txtTokenMac->Enabled = false ;*/
 
         $this->lblStatusTokenMac = new QLabel($this);
         $this->lblStatusTokenMac->HtmlEntities = false;
@@ -130,13 +130,13 @@ class ProfileUser extends QForm {
      
     public function statustokenRender(User $obj) {
 
-        if ($obj->StatusTokenMac == 1) {
+        /*if ($obj->StatusTokenMac == 1) {
             $this->lblStatusTokenMac->Text = '<div class="label label-table label-success">Enable</div>';
         } else if ($obj->StatusTokenMac == 2) {
             $this->lblStatusTokenMac->Text = '<div class="label label-table label-danger">Disable</div>';
         } else {
             $this->lblStatusTokenMac->Text = '<div class="label label-table label-default">None</div>';
-        }
+        }*/
     }
 
    

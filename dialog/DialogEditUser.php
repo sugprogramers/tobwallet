@@ -71,12 +71,6 @@ class DialogEditUser extends QDialogBox {
 
         $this->txtBirthday = $this->mctUsuario->calBirthday_Create();
         
-        //$this->txtYearGraduation = $this->mctUsuario->txtYearGraduation_Create();
-        //$this->txtYearGraduation->Placeholder = htmlentities("Year Graduation");
-        
-        //$this->txtCohort = $this->mctUsuario->txtCohort_Create();
-        //$this->txtCohort->Placeholder = htmlentities("Your Cohort");
-        
         $this->txtStatus = $this->mctUsuario->txtStatusUser_Create();        
         $this->lstStatus = new QListBox($this);
         $this->lstStatus->CssClass = "form-control input-sm editHidden"; 
@@ -91,19 +85,8 @@ class DialogEditUser extends QDialogBox {
         $this->lstUserType->AddItem(new QListItem("Customer", 1));
         $this->lstUserType->AddItem(new QListItem("Owner", 2));
         
-        /*$this->txtMiningOption = $this->mctUsuario->txtMiningOption_Create();
-        $this->lstMiningOption = new QListBox($this);
-        $this->lstMiningOption->CssClass = "form-control input-sm editHidden"; 
-        $this->lstMiningOption->AddItem(new QListItem("None", 0));
-        $this->lstMiningOption->AddItem(new QListItem("Light", 1));
-        $this->lstMiningOption->AddItem(new QListItem("Standard", 2));
-        $this->lstMiningOption->AddItem(new QListItem("Power", 3));
-        $this->lstMiningOption->AddItem(new QListItem("Super Power", 4));
-        $this->lstMiningOption->AddItem(new QListItem("Pro Plus", 5));*/
-        
         $this->txtWalletAddress = $this->mctUsuario->txtWalletAddress_Create();   
-        //$this->txtNumberMasterNode = $this->mctUsuario->txtNumberMasterNode_Create();   
-         
+        
         //buttons
         $this->btnSave = new QButton($this);
         $this->btnSave->HtmlEntities = FALSE;
@@ -173,8 +156,6 @@ class DialogEditUser extends QDialogBox {
         } catch (Exception $exc) {
             QApplication::ExecuteJavaScript("showWarning('Error: " . str_replace("'", "\'", $exc->getMessage()) . "');");
         }
-         
-        
     }
 
     public function btnCancel_Click($strFormId, $strControlId, $strParameter) {

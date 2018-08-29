@@ -62,17 +62,30 @@ class DialogQR extends QDialogBox {
 
     public function btnYes_Click($strFormId, $strControlId, $strParameter) {
         
-        try{
-            QRcode::png($this->mctRestaurant->objRestaurant->IdRestaurant, __QR_IMAGES__ . "/" . $this->mctRestaurant->objRestaurant->IdRestaurant . '.png');
+        $filePath = __QR_IMAGES__ . "/" . $this->mctRestaurant->objRestaurant->IdRestaurant . '.png';
         
-            $this->mctRestaurant->objRestaurant->QrCode = __QR_IMAGES__ . "/" . $this->mctRestaurant->objRestaurant->IdRestaurant . '.png';
+        
+        try{
+            /*if(file_exists($filePath)){
+                QApplication::ExecuteJavaScript("showWarning('QR Image exists!');");
+                $this->CloseSelf(false);
+            }else{
+                QRcode::png($this->mctRestaurant->objRestaurant->IdRestaurant, $filePath);
+                $this->mctRestaurant->objRestaurant->QrCode = $filePath;
+                $this->mctRestaurant->SaveRestaurant();
+                $this->CloseSelf(true);
+            }*/
             
-            $this->mctRestaurant->SaveRestaurant();
-            
+            QRcode::png($this->mctRestaurant->objRestaurant->IdRestaurant, $filePath);
+                $this->mctRestaurant->objRestaurant->QrCode = $filePath;
+                $this->mctRestaurant->SaveRestaurant();
+                $this->CloseSelf(true);
+                
         } catch (Exception $ex) {
-            QApplication::ExecuteJavaScript("showWarning('Error " . str_replace("'", "\'", $ex->getMessage()) . "');");
+            QApplication::ExecuteJavaScript("showWarning('Error: " . str_replace("'", "\'", $ex->getMessage()) . "');");
+            $this->CloseSelf(false);
         }
-        $this->CloseSelf(true);
+        
     }
 
     public function btnNo_Click($strFormId, $strControlId, $strParameter) {
