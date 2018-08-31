@@ -72,7 +72,6 @@
                 <!-- </div> -->                    
             </div>
         </div>
-         
         
         <div class="form-group row">
             <label class="col-sm-4 control-label"><?php _p("Address"); ?> </label>
@@ -87,14 +86,13 @@
         </div>
         
         <?php if($_CONTROL->hasQR == TRUE){?> 
-        <div class="form-group row">
+       <div class="form-group row">
             <label class="col-sm-4 control-label"><?php _p("QR Code"); ?> </label>
             <div class="col-sm-8">
-                <img src="<?php _p(__VIRTUAL_DIRECTORY__ . __SUBDIRECTORY__ . '/qrimages/' . $_CONTROL->mctRestaurant->objRestaurant->IdRestaurant . '.png')?>" />
+                <img src="<?php _p(__VIRTUAL_DIRECTORY__ . __SUBDIRECTORY__ . '/qrimages/' . $_CONTROL->mctRestaurant->objRestaurant->IdRestaurant . '-xs.png')?>" />
             </div>
         </div>
         <?php }?>
-       
     </div>
 
 </div>

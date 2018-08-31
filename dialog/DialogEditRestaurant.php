@@ -43,11 +43,8 @@ class DialogEditRestaurant extends QDialogBox {
         
         $this->txtCity = $this->mctRestaurant->txtCity_Create();
         $this->txtCity->Placeholder = htmlentities("City");
-        
         $this->txtRestaurantName = $this->mctRestaurant->txtRestaurantName_Create();
-        
-        $this->txtAddress = $this->mctRestaurant->txtAddress_Create(); 
-        
+        $this->txtAddress = $this->mctRestaurant->txtAddress_Create();
         $this->txtLongitude = $this->mctRestaurant->txtLongitude_Create();
         $this->txtLatitude = $this->mctRestaurant->txtLatitude_Create();
         
@@ -83,8 +80,6 @@ class DialogEditRestaurant extends QDialogBox {
             if($this->mctRestaurant->objRestaurant->IdRestaurant == null){
                 $this->mctRestaurant->objRestaurant->QrCode = "";
             }
-            
-            QApplication::ExecuteJavaScript("showWarning('Error: " . $this->strIdUser . "');");
             
             /*if($this->strIdUser !== ""){
                 $this->mctRestaurant->objRestaurant->IdUser = $this->strIdUser;

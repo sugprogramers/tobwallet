@@ -34,8 +34,6 @@ class DialogQR extends QDialogBox {
         
         $this->mctRestaurant = RestaurantMetaControl::CreateFromPathInfo($this);
         
-        $this->imagespath = __QR_IMAGES__;
-        
         $this->txtMessage = "default message...";
 
         $this->btnYes = new QButton($this);
@@ -62,8 +60,7 @@ class DialogQR extends QDialogBox {
 
     public function btnYes_Click($strFormId, $strControlId, $strParameter) {
         
-        $filePath = __QR_IMAGES__ . "/" . $this->mctRestaurant->objRestaurant->IdRestaurant . '.png';
-        
+        $filePath = __QR_IMAGES__ . "/" . $this->mctRestaurant->objRestaurant->IdRestaurant;
         
         try{
             /*if(file_exists($filePath)){
@@ -75,8 +72,8 @@ class DialogQR extends QDialogBox {
                 $this->mctRestaurant->SaveRestaurant();
                 $this->CloseSelf(true);
             }*/
-            
-            QRcode::png($this->mctRestaurant->objRestaurant->IdRestaurant, $filePath);
+            QRcode::png($this->mctRestaurant->objRestaurant->IdRestaurant, $filePath . '-xs.png', QR_ECLEVEL_L, 3);
+            QRcode::png($this->mctRestaurant->objRestaurant->IdRestaurant, $filePath . '.png', QR_ECLEVEL_L, 30);
                 $this->mctRestaurant->objRestaurant->QrCode = $filePath;
                 $this->mctRestaurant->SaveRestaurant();
                 $this->CloseSelf(true);
@@ -85,7 +82,6 @@ class DialogQR extends QDialogBox {
             QApplication::ExecuteJavaScript("showWarning('Error: " . str_replace("'", "\'", $ex->getMessage()) . "');");
             $this->CloseSelf(false);
         }
-        
     }
 
     public function btnNo_Click($strFormId, $strControlId, $strParameter) {
@@ -103,8 +99,6 @@ class DialogQR extends QDialogBox {
         try {
             $obj = Restaurant::LoadByIdRestaurant($id);
             $this->mctRestaurant->objRestaurant = $obj;
-            //$this->mctRestaurant->blnEditMode = TRUE;
-            //$this->mctRestaurant->Refresh();
             
             /*$obj = User::LoadByIdUser(intval($id));
             $this->mctUsuario->objUser = $obj;
@@ -117,7 +111,6 @@ class DialogQR extends QDialogBox {
             QApplication::ExecuteJavaScript("showWarning('Error " . str_replace("'", "\'", $exc->getMessage()) . "');");
         }
     }
-
 }
 
 ?>
