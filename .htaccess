@@ -147,3 +147,6 @@ RewriteRule ^availableoffer    ViewListOffersToClient.php [L]
 
 RewriteRule ^ownerRestaurants/(.*)$    ViewListOwnerRestaurants.php/$1 [L]
 RewriteRule ^ownerRestaurants$    ViewListOwnerRestaurants.php [L]
+
+RewriteRule ^customerOffers/(.*)$    ViewListOffersToCustomer.php/$1 [L]
+RewriteRule ^customerOffers$    ViewListOffersToCustomer.php [L]

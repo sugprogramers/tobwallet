@@ -17,6 +17,20 @@
     margin-bottom: 10px;
 }
        </style>
+       
+       <div class="form-group row">
+            <label class="col-sm-4 control-label"><?php _p("Owner"); ?> </label>
+            <div class="col-sm-8">
+                <div class="input-group">
+                    <span class="input-group-addon">
+                        <i class="icon fa-list" aria-hidden="true"></i>
+                    </span>
+                    <?php //$_CONTROL->ctrlComplete->RenderWithError(); ?>
+                </div>                     
+            </div>
+        </div>
+       
+       
 
         <div class="form-group row">
             <label class="col-sm-4 control-label"><?php _p("Country/City"); ?> </label>

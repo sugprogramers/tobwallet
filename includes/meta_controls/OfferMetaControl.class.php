@@ -19,6 +19,9 @@
 	 * @subpackage MetaControls
 	 */
 	class OfferMetaControl extends OfferMetaControlGen {
+            public $objOffer;
+            public $blnEditMode;
+            
 		// Initialize fields with default values from database definition
 /*
 		public function __construct($objParentObject, Offer $objOffer) {

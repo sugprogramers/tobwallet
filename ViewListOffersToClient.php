@@ -20,11 +20,11 @@ class ViewListOffersToClientForm extends QForm {
 
         $Datos1 = @unserialize($_SESSION['DatosUsuario']);
 
-//        if ($Datos1) {
-//            $this->user = Usuario::LoadByEmail($Datos1->Email);
-//        } else {
-//            QApplication::Redirect(__VIRTUAL_DIRECTORY__ . __SUBDIRECTORY__ . '/login');
-//        }
+        if ($Datos1) {
+            $this->user = User::LoadByEmail($Datos1->Email);
+        } else {
+            QApplication::Redirect(__VIRTUAL_DIRECTORY__ . __SUBDIRECTORY__ . '/login');
+        }
         $this->items_Found();
     }
 
@@ -32,7 +32,7 @@ class ViewListOffersToClientForm extends QForm {
 
         $this->objDefaultWaitIcon = new QWaitIcon($this);
 
-        $this->dlgDialogEditModelo = new DialogValidateOffer($this, 'close_edit');
+        $this->dlgDialogEditModelo = new DialogValidateOffer($this, 'close_edit', $this->user->IdUser);
         $this->dlgConfirm = new DialogConfirm($this, "close_confirm");
 
         $this->dtgOffersToClient = new OfferDataGrid($this);
@@ -49,8 +49,8 @@ class ViewListOffersToClientForm extends QForm {
 
         $this->dtgOffersToClient->MetaAddColumn('IdOffer', "Name=ID");
         $this->dtgOffersToClient->MetaAddColumn('Description');
-        $this->dtgOffersToClient->MetaAddColumn('OfferedCoins');
-        $this->dtgOffersToClient->MetaAddColumn('MaxOffers');
+        $this->dtgOffersToClient->MetaAddColumn('OfferedCoins', "Name=Coins per Person");
+        $this->dtgOffersToClient->MetaAddColumn('MaxOffers', "Name=Total Offers");
 
         /* $this->dtgOffersToClient->AddColumn(new QDataGridColumn('Talla', '<?= $_FORM->actionsTalla($_ITEM); ?>', 'HtmlEntities=false')); */
         $this->dtgOffersToClient->AddColumn(new QDataGridColumn('', '<?= $_FORM->actionsRender($_ITEM); ?>', 'HtmlEntities=false', 'Width=100'));
@@ -89,7 +89,7 @@ class ViewListOffersToClientForm extends QForm {
     }
 
     public function btnNewModelo_Click($strFormId, $strControlId, $strParameter) {
-
+        $this->dlgDialogEditModelo->strIdUser = $this->user->IdUser;
         $this->dlgDialogEditModelo->Title = addslashes("<i class='icon wb-plus'></i> Available Offers");
         $this->dlgDialogEditModelo->createNew();
         $this->dlgDialogEditModelo->ShowDialogBox();

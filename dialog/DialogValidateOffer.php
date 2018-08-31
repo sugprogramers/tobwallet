@@ -7,8 +7,26 @@ class DialogValidateOffer extends QDialogBox {
     public $btnNo;
     public $ID = 0;
     public $strClosePanelMethod;
+    
+    public $strIdRestaurant;
+    public $strIdUser;
+    
+    public $mctOffer;
+    public $lstRestaurants;
+    public $txtDescription;
+    public $txtOfferedCoins;
+    public $txtStartDate;
+    public $txtEndDate;
+    public $txtIdRestaurant;
+    public $txtMaxOffers;
+    public $txtAppliedOfferes;
+    
+    public $btnSave;
+    public $btnCancel;
+    
+    
 
-    public function __construct($objParentObject, $strClosePanelMethod, $strControlId = null) {
+    public function __construct($objParentObject, $strClosePanelMethod, $strParentId = null, $strControlId = null) {
         // Call the Parent
         try {
             parent::__construct($objParentObject, $strControlId);
@@ -16,48 +34,120 @@ class DialogValidateOffer extends QDialogBox {
             $objExc->IncrementOffset();
             throw $objExc;
         }
+        
+        $this->mctOffer = OfferMetaControl::CreateFromPathInfo($this);
+        
+        $this->lstRestaurants = new QListBox($this);
+        
+        $this->strIdUser = $strParentId;
+        if($strParentId != null){
+            $query = "select restaurant.IdRestaurant as id, restaurant.RestaurantName as name from restaurant where restaurant.IdUser = 3";
+            $arrayFilter = array();
+            $objDbResult = QApplication::$Database[1]->Query("$query");
+            
+            $arrayDT = array();
+            
+            while (($report = $objDbResult->FetchAssoc())) {
+                $arrayDT[] = $report;
+                $this->lstRestaurants->AddItem(new QListItem($report['name'], $report['id']));
+            }
+        }
+        
+        $this->lstRestaurants->CssClass = "form-control input-sm editHidden";
+        
+        $this->txtDescription = $this->mctOffer->txtDescription_Create();
+        $this->txtDescription->CssClass = "form-control input-sm editHidden";
+        
+        $this->txtOfferedCoins = $this->mctOffer->txtOfferedCoins_Create();
+        $this->txtStartDate = $this->mctOffer->calDateFrom_Create();
+        $this->txtEndDate = $this->mctOffer->calDateTo_Create();
+        $this->txtMaxOffers = $this->mctOffer->txtMaxOffers_Create();
+        //$this->txtAppliedOfferes = $this->mctOffer->txtAppliedOffers_Create();
+        
+        $this->txtStartDate->DateTimePickerType = QDateTimePickerType::Date;
+        $this->txtEndDate->DateTimePickerType = QDateTimePickerType::Date;
 
         $this->Title = "Confirmation";
-        $this->Width = 400;
+        $this->Width = 550;
         $this->isAutosize = true;
         $this->Resizable = FALSE;
         
         $this->strTemplate = __DOCROOT__ . __SUBDIRECTORY__ . '/dialog/DialogValidateOffer.tpl.php';
         $this->strClosePanelMethod = $strClosePanelMethod;
-
         
-        $this->txtMessage = "default message...";
+        //buttons
+        $this->btnSave = new QButton($this);
+        $this->btnSave->HtmlEntities = FALSE;
+        $this->btnSave->Text = '<i class="icon fa-check" aria-hidden="true"></i> Save';
+        $this->btnSave->CssClass = "btn btn-primary btn-raised ";
+        $this->btnSave->AddAction(new QClickEvent(), new QAjaxControlAction($this, 'btnSave_Click'));
 
-        $this->btnYes = new QButton($this);
-        $this->btnYes->Text = '<i class="icon fa-check" aria-hidden="true"></i> Yes';
-        $this->btnYes->HtmlEntities = false;
-        $this->btnYes->CssClass = "btn btn-raised btn-primary";
-        $this->btnYes->AddAction(new QClickEvent(), new QAjaxControlAction($this, 'btnYes_Click'));
-
-        $this->btnNo = new QButton($this);
-        $this->btnNo->Text = '<i class="icon fa-close" aria-hidden="true"></i> No';
-        $this->btnNo->HtmlEntities = false;
-        $this->btnNo->CssClass = "btn btn-raised btn-danger";
-        $this->btnNo->AddAction(new QClickEvent(), new QAjaxControlAction($this, 'btnNo_Click'));
+        $this->btnCancel = new QButton($this);
+        $this->btnCancel->HtmlEntities = FALSE;
+        $this->btnCancel->Text = '<i class="icon fa-close" aria-hidden="true"></i> Cancel';
+        $this->btnCancel->CssClass = "btn btn-danger btn-raised ";
+        $this->btnCancel->AddAction(new QClickEvent(), new QAjaxControlAction($this, 'btnCancel_Click'));
+        
     }
     
-    public function setMessage($message){
-          $this->txtMessage->Text = $message;
-          $this->txtMessage->Refresh();
+    public function btnSave_Click($strFormId, $strControlId, $strParameter) {
+       
+        try {
+            if(!is_numeric(trim($this->txtOfferedCoins->Text))){
+                $this->txtOfferedCoins->SetFocus();
+                throw new Exception("Debe ingresar un valor válido");
+            }
+            
+            if(!is_numeric(trim($this->txtMaxOffers->Text))){
+                $this->txtMaxOffers->SetFocus();
+                throw new Exception("Debe ingresar un valor válido");
+            }
+            
+            $this->mctOffer->objOffer->IdRestaurant = $this->lstRestaurants->SelectedValue;
+            
+            $this->mctOffer->objOffer->AppliedOffers = 0;
+            
+            //$this->mctOffer->objOffer->MaxCoins = $this->txtOfferedCoins->Text * $this->txtMaxOffers;
+            
+            //siempre
+            //$this->txtStatus->Text = $this->lstStatus->SelectedValue;
+            //$this->txtMiningOption->Text = $this->lstMiningOption->SelectedValue;
+            //salvar
+            $this->mctOffer->SaveOffer();
+            
+            $this->CloseSelf(TRUE);
+        } catch (Exception $exc) {
+            QApplication::ExecuteJavaScript("showWarning('Error: " . str_replace("'", "\'", $exc->getMessage()) . "');");
+        }
     }
 
-    public function btnYes_Click($strFormId, $strControlId, $strParameter) {
-        $this->CloseSelf(true);
-    }
-
-    public function btnNo_Click($strFormId, $strControlId, $strParameter) {
+    public function btnCancel_Click($strFormId, $strControlId, $strParameter) {
         $this->CloseSelf(FALSE);
     }
 
+    //funciones de carga
+    public function createNew() {
+        $this->mctOffer->objOffer = new Offer();
+        $this->Refresh();
+    }
+
+    public function loadDefault($id) {
+        
+        try {
+            $obj = Offer::LoadByIdOffer($id);
+            $this->mctOffer->objOffer = $obj;
+            $this->mctOffer->blnEditMode = TRUE;
+            $this->mctOffer->Refresh();
+            
+        } catch (Exception $exc) {
+            QApplication::ExecuteJavaScript("showWarning('Error " . str_replace("'", "\'", $exc->getMessage()) . "');");
+        }
+    }
+
+    // aditional funciones
     public function CloseSelf($blnChangesMade) {
         $strMethod = $this->strClosePanelMethod;
-        //if($strMethod!= NULL)
-        $this->objForm->$strMethod($blnChangesMade, $this->ID);
+        $this->objForm->$strMethod($blnChangesMade);
         $this->HideDialogBox();
     }
 

@@ -19,6 +19,8 @@ class DialogEditRestaurant extends QDialogBox {
     
     public $filePath;
     public $hasQR;
+    
+    public $ctrlComplete;
 
     public function __construct($objParentObject, $strClosePanelMethod, $strControlId = null) {
         // Call the Parent
@@ -47,6 +49,10 @@ class DialogEditRestaurant extends QDialogBox {
         $this->txtAddress = $this->mctRestaurant->txtAddress_Create();
         $this->txtLongitude = $this->mctRestaurant->txtLongitude_Create();
         $this->txtLatitude = $this->mctRestaurant->txtLatitude_Create();
+        
+        $this->ctrlComplete = new QAutocomplete($this);
+        $this->ctrlComplete->CssClass = "form-control input-sm editHidden";
+        
         
         //buttons
         $this->btnSave = new QButton($this);

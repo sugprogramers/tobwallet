@@ -384,14 +384,31 @@ if ($usuario) {
                                             </a>
                                         </li>
                                         
-                                         <li id="activeMiningOptions" class="site-menu-item">
+                                        <!-- <li id="activeMiningOptions" class="site-menu-item">
                                             <a class="animsition-link" href="<?php _p(__VIRTUAL_DIRECTORY__ . __SUBDIRECTORY__); ?>/miningoptions" data-slug="layout-menu-collapsed">
                                                 <i class="site-menu-icon " aria-hidden="true"></i>
                                                 <span class="site-menu-title">Mining Info</span>
                                             </a>
+                                        </li> -->
+                                    </ul>
+                                </li>
+                                
+                                <li id="activeProfile" class="site-menu-item has-sub">
+                                    <a href="javascript:void(0)" data-slug="layout">
+                                        <i class="site-menu-icon wb-user" aria-hidden="true"></i>
+                                        <span class="site-menu-title">Offers</span>
+                                        <span class="site-menu-arrow"></span>
+                                    </a>
+                                    <ul class="site-menu-sub">
+                                        <li id="activeViewProfile" class="site-menu-item">
+                                            <a class="animsition-link" href="<?php _p(__VIRTUAL_DIRECTORY__ . __SUBDIRECTORY__); ?>/customerOffers" data-slug="layout-menu-collapsed">
+                                                <i class="site-menu-icon " aria-hidden="true"></i>
+                                                <span class="site-menu-title">View Offers</span>
+                                            </a>
                                         </li>
                                     </ul>
                                 </li>
+                                
                             </ul>
                         
                         
@@ -426,6 +443,8 @@ if ($usuario) {
                                             </a>
                                         </li> -->
                                     </ul>
+                                    
+                                    
                                 </li>
                                 
                                 <li id="activeRestaurants" class="site-menu-item has-sub">
@@ -444,7 +463,26 @@ if ($usuario) {
 
                                     </ul>
                                 </li>
+                                
+                                <li id="activeProfile" class="site-menu-item has-sub">
+                                    <a href="javascript:void(0)" data-slug="layout">
+                                        <i class="site-menu-icon wb-user" aria-hidden="true"></i>
+                                        <span class="site-menu-title">Offers</span>
+                                        <span class="site-menu-arrow"></span>
+                                    </a>
+                                    <ul class="site-menu-sub">
+                                        <li id="activeViewProfile" class="site-menu-item">
+                                            <a class="animsition-link" href="<?php _p(__VIRTUAL_DIRECTORY__ . __SUBDIRECTORY__); ?>/availableoffer" data-slug="layout-menu-collapsed">
+                                                <i class="site-menu-icon " aria-hidden="true"></i>
+                                                <span class="site-menu-title">View Offers</span>
+                                            </a>
+                                        </li>
+                                    </ul>
+                                </li>
+                                
                             </ul>
+                        
+                            
                         
                         
     <?php
