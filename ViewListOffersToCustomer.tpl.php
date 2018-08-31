@@ -51,13 +51,14 @@
 <!-- Page -->
 <div class="page">
     <div class="page-header">
-        <h1 class="page-title"> <i class="site-menu-icon fas fa-coffee" aria-hidden="true"></i> Restaurants</h1>
+        <h1 class="page-title"> <i class="site-menu-icon fas fa-coffee" aria-hidden="true"></i> Offers</h1>
     </div>
+    
     <div class="page-content container-fluid">
         <!-- Panel Table Add Row -->
         <div class="panel">
             <header class="panel-heading">
-                <h3 class="panel-title">View Restaurants</h3>
+                <h3 class="panel-title">View Offers</h3>
             </header>
             <div class="panel-body" style="min-height:260px;">
 
@@ -67,7 +68,7 @@
                         <div class="page-content vertical-align-middle">
                             <header>
                                 <div class="animation-slide-top" style="font-size: 65px;margin-right:0px;padding: 0px;color:#ccc;"><i class="fas fa-coffee" aria-hidden="true"></i></div>
-                                <p   style="font-size: 22px;color: #848484;">No registered restaurants were found.</p>
+                                <p   style="font-size: 22px;color: #848484;">No available offers.</p>
                             </header>
                             <p class="error-advise animation-slide-left" style="font-size: 12px;">You must register a new restaurant.</p>
                             <br>
@@ -105,7 +106,7 @@
                         <div class="example">
                             <div class="table-responsive">
                                 <!-- <?php //$this->dtgUsuarios->Render(); ?> -->
-                                <?php $this->dtgRestaurants->Render(); ?>
+                                <?php $this->dtgOffers->Render(); ?>
                                 
                             </div>
 
@@ -113,7 +114,7 @@
                     </div>
 
                 </div>
-                <div class="site-action" > <?php $this->btnNewRestaurant->Render(); ?></div>
+                <div class="site-action" > <?php //$this->btnNewOffer->Render(); ?></div>
                 <!-- End Example Basic Sort -->
             </div>
             <!-- End Panel Body -->
@@ -124,10 +125,9 @@
 </div>
 <!-- End Page -->
 
-<?php $this->dlgDialogEditRestaurant->Render(); ?>
+<?php $this->dlgDialogEditOffer->Render(); ?>
 <?php //$this->dlgDialogPermit->Render(); ?>
 <?php $this->dlgConfirm->Render(); ?>
-<?php $this->dlgQRConfirm->Render(); ?>
 
 
 
@@ -157,8 +157,6 @@
     </div>
 </div>
 
-
-
 <?php $this->RenderEnd(); ?>
 
 
@@ -169,8 +167,6 @@
         $('#activeViewUsers').addClass('active');
     })(document, window, jQuery);
 </script>
-
-
 
 <?php require(__CONFIGURATION__ . '/footer.inc.php'); ?>
 

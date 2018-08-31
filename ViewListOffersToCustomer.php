@@ -4,22 +4,23 @@ require('includes/configuration/prepend.inc.php');
 //require_once('dialog/DialogEditUser.php');
 require_once('dialog/DialogEditRestaurant.php');
 require_once('dialog/DialogConfirm.php');
+require_once('dialog/DialogValidateOffer.php');
 require_once('dialog/DialogQR.php');
 require('general.php');
 
 //require('qrcode/phpqrcode.php');
 
-class ViewListRestaurantForm extends QForm {
+class ViewListOffersToCustomerForm extends QForm {
 
     protected $user;
     protected $restaurant;
     
     protected $dtgUsuarios;
-    protected $dtgRestaurants;
+    protected $dtgOffers;
     
-    protected $btnNewRestaurant;
+    protected $btnNewOffer;
     protected $dlgConfirm;
-    protected $dlgDialogEditRestaurant;
+    protected $dlgDialogEditOffer;
     protected $dlgDialogPermit;
     protected $lblWallet;
     
@@ -27,13 +28,14 @@ class ViewListRestaurantForm extends QForm {
     protected $btnFilter;
     
     protected  $dlgQRConfirm;
+    
 
     protected function Form_Run() {
 
-        $Datos1 = @unserialize($_SESSION['DatosAdministrador']);
+        $Datos1 = @unserialize($_SESSION['DatosUsuario']);
 
         if ($Datos1) {
-            $this->user = Administrator::LoadByEmail($Datos1->Email);
+            $this->user = User::LoadByEmail($Datos1->Email);
         } else {
             QApplication::Redirect(__VIRTUAL_DIRECTORY__ . __SUBDIRECTORY__ . '/login');
         }
@@ -43,46 +45,40 @@ class ViewListRestaurantForm extends QForm {
     protected function Form_Create() {
         $this->objDefaultWaitIcon = new QWaitIcon($this);
 
-        $this->dlgDialogEditRestaurant = new DialogEditRestaurant($this, 'close_edit');
+        $this->dlgDialogEditOffer = new DialogValidateOffer($this, 'close_edit');
         $this->dlgConfirm = new DialogConfirm($this, "close_confirm");
         $this->dlgQRConfirm = new DialogQR($this, "close_edit");
         
-        $this->dtgRestaurants = new RestaurantDataGrid($this);
-        $this->dtgRestaurants->Paginator = new QPaginator($this->dtgRestaurants);
-        $this->dtgRestaurants->Paginator->strLabelForPrevious = '<i class="icon wb-chevron-left-mini"></i>';
-        $this->dtgRestaurants->Paginator->strLabelForNext = '<i class="icon wb-chevron-right-mini"></i>';
-        $this->dtgRestaurants->ItemsPerPage = 20;
-        $this->dtgRestaurants->CssClass = 'table table-bordered table-striped toggle-circle';
-        $this->dtgRestaurants->UseAjax = true;
-        $this->dtgRestaurants->WaitIcon = $this->objDefaultWaitIcon;
-        $this->dtgRestaurants->ShowFilter = false;
-        $this->dtgRestaurants->SortColumnIndex = 4;
-        $this->dtgRestaurants->SortDirection = true;
+        $this->dtgOffers = new OfferDataGrid($this);
+        $this->dtgOffers->Paginator = new QPaginator($this->dtgOffers);
+        $this->dtgOffers->Paginator->strLabelForPrevious = '<i class="icon wb-chevron-left-mini"></i>';
+        $this->dtgOffers->Paginator->strLabelForNext = '<i class="icon wb-chevron-right-mini"></i>';
+        $this->dtgOffers->ItemsPerPage = 20;
+        $this->dtgOffers->CssClass = 'table table-bordered table-striped toggle-circle';
+        $this->dtgOffers->UseAjax = true;
+        $this->dtgOffers->WaitIcon = $this->objDefaultWaitIcon;
+        $this->dtgOffers->ShowFilter = false;
+        $this->dtgOffers->SortColumnIndex = 4;
+        $this->dtgOffers->SortDirection = true;
         
-        $this->dtgRestaurants->MetaAddColumn('IdRestaurant', "Name=ID");
-        //$this->dtgRestaurants->MetaAddColumn('Email');
-        //$this->dtgRestaurants->MetaAddColumn('OwnerFirstName');
-        //$this->dtgRestaurants->MetaAddColumn('OwnerLastName');
-        //$this->dtgRestaurants->MetaAddColumn('OwnerMiddleName');
-        $this->dtgRestaurants->MetaAddColumn('Country');
-        $this->dtgRestaurants->MetaAddColumn('City');
-        $this->dtgRestaurants->MetaAddColumn('Address');
-        $this->dtgRestaurants->MetaAddColumn('RestaurantName');
-        $this->dtgRestaurants->MetaAddColumn('Longitude');
-        $this->dtgRestaurants->MetaAddColumn('Latitude');
+        $this->dtgOffers->MetaAddColumn('IdOffer', "Name=ID");
+        $this->dtgOffers->MetaAddColumn('Description');
+        $this->dtgOffers->MetaAddColumn('OfferedCoins', "Name=Coins per Person");
+        $this->dtgOffers->MetaAddColumn('MaxOffers', "Name=Total Offers");
         
-        $this->dtgRestaurants->AddColumn(new QDataGridColumn('', '<?= $_FORM->actionsRender($_ITEM); ?>', 'HtmlEntities=false', 'Width=100'));
-
-        
+        $this->dtgOffers->AddColumn(new QDataGridColumn('Restaurant', '<?= $_FORM->getRestaurantInfoRender($_ITEM); ?>', 'HtmlEntities=false', 'Width=100'));
+        /*
+        $this->dtgOffers->AddColumn(new QDataGridColumn('', '<?= $_FORM->actionsRender($_ITEM); ?>', 'HtmlEntities=false', 'Width=100'));
+        */
         
         $this->lblWallet = new QLabel($this);
         $this->lblWallet->HtmlEntities = false;
         
-        $this->btnNewRestaurant = new QButton($this);
-        $this->btnNewRestaurant->Text = '<i class="icon wb-plus" aria-hidden="true"></i>';
-        $this->btnNewRestaurant->CssClass = "site-action-toggle btn-raised btn btn-primary btn-floating";
-        $this->btnNewRestaurant->HtmlEntities = false;
-        $this->btnNewRestaurant->AddAction(new QClickEvent(), new QAjaxAction('btnNewRestaurant_Click'));
+        $this->btnNewOffer = new QButton($this);
+        $this->btnNewOffer->Text = '<i class="icon wb-plus" aria-hidden="true"></i>';
+        $this->btnNewOffer->CssClass = "site-action-toggle btn-raised btn btn-primary btn-floating";
+        $this->btnNewOffer->HtmlEntities = false;
+        $this->btnNewOffer->AddAction(new QClickEvent(), new QAjaxAction('btnNewOffer_Click'));
         
         $this->txtNombre = new QTextBox($this);
         $this->txtNombre->Placeholder = "Email or Firtname or Lastname";
@@ -96,7 +92,7 @@ class ViewListRestaurantForm extends QForm {
     }
 
     protected function items_Found() {
-        $countProjects = Restaurant::CountAll();
+        $countProjects = Offer::CountAll();
         if ($countProjects == 0) {
             QApplication::ExecuteJavaScript("itemsFound(1);");
         } else {
@@ -107,7 +103,7 @@ class ViewListRestaurantForm extends QForm {
      public function actionFilter_Click($strFormId, $strControlId, $strParameter) {
         if (trim($this->txtNombre->Text != "")) {
             $searchTipo = QQ::OrCondition(
-                    QQ::Like(QQN::Restaurant()->RestaurantName, "%".trim($this->txtNombre->Text)."%")/*,
+                    QQ::Like(QQN::Offer()->Description, "%".trim($this->txtNombre->Text)."%")/*,
                     QQ::Like(QQN::Restaurant()->OwnerLastName, "%".trim($this->txtNombre->Text)."%"),
                     QQ::Like(QQN::Restaurant()->Email, "%".trim($this->txtNombre->Text)."%")*/
                     
@@ -121,18 +117,18 @@ class ViewListRestaurantForm extends QForm {
             $searchTipo
         );*/
         
-        $this->dtgRestaurants->AdditionalConditions = QQ::AndCondition($searchTipo);
+        $this->dtgOffers->AdditionalConditions = QQ::AndCondition($searchTipo);
 
         //$this->dtgUsuarios->Refresh();
-        $this->dtgRestaurants->Refresh();
+        $this->dtgOffers->Refresh();
 
         QApplication::ExecuteJavaScript("showSuccess('Filter correctly!');");
     }
 
-    public function btnNewRestaurant_Click($strFormId, $strControlId, $strParameter) {
-        $this->dlgDialogEditRestaurant->Title = addslashes("<i class='icon wb-plus'></i> New Restaurant");
-        $this->dlgDialogEditRestaurant->createNew();
-        $this->dlgDialogEditRestaurant->ShowDialogBox();
+    public function btnNewOffer_Click($strFormId, $strControlId, $strParameter) {
+        $this->dlgDialogEditOffer->Title = addslashes("<i class='icon wb-plus'></i> New Offer");
+        $this->dlgDialogEditOffer->createNew();
+        $this->dlgDialogEditOffer->ShowDialogBox();
     }
 
     public function planRenderLabel(User $obj) {
@@ -153,14 +149,14 @@ class ViewListRestaurantForm extends QForm {
     }
     
     
-    public function planRender(Restaurant $obj) {
+    public function planRender(Offer $obj) {
         $controlID = 'plan' . $obj->IdRestaurant;
-        $addCtrl = $this->dtgRestaurants->GetChildControl($controlID);
+        $addCtrl = $this->dtgOffers->GetChildControl($controlID);
         if (!$addCtrl) {
-            $addCtrl = new QLabel($this->dtgRestaurants, $controlID);
+            $addCtrl = new QLabel($this->dtgOffers, $controlID);
             $addCtrl->HtmlEntities = FALSE;
             $addCtrl->Cursor = QCursor::Pointer;            
-            $addCtrl->ActionParameter = $obj->IdRestaurant;
+            $addCtrl->ActionParameter = $obj->IdOffer;
             $addCtrl->AddAction(new QClickEvent(), new QAjaxAction('plan_Click'));
         }
         $addCtrl->Text = $this->planRenderLabel($obj);
@@ -169,15 +165,15 @@ class ViewListRestaurantForm extends QForm {
     
     protected function plan_Click($strFormId, $strControlId, $strParameter) {
         
-        $Restaurant = Restaurant::LoadByIdRestaurant($strParameter);
-        if($Restaurant && $Restaurant->MiningOption>0) {
+        $offer = Offer::LoadByIdOffer($strParameter);
+        /*if($offer && $offer->MiningOption>0) {
             
             $this->lblWallet->Text = "<b>For the user:</b> $User->Email <br><br><b>The wallet Address is:</b> $Restaurant->Address";
             QApplication::ExecuteJavaScript("$('#ventaModal').modal('show');");
         }
         else{
              QApplication::ExecuteJavaScript("showWarning('" . htmlentities("Wallet Address is empty.") . "');");
-        }
+        }*/
     }
     
 
@@ -209,9 +205,9 @@ class ViewListRestaurantForm extends QForm {
 
     public function loginRender(Restaurant $obj) {
         $controlID = 'login' . $obj->IdRestaurant;
-        $addCtrl = $this->dtgRestaurants->GetChildControl($controlID);
+        $addCtrl = $this->dtgOffers->GetChildControl($controlID);
         if (!$addCtrl) {
-            $addCtrl = new QLabel($this->dtgRestaurants, $controlID);
+            $addCtrl = new QLabel($this->dtgOffers, $controlID);
             $addCtrl->HtmlEntities = FALSE;
             $addCtrl->Cursor = QCursor::Pointer;
             $addCtrl->Text = '<div  class="btn btn-sm btn-icon btn-flat btn-default" data-toggle="tooltip" data-original-title="Login">
@@ -236,9 +232,9 @@ class ViewListRestaurantForm extends QForm {
 
     public function permisoRender(Restaurant $obj) {
         $controlID = 'perm' . $obj->IdRestaurant;
-        $addCtrl = $this->dtgRestaurants->GetChildControl($controlID);
+        $addCtrl = $this->dtgOffers->GetChildControl($controlID);
         if (!$addCtrl) {
-            $addCtrl = new QLabel($this->dtgRestaurants, $controlID);
+            $addCtrl = new QLabel($this->dtgOffers, $controlID);
             $addCtrl->HtmlEntities = FALSE;
             $addCtrl->Cursor = QCursor::Pointer;
             $addCtrl->Text = '<div  class="btn btn-sm btn-icon btn-flat btn-default" data-toggle="tooltip" data-original-title="Permiso">
@@ -259,25 +255,39 @@ class ViewListRestaurantForm extends QForm {
         //$strJavaScript ="$('[data-plugin=\"switchery\"]').load();";
         //QApplication::ExecuteJavaScript($strJavaScript);
     }
+    
+    
+    public function getRestaurantInfoRender(Offer $obj){
+        $restaurant = Restaurant::LoadByIdRestaurant($obj->IdRestaurant);
+        $template;
+        
+        try{
+            $template = "<span>".$restaurant->RestaurantName." / Address: ".$restaurant->Address."</span>";
+        } catch (Exception $ex) {
+            $template="";
+        }
+        
+        return $template;
+    }
 
-    public function actionsRender(Restaurant $id) {
-        $controlID = 'edit' . $id->IdRestaurant;
-        $editCtrl = $this->dtgRestaurants->GetChildControl($controlID);
+    public function actionsRender(Offer $id) {
+        $controlID = 'edit' . $id->IdOffer;
+        $editCtrl = $this->dtgOffers->GetChildControl($controlID);
         if (!$editCtrl) {
-            $editCtrl = new QLabel($this->dtgRestaurants, $controlID);
+            $editCtrl = new QLabel($this->dtgOffers, $controlID);
             $editCtrl->HtmlEntities = FALSE;
             $editCtrl->Cursor = QCursor::Pointer;
             $editCtrl->Text = '<div  class="btn btn-sm btn-icon btn-flat btn-default" data-toggle="tooltip" data-original-title="Edit">
                             <i class="icon wb-edit" aria-hidden="true"></i>
                           </div>';
-            $editCtrl->ActionParameter = $id->IdRestaurant;
+            $editCtrl->ActionParameter = $id->IdOffer;
             $editCtrl->AddAction(new QClickEvent(), new QAjaxAction('edit_Click'));
         }
 
         $controlID2 = 'del' . $id->IdRestaurant;
-        $deleteCtrl = $this->dtgRestaurants->GetChildControl($controlID2);
+        $deleteCtrl = $this->dtgOffers->GetChildControl($controlID2);
         if (!$deleteCtrl) {
-            $deleteCtrl = new QLabel($this->dtgRestaurants, $controlID2);
+            $deleteCtrl = new QLabel($this->dtgOffers, $controlID2);
             $deleteCtrl->HtmlEntities = FALSE;
             $deleteCtrl->Cursor = QCursor::Pointer;
             $deleteCtrl->Text = '<div  class="btn btn-sm btn-icon btn-flat btn-default" data-toggle="tooltip" data-original-title="Delete">
@@ -288,9 +298,9 @@ class ViewListRestaurantForm extends QForm {
         }
         
         $controlID3 = 'qr' . $id->IdRestaurant;
-        $qrCtrl = $this->dtgRestaurants->GetChildControl($controlID3);
+        $qrCtrl = $this->dtgOffers->GetChildControl($controlID3);
         if (!$qrCtrl){
-            $qrCtrl = new QLabel($this->dtgRestaurants, $controlID3);
+            $qrCtrl = new QLabel($this->dtgOffers, $controlID3);
             $qrCtrl->HtmlEntities=FALSE;
             $qrCtrl->Cursor = QCursor::Pointer;
             $qrCtrl->Text = '<div  class="btn btn-sm btn-icon btn-flat btn-default" data-toggle="tooltip" data-original-title="QR Code">
@@ -304,9 +314,9 @@ class ViewListRestaurantForm extends QForm {
     }
 
     public function edit_Click($strFormId, $strControlId, $strParameter) {
-        $this->dlgDialogEditRestaurant->Title = addslashes("<i class='icon wb-edit'></i> Edit Restaurant");
-        $this->dlgDialogEditRestaurant->loadDefault($strParameter);
-        $this->dlgDialogEditRestaurant->ShowDialogBox();
+        $this->dlgDialogEditOffer->Title = addslashes("<i class='icon wb-edit'></i> Edit Restaurant");
+        $this->dlgDialogEditOffer->loadDefault($strParameter);
+        $this->dlgDialogEditOffer->ShowDialogBox();
     }
 
     public function delete_Click($strFormId, $strControlId, $strParameter) {
@@ -325,7 +335,7 @@ class ViewListRestaurantForm extends QForm {
 
     protected function delete($id) {
         try {
-            $restaurants = Restaurant::LoadByIdRestaurant(intval($id));
+            $offers = Restaurant::LoadByIdRestaurant(intval($id));
             $restaurants->Delete();
             $this->items_Found();
             QApplication::ExecuteJavaScript("showSuccess('Deleted successfully!');");
@@ -336,7 +346,7 @@ class ViewListRestaurantForm extends QForm {
 
     public function close_edit($update) {
         if ($update) {
-            $this->dtgRestaurants->Refresh();
+            $this->dtgOffers->Refresh();
             $this->items_Found();
             QApplication::ExecuteJavaScript("showSuccess('Data updated correctly');");
         }
@@ -346,10 +356,10 @@ class ViewListRestaurantForm extends QForm {
         if ($answer) {
             $this->delete($id);
         }
-        $this->dtgRestaurants->Refresh();
+        $this->dtgOffers->Refresh();
     }
 
 }
 
-ViewListRestaurantForm::Run('ViewListRestaurantForm');
+ViewListOffersToCustomerForm::Run('ViewListOffersToCustomerForm');
 ?>
