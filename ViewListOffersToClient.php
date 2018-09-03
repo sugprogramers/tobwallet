@@ -145,7 +145,7 @@ class ViewListOffersToClientForm extends QForm {
     
     public function validateoffer_Click($strFormId, $strControlId, $strParameter) {
         $this->dlgDialogEditModelo->Title = addslashes("<i class='icon wb-edit'></i> Validating offer ...");
-        $this->dlgDialogEditModelo->txtMessage = "¿Está seguro que desea eliminar este Productocxxxxxxxxx?";
+        $this->dlgDialogEditModelo->txtMessage = "";
         $this->dlgDialogEditModelo->ID = intval($strParameter);
         $this->dlgDialogEditModelo->ShowDialogBox();
     }

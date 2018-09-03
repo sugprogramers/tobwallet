@@ -123,203 +123,208 @@
 <script src="<?php _p(__VIRTUAL_DIRECTORY__ . __SUBDIRECTORY__); ?>/template/assets/js/components/formatter-js.min.js"></script>
 <script src="<?php _p(__VIRTUAL_DIRECTORY__ . __SUBDIRECTORY__); ?>/template/assets/js/qrcode/html5-qrcode.min.js"></script>
 <script src="<?php _p(__VIRTUAL_DIRECTORY__ . __SUBDIRECTORY__); ?>/template/assets/js/qrcode/jsqrcode-combined.min.js"></script>
+<!--<script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyAXfH16XT0bi2DuXuQRr7lIDEys3eKSxQM&callback=initMap"</script>-->
+<script async defer
+        src="https://maps.googleapis.com/maps/api/js?key=AIzaSyAqTXclqkC6GafrzLs8x55R_3MTj_FlpD8&callback">
+</script>
+
 
 <script>
 
-                    function showWarning(val) {
-                        toastr.options = {
-                            "closeButton": true,
-                            "debug": false,
-                            "newestOnTop": false,
-                            "progressBar": false,
-                            "positionClass": "toast-bottom-right",
-                            "preventDuplicates": false,
-                            "onclick": null,
-                            "showDuration": "300",
-                            "hideDuration": "1000",
-                            "timeOut": "2000",
-                            "extendedTimeOut": "1000",
-                            "showEasing": "swing",
-                            "hideEasing": "linear",
-                            "showMethod": "fadeIn",
-                            "hideMethod": "fadeOut"
-                        };
-                        toastr["warning"](val, "Alerta");
+    function showWarning(val) {
+        toastr.options = {
+            "closeButton": true,
+            "debug": false,
+            "newestOnTop": false,
+            "progressBar": false,
+            "positionClass": "toast-bottom-right",
+            "preventDuplicates": false,
+            "onclick": null,
+            "showDuration": "300",
+            "hideDuration": "1000",
+            "timeOut": "2000",
+            "extendedTimeOut": "1000",
+            "showEasing": "swing",
+            "hideEasing": "linear",
+            "showMethod": "fadeIn",
+            "hideMethod": "fadeOut"
+        };
+        toastr["warning"](val, "Alerta");
 
-                    }
+    }
 
-                    function showSuccess(val) {
-
-
-                        toastr.options = {
-                            "closeButton": true,
-                            "debug": false,
-                            "newestOnTop": false,
-                            "progressBar": false,
-                            "positionClass": "toast-bottom-right",
-                            "preventDuplicates": false,
-                            "onclick": null,
-                            "showDuration": "300",
-                            "hideDuration": "1000",
-                            "timeOut": "2000",
-                            "extendedTimeOut": "1000",
-                            "showEasing": "swing",
-                            "hideEasing": "linear",
-                            "showMethod": "fadeIn",
-                            "hideMethod": "fadeOut"
-                        };
-                        toastr["success"](val, "Éxito");
-                    }
-
-                    function showError(val) {
+    function showSuccess(val) {
 
 
-                        toastr.options = {
-                            "closeButton": true,
-                            "debug": false,
-                            "newestOnTop": false,
-                            "progressBar": false,
-                            "positionClass": "toast-bottom-right",
-                            "preventDuplicates": false,
-                            "onclick": null,
-                            "showDuration": "2000",
-                            "hideDuration": "1000",
-                            "timeOut": "2000",
-                            "extendedTimeOut": "2000",
-                            "showEasing": "swing",
-                            "hideEasing": "linear",
-                            "showMethod": "fadeIn",
-                            "hideMethod": "fadeOut"
-                        };
-                        toastr["error"](val, "Error");
-                    }
+        toastr.options = {
+            "closeButton": true,
+            "debug": false,
+            "newestOnTop": false,
+            "progressBar": false,
+            "positionClass": "toast-bottom-right",
+            "preventDuplicates": false,
+            "onclick": null,
+            "showDuration": "300",
+            "hideDuration": "1000",
+            "timeOut": "2000",
+            "extendedTimeOut": "1000",
+            "showEasing": "swing",
+            "hideEasing": "linear",
+            "showMethod": "fadeIn",
+            "hideMethod": "fadeOut"
+        };
+        toastr["success"](val, "Éxito");
+    }
 
-                    function reloadJsLibraries() {
-                        /* $('[data-toggle="tooltip"]').tooltip();
-                         $('[data-plugin="TouchSpin"]').TouchSpin();
-                         $('.datepicker').datepicker({format: 'mm/dd/yyyy',
-                         autoclose: true, startDate: '01/01/1970', clearBtn: true, todayHighlight: true});
-                         $(":file").filestyle({buttonText: "Find file"});
-                         $(".telephone-mask").mask("(999) 999-9999");*/
-                    }
-
-                    function logOut() {
-                        window.location.replace("<?php _p(__VIRTUAL_DIRECTORY__ . __SUBDIRECTORY__); ?>/logout");
-                    }
-
-                    // Campaign's Body Preview
+    function showError(val) {
 
 
-                    function loadIframe() {
-                        // alert("cargo");
-                        // var content = inputText.value; //"<html><body><b style='color:red;font-size:20px;'>Hello World!</b></body></html>";
+        toastr.options = {
+            "closeButton": true,
+            "debug": false,
+            "newestOnTop": false,
+            "progressBar": false,
+            "positionClass": "toast-bottom-right",
+            "preventDuplicates": false,
+            "onclick": null,
+            "showDuration": "2000",
+            "hideDuration": "1000",
+            "timeOut": "2000",
+            "extendedTimeOut": "2000",
+            "showEasing": "swing",
+            "hideEasing": "linear",
+            "showMethod": "fadeIn",
+            "hideMethod": "fadeOut"
+        };
+        toastr["error"](val, "Error");
+    }
+
+    function reloadJsLibraries() {
+        /* $('[data-toggle="tooltip"]').tooltip();
+         $('[data-plugin="TouchSpin"]').TouchSpin();
+         $('.datepicker').datepicker({format: 'mm/dd/yyyy',
+         autoclose: true, startDate: '01/01/1970', clearBtn: true, todayHighlight: true});
+         $(":file").filestyle({buttonText: "Find file"});
+         $(".telephone-mask").mask("(999) 999-9999");*/
+    }
+
+    function logOut() {
+        window.location.replace("<?php _p(__VIRTUAL_DIRECTORY__ . __SUBDIRECTORY__); ?>/logout");
+    }
+
+    // Campaign's Body Preview
+
+
+    function loadIframe() {
+        // alert("cargo");
+        // var content = inputText.value; //"<html><body><b style='color:red;font-size:20px;'>Hello World!</b></body></html>";
 
 
 
-                        // document.body.appendChild(iframe);
+        // document.body.appendChild(iframe);
 
-                        var frameDoc = iframe.document;
-                        if (iframe.contentWindow)
-                            frameDoc = iframe.contentWindow.document; // IE
-                        // Write into iframe
-                        frameDoc.open();
-                        frameDoc.writeln(content);
-                        frameDoc.close();
+        var frameDoc = iframe.document;
+        if (iframe.contentWindow)
+            frameDoc = iframe.contentWindow.document; // IE
+        // Write into iframe
+        frameDoc.open();
+        frameDoc.writeln(content);
+        frameDoc.close();
 
-                        /*$("#contenidoLayout").layout({
-                         west__size: 150
-                         , west__spacing_closed: 20
-                         , west__togglerLength_closed: 100
-                         , west__togglerAlign_closed: "top"
-                         , west__togglerContent_closed: "M<BR>E<BR>N<BR>U"
-                         , west__togglerTip_closed: "Open & Pin Menu"
-                         , west__sliderTip: "Slide Open Menu"
-                         , west__slideTrigger_open: "mouseover"
-                         , center__maskContents: true // IMPORTANT - enable iframe masking
-                         });*/
+        /*$("#contenidoLayout").layout({
+         west__size: 150
+         , west__spacing_closed: 20
+         , west__togglerLength_closed: 100
+         , west__togglerAlign_closed: "top"
+         , west__togglerContent_closed: "M<BR>E<BR>N<BR>U"
+         , west__togglerTip_closed: "Open & Pin Menu"
+         , west__sliderTip: "Slide Open Menu"
+         , west__slideTrigger_open: "mouseover"
+         , center__maskContents: true // IMPORTANT - enable iframe masking
+         });*/
 
 
-                    }
+    }
 
-                    function showPreview(id, url, type) {
+    function showPreview(id, url, type) {
 
-                        if (type === 1) {
-                            $('#' + id + '').tooltipster({
-                                contentAsHTML: true,
-                                content: $('<iframe style="width:100%;min-height:500px;max-height:700px;" src="' + url + '"></iframe>'),
-                                theme: 'tooltipster-default',
-                                minWidth: 700,
-                                maxWidth: 1000,
-                                interactive: true,
-                                position: 'right'
-                            });
-                        } else if (type === 2) {
+        if (type === 1) {
+            $('#' + id + '').tooltipster({
+                contentAsHTML: true,
+                content: $('<iframe style="width:100%;min-height:500px;max-height:700px;" src="' + url + '"></iframe>'),
+                theme: 'tooltipster-default',
+                minWidth: 700,
+                maxWidth: 1000,
+                interactive: true,
+                position: 'right'
+            });
+        } else if (type === 2) {
 
-                            $('#' + id + '').tooltipster({
-                                contentAsHTML: false,
-                                content: $('<iframe style="width:100%;min-height:500px;max-height:700px;" src="' + url + '"></iframe>'),
-                                theme: 'tooltipster-default',
-                                minWidth: 700,
-                                maxWidth: 1000,
-                                interactive: true,
-                                position: 'right'
-                            });
-                        } else {
-                            $('#' + id + '').tooltipster({
-                                contentAsHTML: true,
-                                content: $('<div>Incorrect type of body...</div>'),
-                                theme: 'tooltipster-default',
-                                minWidth: 700,
-                                maxWidth: 1000,
-                                interactive: true,
-                                position: 'right'
-                            });
-                        }
+            $('#' + id + '').tooltipster({
+                contentAsHTML: false,
+                content: $('<iframe style="width:100%;min-height:500px;max-height:700px;" src="' + url + '"></iframe>'),
+                theme: 'tooltipster-default',
+                minWidth: 700,
+                maxWidth: 1000,
+                interactive: true,
+                position: 'right'
+            });
+        } else {
+            $('#' + id + '').tooltipster({
+                contentAsHTML: true,
+                content: $('<div>Incorrect type of body...</div>'),
+                theme: 'tooltipster-default',
+                minWidth: 700,
+                maxWidth: 1000,
+                interactive: true,
+                position: 'right'
+            });
+        }
 
-                    }
+    }
 
-                    function showDescription(id, content) {
-                        $('#' + id + '').tooltipster({
-                            animation: 'grow',
-                            contentAsHTML: false,
-                            content: $('<div style="padding: 15px;width:100%;min-height:100px;max-height:300px;"">' + content + '</div>'),
-                            minWidth: 200,
-                            maxWidth: 300,
-                            interactive: true,
-                            position: 'top',
-                            theme: 'tooltipster-shadow'
-                        });
-                    }
+    function showDescription(id, content) {
+        $('#' + id + '').tooltipster({
+            animation: 'grow',
+            contentAsHTML: false,
+            content: $('<div style="padding: 15px;width:100%;min-height:100px;max-height:300px;"">' + content + '</div>'),
+            minWidth: 200,
+            maxWidth: 300,
+            interactive: true,
+            position: 'top',
+            theme: 'tooltipster-shadow'
+        });
+    }
 
-                    function showVariables(type, id) {
-                        if (type === 1) {
-                            // Subscriber
-                            $('#' + id + '').tooltipster({
-                                animation: 'grow',
-                                contentAsHTML: false,
-                                content: $('<div style="padding: 15px;width:100%;min-height:100px;max-height:300px;><ul style="list-style: none;"><p>You can use any or all of this variables.</p><li>{{email}}</li><li>{{emailSubscriber}}</li><li>{{fullName}}</li><li>{{phone}}</li></ul></div>'),
-                                minWidth: 200,
-                                maxWidth: 300,
-                                interactive: true,
-                                position: 'top',
-                                theme: 'tooltipster-shadow'
-                            });
-                        }
+    function showVariables(type, id) {
+        if (type === 1) {
+            // Subscriber
+            $('#' + id + '').tooltipster({
+                animation: 'grow',
+                contentAsHTML: false,
+                content: $('<div style="padding: 15px;width:100%;min-height:100px;max-height:300px;><ul style="list-style: none;"><p>You can use any or all of this variables.</p><li>{{email}}</li><li>{{emailSubscriber}}</li><li>{{fullName}}</li><li>{{phone}}</li></ul></div>'),
+                minWidth: 200,
+                maxWidth: 300,
+                interactive: true,
+                position: 'top',
+                theme: 'tooltipster-shadow'
+            });
+        }
 
-                        if (type === 2) {
-                            // Vendor
-                            $('#' + id + '').tooltipster({
-                                animation: 'grow',
-                                contentAsHTML: false,
-                                content: $('<div style="padding: 15px;width:100%;min-height:100px;max-height:300px;><ul style="list-style: none;"><p>You can use any or all of this variables.</p><li>{{email}}</li><li>{{banner}}</li><li>{{linkUns}}</li><li>{{linkDoubleClick}}</li><li>{{suggestedCampaign}}</li></ul></div>'),
-                                minWidth: 200,
-                                maxWidth: 300,
-                                interactive: true,
-                                position: 'top',
-                                theme: 'tooltipster-shadow'
-                            });
-                        }
-                    }
+        if (type === 2) {
+            // Vendor
+            $('#' + id + '').tooltipster({
+                animation: 'grow',
+                contentAsHTML: false,
+                content: $('<div style="padding: 15px;width:100%;min-height:100px;max-height:300px;><ul style="list-style: none;"><p>You can use any or all of this variables.</p><li>{{email}}</li><li>{{banner}}</li><li>{{linkUns}}</li><li>{{linkDoubleClick}}</li><li>{{suggestedCampaign}}</li></ul></div>'),
+                minWidth: 200,
+                maxWidth: 300,
+                interactive: true,
+                position: 'top',
+                theme: 'tooltipster-shadow'
+            });
+        }
+    }
 
 </script>
 
