@@ -6,23 +6,20 @@ class DialogEditRestaurant extends QDialogBox {
     public $mctRestaurant;
     public $txtCountry;
     public $txtCity;
-    
     public $txtRestaurantName;
     public $txtAddress;
-    
     public $txtLongitude;
     public $txtLatitude;
-   
     public $btnSave;
     public $btnCancel;
     public $strClosePanelMethod;
-    
     public $filePath;
     public $hasQR;
-    
+    public $fromAdmin;
+    public $lstOwners;
     public $ctrlComplete;
 
-    public function __construct($objParentObject, $strClosePanelMethod, $strControlId = null) {
+    public function __construct($objParentObject, $strClosePanelMethod, $strControlId = null, $fromAdmin = FALSE) {
         // Call the Parent
         try {
             parent::__construct($objParentObject, $strControlId);
@@ -30,6 +27,8 @@ class DialogEditRestaurant extends QDialogBox {
             $objExc->IncrementOffset();
             throw $objExc;
         }
+        
+        $this->fromAdmin = $fromAdmin;
 
         $this->Width = 750;
         $this->Resizable = false;
@@ -50,9 +49,21 @@ class DialogEditRestaurant extends QDialogBox {
         $this->txtLongitude = $this->mctRestaurant->txtLongitude_Create();
         $this->txtLatitude = $this->mctRestaurant->txtLatitude_Create();
         
-        $this->ctrlComplete = new QAutocomplete($this);
-        $this->ctrlComplete->CssClass = "form-control input-sm editHidden";
+        $this->lstOwners = new QListBox($this);
+        $this->lstOwners->CssClass = "form-control input-sm editHidden";
         
+        if($this->fromAdmin){
+            $query = "select user.IdUser as id, concat(user.FirstName, ' ', user.LastName) as name from user where user.UserType = 'O'";
+            
+            $objDbResult = QApplication::$Database[1]->Query("$query");
+            
+            $arrayDT = array();
+            
+            while (($report = $objDbResult->FetchAssoc())) {
+                $arrayDT[] = $report;
+                $this->lstOwners->AddItem(new QListItem($report['name'], $report['id']));
+            }
+        }
         
         //buttons
         $this->btnSave = new QButton($this);
@@ -87,14 +98,13 @@ class DialogEditRestaurant extends QDialogBox {
                 $this->mctRestaurant->objRestaurant->QrCode = "";
             }
             
-            /*if($this->strIdUser !== ""){
+            if($this->fromAdmin){
+                $this->mctRestaurant->objRestaurant->IdUser = $this->lstOwners->SelectedItem->Value;
+            }else{
                 $this->mctRestaurant->objRestaurant->IdUser = $this->strIdUser;
-            }*/
+            }
             
-            $this->mctRestaurant->objRestaurant->IdUser = $this->strIdUser;
             $this->mctRestaurant->objRestaurant->Type = "restaurant";
-            
-            //$oldStatus = $this->mctUsuario->objUser->StatusUser;
             
             //siempre
             //$this->txtStatus->Text = $this->lstStatus->SelectedValue;
@@ -116,7 +126,7 @@ class DialogEditRestaurant extends QDialogBox {
     public function createNew() {
         $this->hasQR = FALSE;
         $this->mctRestaurant->objRestaurant = new Restaurant();
-        $this->Refresh();
+        $this->mctRestaurant->Refresh();
     }
 
     public function loadDefault($id) {

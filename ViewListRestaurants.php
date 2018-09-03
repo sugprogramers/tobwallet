@@ -13,19 +13,15 @@ class ViewListRestaurantForm extends QForm {
 
     protected $user;
     protected $restaurant;
-    
     protected $dtgUsuarios;
     protected $dtgRestaurants;
-    
     protected $btnNewRestaurant;
     protected $dlgConfirm;
     protected $dlgDialogEditRestaurant;
     protected $dlgDialogPermit;
     protected $lblWallet;
-    
     protected $txtNombre;
     protected $btnFilter;
-    
     protected  $dlgQRConfirm;
 
     protected function Form_Run() {
@@ -43,7 +39,7 @@ class ViewListRestaurantForm extends QForm {
     protected function Form_Create() {
         $this->objDefaultWaitIcon = new QWaitIcon($this);
 
-        $this->dlgDialogEditRestaurant = new DialogEditRestaurant($this, 'close_edit');
+        $this->dlgDialogEditRestaurant = new DialogEditRestaurant($this, 'close_edit', null, TRUE);
         $this->dlgConfirm = new DialogConfirm($this, "close_confirm");
         $this->dlgQRConfirm = new DialogQR($this, "close_edit");
         
@@ -60,20 +56,17 @@ class ViewListRestaurantForm extends QForm {
         $this->dtgRestaurants->SortDirection = true;
         
         $this->dtgRestaurants->MetaAddColumn('IdRestaurant', "Name=ID");
-        //$this->dtgRestaurants->MetaAddColumn('Email');
-        //$this->dtgRestaurants->MetaAddColumn('OwnerFirstName');
-        //$this->dtgRestaurants->MetaAddColumn('OwnerLastName');
-        //$this->dtgRestaurants->MetaAddColumn('OwnerMiddleName');
         $this->dtgRestaurants->MetaAddColumn('Country');
         $this->dtgRestaurants->MetaAddColumn('City');
         $this->dtgRestaurants->MetaAddColumn('Address');
         $this->dtgRestaurants->MetaAddColumn('RestaurantName');
+        
+        $this->dtgRestaurants->AddColumn(new QDataGridColumn('Owner', '<?= $_FORM->ownerRender($_ITEM); ?>', 'HtmlEntities=false', 'Width=100'));
+        
         $this->dtgRestaurants->MetaAddColumn('Longitude');
         $this->dtgRestaurants->MetaAddColumn('Latitude');
         
         $this->dtgRestaurants->AddColumn(new QDataGridColumn('', '<?= $_FORM->actionsRender($_ITEM); ?>', 'HtmlEntities=false', 'Width=100'));
-
-        
         
         $this->lblWallet = new QLabel($this);
         $this->lblWallet->HtmlEntities = false;
@@ -92,7 +85,6 @@ class ViewListRestaurantForm extends QForm {
         $this->btnFilter->HtmlEntities = false;
         $this->btnFilter->Text = '<i class="icon fa-filter" aria-hidden="true"></i>';
         $this->btnFilter->AddAction(new QClickEvent(), new QAjaxAction('actionFilter_Click'));
-        
     }
 
     protected function items_Found() {
@@ -110,20 +102,13 @@ class ViewListRestaurantForm extends QForm {
                     QQ::Like(QQN::Restaurant()->RestaurantName, "%".trim($this->txtNombre->Text)."%")/*,
                     QQ::Like(QQN::Restaurant()->OwnerLastName, "%".trim($this->txtNombre->Text)."%"),
                     QQ::Like(QQN::Restaurant()->Email, "%".trim($this->txtNombre->Text)."%")*/
-                    
              );
         }
         else {
             $searchTipo = QQ::All();
         }
-
-        /*$this->dtgUsuarios->AdditionalConditions = QQ::AndCondition(
-            $searchTipo
-        );*/
         
         $this->dtgRestaurants->AdditionalConditions = QQ::AndCondition($searchTipo);
-
-        //$this->dtgUsuarios->Refresh();
         $this->dtgRestaurants->Refresh();
 
         QApplication::ExecuteJavaScript("showSuccess('Filter correctly!');");
@@ -152,7 +137,6 @@ class ViewListRestaurantForm extends QForm {
         }
     }
     
-    
     public function planRender(Restaurant $obj) {
         $controlID = 'plan' . $obj->IdRestaurant;
         $addCtrl = $this->dtgRestaurants->GetChildControl($controlID);
@@ -180,27 +164,7 @@ class ViewListRestaurantForm extends QForm {
         }
     }
     
-
-    /*public function statusRender(User $obj) {
-
-        if ($obj->StatusUser == 1) {
-            return '<div class="label label-table label-warning">Register</div>';
-        } else if ($obj->StatusUser == 2) {
-            return '<div class="label label-table label-success">Approved</div>';
-        } if ($obj->StatusUser == 3) {
-            return '<div class="label label-table label-danger">Rejected</div>';
-        } if ($obj->StatusUser == 4) {
-            return '<div class="label label-table label-primary">Mining</div>';
-        } else {
-            return '<div class="label label-table label-default">None</div>';
-        }
-    }*/
-
-    
-    
      public function imagesRender(User $obj) {
-         
-         
          return   '<div style="font-size:12px;"><a href="'.__UPLOAD_PATH__."/".$obj->ImageDriver.'" target="_blank" >Driver License</a>'
                       . '<br>'
                       . '<a href="'.__UPLOAD_PATH__."/".$obj->ImagePhoto.'"  target="_blank">Photo</a></div>';
@@ -255,9 +219,19 @@ class ViewListRestaurantForm extends QForm {
         $this->dlgDialogPermit->Title = addslashes("<i class='icon wb-edit'></i> Permisos Usuario");
         $this->dlgDialogPermit->loadDefault($strParameter);
         $this->dlgDialogPermit->ShowDialogBox();
-
-        //$strJavaScript ="$('[data-plugin=\"switchery\"]').load();";
-        //QApplication::ExecuteJavaScript($strJavaScript);
+    }
+    
+    
+    public function ownerRender(Restaurant $id) {
+        $owner = User::LoadByIdUser($id->IdUser);
+        
+        $template = "";
+        
+        try{
+            $template = "<span>". $owner->FirstName ." ". $owner->LastName ."</span>";
+        } catch (Exception $ex) {
+        }
+        return $template;
     }
 
     public function actionsRender(Restaurant $id) {

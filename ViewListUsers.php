@@ -16,7 +16,7 @@ class ViewListUsuarioForm extends QForm {
     protected $lblWallet;
     
     protected $txtNombre;
-     protected $btnFilter;
+    protected $btnFilter;
     
 
     protected function Form_Run() {
@@ -49,20 +49,14 @@ class ViewListUsuarioForm extends QForm {
         $this->dtgUsuarios->SortColumnIndex = 4;
         $this->dtgUsuarios->SortDirection = true;
 
-
         $this->dtgUsuarios->MetaAddColumn('IdUser', "Name=ID");
         $this->dtgUsuarios->MetaAddColumn('Email');
         //$this->dtgUsuarios->MetaAddColumn('Password');
         $this->dtgUsuarios->MetaAddColumn('FirstName');
         $this->dtgUsuarios->MetaAddColumn('LastName');
-        /*
-          $this->dtgUsuarios->AddColumn(new QDataGridColumn('Permiso', '<?= $_FORM->permisoRender($_ITEM); ?>', 'HtmlEntities=false', 'Width=50'));
-          $this->dtgUsuarios->AddColumn(new QDataGridColumn('Login', '<?= $_FORM->loginRender($_ITEM); ?>', 'HtmlEntities=false', 'Width=50'));
-         */
-        /*$this->dtgUsuarios->AddColumn(new QDataGridColumn('Plan', '<?= $_FORM->planRender($_ITEM); ?>', 'HtmlEntities=false',
-              array('OrderByClause' => QQ::OrderBy(QQN::User()->MiningOption), 'ReverseOrderByClause' => QQ::OrderBy(QQN::User()->MiningOption, false))
-                
-                ));*/
+        
+        $this->dtgUsuarios->AddColumn(new QDataGridColumn('User Type', '<?= $_FORM->userTypeRender($_ITEM); ?>', 'HtmlEntities=false', 'Width=100'));
+        
         $this->dtgUsuarios->AddColumn(new QDataGridColumn('Status', '<?= $_FORM->statusRender($_ITEM); ?>', 'HtmlEntities=false', 'Width=100',
               array('OrderByClause' => QQ::OrderBy(QQN::User()->StatusUser), 'ReverseOrderByClause' => QQ::OrderBy(QQN::User()->StatusUser, false))
                 ));
@@ -111,10 +105,7 @@ class ViewListUsuarioForm extends QForm {
             $searchTipo = QQ::All();
         }
 
-        $this->dtgUsuarios->AdditionalConditions = QQ::AndCondition(
-            $searchTipo
-        );
-
+        $this->dtgUsuarios->AdditionalConditions = QQ::AndCondition($searchTipo);
         $this->dtgUsuarios->Refresh();
 
         QApplication::ExecuteJavaScript("showSuccess('Filter correctly!');");
@@ -142,7 +133,6 @@ class ViewListUsuarioForm extends QForm {
             return '<div class="label label-table label-default">None</div>';
         }
     }
-    
     
     public function planRender(User $obj) {
         $controlID = 'plan' . $obj->IdUser;
@@ -172,12 +162,15 @@ class ViewListUsuarioForm extends QForm {
     }
     
     
-    
-    
-    
+    public function userTypeRender(User $obj) {
+        if ($obj->UserType == 'C') {
+            return '<div class="label label-table label-info">Customer</div>';
+        } else if ($obj->UserType == 'O') {
+            return '<div class="label label-table label-info">Owner</div>';
+        } 
+    }
 
     public function statusRender(User $obj) {
-
         if ($obj->StatusUser == 1) {
             return '<div class="label label-table label-warning">Register</div>';
         } else if ($obj->StatusUser == 2) {
@@ -190,14 +183,9 @@ class ViewListUsuarioForm extends QForm {
             return '<div class="label label-table label-default">None</div>';
         }
     }
-
-    
     
      public function imagesRender(User $obj) {
-         
-         
-         return   '<div style="font-size:12px;"><a href="'.__UPLOAD_PATH__."/".$obj->ImagePhoto.'" target="_blank" >Driver License</a>'
-                      . '<br>'
+         return   '<div style="font-size:12px;">'
                       . '<a href="'.__UPLOAD_PATH__."/".$obj->ImagePhoto.'"  target="_blank">Photo</a></div>';
         
     }
@@ -246,14 +234,9 @@ class ViewListUsuarioForm extends QForm {
     }
 
     protected function permiso_Click($strFormId, $strControlId, $strParameter) {
-
-
         $this->dlgDialogPermit->Title = addslashes("<i class='icon wb-edit'></i> Permisos Usuario");
         $this->dlgDialogPermit->loadDefault($strParameter);
         $this->dlgDialogPermit->ShowDialogBox();
-
-        //$strJavaScript ="$('[data-plugin=\"switchery\"]').load();";
-        //QApplication::ExecuteJavaScript($strJavaScript);
     }
 
     public function actionsRender(User $id) {

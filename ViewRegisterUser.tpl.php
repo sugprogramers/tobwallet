@@ -101,17 +101,19 @@
         <style>
             .form-group {
                 margin-bottom: 10px;
-            }       
-
+            }
         </style>
 
         <!-- Page -->
         <div class="page animsition vertical-align text-center" data-animsition-in="fade-in"
              data-animsition-out="fade-out">
+            
             <div class="page-content vertical-align-middle"  style="width: 100%!important;">
-                <a href="login"> <img class="brand-img" src="<?php _p(__VIRTUAL_DIRECTORY__ . __SUBDIRECTORY__); ?>/template/assets/images/logo-blue.png" alt="..."></a>
+                
+                <!-- <a href="login"> <img class="brand-img" src="<?php //_p(__VIRTUAL_DIRECTORY__ . __SUBDIRECTORY__); ?>/template/assets/images/logo-blue.png" alt="..."></a> -->
 
                 <br><br><div style="font-size: 18px;color:#273746;">Registration</div><br>
+                
                 <!--<p>Complete the information needed to create a new user.</p>-->
                 <?php $this->RenderBegin(); ?>
 
@@ -145,7 +147,7 @@
                         <div class="col-sm-4">
 
                             <div class="form-group">
-                                <?php $this->txtName->RenderWithError(); ?>
+                                <?php $this->txtEmail->RenderWithError(); ?>
                             </div>
 
                             <div class="form-group">
@@ -163,18 +165,20 @@
                             <div class="form-group text-left">
                               <?php $this->txtBirth->RenderWithError(); ?>  Date of Birth 
                             </div>
-
-
-
+                            
+                            <div class="form-group text-left">
+                                User Type 
+                                <?php $this->lstusertype->RenderWithError() ?>
+                            </div>
 
                         </div>
 
                         <div class="col-sm-4">
                             <div class="form-group">
-                                <?php $this->lstYear->RenderWithError(); ?>
+                                <?php //$this->lstYear->RenderWithError(); ?>
                             </div>
                             <div class="form-group">
-                                <?php $this->lstCohort->RenderWithError(); ?>
+                                <?php //$this->lstCohort->RenderWithError(); ?>
                             </div>
                              <div class="form-group">
                                 <?php $this->txtOtherCohort->RenderWithError(); ?>
@@ -192,15 +196,15 @@
                                 </div>
                             </div>
                             
-                            <div class="form-group  text-left">
+                            <!-- <div class="form-group  text-left">
                                 <div style="position:relative;">
                                     <a class='btn btn-default btn-outline '  href='javascript:;'>
                                         Upload Student ID
-                                        <?php $this->txtUploadDriver->RenderWithError(); ?>      
+                                        <?php //$this->txtUploadDriver->RenderWithError(); ?>      
                                     </a>
                                     <span class='label label-default label-outline' id="upload-file-info1"></span>
                                 </div>
-                            </div>
+                            </div> -->
 
 
                         </div>
@@ -233,12 +237,7 @@
                         <div class="col-sm-4">
 
                         </div>
-
-
                     </div>
-
-
-
                 </div>
                 
                 

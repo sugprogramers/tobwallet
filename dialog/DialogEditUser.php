@@ -12,17 +12,11 @@ class DialogEditUser extends QDialogBox {
     public $txtCity;
     public $txtPhone;
     public $txtBirthday;
-    public $txtYearGraduation;
     public $lstStatus;
     public $lstUserType;
     public $txtUserType;
     public $txtStatus;
-    public $txtCohort;
-    public $txtMiningOption;
-    public $lstMiningOption;
     public $txtWalletAddress;
-    public $txtNumberMasterNode;
-   
     public $btnSave;
     public $btnCancel;
     public $strClosePanelMethod;
@@ -70,6 +64,7 @@ class DialogEditUser extends QDialogBox {
         $this->txtPhone->Placeholder = htmlentities("Phone");
 
         $this->txtBirthday = $this->mctUsuario->calBirthday_Create();
+        $this->txtBirthday->DateTimePickerType = QDateTimePickerType::Date;
         
         $this->txtStatus = $this->mctUsuario->txtStatusUser_Create();        
         $this->lstStatus = new QListBox($this);
@@ -79,11 +74,11 @@ class DialogEditUser extends QDialogBox {
         $this->lstStatus->AddItem(new QListItem("Rejected", 3));
         $this->lstStatus->AddItem(new QListItem("Mining", 4));
         
-        $this->txtUserType = $this->mctUsuario->txtStatusUser_Create();
+        $this->txtUserType = $this->mctUsuario->txtUserType_Create();
         $this->lstUserType = new QListBox($this);
         $this->lstUserType->CssClass = "form-control input-sm editHidden"; 
-        $this->lstUserType->AddItem(new QListItem("Customer", 1));
-        $this->lstUserType->AddItem(new QListItem("Owner", 2));
+        $this->lstUserType->AddItem(new QListItem("Customer", 'C'));
+        $this->lstUserType->AddItem(new QListItem("Owner", 'O'));
         
         $this->txtWalletAddress = $this->mctUsuario->txtWalletAddress_Create();   
         
@@ -122,36 +117,16 @@ class DialogEditUser extends QDialogBox {
             
             //cuando es new
             if ($this->mctUsuario->objUser->IdUser == null) {
-                //$this->mctUsuario->objUser->ImageDriver = '';
                 $this->mctUsuario->objUser->ImagePhoto = '';
-                //$this->mctUsuario->objUser->MiningOption =  0;
-                
-                //$this->mctUsuario->objUser->Mac = '';
-                //$this->mctUsuario->objUser->TokenMac = md5(uniqid());
-                //$this->mctUsuario->objUser->StatusTokenMac = 1;
                 $this->mctUsuario->objUser->WalletAddress= '';
-                
-                
             }
-            //$oldStatus = $this->mctUsuario->objUser->StatusUser;
-            
             //siempre
             $this->txtStatus->Text = $this->lstStatus->SelectedValue;
+            $this->txtUserType->Text = $this->lstUserType->SelectedValue;
             
-            //$this->txtMiningOption->Text = $this->lstMiningOption->SelectedValue;
             //salvar
             $this->mctUsuario->SaveUser();
             
-            /*$newStatus = $this->mctUsuario->objUser->StatusUser;            
-            if($newStatus == 2 && $newStatus != $oldStatus ){
-                simpleEmailSend($this->mctUsuario->objUser->IdUser, $this->mctUsuario->objUser->Email, 'Welcome to Kcoin, your account in now active!', "Hi ".$this->mctUsuario->objUser->FirstName.", Welcome to kcoin. You can now login remember your username is your email address. <br><br>Good Luck Mining Kcoins.<br><br>".__DOMAIN_BASE__);
-            }
-            
-            if($newStatus == 3 && $newStatus != $oldStatus ){
-               simpleEmailSend($this->mctUsuario->objUser->IdUser, $this->mctUsuario->objUser->Email, 'User Rejected', "Your Kcoin account has been rejected, You don´t meet the Requirements to join the Kcoin Community. Please reply or contact the Kellogg House of Blockchains if you need further assistance.");
-            }*/
-            
-
             $this->CloseSelf(TRUE);
         } catch (Exception $exc) {
             QApplication::ExecuteJavaScript("showWarning('Error: " . str_replace("'", "\'", $exc->getMessage()) . "');");
@@ -175,7 +150,7 @@ class DialogEditUser extends QDialogBox {
             $this->mctUsuario->blnEditMode = TRUE;
             $this->mctUsuario->Refresh();
             $this->lstStatus->SelectedValue = $obj->StatusUser;
-            $this->lstMiningOption->SelectedValue = $obj->MiningOption;
+            $this->lstUserType->SelectedValue = $obj->UserType;
             
         } catch (Exception $exc) {
             QApplication::ExecuteJavaScript("showWarning('Error " . str_replace("'", "\'", $exc->getMessage()) . "');");

@@ -23,6 +23,9 @@ class ViewRegisterUserForm extends QForm {
     protected $chkVendor;
     protected $btnFinalizar;
     protected $txtOtherCohort;
+    
+    protected $txtusertype;
+    protected $lstusertype;
 
     protected function Form_Run() {
         $Datos1 = @unserialize($_SESSION['DatosAdministrador']);
@@ -67,6 +70,11 @@ class ViewRegisterUserForm extends QForm {
             $this->lstCountry->AddItem(new QListItem($value, $value));
         }
         $this->lstCountry->SelectedValue = "United States";
+        
+        $this->txtusertype = new QTextBox($this);
+        $this->lstusertype = new QListBox($this);
+        $this->lstusertype->AddItem(new QListItem("Customer", 'C'));
+        $this->lstusertype->AddItem(new QListItem("Owner", 'O'));
 
 
         $this->txtCity = new QTextBox($this);
@@ -77,17 +85,15 @@ class ViewRegisterUserForm extends QForm {
         $this->txtBirth = new QDateTimePicker($this);
         $this->txtBirth->MinimumYear = 1940;
 
-        $this->txtUploadDriver = new QFileControl($this);
+        /*$this->txtUploadDriver = new QFileControl($this);
         $this->txtUploadDriver->SetCustomAttribute("style", "position:absolute;z-index:2;top:0;left:0;filter: alpha(opacity=0);-ms-filter:'progid:DXImageTransform.Microsoft.Alpha(Opacity=0)';opacity:0;background-color:transparent;color:transparent;");
         $this->txtUploadDriver->SetCustomAttribute("onchange", "\$j('#upload-file-info1').html(\$j(this).val());");
-        $this->txtUploadDriver->SetCustomAttribute("accept", "image/*");
+        $this->txtUploadDriver->SetCustomAttribute("accept", "image/*");*/
 
         $this->txtUploadPhoto = new QFileControl($this);
         $this->txtUploadPhoto->SetCustomAttribute("style", "position:absolute;z-index:2;top:0;left:0;filter: alpha(opacity=0);-ms-filter:'progid:DXImageTransform.Microsoft.Alpha(Opacity=0)';opacity:0;background-color:transparent;color:transparent;");
         $this->txtUploadPhoto->SetCustomAttribute("onchange", "\$j('#upload-file-info2').html(\$j(this).val());");
         $this->txtUploadPhoto->SetCustomAttribute("accept", "image/*");
-
-
 
 
         $this->txtEmail = new QTextBox($this);
@@ -104,31 +110,26 @@ class ViewRegisterUserForm extends QForm {
         $this->txtRePassword->Placeholder = "Repeat Password";
         $this->txtRePassword->TextMode = QTextMode::Password;
 
-
-        $this->lstYear = new QListBox($this);
+        /*$this->lstYear = new QListBox($this);
         $this->lstYear->CssClass = "form-control input-lg";
         $this->lstYear->AddItem(new QListItem('Year of graduation', '0'));
         for ($i = 2022; $i >= 1900; $i--) {
             $this->lstYear->AddItem(new QListItem($i, $i));
-        }
+        }*/
 
-
-        $this->lstCohort = new QListBox($this);
+        /*$this->lstCohort = new QListBox($this);
         $this->lstCohort->CssClass = "form-control input-lg";
         $this->lstCohort->AddItem(new QListItem('Your cohort', '0'));
         $arrayCohort = getArrayCohort();
         foreach ($arrayCohort as $value) {
             $this->lstCohort->AddItem(new QListItem($value, $value));
         }
-        $this->lstCohort->AddAction(new QChangeEvent(), new QAjaxAction('btnChangeCohort_Click'));
-
-
+        $this->lstCohort->AddAction(new QChangeEvent(), new QAjaxAction('btnChangeCohort_Click'));*/
+        
         $this->txtOtherCohort = new QTextBox($this);
         $this->txtOtherCohort->CssClass = "form-control input-lg";
         $this->txtOtherCohort->Placeholder = "Insert your cohort";
         $this->txtOtherCohort->Visible = false;
-
-
 
         $this->chkVendor = new QCheckBox($this, 'chkVendor');
         $this->chkVendor->SetCustomAttribute('data-plugin', 'switchery');
@@ -148,22 +149,20 @@ class ViewRegisterUserForm extends QForm {
         $this->btnFinalizar->AddAction(new QClickEvent(), new QAjaxAction('btnFinalizar_Click'));
     }
 
-    protected function btnChangeCohort_Click($strFormId, $strControlId, $strParameter) {
+    /*protected function btnChangeCohort_Click($strFormId, $strControlId, $strParameter) {
         if ($this->lstCohort->SelectedValue == "Other please type") {
             $this->txtOtherCohort->Visible = true;
         } else {
             $this->txtOtherCohort->Visible = false;
         }
-    }
+    }*/
 
     protected function btnLogin_Click($strFormId, $strControlId, $strParameter) {
-
-
-        if ($this->txtUploadDriver->File != null && $this->txtUploadDriver->Size > 5000000) {
+        /*if ($this->txtUploadDriver->File != null && $this->txtUploadDriver->Size > 5000000) {
             $size = $this->txtUploadDriver->Size / 1000000;
             QApplication::ExecuteJavaScript("showWarning('Error Size Image Driver is  $size Megabytes, <br>Verify that it is less than 5 Megabytes');");
             return;
-        }
+        }*/
 
         if ($this->txtUploadPhoto->File != null && $this->txtUploadPhoto->Size > 5000000) {
             $size = $this->txtUploadPhoto->Size / 1000000;
@@ -206,7 +205,6 @@ class ViewRegisterUserForm extends QForm {
             return;
         }
 
-
         if (!(trim($this->txtPassword->Text) == trim($this->txtRePassword->Text)) || trim($this->txtPassword->Text) == '') {
             $this->txtPassword->Focus();
             $this->txtPassword->ValidationError = "error";
@@ -228,20 +226,19 @@ class ViewRegisterUserForm extends QForm {
             return;
         }
 
-
-        if ($this->lstYear->SelectedValue == '0') {
+        /*if ($this->lstYear->SelectedValue == '0') {
             $this->lstYear->Focus();
             $this->lstYear->ValidationError = "error";
             QApplication::ExecuteJavaScript("showWarning('Select year!');");
             return;
-        }
+        }*/
 
-        if ($this->lstCohort->SelectedValue == '0') {
+        /*if ($this->lstCohort->SelectedValue == '0') {
             $this->lstCohort->Focus();
             $this->lstCohort->ValidationError = "error";
             QApplication::ExecuteJavaScript("showWarning('Select your Cohort!');");
             return;
-        }
+        }*/
 
         if ($this->txtOtherCohort->Visible == true && trim($this->txtOtherCohort->Text) == '') {
             $this->txtOtherCohort->Focus();
@@ -254,19 +251,21 @@ class ViewRegisterUserForm extends QForm {
           QApplication::ExecuteJavaScript("showWarning('Upload Image Driver and Photo!');");
           return;
           } */
+        
         if ($this->txtUploadPhoto->File == null) {
             QApplication::ExecuteJavaScript("showWarning('Upload  Photo!');");
             return;
         }
 
         $allowed = array('gif', 'png', 'jpg', 'pdf', 'jpeg', 'JPG', 'JPEG');
-        if ($this->txtUploadDriver->File != null) {
+        /*if ($this->txtUploadDriver->File != null) {
             $ext = pathinfo($this->txtUploadDriver->FileName, PATHINFO_EXTENSION);
             if (!in_array($ext, $allowed)) {
                 QApplication::ExecuteJavaScript("showWarning('Invalid Extension File Upload');");
                 return;
             }
-        }
+        }*/
+        
         if ($this->txtUploadPhoto->File != null) {
             $ext = pathinfo($this->txtUploadPhoto->FileName, PATHINFO_EXTENSION);
             if (!in_array($ext, $allowed)) {
@@ -275,15 +274,7 @@ class ViewRegisterUserForm extends QForm {
             }
         }
 
-
-
         try {
-
-            if ($this->txtOtherCohort->Visible == true) {
-                $COHORT = $this->txtOtherCohort->Text;
-            } else {
-                $COHORT = $this->lstCohort->SelectedValue;
-            }
 
             $user = new User();
             $user->FirstName = $this->txtFirstName->Text;
@@ -295,22 +286,22 @@ class ViewRegisterUserForm extends QForm {
             $user->Password = $this->txtPassword->Text;
             $user->Phone = $this->txtPhone->Text;
             $user->Birthday = $this->txtBirth->DateTime;
-            $user->YearGraduation = $this->lstYear->SelectedValue;
-            $user->Cohort = $COHORT;
+            //$user->YearGraduation = $this->lstYear->SelectedValue;
+            //$user->Cohort = $COHORT;
             $user->StatusUser = 1;
-            $user->MiningOption = 0;
-            $user->ImageDriver = '';
+            $user->UserType = $this->lstusertype->SelectedItem->Value;
+            //$user->MiningOption = 0;
+            //$user->ImageDriver = '';
             $user->ImagePhoto = '';
-            $user->Mac = '';
-            $user->TokenMac = md5(uniqid());
-            $user->StatusTokenMac = 1;
+            //$user->Mac = '';
+            //$user->TokenMac = md5(uniqid());
+            //$user->StatusTokenMac = 1;
             $user->WalletAddress = '';
-            $user->NumberMasterNode = 0;
+            //$user->NumberMasterNode = 0;
             $user->Save();
 
-
             $subido = true;
-            if ($this->txtUploadDriver->File == null) {
+            /*if ($this->txtUploadDriver->File == null) {
                 $to1 = '';
                 $subido = true;
             } else {
@@ -320,24 +311,22 @@ class ViewRegisterUserForm extends QForm {
                 } else {
                     $subido = false;
                 }
-            }
+            }*/
 
             $to2 = date('YmdHis') . "_" . str_replace(' ', '', $this->txtUploadPhoto->FileName);
 
-
             if (@copy($this->txtUploadPhoto->File, __UPLOAD__ . "/" . $to2) && $subido == true) {
 
-                $user->ImageDriver = $to1;
+                //$user->ImageDriver = $to1;
                 $user->ImagePhoto = $to2;
                 $user->Save();
 
-
-                try {
+                /*try {
                     simpleEmailSend($user->IdUser, $user->Email, 'You have registered to the Kcoin Blockcahin', "You have registered to kcoin correctly, the House of Blockchains needs to approve your account. Another email will be sent to notify you that you have been accepted.<br><br>" . __DOMAIN_BASE__);
                     simpleEmailSend(0, 'alfrecampana@gmail.com', 'New Registered', "New registered.<br>$user->Email<br>" . __DOMAIN_BASE__);
                 } catch (Exception $e) {
                     
-                }
+                }*/
 
                 QApplication::ExecuteJavaScript("$('#ventaModal').modal('show');");
                 QApplication::ExecuteJavaScript("showSuccess('Data save correctly!');");

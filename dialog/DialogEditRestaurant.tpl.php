@@ -18,6 +18,8 @@
 }
        </style>
        
+       <?php if($_CONTROL->fromAdmin){ ?>
+       
        <div class="form-group row">
             <label class="col-sm-4 control-label"><?php _p("Owner"); ?> </label>
             <div class="col-sm-8">
@@ -25,10 +27,12 @@
                     <span class="input-group-addon">
                         <i class="icon fa-list" aria-hidden="true"></i>
                     </span>
-                    <?php //$_CONTROL->ctrlComplete->RenderWithError(); ?>
+                    <?php $_CONTROL->lstOwners->RenderWithError(); ?>
                 </div>                     
             </div>
         </div>
+       
+       <?php } ?>
        
        
 

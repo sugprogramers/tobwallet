@@ -76,10 +76,10 @@
             <div class="page-content">
                 <div class="page-brand-info">
                     <div class="brand">
-                       <a href="index.php"><img class="brand-img" src="<?php _p(__VIRTUAL_DIRECTORY__ . __SUBDIRECTORY__); ?>/template/assets/images/logo%402x.png" alt="..."></a>
-                        <h2 class="brand-text font-size-40">KCOIN</h2>
+                       <!-- <a href="index.php"><img class="brand-img" src="<?php //_p(__VIRTUAL_DIRECTORY__ . __SUBDIRECTORY__); ?>/template/assets/images/logo%402x.png" alt="..."></a> -->
+                        <h2 class="brand-text font-size-40">TOBWALLET</h2>
                     </div>
-                    <p class="font-size-18" style="color:#fff;" >The KCoin Crypto Community is an eco-system powered by Blockchain infrastructure, where new and existing ventures inspired by Kellogg students and alumni.</p>
+                    <!-- <p class="font-size-18" style="color:#fff;" >The KCoin Crypto Community is an eco-system powered by Blockchain infrastructure, where new and existing ventures inspired by Kellogg students and alumni.</p> -->
                 </div>
 
                 <div class="page-login-main">
