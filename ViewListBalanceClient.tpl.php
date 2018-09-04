@@ -1,5 +1,5 @@
 <?php
-$strPageTitle = QApplication::Translate('Available Offers') . ' - ' . QApplication::Translate('Customer');
+$strPageTitle = QApplication::Translate('Balance') . ' - ' . QApplication::Translate('Customer');
 require(__CONFIGURATION__ . '/header.inc.php');
 ?>
 
@@ -44,13 +44,13 @@ require(__CONFIGURATION__ . '/header.inc.php');
 <!-- Page -->
 <div class="page">
     <div class="page-header">
-        <h1 class="page-title"><i class="site-menu-icon fa-cubes" aria-hidden="true"></i> Offers</h1>
+        <h1 class="page-title"><i class="site-menu-icon fa-cubes" aria-hidden="true"></i> Balance</h1>
     </div>
     <div class="page-content container-fluid">
         <!-- Panel Table Add Row -->
         <div class="panel">
             <header class="panel-heading">
-                <h3 class="panel-title">Available Offers</h3>
+                <h3 class="panel-title">Current Balance</h3>
             </header>
             <div class="panel-body" style="min-height:260px;">
 
@@ -63,10 +63,9 @@ require(__CONFIGURATION__ . '/header.inc.php');
                                 <div class="animation-slide-top"
                                      style="font-size: 65px;margin-right:0px;padding: 0px;color:#ccc;"><i
                                         class="icon fa-cubes" aria-hidden="true"></i></div>
-                                <p style="font-size: 22px;color: #848484;">No se encontraron ofertas</p>
+                                <p style="font-size: 22px;color: #848484;">No tiene ofertas aplicadas</p>
                             </header>
-                            <p class="error-advise animation-slide-left" style="font-size: 12px;">Usted debe registrar
-                                una nueva ofertita</p>
+
                             <br>
                         </div>
                     </div>
@@ -89,11 +88,10 @@ require(__CONFIGURATION__ . '/header.inc.php');
                                 <div class="col-sm-2 form-group">
                                     <?php $this->btnFilter->Render(); ?>
                                 </div>
-                                <div class="col-sm-3 form-group">
-
+                                <div class="col-sm-5 form-group">
                                 </div>
                                 <div class="col-sm-2 form-group">
-
+                                    <?php $this->lblTotal->Render(); ?>
                                 </div>
 
 
@@ -113,7 +111,7 @@ require(__CONFIGURATION__ . '/header.inc.php');
                 <div class="site-action">
                     <?php // $this->btnNewModelo->Render(); ?>
                 </div>
-              
+
 
                 <!-- End Example Basic Sort -->
             </div>
@@ -140,98 +138,13 @@ require(__CONFIGURATION__ . '/header.inc.php');
         $('#vendedor').addClass('active open');
         $('#productodefecto').addClass('active');
 
-//        function hasGetUserMedia() {
-//            // Note: Opera builds are unprefixed.
-//            return !!(navigator.getUserMedia || navigator.webkitGetUserMedia ||
-//                    navigator.mozGetUserMedia || navigator.msGetUserMedia);
-//        }
-//
-//        if (hasGetUserMedia()) {
-//            alert('si tiene');
-//        } else {
-//            alert('getUserMedia() is not supported in your browser');
-//        }
-
-//        var video = document.querySelector('video');
-//
-//        if (navigator.getUserMedia) {
-//            navigator.getUserMedia({audio: true, video: true}, function (stream) {
-//                video.src = stream;
-//            }, onFailSoHard);
-//        } else if (navigator.webkitGetUserMedia) {
-//            navigator.webkitGetUserMedia('audio, video', function (stream) {
-//                video.src = window.webkitURL.createObjectURL(stream);
-//            }, onFailSoHard);
-//        } else {
-//            video.src = 'somevideo.webm'; // fallback.
-//        }
-
 
     })(document, window, jQuery);
 </script>
 
 <?php require(__CONFIGURATION__ . '/footer.inc.php'); ?>
 
-<script>
 
-//    $('#reader').html5_qrcode(function (data) {
-//        alert(data);
-//    },
-//            function (error) {
-//                console.log(error);
-//            }, function (videoError) {
-//        console.log(videoError);
-//    }
-//    );
-</script>
-
-<script type="text/javascript">
-
-//    function muestracamera() {
-//        let scanner = new Instascan.Scanner({video: document.getElementById('v')});
-//        scanner.addListener('scan', function (content) {
-//            alert(content);
-//        });
-//        Instascan.Camera.getCameras().then(function (cameras) {
-//            if (cameras.length > 0) {
-//                scanner.start(cameras[1]);
-//            } else {
-//                console.error('No cameras found.');
-//            }
-//        }).catch(function (e) {
-//            console.error(e);
-//        });
-//    }
-
-</script>
-
-
-<script>
-
-</script>
-
-
-
-<script>
-//  var player = document.getElementById('player'); 
-//  var snapshotCanvas = document.getElementById('snapshot');
-//  var captureButton = document.getElementById('capture');
-//
-//  var handleSuccess = function(stream) {
-//    // Attach the video stream to the video element and autoplay.
-//    player.srcObject = stream;
-//  };
-//
-//  captureButton.addEventListener('click', function() {
-//    var context = snapshot.getContext('2d');
-//    // Draw the video frame to the canvas.
-//    context.drawImage(player, 0, 0, snapshotCanvas.width, 
-//        snapshotCanvas.height);
-//  });
-//
-//  navigator.mediaDevices.getUserMedia({video: true})
-//      .then(handleSuccess);
-</script>
 </body>
 
 </html>

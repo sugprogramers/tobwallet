@@ -150,3 +150,6 @@ RewriteRule ^ownerRestaurants$    ViewListOwnerRestaurants.php [L]
 
 RewriteRule ^OwnerOffers/(.*)$    ViewListOffersToOwner.php/$1 [L]
 RewriteRule ^OwnerOffers$    ViewListOffersToOwner.php [L]
+
+RewriteRule ^balance/(.*)$    ViewListBalanceClient.php/$1 [L]
+RewriteRule ^balance    ViewListBalanceClient.php [L]

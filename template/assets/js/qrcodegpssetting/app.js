@@ -19,9 +19,7 @@ function muestracamera() {
         console.error(e);
     });
 
-//    alert("esperando...");
-//
-//    scanner.stop();
+
 }
 
 function getLocation() {
@@ -30,7 +28,6 @@ function getLocation() {
         //try to get user current location using getCurrentPosition() method
         navigator.geolocation.getCurrentPosition(function (position) {
             console.log("Found your location nLat : " + position.coords.latitude + " nLang :" + position.coords.longitude);
-            alert("Found your location nLat : " + position.coords.latitude + " nLang :" + position.coords.longitude);
             $('#c8').val('gps:' + position.coords.latitude + ';' + position.coords.longitude);
 //            $("#c6").click();
             getAddressName(position.coords.latitude, position.coords.longitude);
