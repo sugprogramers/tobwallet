@@ -229,7 +229,7 @@
                         <i class="icon wb-more-horizontal" aria-hidden="true"></i>
                     </button>
                     <div class="navbar-brand navbar-brand-center site-gridmenu-toggle" data-toggle="gridmenu">
-                        <img class="navbar-brand-logo" src="<?php _p(__VIRTUAL_DIRECTORY__ . __SUBDIRECTORY__); ?>/template/assets/images/logo.png" title="iGo Ads">
+                        <img class="navbar-brand-logo" src="<?php _p(__VIRTUAL_DIRECTORY__ . __SUBDIRECTORY__); ?>/template/assets/images/logo2_T.png" title="iGo Ads">
                         <span class="navbar-brand-text">TOB WALLET</span>
                     </div>
                     <button type="button" class="navbar-toggle collapsed" data-target="#site-navbar-search"

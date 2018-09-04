@@ -24,6 +24,7 @@ class ViewListOwnerRestaurantForm extends QForm {
     
     protected $txtNombre;
     protected $btnFilter;
+    protected $btnEraserFilter;
     
     protected  $dlgQRConfirm;
 
@@ -57,7 +58,7 @@ class ViewListOwnerRestaurantForm extends QForm {
         $this->dtgRestaurants->SortColumnIndex = 4;
         $this->dtgRestaurants->SortDirection = true;
         
-        $this->dtgRestaurants->MetaAddColumn('IdRestaurant', "Name=ID");
+        //$this->dtgRestaurants->MetaAddColumn('IdRestaurant', "Name=ID");
         $this->dtgRestaurants->MetaAddColumn('Country');
         $this->dtgRestaurants->MetaAddColumn('City');
         $this->dtgRestaurants->MetaAddColumn('Address');
@@ -77,13 +78,19 @@ class ViewListOwnerRestaurantForm extends QForm {
         $this->btnNewRestaurant->AddAction(new QClickEvent(), new QAjaxAction('btnNewRestaurant_Click'));
         
         $this->txtNombre = new QTextBox($this);
-        $this->txtNombre->Placeholder = "Email or Firtname or Lastname";
+        $this->txtNombre->Placeholder = "Restaurant Name";
 
         $this->btnFilter = new QButton($this);
         $this->btnFilter->CssClass = "btn btn-success";
         $this->btnFilter->HtmlEntities = false;
         $this->btnFilter->Text = '<i class="icon fa-filter" aria-hidden="true"></i>';
         $this->btnFilter->AddAction(new QClickEvent(), new QAjaxAction('actionFilter_Click'));
+        
+        $this->btnEraserFilter = new QButton($this);
+        $this->btnEraserFilter->CssClass = "btn btn-success";
+        $this->btnEraserFilter->HtmlEntities = false;
+        $this->btnEraserFilter->Text = '<i class="fas fa-eraser" aria-hidden="true"></i>';
+        $this->btnEraserFilter->AddAction(new QClickEvent(), new QAjaxAction('eraseFilter_Click'));
         
         $searchTipo = QQ::AndCondition(
                     QQ::Equal(QQN::Restaurant()->IdUser, $this->user->IdUser)
@@ -100,6 +107,19 @@ class ViewListOwnerRestaurantForm extends QForm {
             QApplication::ExecuteJavaScript("itemsFound(2);");
         }
     }
+    
+    
+    public function eraseFilter_Click($strFormId, $strControlId, $strParameter) {
+        $this->txtNombre->Text = "";
+        
+        $searchTipo = QQ::AndCondition(
+                    QQ::Equal(QQN::Restaurant()->IdUser, $this->user->IdUser)
+             );
+        $this->dtgRestaurants->AdditionalConditions = QQ::AndCondition($searchTipo);
+        $this->dtgRestaurants->Refresh();
+        QApplication::ExecuteJavaScript("showSuccess('Filter eraser correctly!');");
+    }
+    
     
      public function actionFilter_Click($strFormId, $strControlId, $strParameter) {
         if (trim($this->txtNombre->Text != "")) {

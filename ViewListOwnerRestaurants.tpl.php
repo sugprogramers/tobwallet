@@ -91,6 +91,7 @@
                                 </div>
                                 <div class="col-sm-2 form-group">
                                     <?php $this->btnFilter->Render(); ?>
+                                    <?php $this->btnEraserFilter->Render(); ?>
                                 </div>
                                 <div class="col-sm-3 form-group">
 

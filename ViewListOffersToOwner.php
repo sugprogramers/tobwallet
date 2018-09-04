@@ -57,7 +57,7 @@ class ViewListOffersToOwnerForm extends QForm {
         $this->dtgOffers->SortColumnIndex = 4;
         $this->dtgOffers->SortDirection = true;
         
-        $this->dtgOffers->MetaAddColumn('IdOffer', "Name=ID");
+        //$this->dtgOffers->MetaAddColumn('IdOffer', "Name=ID");
         $this->dtgOffers->MetaAddColumn('Description');
         $this->dtgOffers->MetaAddColumn('OfferedCoins', "Name=Coins per Person");
         $this->dtgOffers->MetaAddColumn('MaxOffers', "Name=Total Offers");

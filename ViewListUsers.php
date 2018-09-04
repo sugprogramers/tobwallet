@@ -49,7 +49,7 @@ class ViewListUsuarioForm extends QForm {
         $this->dtgUsuarios->SortColumnIndex = 4;
         $this->dtgUsuarios->SortDirection = true;
 
-        $this->dtgUsuarios->MetaAddColumn('IdUser', "Name=ID");
+        //$this->dtgUsuarios->MetaAddColumn('IdUser', "Name=ID");
         $this->dtgUsuarios->MetaAddColumn('Email');
         //$this->dtgUsuarios->MetaAddColumn('Password');
         $this->dtgUsuarios->MetaAddColumn('FirstName');

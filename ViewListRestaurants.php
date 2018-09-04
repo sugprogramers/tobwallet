@@ -56,7 +56,7 @@ class ViewListRestaurantForm extends QForm {
         $this->dtgRestaurants->SortColumnIndex = 4;
         $this->dtgRestaurants->SortDirection = true;
         
-        $this->dtgRestaurants->MetaAddColumn('IdRestaurant', "Name=ID");
+        //$this->dtgRestaurants->MetaAddColumn('IdRestaurant', "Name=ID");
         $this->dtgRestaurants->MetaAddColumn('Country');
         $this->dtgRestaurants->MetaAddColumn('City');
         $this->dtgRestaurants->MetaAddColumn('Address');

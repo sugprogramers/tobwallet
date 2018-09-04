@@ -111,7 +111,7 @@
             
             <div class="page-content vertical-align-middle"  style="width: 100%!important;">
                 
-                <!-- <a href="login"> <img class="brand-img" src="<?php //_p(__VIRTUAL_DIRECTORY__ . __SUBDIRECTORY__); ?>/template/assets/images/logo-blue.png" alt="..."></a> -->
+                <a href="login"> <img class="brand-img" src="<?php _p(__VIRTUAL_DIRECTORY__ . __SUBDIRECTORY__); ?>/template/assets/images/logo2_T.png" alt="..."></a>
 
                 <br><br><div style="font-size: 18px;color:#273746;">Registration</div><br>
                 
@@ -163,14 +163,9 @@
                                 <?php $this->txtPhone->RenderWithError(); ?>
                             </div>  
 
-                            <div class="form-group text-left">
-                              <?php $this->txtBirth->RenderWithError(); ?>  Date of Birth 
-                            </div>
                             
-                            <div class="form-group text-left">
-                                User Type 
-                                <?php $this->lstusertype->RenderWithError() ?>
-                            </div>
+                            
+                            
 
                         </div>
 
@@ -183,6 +178,15 @@
                             </div>
                              <div class="form-group">
                                 <?php $this->txtOtherCohort->RenderWithError(); ?>
+                            </div>
+                            
+                            <div class="form-group text-left">
+                              <?php $this->txtBirth->RenderWithError(); ?>  Date of Birth 
+                            </div>
+                            
+                            <div class="form-group text-left">
+                                User Type 
+                                <?php $this->lstusertype->RenderWithError() ?>
                             </div>
 
                            

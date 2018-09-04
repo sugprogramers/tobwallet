@@ -30,7 +30,7 @@ class LoginForm extends QForm {
 
         $this->chkVendor = new QCheckBox($this, 'chkVendor');
         $this->chkVendor->SetCustomAttribute('data-plugin', 'switchery');
-        $this->chkVendor->SetCustomAttribute('data-color', '#502581');
+        $this->chkVendor->SetCustomAttribute('data-color', '#3aa677');
         $this->chkVendor->SetCustomAttribute('data-size', "small");
 
         $this->txtEmail = new QTextBox($this, 'idTextEmail2');
