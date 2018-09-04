@@ -15,7 +15,9 @@
 
         <tr>
             <td>
-                <video id="v"  autoplay></video>
+                <div id="videoqr" style="display: none">
+                    <video id="v" height="120" width="160" autoplay></video>
+                </div>
             </td>
         </tr>
 
@@ -38,7 +40,7 @@
         </tr>
         <tr>
             <td>
-                <?php $_CONTROL->btnHideClickQr->Render(); ?>
+                <?php $_CONTROL->btnHideClick->Render(); ?>
             </td>
         </tr>
     </table>
