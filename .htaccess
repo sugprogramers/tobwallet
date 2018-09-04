@@ -23,7 +23,7 @@ RewriteRule "(\.(bak|config|dist|fla|inc|ini|log|psd|sh|sql|swp)|~)$" - [F]
 #RewriteRule .*\.(jpe?g|gif|bmp|png|js|css|php|html|txt|)$ - [F]
  #RewriteRule .*\.(jpe?g|gif|bmp|png|js|css|php|html|txt|)$  http://example.org/IMG/no_robar_ancho_de_banda.gif [NC,R,L]
 
-DirectoryIndex  index.html
+DirectoryIndex  index.php
 
 
 #http://www.jpereira.net/web/un-poco-de-seguridad-con-htaccess
@@ -148,5 +148,5 @@ RewriteRule ^availableoffer    ViewListOffersToClient.php [L]
 RewriteRule ^ownerRestaurants/(.*)$    ViewListOwnerRestaurants.php/$1 [L]
 RewriteRule ^ownerRestaurants$    ViewListOwnerRestaurants.php [L]
 
-RewriteRule ^customerOffers/(.*)$    ViewListOffersToCustomer.php/$1 [L]
-RewriteRule ^customerOffers$    ViewListOffersToCustomer.php [L]
+RewriteRule ^OwnerOffers/(.*)$    ViewListOffersToOwner.php/$1 [L]
+RewriteRule ^OwnerOffers$    ViewListOffersToOwner.php [L]
