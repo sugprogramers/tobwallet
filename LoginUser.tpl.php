@@ -9,7 +9,7 @@
         <title><?php _p("Login TOB WALLET"); ?></title>
 
         
-        <link rel="shortcut icon" href="<?php _p(__VIRTUAL_DIRECTORY__ . __SUBDIRECTORY__); ?>/template/assets/images/favicon.ico">
+        <link rel="shortcut icon" href="<?php _p(__VIRTUAL_DIRECTORY__ . __SUBDIRECTORY__); ?>/template/assets/images/logo2_T_icon.ico">
 
         
         <!-- Stylesheets -->

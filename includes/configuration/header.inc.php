@@ -7,9 +7,9 @@
         <meta name="description" content="">
         <meta name="author" content="FIREHORSE">
 
-        <title><?php _p($strPageTitle . " - Kcoin®"); ?></title>
+        <title><?php _p($strPageTitle . " - TOBWallet®"); ?></title>
 
-        <link rel="shortcut icon" href="<?php _p(__VIRTUAL_DIRECTORY__ . __SUBDIRECTORY__); ?>/template/assets/images/favicon.ico">
+        <link rel="shortcut icon" href="<?php _p(__VIRTUAL_DIRECTORY__ . __SUBDIRECTORY__); ?>/template/assets/images/logo2_T_icon.ico">
 
         <!-- Stylesheets -->
         <link rel="stylesheet" href="<?php _p(__VIRTUAL_DIRECTORY__ . __SUBDIRECTORY__); ?>/template/assets/css/bootstrap.min.css">
