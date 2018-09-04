@@ -28,9 +28,9 @@ class ViewRegisterUserForm extends QForm {
     protected $lstusertype;
 
     protected function Form_Run() {
-        $Datos1 = @unserialize($_SESSION['DatosAdministrador']);
-        $Datos2 = @unserialize($_SESSION['DatosUsuario']);
-        $Datos3 = @unserialize($_SESSION['DatosUsuarioNoVerificado']);
+        $Datos1 = @unserialize($_SESSION['TobAdmin']);
+        $Datos2 = @unserialize($_SESSION['TobUser']);
+        $Datos3 = @unserialize($_SESSION['TobUserNoVerificado']);
 
         if ($Datos1) {
             QApplication::Redirect(__VIRTUAL_DIRECTORY__ . __SUBDIRECTORY__ . '/users');

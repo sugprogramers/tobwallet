@@ -29,7 +29,7 @@ class ViewListOwnerRestaurantForm extends QForm {
     protected  $dlgQRConfirm;
 
     protected function Form_Run() {
-        $Datos1 = @unserialize($_SESSION['DatosUsuario']);
+        $Datos1 = @unserialize($_SESSION['TobUser']);
 
         if ($Datos1) {
             $this->user = User::LoadByEmail($Datos1->Email);
@@ -239,7 +239,7 @@ class ViewListOwnerRestaurantForm extends QForm {
 
         if ($User) {
             $User->Password = 'NULL';
-            $_SESSION['DatosUsuario'] = serialize($User);
+            $_SESSION['TobUser'] = serialize($User);
             QApplication::Redirect(__VIRTUAL_DIRECTORY__ . __SUBDIRECTORY__ . '/profileuser');
             return;
         }

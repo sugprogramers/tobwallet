@@ -27,7 +27,7 @@ class ViewListRestaurantForm extends QForm {
 
     protected function Form_Run() {
 
-        $Datos1 = @unserialize($_SESSION['DatosAdministrador']);
+        $Datos1 = @unserialize($_SESSION['TobAdmin']);
 
         if ($Datos1) {
             $this->user = Administrator::LoadByEmail($Datos1->Email);
@@ -207,7 +207,7 @@ class ViewListRestaurantForm extends QForm {
 
         if ($User) {
             $User->Password = 'NULL';
-            $_SESSION['DatosUsuario'] = serialize($User);
+            $_SESSION['TobUser'] = serialize($User);
             QApplication::Redirect(__VIRTUAL_DIRECTORY__ . __SUBDIRECTORY__ . '/profileuser');
             return;
         }

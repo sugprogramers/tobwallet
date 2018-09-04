@@ -133,6 +133,7 @@ class DialogEditRestaurant extends QDialogBox {
         
         try {
             $obj = Restaurant::LoadByIdRestaurant($id);
+            $this->strIdUser = $obj->IdUser;
             $this->mctRestaurant->objRestaurant = $obj;
             $this->mctRestaurant->blnEditMode = TRUE;
             

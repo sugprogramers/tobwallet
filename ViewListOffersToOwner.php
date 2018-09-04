@@ -28,7 +28,7 @@ class ViewListOffersToOwnerForm extends QForm {
 
     protected function Form_Run() {
 
-        $Datos1 = @unserialize($_SESSION['DatosUsuario']);
+        $Datos1 = @unserialize($_SESSION['TobUser']);
 
         if ($Datos1) {
             $this->user = User::LoadByEmail($Datos1->Email);

@@ -278,8 +278,8 @@
                                aria-expanded="false" role="button" style="padding-right: 1px;padding-left:  1px">
                                 <div style=" font-size:14px;font-family: Roboto,sans-serif;color: #fff;box-sizing: border-box;font-weight: 500;padding-right: 1px;">
                                     <?php
-                                    $admin = @unserialize($_SESSION['DatosAdministrador']);
-                                    $usuario = @unserialize($_SESSION['DatosUsuario']);
+                                    $admin = @unserialize($_SESSION['TobAdmin']);
+                                    $usuario = @unserialize($_SESSION['TobUser']);
                                     if ($usuario) {
 
                                         echo $usuario->Email;

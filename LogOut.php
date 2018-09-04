@@ -3,8 +3,8 @@
 require_once('./qcubed.inc.php');
 require './general.php';
 
-$User = @unserialize($_SESSION['DatosUsuario']);
-$Admin = @unserialize($_SESSION['DatosAdministrador']);
+$User = @unserialize($_SESSION['TobUser']);
+$Admin = @unserialize($_SESSION['TobAdmin']);
 
 //if($User) saveLog($User->Email);
 //if($Admin) saveLog ($Admin->Email);

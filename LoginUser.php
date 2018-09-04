@@ -11,9 +11,9 @@ class LoginForm extends QForm {
     protected $chkVendor;
 
     protected function Form_Run() {
-        $Datos1 = @unserialize($_SESSION['DatosAdministrador']);
-        $Datos2 = @unserialize($_SESSION['DatosUsuario']);
-        $Datos3 = @unserialize($_SESSION['DatosUsuarioNoVerificado']);
+        $Datos1 = @unserialize($_SESSION['TobAdmin']);
+        $Datos2 = @unserialize($_SESSION['TobUser']);
+        $Datos3 = @unserialize($_SESSION['TobUserNoVerificado']);
 
         if ($Datos1) {
             QApplication::Redirect(__VIRTUAL_DIRECTORY__ . __SUBDIRECTORY__ . '/users');
@@ -65,30 +65,30 @@ class LoginForm extends QForm {
             if ($User->Password == trim($this->txtPassword->Text)) {
                 $User->Password = 'NULL';
 
-                $_SESSION['DatosUsuario'] = serialize($User);
+                $_SESSION['TobUser'] = serialize($User);
 
 //                QApplication::Redirect(__VIRTUAL_DIRECTORY__ . __SUBDIRECTORY__ . '/mining');
 //                return;
 
 
                 if ($User->UserType == 'C') {
-                    $_SESSION['DatosUsuarioNoVerificado'] = serialize($User);
+                    $_SESSION['TobUserNoVerificado'] = serialize($User);
                     QApplication::Redirect(__VIRTUAL_DIRECTORY__ . __SUBDIRECTORY__ . '/availableoffer');
                 }
 
 
                 if ($User->UserType == 'O') {
-                    $_SESSION['DatosUsuarioNoVerificado'] = serialize($User);
+                    $_SESSION['TobUserNoVerificado'] = serialize($User);
                     QApplication::Redirect(__VIRTUAL_DIRECTORY__ . __SUBDIRECTORY__ . '/ownerRestaurants');
                 }
 
                 if ($User->StatusUser == 2) {
-                    $_SESSION['DatosUsuarioNoVerificado'] = serialize($User);
+                    $_SESSION['TobUserNoVerificado'] = serialize($User);
                     QApplication::Redirect(__VIRTUAL_DIRECTORY__ . __SUBDIRECTORY__ . '/mining');
                 }
 
                 if ($User->StatusUser == 4) {
-                    $_SESSION['DatosUsuario'] = serialize($User);
+                    $_SESSION['TobUser'] = serialize($User);
                     QApplication::Redirect(__VIRTUAL_DIRECTORY__ . __SUBDIRECTORY__ . '/miningoptions');
                 }
 
@@ -116,7 +116,7 @@ class LoginForm extends QForm {
             if ($User->Password == trim($this->txtPassword->Text)) {
                 $User->Password = 'NULL';
 
-                $_SESSION['DatosAdministrador'] = serialize($User);
+                $_SESSION['TobAdmin'] = serialize($User);
                 QApplication::Redirect(__VIRTUAL_DIRECTORY__ . __SUBDIRECTORY__ . '/users');
 
                 return;

@@ -27,7 +27,7 @@ class ProfileAdmin extends QForm {
    
     protected function Form_Run() {
 
-        $Datos1 = @unserialize($_SESSION['DatosAdministrador']);
+        $Datos1 = @unserialize($_SESSION['TobAdmin']);
        
         if ($Datos1) {
             $this->user = Administrator::LoadByEmail($Datos1->Email);
