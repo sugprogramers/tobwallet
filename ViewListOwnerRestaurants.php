@@ -84,6 +84,12 @@ class ViewListOwnerRestaurantForm extends QForm {
         $this->btnFilter->HtmlEntities = false;
         $this->btnFilter->Text = '<i class="icon fa-filter" aria-hidden="true"></i>';
         $this->btnFilter->AddAction(new QClickEvent(), new QAjaxAction('actionFilter_Click'));
+        
+        $searchTipo = QQ::AndCondition(
+                    QQ::Equal(QQN::Restaurant()->IdUser, $this->user->IdUser)
+             );
+        $this->dtgRestaurants->AdditionalConditions = QQ::AndCondition($searchTipo);
+        $this->dtgRestaurants->Refresh();
     }
 
     protected function items_Found() {

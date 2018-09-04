@@ -6,7 +6,7 @@
         <meta name="description" content="">
         <meta name="author" content="">
 
-        <title><?php _p("Login Kcoin"); ?></title>
+        <title><?php _p("Login TOB WALLET"); ?></title>
 
         
         <link rel="shortcut icon" href="<?php _p(__VIRTUAL_DIRECTORY__ . __SUBDIRECTORY__); ?>/template/assets/images/favicon.ico">
@@ -18,11 +18,12 @@
         <link rel="stylesheet" href="<?php _p(__VIRTUAL_DIRECTORY__ . __SUBDIRECTORY__); ?>/template/assets/css/site.min.css">
         <!-- Se agrega para cambiar color-->
          <!-- <link rel="stylesheet" href="<?php _p(__VIRTUAL_DIRECTORY__ . __SUBDIRECTORY__); ?>/template/assets/skin/cyan.css"> -->
-        <link rel="stylesheet" href="<?php _p(__VIRTUAL_DIRECTORY__ . __SUBDIRECTORY__); ?>/template/assets/skin/purple.css">
+        <!-- <link rel="stylesheet" href="<?php //_p(__VIRTUAL_DIRECTORY__ . __SUBDIRECTORY__); ?>/template/assets/skin/purple.css"> -->
+        <link rel="stylesheet" href="<?php _p(__VIRTUAL_DIRECTORY__ . __SUBDIRECTORY__); ?>/template/assets/skin/green.css">
         <!-- Este para cambiar el tranparente login -->
          <style>
              .page-login-v2.page-dark.layout-full:after {
-                background-color: rgba(80,38,132, 0.6) !important;
+                background-color: rgba(234,250,246, 0.1) !important;
             }
         </style>
         
@@ -77,7 +78,7 @@
                 <div class="page-brand-info">
                     <div class="brand">
                        <!-- <a href="index.php"><img class="brand-img" src="<?php //_p(__VIRTUAL_DIRECTORY__ . __SUBDIRECTORY__); ?>/template/assets/images/logo%402x.png" alt="..."></a> -->
-                        <h2 class="brand-text font-size-40">TOBWALLET</h2>
+                        <h2 class="brand-text font-size-40">TOB WALLET</h2>
                     </div>
                     <!-- <p class="font-size-18" style="color:#fff;" >The KCoin Crypto Community is an eco-system powered by Blockchain infrastructure, where new and existing ventures inspired by Kellogg students and alumni.</p> -->
                 </div>

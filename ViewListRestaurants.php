@@ -22,7 +22,8 @@ class ViewListRestaurantForm extends QForm {
     protected $lblWallet;
     protected $txtNombre;
     protected $btnFilter;
-    protected  $dlgQRConfirm;
+    protected $btnEraserFilter;
+    protected $dlgQRConfirm;
 
     protected function Form_Run() {
 
@@ -78,13 +79,19 @@ class ViewListRestaurantForm extends QForm {
         $this->btnNewRestaurant->AddAction(new QClickEvent(), new QAjaxAction('btnNewRestaurant_Click'));
         
         $this->txtNombre = new QTextBox($this);
-        $this->txtNombre->Placeholder = "Email or Firtname or Lastname";
+        $this->txtNombre->Placeholder = "Restaurant Name";
 
         $this->btnFilter = new QButton($this);
         $this->btnFilter->CssClass = "btn btn-success";
         $this->btnFilter->HtmlEntities = false;
         $this->btnFilter->Text = '<i class="icon fa-filter" aria-hidden="true"></i>';
         $this->btnFilter->AddAction(new QClickEvent(), new QAjaxAction('actionFilter_Click'));
+        
+        $this->btnEraserFilter = new QButton($this);
+        $this->btnEraserFilter->CssClass = "btn btn-success";
+        $this->btnEraserFilter->HtmlEntities = false;
+        $this->btnEraserFilter->Text = '<i class="fas fa-eraser" aria-hidden="true"></i>';
+        $this->btnEraserFilter->AddAction(new QClickEvent(), new QAjaxAction('eraseFilter_Click'));
     }
 
     protected function items_Found() {
@@ -96,12 +103,20 @@ class ViewListRestaurantForm extends QForm {
         }
     }
     
-     public function actionFilter_Click($strFormId, $strControlId, $strParameter) {
+    public function eraseFilter_Click($strFormId, $strControlId, $strParameter) {
+        $this->txtNombre->Text = "";
+        
+        $searchTipo = QQ::All();
+        $this->dtgRestaurants->AdditionalConditions = QQ::AndCondition($searchTipo);
+        $this->dtgRestaurants->Refresh();
+        
+        QApplication::ExecuteJavaScript("showSuccess('Filter eraser correctly!');");
+    }
+    
+    public function actionFilter_Click($strFormId, $strControlId, $strParameter) {
         if (trim($this->txtNombre->Text != "")) {
             $searchTipo = QQ::OrCondition(
-                    QQ::Like(QQN::Restaurant()->RestaurantName, "%".trim($this->txtNombre->Text)."%")/*,
-                    QQ::Like(QQN::Restaurant()->OwnerLastName, "%".trim($this->txtNombre->Text)."%"),
-                    QQ::Like(QQN::Restaurant()->Email, "%".trim($this->txtNombre->Text)."%")*/
+                    QQ::Like(QQN::Restaurant()->RestaurantName, "%".trim($this->txtNombre->Text)."%")
              );
         }
         else {

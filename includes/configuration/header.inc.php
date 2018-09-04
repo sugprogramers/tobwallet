@@ -230,7 +230,7 @@
                     </button>
                     <div class="navbar-brand navbar-brand-center site-gridmenu-toggle" data-toggle="gridmenu">
                         <img class="navbar-brand-logo" src="<?php _p(__VIRTUAL_DIRECTORY__ . __SUBDIRECTORY__); ?>/template/assets/images/logo.png" title="iGo Ads">
-                        <span class="navbar-brand-text">KCOIN</span>
+                        <span class="navbar-brand-text">TOB WALLET</span>
                     </div>
                     <button type="button" class="navbar-toggle collapsed" data-target="#site-navbar-search"
                             data-toggle="collapse">
@@ -400,7 +400,7 @@
 
                                         <li id="activeProfile" class="site-menu-item has-sub">
                                             <a href="javascript:void(0)" data-slug="layout">
-                                                <i class="site-menu-icon wb-user" aria-hidden="true"></i>
+                                                <i class="site-menu-icon fas fa-gift" aria-hidden="true"></i>
                                                 <span class="site-menu-title">Offers</span>
                                                 <span class="site-menu-arrow"></span>
                                             </a>
@@ -454,7 +454,7 @@
 
                                         <li id="activeRestaurants" class="site-menu-item has-sub">
                                             <a href="javascript:void(0)" data-slug="layout">
-                                                <i class="site-menu-icon wb-users" aria-hidden="true"></i>
+                                                <i class="site-menu-icon fas fa-coffee" aria-hidden="true"></i>
                                                 <span class="site-menu-title">Restaurants</span>
                                                 <span class="site-menu-arrow"></span>
                                             </a>
@@ -471,13 +471,13 @@
 
                                         <li id="activeProfile" class="site-menu-item has-sub">
                                             <a href="javascript:void(0)" data-slug="layout">
-                                                <i class="site-menu-icon wb-user" aria-hidden="true"></i>
+                                                <i class="site-menu-icon fas fa-gift" aria-hidden="true"></i>
                                                 <span class="site-menu-title">Offers</span>
                                                 <span class="site-menu-arrow"></span>
                                             </a>
                                             <ul class="site-menu-sub">
                                                 <li id="activeViewProfile" class="site-menu-item">
-                                                    <a class="animsition-link" href="<?php _p(__VIRTUAL_DIRECTORY__ . __SUBDIRECTORY__); ?>/availableoffer" data-slug="layout-menu-collapsed">
+                                                    <a class="animsition-link" href="<?php _p(__VIRTUAL_DIRECTORY__ . __SUBDIRECTORY__); ?>/OwnerOffers" data-slug="layout-menu-collapsed">
                                                         <i class="site-menu-icon " aria-hidden="true"></i>
                                                         <span class="site-menu-title">View Offers</span>
                                                     </a>
@@ -559,7 +559,7 @@
 
                                     <li id="activeRestaurants" class="site-menu-item has-sub">
                                         <a href="javascript:void(0)" data-slug="layout">
-                                            <i class="site-menu-icon wb-users" aria-hidden="true"></i>
+                                            <i class="site-menu-icon fas fa-coffee" aria-hidden="true"></i>
                                             <span class="site-menu-title">Restaurants</span>
                                             <span class="site-menu-arrow"></span>
                                         </a>

@@ -51,7 +51,7 @@
 <!-- Page -->
 <div class="page">
     <div class="page-header">
-        <h1 class="page-title"> <i class="site-menu-icon fas fa-coffee" aria-hidden="true"></i> Offers</h1>
+        <h1 class="page-title"> <i class="site-menu-icon fas fa-gift" aria-hidden="true"></i> Offers</h1>
     </div>
     
     <div class="page-content container-fluid">
@@ -114,7 +114,7 @@
                     </div>
 
                 </div>
-                <div class="site-action" > <?php //$this->btnNewOffer->Render(); ?></div>
+                <div class="site-action"> <?php $this->btnNewOffer->Render(); ?></div>
                 <!-- End Example Basic Sort -->
             </div>
             <!-- End Panel Body -->

@@ -4,29 +4,25 @@ require('includes/configuration/prepend.inc.php');
 //require_once('dialog/DialogEditUser.php');
 require_once('dialog/DialogEditRestaurant.php');
 require_once('dialog/DialogConfirm.php');
-require_once('dialog/DialogValidateOffer.php');
+require_once('dialog/DialogEditOffer.php');
 require_once('dialog/DialogQR.php');
 require('general.php');
 
 //require('qrcode/phpqrcode.php');
 
-class ViewListOffersToCustomerForm extends QForm {
+class ViewListOffersToOwnerForm extends QForm {
 
     protected $user;
     protected $restaurant;
-    
     protected $dtgUsuarios;
     protected $dtgOffers;
-    
     protected $btnNewOffer;
     protected $dlgConfirm;
     protected $dlgDialogEditOffer;
     protected $dlgDialogPermit;
     protected $lblWallet;
-    
     protected $txtNombre;
     protected $btnFilter;
-    
     protected  $dlgQRConfirm;
     
 
@@ -45,7 +41,7 @@ class ViewListOffersToCustomerForm extends QForm {
     protected function Form_Create() {
         $this->objDefaultWaitIcon = new QWaitIcon($this);
 
-        $this->dlgDialogEditOffer = new DialogValidateOffer($this, 'close_edit');
+        $this->dlgDialogEditOffer = new DialogEditOffer($this, 'close_edit', NULL, $this->user->IdUser);
         $this->dlgConfirm = new DialogConfirm($this, "close_confirm");
         $this->dlgQRConfirm = new DialogQR($this, "close_edit");
         
@@ -65,11 +61,14 @@ class ViewListOffersToCustomerForm extends QForm {
         $this->dtgOffers->MetaAddColumn('Description');
         $this->dtgOffers->MetaAddColumn('OfferedCoins', "Name=Coins per Person");
         $this->dtgOffers->MetaAddColumn('MaxOffers', "Name=Total Offers");
+        //$this->dtgOffers->MetaAddColumn('AppliedOffers', "Name=Available Offers");
+        
+        $this->dtgOffers->AddColumn(new QDataGridColumn('Available Offers', '<?= $_FORM->getAvailableOffersRender($_ITEM); ?>', 'HtmlEntities=false', 'Width=100'));
         
         $this->dtgOffers->AddColumn(new QDataGridColumn('Restaurant', '<?= $_FORM->getRestaurantInfoRender($_ITEM); ?>', 'HtmlEntities=false', 'Width=100'));
-        /*
-        $this->dtgOffers->AddColumn(new QDataGridColumn('', '<?= $_FORM->actionsRender($_ITEM); ?>', 'HtmlEntities=false', 'Width=100'));
-        */
+        
+        $this->dtgOffers->MetaAddColumn('DateFrom', "Name=Valid From");
+        $this->dtgOffers->MetaAddColumn('DateTo', "Name=Valid To");
         
         $this->lblWallet = new QLabel($this);
         $this->lblWallet->HtmlEntities = false;
@@ -103,23 +102,15 @@ class ViewListOffersToCustomerForm extends QForm {
      public function actionFilter_Click($strFormId, $strControlId, $strParameter) {
         if (trim($this->txtNombre->Text != "")) {
             $searchTipo = QQ::OrCondition(
-                    QQ::Like(QQN::Offer()->Description, "%".trim($this->txtNombre->Text)."%")/*,
-                    QQ::Like(QQN::Restaurant()->OwnerLastName, "%".trim($this->txtNombre->Text)."%"),
-                    QQ::Like(QQN::Restaurant()->Email, "%".trim($this->txtNombre->Text)."%")*/
-                    
+                    QQ::Like(QQN::Offer()->Description, "%".trim($this->txtNombre->Text)."%")
              );
         }
         else {
             $searchTipo = QQ::All();
         }
-
-        /*$this->dtgUsuarios->AdditionalConditions = QQ::AndCondition(
-            $searchTipo
-        );*/
         
         $this->dtgOffers->AdditionalConditions = QQ::AndCondition($searchTipo);
-
-        //$this->dtgUsuarios->Refresh();
+        
         $this->dtgOffers->Refresh();
 
         QApplication::ExecuteJavaScript("showSuccess('Filter correctly!');");
@@ -148,7 +139,6 @@ class ViewListOffersToCustomerForm extends QForm {
         }
     }
     
-    
     public function planRender(Offer $obj) {
         $controlID = 'plan' . $obj->IdRestaurant;
         $addCtrl = $this->dtgOffers->GetChildControl($controlID);
@@ -176,27 +166,7 @@ class ViewListOffersToCustomerForm extends QForm {
         }*/
     }
     
-
-    /*public function statusRender(User $obj) {
-
-        if ($obj->StatusUser == 1) {
-            return '<div class="label label-table label-warning">Register</div>';
-        } else if ($obj->StatusUser == 2) {
-            return '<div class="label label-table label-success">Approved</div>';
-        } if ($obj->StatusUser == 3) {
-            return '<div class="label label-table label-danger">Rejected</div>';
-        } if ($obj->StatusUser == 4) {
-            return '<div class="label label-table label-primary">Mining</div>';
-        } else {
-            return '<div class="label label-table label-default">None</div>';
-        }
-    }*/
-
-    
-    
      public function imagesRender(User $obj) {
-         
-         
          return   '<div style="font-size:12px;"><a href="'.__UPLOAD_PATH__."/".$obj->ImageDriver.'" target="_blank" >Driver License</a>'
                       . '<br>'
                       . '<a href="'.__UPLOAD_PATH__."/".$obj->ImagePhoto.'"  target="_blank">Photo</a></div>';
@@ -256,10 +226,21 @@ class ViewListOffersToCustomerForm extends QForm {
         //QApplication::ExecuteJavaScript($strJavaScript);
     }
     
+    public function getAvailableOffersRender(Offer $obj){
+        $availableqty=(int)$obj->MaxOffers - (int)$obj->AppliedOffers;
+        $template = "";
+        
+        try{
+            $template = "<span>".$availableqty."</span>";
+        } catch (Exception $ex) {
+            $template="";
+        }
+        return $template;
+    }
     
     public function getRestaurantInfoRender(Offer $obj){
         $restaurant = Restaurant::LoadByIdRestaurant($obj->IdRestaurant);
-        $template;
+        $template = "";
         
         try{
             $template = "<span>".$restaurant->RestaurantName." / Address: ".$restaurant->Address."</span>";
@@ -361,5 +342,5 @@ class ViewListOffersToCustomerForm extends QForm {
 
 }
 
-ViewListOffersToCustomerForm::Run('ViewListOffersToCustomerForm');
+ViewListOffersToOwnerForm::Run('ViewListOffersToOwnerForm');
 ?>

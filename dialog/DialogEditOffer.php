@@ -1,6 +1,6 @@
 <?php
 
-class DialogValidateOffer extends QDialogBox {
+class DialogEditOffer extends QDialogBox {
 
     public $txtMessage;
     public $btnYes;
@@ -26,7 +26,7 @@ class DialogValidateOffer extends QDialogBox {
     
     
 
-    public function __construct($objParentObject, $strClosePanelMethod, $strParentId = null, $strControlId = null) {
+    public function __construct($objParentObject, $strClosePanelMethod, $strControlId = null, $strParentId = null) {
         // Call the Parent
         try {
             parent::__construct($objParentObject, $strControlId);
@@ -40,8 +40,12 @@ class DialogValidateOffer extends QDialogBox {
         $this->lstRestaurants = new QListBox($this);
         
         $this->strIdUser = $strParentId;
-        if($strParentId != null){
-            $query = "select restaurant.IdRestaurant as id, restaurant.RestaurantName as name from restaurant where restaurant.IdUser = 3";
+        
+        //QApplication::ExecuteJavaScript("showWarning('"."select restaurant.IdRestaurant as id, restaurant.RestaurantName as name from restaurant where restaurant.IdUser = " . $this->strIdUser."');");
+        
+        //$this->strIdUser = $strParentId;
+        //if($this->strIdUser != null){
+            $query = "select restaurant.IdRestaurant as id, restaurant.RestaurantName as name from restaurant where restaurant.IdUser = ".$this->strIdUser."";
             $arrayFilter = array();
             $objDbResult = QApplication::$Database[1]->Query("$query");
             
@@ -51,7 +55,7 @@ class DialogValidateOffer extends QDialogBox {
                 $arrayDT[] = $report;
                 $this->lstRestaurants->AddItem(new QListItem($report['name'], $report['id']));
             }
-        }
+        //}
         
         $this->lstRestaurants->CssClass = "form-control input-sm editHidden";
         
@@ -72,7 +76,7 @@ class DialogValidateOffer extends QDialogBox {
         $this->isAutosize = true;
         $this->Resizable = FALSE;
         
-        $this->strTemplate = __DOCROOT__ . __SUBDIRECTORY__ . '/dialog/DialogValidateOffer.tpl.php';
+        $this->strTemplate = __DOCROOT__ . __SUBDIRECTORY__ . '/dialog/DialogEditOffer.tpl.php';
         $this->strClosePanelMethod = $strClosePanelMethod;
         
         //buttons
@@ -106,9 +110,6 @@ class DialogValidateOffer extends QDialogBox {
             $this->mctOffer->objOffer->IdRestaurant = $this->lstRestaurants->SelectedValue;
             
             $this->mctOffer->objOffer->AppliedOffers = 0;
-            
-            //$this->mctOffer->objOffer->MaxCoins = $this->txtOfferedCoins->Text * $this->txtMaxOffers;
-            
             //siempre
             //$this->txtStatus->Text = $this->lstStatus->SelectedValue;
             //$this->txtMiningOption->Text = $this->lstMiningOption->SelectedValue;
@@ -128,10 +129,11 @@ class DialogValidateOffer extends QDialogBox {
     //funciones de carga
     public function createNew() {
         $this->mctOffer->objOffer = new Offer();
-        $this->Refresh();
+        $this->mctOffer->Refresh();
     }
 
     public function loadDefault($id) {
+        
         
         try {
             $obj = Offer::LoadByIdOffer($id);
