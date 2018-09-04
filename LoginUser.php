@@ -21,7 +21,7 @@ class LoginForm extends QForm {
             QApplication::Redirect(__VIRTUAL_DIRECTORY__ . __SUBDIRECTORY__ . '/ownerRestaurants');
         } else {
             if ($Datos3) {
-            QApplication::Redirect(__VIRTUAL_DIRECTORY__ . __SUBDIRECTORY__ . '/mining');
+                QApplication::Redirect(__VIRTUAL_DIRECTORY__ . __SUBDIRECTORY__ . '/mining');
             }
         }
     }
@@ -48,7 +48,6 @@ class LoginForm extends QForm {
         $this->btnLogin->HtmlEntities = false;
         $this->btnLogin->CssClass = "btn btn-raised btn-primary btn-block btn-lg margin-top-40";
         $this->btnLogin->AddAction(new QClickEvent(), new QAjaxAction('btnLogin_Click'));
-        
     }
 
     protected function btnLogin_Click($strFormId, $strControlId, $strParameter) {
@@ -65,30 +64,41 @@ class LoginForm extends QForm {
         if ($User) {
             if ($User->Password == trim($this->txtPassword->Text)) {
                 $User->Password = 'NULL';
-                
+
                 $_SESSION['DatosUsuario'] = serialize($User);
-                
-                QApplication::Redirect(__VIRTUAL_DIRECTORY__ . __SUBDIRECTORY__ . '/mining');
-                return;
-                
-                if( $User->StatusUser == 2 ){
+
+//                QApplication::Redirect(__VIRTUAL_DIRECTORY__ . __SUBDIRECTORY__ . '/mining');
+//                return;
+
+
+                if ($User->UserType == 'C') {
                     $_SESSION['DatosUsuarioNoVerificado'] = serialize($User);
-                    QApplication::Redirect(__VIRTUAL_DIRECTORY__ . __SUBDIRECTORY__ . '/mining');    
+                    QApplication::Redirect(__VIRTUAL_DIRECTORY__ . __SUBDIRECTORY__ . '/availableoffer');
                 }
-                
-                if( $User->StatusUser == 4  ){
+
+
+                if ($User->UserType == 'O') {
+                    $_SESSION['DatosUsuarioNoVerificado'] = serialize($User);
+                    QApplication::Redirect(__VIRTUAL_DIRECTORY__ . __SUBDIRECTORY__ . '/ownerRestaurants');
+                }
+
+                if ($User->StatusUser == 2) {
+                    $_SESSION['DatosUsuarioNoVerificado'] = serialize($User);
+                    QApplication::Redirect(__VIRTUAL_DIRECTORY__ . __SUBDIRECTORY__ . '/mining');
+                }
+
+                if ($User->StatusUser == 4) {
                     $_SESSION['DatosUsuario'] = serialize($User);
-                    QApplication::Redirect(__VIRTUAL_DIRECTORY__ . __SUBDIRECTORY__ . '/miningoptions');                
+                    QApplication::Redirect(__VIRTUAL_DIRECTORY__ . __SUBDIRECTORY__ . '/miningoptions');
                 }
-                
-                if( $User->StatusUser == 1 ){
+
+                if ($User->StatusUser == 1) {
                     QApplication::ExecuteJavaScript("showWarning('" . htmlentities("wait for the administrator to approve or reject your registration!") . "');");
                 }
-                if( $User->StatusUser == 3 ){
+                if ($User->StatusUser == 3) {
                     QApplication::ExecuteJavaScript("showWarning('" . htmlentities("Your registration has been rejected!") . "');");
                 }
                 return;
-                
             } else {
                 QApplication::ExecuteJavaScript("showWarning('" . htmlentities("One of the provided details is incorrect.") . "');");
                 return false;

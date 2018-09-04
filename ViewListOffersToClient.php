@@ -20,7 +20,7 @@ class ViewListOffersToClientForm extends QForm {
 
         $Datos1 = @unserialize($_SESSION['DatosUsuario']);
 
-        if ($Datos1) {
+        if ($Datos1 && $Datos1->UserType=="C") {
             $this->user = User::LoadByEmail($Datos1->Email);
         } else {
             QApplication::Redirect(__VIRTUAL_DIRECTORY__ . __SUBDIRECTORY__ . '/login');
