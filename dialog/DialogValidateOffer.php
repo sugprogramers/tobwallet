@@ -156,7 +156,7 @@ class DialogValidateOffer extends QDialogBox {
 //          Actualizando el numero de ofertas aplicadas
             $objOffer->Save();
 
-            $user = @unserialize($_SESSION['DatosUsuario']);
+            $user = @unserialize($_SESSION['TobUser']);
             //Creando balance para usuario
             $objBalance = new Balance();
             $objBalance->Date = QDateTime::Now();

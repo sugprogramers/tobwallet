@@ -19,7 +19,7 @@ class ViewListBalanceClientForm extends QForm {
 
     protected function Form_Run() {
 
-        $Datos1 = @unserialize($_SESSION['DatosUsuario']);
+        $Datos1 = @unserialize($_SESSION['TobUser']);
 
         if ($Datos1 && $Datos1->UserType=="C") {
             $this->user = User::LoadByEmail($Datos1->Email);
@@ -54,7 +54,7 @@ class ViewListBalanceClientForm extends QForm {
         $this->dtgOffersToClient->MetaAddColumn('Date');
         $this->dtgOffersToClient->MetaAddColumn('AmountExchangedCoins', "Name=Earned Coins");
 
-        $user = @unserialize($_SESSION['DatosUsuario']);
+        $user = @unserialize($_SESSION['TobUser']);
         $searchTipo = QQ::Equal(QQN::Balance()->IdUser, $user->IdUser);
         $this->dtgOffersToClient->AdditionalConditions = QQ::AndCondition(
                         $searchTipo
@@ -81,7 +81,7 @@ class ViewListBalanceClientForm extends QForm {
     }
 
     public function getCurrentAmountCoins() {
-        $user = @unserialize($_SESSION['DatosUsuario']);
+        $user = @unserialize($_SESSION['TobUser']);
         $query = "select AmountExchangedCoins as coins from balance where IdUser=$user->IdUser";
 
         $arrayFilter2 = array();
@@ -94,13 +94,13 @@ class ViewListBalanceClientForm extends QForm {
     }
 
     public function actionFilter_Click($strFormId, $strControlId, $strParameter) {
-        $user = @unserialize($_SESSION['DatosUsuario']);
+        $user = @unserialize($_SESSION['TobUser']);
         if (trim($this->txtModelo->Text != "")) {
             $searchTipo = QQ::Like(QQN::Offer()->Description, "%" . trim($this->txtModelo->Text) . "%");
         } else {
-            $searchTipo = QQ::All();
+            $searchTipo = QQ::Equal(QQN::Balance()->IdUser, $user->IdUser);
         }
-
+        
         $this->dtgOffersToClient->AdditionalConditions = QQ::AndCondition(
                         $searchTipo
         );

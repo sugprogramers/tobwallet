@@ -18,9 +18,9 @@ class ViewListOffersToClientForm extends QForm {
 
     protected function Form_Run() {
 
-        $Datos1 = @unserialize($_SESSION['DatosUsuario']);
+        $Datos1 = @unserialize($_SESSION['TobUser']);
 
-        if ($Datos1 && $Datos1->UserType=="C") {
+        if ($Datos1 && $Datos1->UserType == "C") {
             $this->user = User::LoadByEmail($Datos1->Email);
         } else {
             QApplication::Redirect(__VIRTUAL_DIRECTORY__ . __SUBDIRECTORY__ . '/login');
@@ -55,8 +55,12 @@ class ViewListOffersToClientForm extends QForm {
         $this->dtgOffersToClient->AddColumn(new QDataGridColumn('Remaing Offers', '<?= $_FORM->actionsCalculateRemainOffer($_ITEM); ?>', 'HtmlEntities=false', 'Width=100'));
         $this->dtgOffersToClient->AddColumn(new QDataGridColumn('', '<?= $_FORM->actionsRender($_ITEM); ?>', 'HtmlEntities=false', 'Width=100'));
 
-        $user = @unserialize($_SESSION['DatosUsuario']);
+        $user = @unserialize($_SESSION['TobUser']);
         $searchTipo = QQ::NotIn(QQN::Offer()->IdOffer, QQ::SubSql("SELECT  IdOffer from balance where iduser = " . $user->IdUser));
+        $this->dtgOffersToClient->AdditionalConditions = QQ::AndCondition(
+                        $searchTipo
+        );
+        $searchTipo = QQ::LessThan(QQN::Offer()->AppliedOffers, QQN::Offer()->MaxOffers);
         $this->dtgOffersToClient->AdditionalConditions = QQ::AndCondition(
                         $searchTipo
         );
@@ -78,7 +82,7 @@ class ViewListOffersToClientForm extends QForm {
     }
 
     public function actionFilter_Click($strFormId, $strControlId, $strParameter) {
-        $user = @unserialize($_SESSION['DatosUsuario']);
+        $user = @unserialize($_SESSION['TobUser']);
         if (trim($this->txtModelo->Text != "")) {
             $searchTipo = QQ::Like(QQN::Offer()->Description, "%" . trim($this->txtModelo->Text) . "%");
         } else {
@@ -151,7 +155,7 @@ class ViewListOffersToClientForm extends QForm {
 //            $editCtrl->ActionParameter = $id->IdOffer;
 //            $editCtrl->AddAction(new QClickEvent(), new QAjaxAction('validateoffer_Click'));
 //        }
-        return "<center>" . ($maxOffer - $apliedOffers) .  "</center>";
+        return "<center>" . ($maxOffer - $apliedOffers) . "</center>";
     }
 
     public function actionsRender(Offer $id) {
