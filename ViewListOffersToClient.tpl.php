@@ -111,21 +111,9 @@ require(__CONFIGURATION__ . '/header.inc.php');
 
                 </div>
                 <div class="site-action">
-                    <?php $this->btnNewModelo->Render(); ?>
+                    <?php // $this->btnNewModelo->Render(); ?>
                 </div>
-                <p>aca empieza el video</p>
-
-<!--                <div class="col-md-12">
-                    <h2>QR Code</h2>
-                    <div id="reader" style="width:300px;height:250px">
-                    </div>
-                    <h6>Result</h6>
-                    <span id="read" class="center"></span>
-                    <br>
-                </div>-->
-
-                <p>aca termina el video</p>
-
+              
 
                 <!-- End Example Basic Sort -->
             </div>

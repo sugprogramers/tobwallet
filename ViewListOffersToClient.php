@@ -46,14 +46,20 @@ class ViewListOffersToClientForm extends QForm {
         $this->dtgOffersToClient->ShowFilter = false;
         $this->dtgOffersToClient->SortColumnIndex = 0;
         $this->dtgOffersToClient->SortDirection = true;
+//        $this->dtgOffersToClient->FilterInfo = true;
 
         $this->dtgOffersToClient->MetaAddColumn('IdOffer', "Name=ID");
         $this->dtgOffersToClient->MetaAddColumn('Description');
         $this->dtgOffersToClient->MetaAddColumn('OfferedCoins', "Name=Coins per Person");
         $this->dtgOffersToClient->MetaAddColumn('MaxOffers', "Name=Total Offers");
-
-        /* $this->dtgOffersToClient->AddColumn(new QDataGridColumn('Talla', '<?= $_FORM->actionsTalla($_ITEM); ?>', 'HtmlEntities=false')); */
+        $this->dtgOffersToClient->AddColumn(new QDataGridColumn('Remaing Offers', '<?= $_FORM->actionsCalculateRemainOffer($_ITEM); ?>', 'HtmlEntities=false', 'Width=100'));
         $this->dtgOffersToClient->AddColumn(new QDataGridColumn('', '<?= $_FORM->actionsRender($_ITEM); ?>', 'HtmlEntities=false', 'Width=100'));
+
+        $user = @unserialize($_SESSION['DatosUsuario']);
+        $searchTipo = QQ::NotIn(QQN::Offer()->IdOffer, QQ::SubSql("SELECT  IdOffer from balance where iduser = " . $user->IdUser));
+        $this->dtgOffersToClient->AdditionalConditions = QQ::AndCondition(
+                        $searchTipo
+        );
 
         $this->btnNewModelo = new QButton($this);
         $this->btnNewModelo->Text = '<i class="icon wb-plus" aria-hidden="true"></i>';
@@ -72,10 +78,11 @@ class ViewListOffersToClientForm extends QForm {
     }
 
     public function actionFilter_Click($strFormId, $strControlId, $strParameter) {
+        $user = @unserialize($_SESSION['DatosUsuario']);
         if (trim($this->txtModelo->Text != "")) {
             $searchTipo = QQ::Like(QQN::Offer()->Description, "%" . trim($this->txtModelo->Text) . "%");
         } else {
-            $searchTipo = QQ::All();
+            $searchTipo = QQ::NotIn(QQN::Offer()->IdOffer, QQ::SubSql("SELECT  IdOffer from balance where iduser = " . $user->IdUser));
         }
 
         $this->dtgOffersToClient->AdditionalConditions = QQ::AndCondition(
@@ -126,6 +133,27 @@ class ViewListOffersToClientForm extends QForm {
 //        return "<center>" . $editCtrl->Render(false) . ' ' . $deleteCtrl->Render(false) . "</center>";
 //    }
 
+    public function actionsCalculateRemainOffer(Offer $id) {
+
+        $maxOffer = $id->MaxOffers;
+        $apliedOffers = $id->AppliedOffers;
+
+
+//        $controlID = 'edit' . $id->IdOffer;
+//        $editCtrl = $this->dtgOffersToClient->GetChildControl($controlID);
+//        if (!$editCtrl) {
+//            $editCtrl = new QLabel($this->dtgOffersToClient, $controlID);
+//            $editCtrl->HtmlEntities = FALSE;
+//            $editCtrl->Cursor = QCursor::Pointer;
+//            $editCtrl->Text = '<div  class="btn btn-sm btn-icon btn-flat btn-default" data-toggle="tooltip" data-original-title="Editar">
+//                            <i class="icon wb-camera" aria-hidden="true"></i>
+//                          </div>';
+//            $editCtrl->ActionParameter = $id->IdOffer;
+//            $editCtrl->AddAction(new QClickEvent(), new QAjaxAction('validateoffer_Click'));
+//        }
+        return "<center>" . ($maxOffer - $apliedOffers) .  "</center>";
+    }
+
     public function actionsRender(Offer $id) {
 
         $controlID = 'edit' . $id->IdOffer;
@@ -142,7 +170,7 @@ class ViewListOffersToClientForm extends QForm {
         }
         return "<center>" . $editCtrl->Render(false) . "</center>";
     }
-    
+
     public function validateoffer_Click($strFormId, $strControlId, $strParameter) {
         $this->dlgDialogEditModelo->Title = addslashes("<i class='icon wb-edit'></i> Validating offer ...");
         $this->dlgDialogEditModelo->txtMessage = "";
