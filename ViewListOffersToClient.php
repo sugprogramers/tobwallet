@@ -57,12 +57,16 @@ class ViewListOffersToClientForm extends QForm {
 
         $user = @unserialize($_SESSION['TobUser']);
         $searchTipo = QQ::NotIn(QQN::Offer()->IdOffer, QQ::SubSql("SELECT  IdOffer from balance where iduser = " . $user->IdUser));
+        $searchTipo2 = QQ::LessThan(QQN::Offer()->AppliedOffers, QQN::Offer()->MaxOffers);
+        $searchTipo3 = QQ::LessOrEqual(QQN::Offer()->DateFrom, QDateTime::Now());
+        $searchTipo4 = QQCondition::class();
+        QApplication::ExecuteJavaScript("alert('".$searchTipo3."');");
+        
+//        if (QQN::Offer()->DateTo != NULL && QQN::Offer()->DateTo != "" ) {
+//            $searchTipo4 = QQ::GreaterOrEqual(QQN::Offer()->DateTo, QDateTime::Now());
+//        }
         $this->dtgOffersToClient->AdditionalConditions = QQ::AndCondition(
-                        $searchTipo
-        );
-        $searchTipo = QQ::LessThan(QQN::Offer()->AppliedOffers, QQN::Offer()->MaxOffers);
-        $this->dtgOffersToClient->AdditionalConditions = QQ::AndCondition(
-                        $searchTipo
+                        $searchTipo, $searchTipo2, $searchTipo3
         );
 
         $this->btnNewModelo = new QButton($this);

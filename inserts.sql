@@ -1,4 +1,7 @@
 
+INSERT INTO `administrator` (`IdAdministrator`, `Email`, `Password`, `FirstName`, `LastName`, `Address`, `Phone`) VALUES
+(1, 'admin@gmail.com', '123456', 'admin', 'admin', 'address admin', '262625262');
+
 INSERT INTO `user` (`Email`, `Password`, `FirstName`, `MiddleName`, `LastName`, `Country`, `City`, 
 `Phone`, `Birthday`, `ImagePhoto`, `StatusUser`, `WalletAddress`, `UserType`) 
 VALUES ('customer@gmail.com', '123456', 'customer', 'gmail', 'com', 'peru', 'trujillo', '123456', 

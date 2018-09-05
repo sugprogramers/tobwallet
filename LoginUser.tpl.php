@@ -133,7 +133,7 @@
                             <label for="chkVendor"><?php _p("Are you admin?"); ?></label>
                             
                         </div>
-                        <a class="pull-right" href="forgot" style="font-size:13px;"><?php _p("Forgot your password?"); ?></a>
+                        <!--<a class="pull-right" href="forgot" style="font-size:13px;"><?php // _p("Forgot your password?"); ?></a>-->
                     </div> 
                     <?= $this->btnLogin->Render(); ?>
                     <!--<button type="submit" class="btn btn-primary btn-block">Sign in</button>-->

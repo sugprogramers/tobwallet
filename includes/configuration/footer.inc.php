@@ -25,7 +25,7 @@
 
 <!-- Footer -->
 <footer class="site-footer">
-    <span class="site-footer-legal">© <?php echo date("Y"); ?> <a href="#">KCOIN</a></span>
+    <span class="site-footer-legal">© <?php echo date("Y"); ?> <a href="#">TOB COIN</a></span>
     <div class="site-footer-right">
         Developed by <a href="#">SUG</a>
     </div>
