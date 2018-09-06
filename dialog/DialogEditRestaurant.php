@@ -44,10 +44,13 @@ class DialogEditRestaurant extends QDialogBox {
         
         $this->txtCity = $this->mctRestaurant->txtCity_Create();
         $this->txtCity->Placeholder = htmlentities("City");
+        
         $this->txtRestaurantName = $this->mctRestaurant->txtRestaurantName_Create();
         $this->txtAddress = $this->mctRestaurant->txtAddress_Create();
         $this->txtLongitude = $this->mctRestaurant->txtLongitude_Create();
         $this->txtLatitude = $this->mctRestaurant->txtLatitude_Create();
+        $this->txtLatitude->CssClass="form-control input-sm editHidden";
+        //$this->txtLatitude
         
         $this->lstOwners = new QListBox($this);
         $this->lstOwners->CssClass = "form-control input-sm editHidden";
@@ -77,6 +80,9 @@ class DialogEditRestaurant extends QDialogBox {
         $this->btnCancel->Text = '<i class="icon fa-close" aria-hidden="true"></i> Cancel';
         $this->btnCancel->CssClass = "btn btn-danger btn-raised ";
         $this->btnCancel->AddAction(new QClickEvent(), new QAjaxControlAction($this, 'btnCancel_Click'));
+        
+        //QApplication::ExecuteJavaScript("initLatLng();");
+        
     }
 
     // eventos buttons
@@ -124,6 +130,8 @@ class DialogEditRestaurant extends QDialogBox {
 
     //funciones de carga
     public function createNew() {
+        QApplication::ExecuteJavaScript("createMap();");
+        
         $this->hasQR = FALSE;
         $this->mctRestaurant->objRestaurant = new Restaurant();
         $this->mctRestaurant->Refresh();
@@ -137,6 +145,8 @@ class DialogEditRestaurant extends QDialogBox {
             $this->mctRestaurant->objRestaurant = $obj;
             $this->mctRestaurant->blnEditMode = TRUE;
             
+            QApplication::ExecuteJavaScript("loadMap(".$obj->Latitude.",".$obj->Longitude.");");
+            
             $filePath = __QR_IMAGES__ . "/" . $this->mctRestaurant->objRestaurant->IdRestaurant . '.png';
             if(file_exists($filePath)){
                 $this->hasQR = TRUE;
@@ -145,6 +155,8 @@ class DialogEditRestaurant extends QDialogBox {
             }
             
             $this->mctRestaurant->Refresh();
+            
+            
             
         } catch (Exception $exc) {
             QApplication::ExecuteJavaScript("showWarning('Error " . str_replace("'", "\'", $exc->getMessage()) . "');");

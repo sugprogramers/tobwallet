@@ -125,7 +125,7 @@
 <script src="<?php _p(__VIRTUAL_DIRECTORY__ . __SUBDIRECTORY__); ?>/template/assets/js/qrcode/jsqrcode-combined.min.js"></script>
 <!--<script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyAXfH16XT0bi2DuXuQRr7lIDEys3eKSxQM&callback=initMap"</script>-->
 <script async defer
-        src="https://maps.googleapis.com/maps/api/js?key=AIzaSyAqTXclqkC6GafrzLs8x55R_3MTj_FlpD8&callback">
+        src="https://maps.googleapis.com/maps/api/js?key=AIzaSyAqTXclqkC6GafrzLs8x55R_3MTj_FlpD8&callback=initMap">
 </script>
 
 
