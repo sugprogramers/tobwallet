@@ -300,20 +300,7 @@ class ViewListOwnerRestaurantForm extends QForm {
             $qrCtrl->AddAction(new QClickEvent(), new QAjaxAction('qr_Click'));
         }
 
-        $controlID4 = 'printqr' . $id->IdRestaurant;
-        $printQrCtrl = $this->dtgRestaurants->GetChildControl($controlID4);
-        if (!$printQrCtrl) {
-            $printQrCtrl = new QLabel($this->dtgRestaurants, $controlID4);
-            $printQrCtrl->HtmlEntities = FALSE;
-            $printQrCtrl->Cursor = QCursor::Pointer;
-            $printQrCtrl->Text = '<div  class="btn btn-sm btn-icon btn-flat btn-default" data-toggle="tooltip" data-original-title="Print QR Code">
-                            <i class="icon  wb-print" aria-hidden="true"></i>
-                          </div>';
-            $printQrCtrl->ActionParameter = $id->IdRestaurant;
-            $printQrCtrl->AddAction(new QClickEvent(), new QAjaxAction('printQr_Click'));
-        }
-
-        return "<center>" . $editCtrl->Render(false) . ' ' . $deleteCtrl->Render(false) . ' ' . $qrCtrl->Render(false) . ' ' . $printQrCtrl->Render(false) . "</center>";
+        return "<center>" . $editCtrl->Render(false) . ' ' . $deleteCtrl->Render(false) . ' ' . $qrCtrl->Render(false)  . "</center>";
     }
 
     public function printQr_Click($strFormId, $strControlId, $strParameter) {

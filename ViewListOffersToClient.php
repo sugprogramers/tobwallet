@@ -59,14 +59,13 @@ class ViewListOffersToClientForm extends QForm {
         $searchTipo = QQ::NotIn(QQN::Offer()->IdOffer, QQ::SubSql("SELECT  IdOffer from balance where iduser = " . $user->IdUser));
         $searchTipo2 = QQ::LessThan(QQN::Offer()->AppliedOffers, QQN::Offer()->MaxOffers);
         $searchTipo3 = QQ::LessOrEqual(QQN::Offer()->DateFrom, QDateTime::Now());
-        $searchTipo4 = QQCondition::class();
-        QApplication::ExecuteJavaScript("alert('".$searchTipo3."');");
-        
-//        if (QQN::Offer()->DateTo != NULL && QQN::Offer()->DateTo != "" ) {
-//            $searchTipo4 = QQ::GreaterOrEqual(QQN::Offer()->DateTo, QDateTime::Now());
-//        }
+
+        $orElemento1 = QQ::IsNull(QQN::Offer()->DateTo);
+        $orElemento2 = QQ::GreaterOrEqual(QQN::Offer()->DateTo, QDateTime::Now());
+        $orCondicion = QQ::OrCondition($orElemento1, $orElemento2);
+
         $this->dtgOffersToClient->AdditionalConditions = QQ::AndCondition(
-                        $searchTipo, $searchTipo2, $searchTipo3
+                        $searchTipo, $searchTipo2, $searchTipo3, $searchTipo3, $orCondicion
         );
 
         $this->btnNewModelo = new QButton($this);
@@ -110,55 +109,11 @@ class ViewListOffersToClientForm extends QForm {
         $this->dlgDialogEditModelo->ShowDialogBox();
     }
 
-//    public function actionsRender(Offer $id) {
-//
-//        $controlID = 'edit' . $id->IdOffer;
-//        $editCtrl = $this->dtgOffersToClient->GetChildControl($controlID);
-//        if (!$editCtrl) {
-//            $editCtrl = new QLabel($this->dtgOffersToClient, $controlID);
-//            $editCtrl->HtmlEntities = FALSE;
-//            $editCtrl->Cursor = QCursor::Pointer;
-//            $editCtrl->Text = '<div  class="btn btn-sm btn-icon btn-flat btn-default" data-toggle="tooltip" data-original-title="Editar">
-//                            <i class="icon wb-edit" aria-hidden="true"></i>
-//                          </div>';
-//            $editCtrl->ActionParameter = $id->IdOffer;
-//            $editCtrl->AddAction(new QClickEvent(), new QAjaxAction('edit_Click'));
-//        }
-//
-//        $controlID2 = 'del' . $id->IdOffer;
-//        $deleteCtrl = $this->dtgOffersToClient->GetChildControl($controlID2);
-//        if (!$deleteCtrl) {
-//            $deleteCtrl = new QLabel($this->dtgOffersToClient, $controlID2);
-//            $deleteCtrl->HtmlEntities = FALSE;
-//            $deleteCtrl->Cursor = QCursor::Pointer;
-//            $deleteCtrl->Text = '<div  class="btn btn-sm btn-icon btn-flat btn-default" data-toggle="tooltip" data-original-title="Eliminar">
-//                            <i class="icon wb-trash" aria-hidden="true"></i>
-//                          </div>';
-//            $deleteCtrl->ActionParameter = $id->IdOffer;
-//            $deleteCtrl->AddAction(new QClickEvent(), new QAjaxAction('delete_Click'));
-//        }
-//
-//        return "<center>" . $editCtrl->Render(false) . ' ' . $deleteCtrl->Render(false) . "</center>";
-//    }
-
     public function actionsCalculateRemainOffer(Offer $id) {
 
         $maxOffer = $id->MaxOffers;
         $apliedOffers = $id->AppliedOffers;
 
-
-//        $controlID = 'edit' . $id->IdOffer;
-//        $editCtrl = $this->dtgOffersToClient->GetChildControl($controlID);
-//        if (!$editCtrl) {
-//            $editCtrl = new QLabel($this->dtgOffersToClient, $controlID);
-//            $editCtrl->HtmlEntities = FALSE;
-//            $editCtrl->Cursor = QCursor::Pointer;
-//            $editCtrl->Text = '<div  class="btn btn-sm btn-icon btn-flat btn-default" data-toggle="tooltip" data-original-title="Editar">
-//                            <i class="icon wb-camera" aria-hidden="true"></i>
-//                          </div>';
-//            $editCtrl->ActionParameter = $id->IdOffer;
-//            $editCtrl->AddAction(new QClickEvent(), new QAjaxAction('validateoffer_Click'));
-//        }
         return "<center>" . ($maxOffer - $apliedOffers) . "</center>";
     }
 
@@ -199,76 +154,6 @@ class ViewListOffersToClientForm extends QForm {
         $this->dlgConfirm->ID = intval($strParameter);
         $this->dlgConfirm->ShowDialogBox();
     }
-
-//    public function getTalla($id) {
-//        //4 6 8 10 12 14 16 S M L XL XXL XXXL
-//        switch ($id) {
-//            case 1:
-//                return '4';
-//            case 2:
-//                return '6';
-//            case 3:
-//                return '8';
-//            case 4:
-//                return '10';
-//            case 5:
-//                return '12';
-//            case 6:
-//                return '14';
-//            case 7:
-//                return '16';
-//            case 8:
-//                return 'S';
-//            case 9:
-//                return 'M';
-//            case 10:
-//                return 'L';
-//            case 11:
-//                return 'XL';
-//            case 12:
-//                return 'XXL';
-//            case 13:
-//                return 'XXXL';
-//
-//            default:
-//                return '--';
-//        }
-//    }
-//
-//    public function actionsTalla(Productodefecto $id) {
-//        //4 6 8 10 12 14 16 S M L XL XXL XXXL
-//        switch ($id->Talla) {
-//            case 1:
-//                return '4';
-//            case 2:
-//                return '6';
-//            case 3:
-//                return '8';
-//            case 4:
-//                return '10';
-//            case 5:
-//                return '12';
-//            case 6:
-//                return '14';
-//            case 7:
-//                return '16';
-//            case 8:
-//                return 'S';
-//            case 9:
-//                return 'M';
-//            case 10:
-//                return 'L';
-//            case 11:
-//                return 'XL';
-//            case 12:
-//                return 'XXL';
-//            case 13:
-//                return 'XXXL';
-//
-//            default:
-//                return '--';
-//        }
-//    }
 
     protected function delete($id) {
         try {

@@ -41,13 +41,13 @@ class DialogDownloadPrint extends QDialogBox {
         $this->fileName = $this->mctRestaurant->objRestaurant->RestaurantName . "_qr.png";
 
         $this->btnDownload = new QButton($this);
-        $this->btnDownload->Text = '<i class="icon fa-check" aria-hidden="true"></i> Download';
+        $this->btnDownload->Text = '<i class="icon fa-download" aria-hidden="true"></i> Download';
         $this->btnDownload->HtmlEntities = false;
         $this->btnDownload->CssClass = "btn btn-raised btn-primary";
         $this->btnDownload->AddAction(new QClickEvent(), new QAjaxControlAction($this, 'btnDownload_Click'));
 
         $this->btnPrint = new QButton($this);
-        $this->btnPrint->Text = '<i class="icon fa-check" aria-hidden="true"></i> Print';
+        $this->btnPrint->Text = '<i class="icon  wb-print" aria-hidden="true"></i> Print';
         $this->btnPrint->HtmlEntities = false;
         $this->btnPrint->CssClass = "btn btn-raised btn-primary";
         $this->btnPrint->AddAction(new QClickEvent(), new QAjaxControlAction($this, 'btnPrint_Click'));
