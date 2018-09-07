@@ -1,6 +1,6 @@
 <?php
-    $strPageTitle = QApplication::Translate('Administrator') . ' - ' . QApplication::Translate('View Restaurants');
-    require(__CONFIGURATION__ . '/header.inc.php');
+$strPageTitle = QApplication::Translate('Administrator') . ' - ' . QApplication::Translate('View Restaurants');
+require(__CONFIGURATION__ . '/header.inc.php');
 ?>
 
 <?php $this->RenderBegin(); ?>
@@ -76,8 +76,8 @@
 
                     <!-- Example Basic Sort -->
                     <div id="Found2" style="display:none;"  class="example-wrap">
-                        
-                        
+
+
                         <style>
                             .hola1:after {
                                 content: "Search";
@@ -101,13 +101,13 @@
                                 </div>
                             </div>
                         </div>
-                        
-                        
+
+
                         <div class="example">
                             <div class="table-responsive">
-                                <!-- <?php //$this->dtgUsuarios->Render(); ?> -->
+                                <!-- <?php //$this->dtgUsuarios->Render();  ?> -->
                                 <?php $this->dtgRestaurants->Render(); ?>
-                                
+
                             </div>
 
                         </div>
@@ -126,7 +126,7 @@
 <!-- End Page -->
 
 <?php $this->dlgDialogEditRestaurant->Render(); ?>
-<?php //$this->dlgDialogPermit->Render(); ?>
+<?php $this->dlgDownloadPrintFile->Render(); ?>
 <?php $this->dlgConfirm->Render(); ?>
 <?php $this->dlgQRConfirm->Render(); ?>
 
@@ -144,13 +144,13 @@
             </div>
             <div class="modal-body">
                 <h5><?php $this->lblWallet->Render(); ?></h5>
-      
+
             </div>
             <div class="modal-footer">
-               
-                
-                <!--<button type="button" class="btn btn-raised btn-primary" ><i class="icon fa-check" aria-hidden="true"></i> Si</button>
-                <button type="button" class="btn btn-raised btn-danger" data-dismiss="modal"><i class="icon fa-close" aria-hidden="true"></i> No</button>
+
+
+<!--<button type="button" class="btn btn-raised btn-primary" ><i class="icon fa-check" aria-hidden="true"></i> Si</button>
+<button type="button" class="btn btn-raised btn-danger" data-dismiss="modal"><i class="icon fa-close" aria-hidden="true"></i> No</button>
                 -->
                 <button type="button" class="btn btn-raised btn-danger" data-dismiss="modal"><i class="icon fa-close" aria-hidden="true"></i> Close </button>
             </div>
@@ -174,6 +174,8 @@
 
 
 <?php require(__CONFIGURATION__ . '/footer.inc.php'); ?>
+
+
 
 </body>
 
