@@ -73,7 +73,7 @@ class LoginForm extends QForm {
 
                 if ($User->UserType == 'C') {
                     $_SESSION['TobUserNoVerificado'] = serialize($User);
-                    QApplication::Redirect(__VIRTUAL_DIRECTORY__ . __SUBDIRECTORY__ . '/availableoffer');
+                    QApplication::Redirect(__VIRTUAL_DIRECTORY__ . __SUBDIRECTORY__ . '/DashboardRestaurant');
                 }
 
 

@@ -26,6 +26,7 @@
 	 * @property integer $Qtycoins the value for intQtycoins 
 	 * @property integer $IdUser the value for intIdUser (Not Null)
 	 * @property string $Type the value for strType (Not Null)
+	 * @property string $Logo the value for strLogo 
 	 * @property User $IdUserObject the value for the User object referenced by intIdUser (Not Null)
 	 * @property-read Offer $_OfferAsIdRestaurant the value for the private _objOfferAsIdRestaurant (Read-Only) if set due to an expansion on the offer.IdRestaurant reverse relationship
 	 * @property-read Offer[] $_OfferAsIdRestaurantArray the value for the private _objOfferAsIdRestaurantArray (Read-Only) if set due to an ExpandAsArray on the offer.IdRestaurant reverse relationship
@@ -131,6 +132,15 @@
 
 
 		/**
+		 * Protected member variable that maps to the database column restaurant.Logo
+		 * @var string strLogo
+		 */
+		protected $strLogo;
+		const LogoMaxLength = 200;
+		const LogoDefault = null;
+
+
+		/**
 		 * Private member variable that stores a reference to a single OfferAsIdRestaurant object
 		 * (of type Offer), if this Restaurant object was restored with
 		 * an expansion on the offer association table.
@@ -196,6 +206,7 @@
 			$this->intQtycoins = Restaurant::QtycoinsDefault;
 			$this->intIdUser = Restaurant::IdUserDefault;
 			$this->strType = Restaurant::TypeDefault;
+			$this->strLogo = Restaurant::LogoDefault;
 		}
 
 
@@ -474,6 +485,7 @@
 			$objBuilder->AddSelectItem($strTableName, 'qtycoins', $strAliasPrefix . 'qtycoins');
 			$objBuilder->AddSelectItem($strTableName, 'IdUser', $strAliasPrefix . 'IdUser');
 			$objBuilder->AddSelectItem($strTableName, 'Type', $strAliasPrefix . 'Type');
+			$objBuilder->AddSelectItem($strTableName, 'Logo', $strAliasPrefix . 'Logo');
 		}
 
 
@@ -566,6 +578,8 @@
 			$objToReturn->intIdUser = $objDbRow->GetColumn($strAliasName, 'Integer');
 			$strAliasName = array_key_exists($strAliasPrefix . 'Type', $strColumnAliasArray) ? $strColumnAliasArray[$strAliasPrefix . 'Type'] : $strAliasPrefix . 'Type';
 			$objToReturn->strType = $objDbRow->GetColumn($strAliasName, 'VarChar');
+			$strAliasName = array_key_exists($strAliasPrefix . 'Logo', $strColumnAliasArray) ? $strColumnAliasArray[$strAliasPrefix . 'Logo'] : $strAliasPrefix . 'Logo';
+			$objToReturn->strLogo = $objDbRow->GetColumn($strAliasName, 'VarChar');
 
 			if (isset($arrPreviousItems) && is_array($arrPreviousItems)) {
 				foreach ($arrPreviousItems as $objPreviousItem) {
@@ -745,7 +759,8 @@
 							`QrCode`,
 							`qtycoins`,
 							`IdUser`,
-							`Type`
+							`Type`,
+							`Logo`
 						) VALUES (
 							' . $objDatabase->SqlVariable($this->strCountry) . ',
 							' . $objDatabase->SqlVariable($this->strCity) . ',
@@ -756,7 +771,8 @@
 							' . $objDatabase->SqlVariable($this->strQrCode) . ',
 							' . $objDatabase->SqlVariable($this->intQtycoins) . ',
 							' . $objDatabase->SqlVariable($this->intIdUser) . ',
-							' . $objDatabase->SqlVariable($this->strType) . '
+							' . $objDatabase->SqlVariable($this->strType) . ',
+							' . $objDatabase->SqlVariable($this->strLogo) . '
 						)
 					');
 
@@ -781,7 +797,8 @@
 							`QrCode` = ' . $objDatabase->SqlVariable($this->strQrCode) . ',
 							`qtycoins` = ' . $objDatabase->SqlVariable($this->intQtycoins) . ',
 							`IdUser` = ' . $objDatabase->SqlVariable($this->intIdUser) . ',
-							`Type` = ' . $objDatabase->SqlVariable($this->strType) . '
+							`Type` = ' . $objDatabase->SqlVariable($this->strType) . ',
+							`Logo` = ' . $objDatabase->SqlVariable($this->strLogo) . '
 						WHERE
 							`IdRestaurant` = ' . $objDatabase->SqlVariable($this->intIdRestaurant) . '
 					');
@@ -870,6 +887,7 @@
 			$this->intQtycoins = $objReloaded->intQtycoins;
 			$this->IdUser = $objReloaded->IdUser;
 			$this->strType = $objReloaded->strType;
+			$this->strLogo = $objReloaded->strLogo;
 		}
 
 
@@ -966,6 +984,13 @@
 					 * @return string
 					 */
 					return $this->strType;
+
+				case 'Logo':
+					/**
+					 * Gets the value for strLogo 
+					 * @return string
+					 */
+					return $this->strLogo;
 
 
 				///////////////////
@@ -1160,6 +1185,19 @@
 					 */
 					try {
 						return ($this->strType = QType::Cast($mixValue, QType::String));
+					} catch (QCallerException $objExc) {
+						$objExc->IncrementOffset();
+						throw $objExc;
+					}
+
+				case 'Logo':
+					/**
+					 * Sets the value for strLogo 
+					 * @param string $mixValue
+					 * @return string
+					 */
+					try {
+						return ($this->strLogo = QType::Cast($mixValue, QType::String));
 					} catch (QCallerException $objExc) {
 						$objExc->IncrementOffset();
 						throw $objExc;
@@ -1399,6 +1437,7 @@
 			$strToReturn .= '<element name="Qtycoins" type="xsd:int"/>';
 			$strToReturn .= '<element name="IdUserObject" type="xsd1:User"/>';
 			$strToReturn .= '<element name="Type" type="xsd:string"/>';
+			$strToReturn .= '<element name="Logo" type="xsd:string"/>';
 			$strToReturn .= '<element name="__blnRestored" type="xsd:boolean"/>';
 			$strToReturn .= '</sequence></complexType>';
 			return $strToReturn;
@@ -1445,6 +1484,8 @@
 				$objToReturn->IdUserObject = User::GetObjectFromSoapObject($objSoapObject->IdUserObject);
 			if (property_exists($objSoapObject, 'Type'))
 				$objToReturn->strType = $objSoapObject->Type;
+			if (property_exists($objSoapObject, 'Logo'))
+				$objToReturn->strLogo = $objSoapObject->Logo;
 			if (property_exists($objSoapObject, '__blnRestored'))
 				$objToReturn->__blnRestored = $objSoapObject->__blnRestored;
 			return $objToReturn;
@@ -1492,6 +1533,7 @@
 			$iArray['Qtycoins'] = $this->intQtycoins;
 			$iArray['IdUser'] = $this->intIdUser;
 			$iArray['Type'] = $this->strType;
+			$iArray['Logo'] = $this->strLogo;
 			return new ArrayIterator($iArray);
 		}
 
@@ -1525,6 +1567,7 @@
      * @property-read QQNode $IdUser
      * @property-read QQNodeUser $IdUserObject
      * @property-read QQNode $Type
+     * @property-read QQNode $Logo
      *
      *
      * @property-read QQReverseReferenceNodeOffer $OfferAsIdRestaurant
@@ -1561,6 +1604,8 @@
 					return new QQNodeUser('IdUser', 'IdUserObject', 'Integer', $this);
 				case 'Type':
 					return new QQNode('Type', 'Type', 'VarChar', $this);
+				case 'Logo':
+					return new QQNode('Logo', 'Logo', 'VarChar', $this);
 				case 'OfferAsIdRestaurant':
 					return new QQReverseReferenceNodeOffer($this, 'offerasidrestaurant', 'reverse_reference', 'IdRestaurant');
 
@@ -1590,6 +1635,7 @@
      * @property-read QQNode $IdUser
      * @property-read QQNodeUser $IdUserObject
      * @property-read QQNode $Type
+     * @property-read QQNode $Logo
      *
      *
      * @property-read QQReverseReferenceNodeOffer $OfferAsIdRestaurant
@@ -1626,6 +1672,8 @@
 					return new QQNodeUser('IdUser', 'IdUserObject', 'integer', $this);
 				case 'Type':
 					return new QQNode('Type', 'Type', 'string', $this);
+				case 'Logo':
+					return new QQNode('Logo', 'Logo', 'string', $this);
 				case 'OfferAsIdRestaurant':
 					return new QQReverseReferenceNodeOffer($this, 'offerasidrestaurant', 'reverse_reference', 'IdRestaurant');
 

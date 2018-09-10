@@ -37,6 +37,7 @@
 		public $txtStatusUser;
 		public $txtWalletAddress;
 		public $txtUserType;
+		public $txtTotalqtycoins;
 
 		// Other ListBoxes (if applicable) via Unique ReverseReferences and ManyToMany References
 
@@ -89,6 +90,7 @@
 			$this->txtStatusUser = $this->mctUser->txtStatusUser_Create();
 			$this->txtWalletAddress = $this->mctUser->txtWalletAddress_Create();
 			$this->txtUserType = $this->mctUser->txtUserType_Create();
+			$this->txtTotalqtycoins = $this->mctUser->txtTotalqtycoins_Create();
 
 			// Create Buttons and Actions on this Form
 			$this->btnSave = new QButton($this);

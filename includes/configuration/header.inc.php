@@ -406,6 +406,12 @@
                                         </a>
                                         <ul class="site-menu-sub">
                                             <li id="activeViewProfile" class="site-menu-item">
+                                                <a class="animsition-link" href="<?php _p(__VIRTUAL_DIRECTORY__ . __SUBDIRECTORY__); ?>/DashboardRestaurant" data-slug="layout-menu-collapsed">
+                                                    <i class="site-menu-icon " aria-hidden="true"></i>
+                                                    <span class="site-menu-title">Dashboard</span>
+                                                </a>
+                                            </li>
+                                            <li id="activeViewProfile" class="site-menu-item">
                                                 <a class="animsition-link" href="<?php _p(__VIRTUAL_DIRECTORY__ . __SUBDIRECTORY__); ?>/availableoffer" data-slug="layout-menu-collapsed">
                                                     <i class="site-menu-icon " aria-hidden="true"></i>
                                                     <span class="site-menu-title">View Offers</span>

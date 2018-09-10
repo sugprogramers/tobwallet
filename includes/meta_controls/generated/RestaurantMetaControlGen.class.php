@@ -38,6 +38,8 @@
 	 * @property-read QLabel $IdUserLabel
 	 * @property QTextBox $TypeControl
 	 * @property-read QLabel $TypeLabel
+	 * @property QTextBox $LogoControl
+	 * @property-read QLabel $LogoLabel
 	 * @property-read string $TitleVerb a verb indicating whether or not this is being edited or created
 	 * @property-read boolean $EditMode a boolean indicating whether or not this is being edited or created
 	 */
@@ -121,6 +123,11 @@
 		 * @access protected
 		 */
 		protected $txtType;
+		/**
+		 * @var QTextBox txtLogo
+		 * @access protected
+		 */
+		protected $txtLogo;
 
 		// Controls that allow the viewing of Restaurant's individual data fields
 		/**
@@ -173,6 +180,11 @@
 		 * @access protected
 		 */
 		protected $lblType;
+		/**
+		 * @var QLabel lblLogo
+		 * @access protected
+		 */
+		protected $lblLogo;
 
 		// QListBox Controls (if applicable) to edit Unique ReverseReferences and ManyToMany References
 
@@ -560,6 +572,31 @@
 			return $this->lblType;
 		}
 
+		/**
+		 * Create and setup QTextBox txtLogo
+		 * @param string $strControlId optional ControlId to use
+		 * @return QTextBox
+		 */
+		public function txtLogo_Create($strControlId = null) {
+			$this->txtLogo = new QTextBox($this->objParentObject, $strControlId);
+			$this->txtLogo->Name = QApplication::Translate('Logo');
+			$this->txtLogo->Text = $this->objRestaurant->Logo;
+			$this->txtLogo->MaxLength = Restaurant::LogoMaxLength;
+			return $this->txtLogo;
+		}
+
+		/**
+		 * Create and setup QLabel lblLogo
+		 * @param string $strControlId optional ControlId to use
+		 * @return QLabel
+		 */
+		public function lblLogo_Create($strControlId = null) {
+			$this->lblLogo = new QLabel($this->objParentObject, $strControlId);
+			$this->lblLogo->Name = QApplication::Translate('Logo');
+			$this->lblLogo->Text = $this->objRestaurant->Logo;
+			return $this->lblLogo;
+		}
+
 
 
 		/**
@@ -614,6 +651,9 @@
 			if ($this->txtType) $this->txtType->Text = $this->objRestaurant->Type;
 			if ($this->lblType) $this->lblType->Text = $this->objRestaurant->Type;
 
+			if ($this->txtLogo) $this->txtLogo->Text = $this->objRestaurant->Logo;
+			if ($this->lblLogo) $this->lblLogo->Text = $this->objRestaurant->Logo;
+
 		}
 
 
@@ -647,6 +687,7 @@
 				if ($this->txtQtycoins) $this->objRestaurant->Qtycoins = $this->txtQtycoins->Text;
 				if ($this->lstIdUserObject) $this->objRestaurant->IdUser = $this->lstIdUserObject->SelectedValue;
 				if ($this->txtType) $this->objRestaurant->Type = $this->txtType->Text;
+				if ($this->txtLogo) $this->objRestaurant->Logo = $this->txtLogo->Text;
 
 				// Update any UniqueReverseReferences (if any) for controls that have been created for it
 
@@ -755,6 +796,12 @@
 				case 'TypeLabel':
 					if (!$this->lblType) return $this->lblType_Create();
 					return $this->lblType;
+				case 'LogoControl':
+					if (!$this->txtLogo) return $this->txtLogo_Create();
+					return $this->txtLogo;
+				case 'LogoLabel':
+					if (!$this->lblLogo) return $this->lblLogo_Create();
+					return $this->lblLogo;
 				default:
 					try {
 						return parent::__get($strName);
@@ -799,6 +846,8 @@
 						return ($this->lstIdUserObject = QType::Cast($mixValue, 'QControl'));
 					case 'TypeControl':
 						return ($this->txtType = QType::Cast($mixValue, 'QControl'));
+					case 'LogoControl':
+						return ($this->txtLogo = QType::Cast($mixValue, 'QControl'));
 					default:
 						return parent::__set($strName, $mixValue);
 				}

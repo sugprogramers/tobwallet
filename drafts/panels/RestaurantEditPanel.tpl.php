@@ -27,6 +27,8 @@
 
 		<?php $_CONTROL->txtType->RenderWithName(); ?>
 
+		<?php $_CONTROL->txtLogo->RenderWithName(); ?>
+
 	</div>
 
 	<div id="formActions">

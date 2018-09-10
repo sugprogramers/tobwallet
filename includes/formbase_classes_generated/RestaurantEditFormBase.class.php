@@ -34,6 +34,7 @@
 		protected $txtQtycoins;
 		protected $lstIdUserObject;
 		protected $txtType;
+		protected $txtLogo;
 
 		// Other ListBoxes (if applicable) via Unique ReverseReferences and ManyToMany References
 
@@ -80,6 +81,7 @@
 			$this->txtQtycoins = $this->mctRestaurant->txtQtycoins_Create();
 			$this->lstIdUserObject = $this->mctRestaurant->lstIdUserObject_Create();
 			$this->txtType = $this->mctRestaurant->txtType_Create();
+			$this->txtLogo = $this->mctRestaurant->txtLogo_Create();
 
 			// Create Buttons and Actions on this Form
 			$this->btnSave = new QButton($this);

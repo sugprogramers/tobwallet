@@ -66,6 +66,7 @@
 			$this->dtgRestaurants->MetaAddColumn('Qtycoins');
 			$this->dtgRestaurants->MetaAddColumn(QQN::Restaurant()->IdUserObject);
 			$this->dtgRestaurants->MetaAddColumn('Type');
+			$this->dtgRestaurants->MetaAddColumn('Logo');
 		}
 	}
 ?>

@@ -44,6 +44,8 @@
 	 * @property-read QLabel $WalletAddressLabel
 	 * @property QTextBox $UserTypeControl
 	 * @property-read QLabel $UserTypeLabel
+	 * @property QIntegerTextBox $TotalqtycoinsControl
+	 * @property-read QLabel $TotalqtycoinsLabel
 	 * @property-read string $TitleVerb a verb indicating whether or not this is being edited or created
 	 * @property-read boolean $EditMode a boolean indicating whether or not this is being edited or created
 	 */
@@ -142,6 +144,11 @@
 		 * @access protected
 		 */
 		protected $txtUserType;
+		/**
+		 * @var QIntegerTextBox txtTotalqtycoins
+		 * @access protected
+		 */
+		protected $txtTotalqtycoins;
 
 		// Controls that allow the viewing of User's individual data fields
 		/**
@@ -209,6 +216,11 @@
 		 * @access protected
 		 */
 		protected $lblUserType;
+		/**
+		 * @var QLabel lblTotalqtycoins
+		 * @access protected
+		 */
+		protected $lblTotalqtycoins;
 
 		// QListBox Controls (if applicable) to edit Unique ReverseReferences and ManyToMany References
 
@@ -673,6 +685,32 @@
 			return $this->lblUserType;
 		}
 
+		/**
+		 * Create and setup QIntegerTextBox txtTotalqtycoins
+		 * @param string $strControlId optional ControlId to use
+		 * @return QIntegerTextBox
+		 */
+		public function txtTotalqtycoins_Create($strControlId = null) {
+			$this->txtTotalqtycoins = new QIntegerTextBox($this->objParentObject, $strControlId);
+			$this->txtTotalqtycoins->Name = QApplication::Translate('Totalqtycoins');
+			$this->txtTotalqtycoins->Text = $this->objUser->Totalqtycoins;
+			return $this->txtTotalqtycoins;
+		}
+
+		/**
+		 * Create and setup QLabel lblTotalqtycoins
+		 * @param string $strControlId optional ControlId to use
+		 * @param string $strFormat optional sprintf format to use
+		 * @return QLabel
+		 */
+		public function lblTotalqtycoins_Create($strControlId = null, $strFormat = null) {
+			$this->lblTotalqtycoins = new QLabel($this->objParentObject, $strControlId);
+			$this->lblTotalqtycoins->Name = QApplication::Translate('Totalqtycoins');
+			$this->lblTotalqtycoins->Text = $this->objUser->Totalqtycoins;
+			$this->lblTotalqtycoins->Format = $strFormat;
+			return $this->lblTotalqtycoins;
+		}
+
 
 
 		/**
@@ -725,6 +763,9 @@
 			if ($this->txtUserType) $this->txtUserType->Text = $this->objUser->UserType;
 			if ($this->lblUserType) $this->lblUserType->Text = $this->objUser->UserType;
 
+			if ($this->txtTotalqtycoins) $this->txtTotalqtycoins->Text = $this->objUser->Totalqtycoins;
+			if ($this->lblTotalqtycoins) $this->lblTotalqtycoins->Text = $this->objUser->Totalqtycoins;
+
 		}
 
 
@@ -761,6 +802,7 @@
 				if ($this->txtStatusUser) $this->objUser->StatusUser = $this->txtStatusUser->Text;
 				if ($this->txtWalletAddress) $this->objUser->WalletAddress = $this->txtWalletAddress->Text;
 				if ($this->txtUserType) $this->objUser->UserType = $this->txtUserType->Text;
+				if ($this->txtTotalqtycoins) $this->objUser->Totalqtycoins = $this->txtTotalqtycoins->Text;
 
 				// Update any UniqueReverseReferences (if any) for controls that have been created for it
 
@@ -887,6 +929,12 @@
 				case 'UserTypeLabel':
 					if (!$this->lblUserType) return $this->lblUserType_Create();
 					return $this->lblUserType;
+				case 'TotalqtycoinsControl':
+					if (!$this->txtTotalqtycoins) return $this->txtTotalqtycoins_Create();
+					return $this->txtTotalqtycoins;
+				case 'TotalqtycoinsLabel':
+					if (!$this->lblTotalqtycoins) return $this->lblTotalqtycoins_Create();
+					return $this->lblTotalqtycoins;
 				default:
 					try {
 						return parent::__get($strName);
@@ -937,6 +985,8 @@
 						return ($this->txtWalletAddress = QType::Cast($mixValue, 'QControl'));
 					case 'UserTypeControl':
 						return ($this->txtUserType = QType::Cast($mixValue, 'QControl'));
+					case 'TotalqtycoinsControl':
+						return ($this->txtTotalqtycoins = QType::Cast($mixValue, 'QControl'));
 					default:
 						return parent::__set($strName, $mixValue);
 				}

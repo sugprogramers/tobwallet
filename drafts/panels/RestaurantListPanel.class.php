@@ -91,6 +91,7 @@
 			$this->dtgRestaurants->MetaAddColumn('Qtycoins');
 			$this->dtgRestaurants->MetaAddColumn(QQN::Restaurant()->IdUserObject);
 			$this->dtgRestaurants->MetaAddColumn('Type');
+			$this->dtgRestaurants->MetaAddColumn('Logo');
 
 			// Setup the Create New button
 			$this->btnCreateNew = new QButton($this);

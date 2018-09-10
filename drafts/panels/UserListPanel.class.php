@@ -94,6 +94,7 @@
 			$this->dtgUsers->MetaAddColumn('StatusUser');
 			$this->dtgUsers->MetaAddColumn('WalletAddress');
 			$this->dtgUsers->MetaAddColumn('UserType');
+			$this->dtgUsers->MetaAddColumn('Totalqtycoins');
 
 			// Setup the Create New button
 			$this->btnCreateNew = new QButton($this);

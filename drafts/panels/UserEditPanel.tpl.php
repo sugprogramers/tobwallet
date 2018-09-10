@@ -33,6 +33,8 @@
 
 		<?php $_CONTROL->txtUserType->RenderWithName(); ?>
 
+		<?php $_CONTROL->txtTotalqtycoins->RenderWithName(); ?>
+
 	</div>
 
 	<div id="formActions">

@@ -303,6 +303,7 @@
 				case 'StatusUser': return QQN::User()->StatusUser;
 				case 'WalletAddress': return QQN::User()->WalletAddress;
 				case 'UserType': return QQN::User()->UserType;
+				case 'Totalqtycoins': return QQN::User()->Totalqtycoins;
 				default: throw new QCallerException('Simple Property not found in UserDataGrid content: ' . $mixContent);
 			} else if ($mixContent instanceof QQAssociationNode)
 				throw new QCallerException('Content QQNode cannot go through any "To Many" association nodes.');

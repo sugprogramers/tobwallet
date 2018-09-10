@@ -45,6 +45,8 @@
 
 		<?php $this->txtUserType->RenderWithName(); ?>
 
+		<?php $this->txtTotalqtycoins->RenderWithName(); ?>
+
 	</div>
 
 	<div id="formActions">

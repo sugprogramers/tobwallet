@@ -301,6 +301,7 @@
 				case 'IdUser': return QQN::Restaurant()->IdUser;
 				case 'IdUserObject': return QQN::Restaurant()->IdUserObject;
 				case 'Type': return QQN::Restaurant()->Type;
+				case 'Logo': return QQN::Restaurant()->Logo;
 				default: throw new QCallerException('Simple Property not found in RestaurantDataGrid content: ' . $mixContent);
 			} else if ($mixContent instanceof QQAssociationNode)
 				throw new QCallerException('Content QQNode cannot go through any "To Many" association nodes.');

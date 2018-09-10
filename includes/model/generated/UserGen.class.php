@@ -29,6 +29,7 @@
 	 * @property integer $StatusUser the value for intStatusUser (Not Null)
 	 * @property string $WalletAddress the value for strWalletAddress 
 	 * @property string $UserType the value for strUserType (Not Null)
+	 * @property integer $Totalqtycoins the value for intTotalqtycoins 
 	 * @property-read Balance $_BalanceAsIdUser the value for the private _objBalanceAsIdUser (Read-Only) if set due to an expansion on the balance.IdUser reverse relationship
 	 * @property-read Balance[] $_BalanceAsIdUserArray the value for the private _objBalanceAsIdUserArray (Read-Only) if set due to an ExpandAsArray on the balance.IdUser reverse relationship
 	 * @property-read Restaurant $_RestaurantAsIdUser the value for the private _objRestaurantAsIdUser (Read-Only) if set due to an expansion on the restaurant.IdUser reverse relationship
@@ -165,6 +166,14 @@
 
 
 		/**
+		 * Protected member variable that maps to the database column user.Totalqtycoins
+		 * @var integer intTotalqtycoins
+		 */
+		protected $intTotalqtycoins;
+		const TotalqtycoinsDefault = null;
+
+
+		/**
 		 * Private member variable that stores a reference to a single BalanceAsIdUser object
 		 * (of type Balance), if this User object was restored with
 		 * an expansion on the balance association table.
@@ -239,6 +248,7 @@
 			$this->intStatusUser = User::StatusUserDefault;
 			$this->strWalletAddress = User::WalletAddressDefault;
 			$this->strUserType = User::UserTypeDefault;
+			$this->intTotalqtycoins = User::TotalqtycoinsDefault;
 		}
 
 
@@ -520,6 +530,7 @@
 			$objBuilder->AddSelectItem($strTableName, 'StatusUser', $strAliasPrefix . 'StatusUser');
 			$objBuilder->AddSelectItem($strTableName, 'WalletAddress', $strAliasPrefix . 'WalletAddress');
 			$objBuilder->AddSelectItem($strTableName, 'UserType', $strAliasPrefix . 'UserType');
+			$objBuilder->AddSelectItem($strTableName, 'Totalqtycoins', $strAliasPrefix . 'Totalqtycoins');
 		}
 
 
@@ -637,6 +648,8 @@
 			$objToReturn->strWalletAddress = $objDbRow->GetColumn($strAliasName, 'VarChar');
 			$strAliasName = array_key_exists($strAliasPrefix . 'UserType', $strColumnAliasArray) ? $strColumnAliasArray[$strAliasPrefix . 'UserType'] : $strAliasPrefix . 'UserType';
 			$objToReturn->strUserType = $objDbRow->GetColumn($strAliasName, 'VarChar');
+			$strAliasName = array_key_exists($strAliasPrefix . 'Totalqtycoins', $strColumnAliasArray) ? $strColumnAliasArray[$strAliasPrefix . 'Totalqtycoins'] : $strAliasPrefix . 'Totalqtycoins';
+			$objToReturn->intTotalqtycoins = $objDbRow->GetColumn($strAliasName, 'Integer');
 
 			if (isset($arrPreviousItems) && is_array($arrPreviousItems)) {
 				foreach ($arrPreviousItems as $objPreviousItem) {
@@ -813,7 +826,8 @@
 							`ImagePhoto`,
 							`StatusUser`,
 							`WalletAddress`,
-							`UserType`
+							`UserType`,
+							`Totalqtycoins`
 						) VALUES (
 							' . $objDatabase->SqlVariable($this->strEmail) . ',
 							' . $objDatabase->SqlVariable($this->strPassword) . ',
@@ -827,7 +841,8 @@
 							' . $objDatabase->SqlVariable($this->strImagePhoto) . ',
 							' . $objDatabase->SqlVariable($this->intStatusUser) . ',
 							' . $objDatabase->SqlVariable($this->strWalletAddress) . ',
-							' . $objDatabase->SqlVariable($this->strUserType) . '
+							' . $objDatabase->SqlVariable($this->strUserType) . ',
+							' . $objDatabase->SqlVariable($this->intTotalqtycoins) . '
 						)
 					');
 
@@ -855,7 +870,8 @@
 							`ImagePhoto` = ' . $objDatabase->SqlVariable($this->strImagePhoto) . ',
 							`StatusUser` = ' . $objDatabase->SqlVariable($this->intStatusUser) . ',
 							`WalletAddress` = ' . $objDatabase->SqlVariable($this->strWalletAddress) . ',
-							`UserType` = ' . $objDatabase->SqlVariable($this->strUserType) . '
+							`UserType` = ' . $objDatabase->SqlVariable($this->strUserType) . ',
+							`Totalqtycoins` = ' . $objDatabase->SqlVariable($this->intTotalqtycoins) . '
 						WHERE
 							`IdUser` = ' . $objDatabase->SqlVariable($this->intIdUser) . '
 					');
@@ -947,6 +963,7 @@
 			$this->intStatusUser = $objReloaded->intStatusUser;
 			$this->strWalletAddress = $objReloaded->strWalletAddress;
 			$this->strUserType = $objReloaded->strUserType;
+			$this->intTotalqtycoins = $objReloaded->intTotalqtycoins;
 		}
 
 
@@ -1064,6 +1081,13 @@
 					 * @return string
 					 */
 					return $this->strUserType;
+
+				case 'Totalqtycoins':
+					/**
+					 * Gets the value for intTotalqtycoins 
+					 * @return integer
+					 */
+					return $this->intTotalqtycoins;
 
 
 				///////////////////
@@ -1298,6 +1322,19 @@
 					 */
 					try {
 						return ($this->strUserType = QType::Cast($mixValue, QType::String));
+					} catch (QCallerException $objExc) {
+						$objExc->IncrementOffset();
+						throw $objExc;
+					}
+
+				case 'Totalqtycoins':
+					/**
+					 * Sets the value for intTotalqtycoins 
+					 * @param integer $mixValue
+					 * @return integer
+					 */
+					try {
+						return ($this->intTotalqtycoins = QType::Cast($mixValue, QType::Integer));
 					} catch (QCallerException $objExc) {
 						$objExc->IncrementOffset();
 						throw $objExc;
@@ -1658,6 +1695,7 @@
 			$strToReturn .= '<element name="StatusUser" type="xsd:int"/>';
 			$strToReturn .= '<element name="WalletAddress" type="xsd:string"/>';
 			$strToReturn .= '<element name="UserType" type="xsd:string"/>';
+			$strToReturn .= '<element name="Totalqtycoins" type="xsd:int"/>';
 			$strToReturn .= '<element name="__blnRestored" type="xsd:boolean"/>';
 			$strToReturn .= '</sequence></complexType>';
 			return $strToReturn;
@@ -1708,6 +1746,8 @@
 				$objToReturn->strWalletAddress = $objSoapObject->WalletAddress;
 			if (property_exists($objSoapObject, 'UserType'))
 				$objToReturn->strUserType = $objSoapObject->UserType;
+			if (property_exists($objSoapObject, 'Totalqtycoins'))
+				$objToReturn->intTotalqtycoins = $objSoapObject->Totalqtycoins;
 			if (property_exists($objSoapObject, '__blnRestored'))
 				$objToReturn->__blnRestored = $objSoapObject->__blnRestored;
 			return $objToReturn;
@@ -1756,6 +1796,7 @@
 			$iArray['StatusUser'] = $this->intStatusUser;
 			$iArray['WalletAddress'] = $this->strWalletAddress;
 			$iArray['UserType'] = $this->strUserType;
+			$iArray['Totalqtycoins'] = $this->intTotalqtycoins;
 			return new ArrayIterator($iArray);
 		}
 
@@ -1791,6 +1832,7 @@
      * @property-read QQNode $StatusUser
      * @property-read QQNode $WalletAddress
      * @property-read QQNode $UserType
+     * @property-read QQNode $Totalqtycoins
      *
      *
      * @property-read QQReverseReferenceNodeBalance $BalanceAsIdUser
@@ -1832,6 +1874,8 @@
 					return new QQNode('WalletAddress', 'WalletAddress', 'VarChar', $this);
 				case 'UserType':
 					return new QQNode('UserType', 'UserType', 'VarChar', $this);
+				case 'Totalqtycoins':
+					return new QQNode('Totalqtycoins', 'Totalqtycoins', 'Integer', $this);
 				case 'BalanceAsIdUser':
 					return new QQReverseReferenceNodeBalance($this, 'balanceasiduser', 'reverse_reference', 'IdUser');
 				case 'RestaurantAsIdUser':
@@ -1865,6 +1909,7 @@
      * @property-read QQNode $StatusUser
      * @property-read QQNode $WalletAddress
      * @property-read QQNode $UserType
+     * @property-read QQNode $Totalqtycoins
      *
      *
      * @property-read QQReverseReferenceNodeBalance $BalanceAsIdUser
@@ -1906,6 +1951,8 @@
 					return new QQNode('WalletAddress', 'WalletAddress', 'string', $this);
 				case 'UserType':
 					return new QQNode('UserType', 'UserType', 'string', $this);
+				case 'Totalqtycoins':
+					return new QQNode('Totalqtycoins', 'Totalqtycoins', 'integer', $this);
 				case 'BalanceAsIdUser':
 					return new QQReverseReferenceNodeBalance($this, 'balanceasiduser', 'reverse_reference', 'IdUser');
 				case 'RestaurantAsIdUser':

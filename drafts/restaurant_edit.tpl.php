@@ -39,6 +39,8 @@
 
 		<?php $this->txtType->RenderWithName(); ?>
 
+		<?php $this->txtLogo->RenderWithName(); ?>
+
 	</div>
 
 	<div id="formActions">
