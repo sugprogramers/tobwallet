@@ -13,7 +13,11 @@
     </div>
     <div class="row">
         <div class="col-sm-12">
-            <button type="button" class="btn btn-block btn-info btn-load-offers" onclick="loadoffers('<?php _p($_ITEM->IdRestaurant)?>')">View Offers</button>
+            <button type="button" class="btn btn-block btn-info btn-load-offers" 
+                    data-content="<?php _p($_ITEM->RestaurantName) ?>" 
+                    data-trigger="hover" data-toggle="popover" data-original-title=""
+                  tabindex="0" title="" data-placement="top"
+                    onclick="loadoffers('<?php _p($_ITEM->IdRestaurant)?>')">View Offers</button>
         </div>
     </div>
 </div>
