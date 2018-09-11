@@ -70,6 +70,8 @@ class ViewListOffersToOwnerForm extends QForm {
         $this->dtgOffers->MetaAddColumn('DateFrom', "Name=Valid From");
         $this->dtgOffers->MetaAddColumn('DateTo', "Name=Valid To");
         
+        $this->dtgOffers->AddColumn(new QDataGridColumn('', '<?= $_FORM->actionsRender($_ITEM); ?>', 'HtmlEntities=false', 'Width=100'));
+        
         $this->lblWallet = new QLabel($this);
         $this->lblWallet->HtmlEntities = false;
         
@@ -265,7 +267,7 @@ class ViewListOffersToOwnerForm extends QForm {
             $editCtrl->AddAction(new QClickEvent(), new QAjaxAction('edit_Click'));
         }
 
-        $controlID2 = 'del' . $id->IdRestaurant;
+        $controlID2 = 'del' . $id->IdOffer;
         $deleteCtrl = $this->dtgOffers->GetChildControl($controlID2);
         if (!$deleteCtrl) {
             $deleteCtrl = new QLabel($this->dtgOffers, $controlID2);
@@ -274,24 +276,11 @@ class ViewListOffersToOwnerForm extends QForm {
             $deleteCtrl->Text = '<div  class="btn btn-sm btn-icon btn-flat btn-default" data-toggle="tooltip" data-original-title="Delete">
                             <i class="icon wb-trash" aria-hidden="true"></i>
                           </div>';
-            $deleteCtrl->ActionParameter = $id->IdRestaurant;
+            $deleteCtrl->ActionParameter = $id->IdOffer;
             $deleteCtrl->AddAction(new QClickEvent(), new QAjaxAction('delete_Click'));
         }
-        
-        $controlID3 = 'qr' . $id->IdRestaurant;
-        $qrCtrl = $this->dtgOffers->GetChildControl($controlID3);
-        if (!$qrCtrl){
-            $qrCtrl = new QLabel($this->dtgOffers, $controlID3);
-            $qrCtrl->HtmlEntities=FALSE;
-            $qrCtrl->Cursor = QCursor::Pointer;
-            $qrCtrl->Text = '<div  class="btn btn-sm btn-icon btn-flat btn-default" data-toggle="tooltip" data-original-title="QR Code">
-                            <i class="fas fa-qrcode" aria-hidden="true"></i>
-                          </div>';
-            $qrCtrl->ActionParameter = $id->IdRestaurant;
-            $qrCtrl->AddAction(new QClickEvent(), new QAjaxAction('qr_Click'));
-        }
 
-        return "<center>" . $editCtrl->Render(false) . ' ' . $deleteCtrl->Render(false) . ' ' . $qrCtrl->Render(false) . "</center>";
+        return "<center>" . $editCtrl->Render(false) . ' ' . $deleteCtrl->Render(false) . "</center>";
     }
 
     public function edit_Click($strFormId, $strControlId, $strParameter) {
