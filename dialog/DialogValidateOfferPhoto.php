@@ -1,6 +1,6 @@
 <?php
 
-class DialogValidateOffer extends QDialogBox {
+class DialogValidateOfferPhoto extends QDialogBox {
 
     public $txtMessage;
     public $btnYes;

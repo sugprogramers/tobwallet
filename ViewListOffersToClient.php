@@ -47,15 +47,15 @@ class ViewListOffersToClientForm extends QForm {
         $this->dtgOffersToClient->SortColumnIndex = 0;
         $this->dtgOffersToClient->SortDirection = true;
 //        $this->dtgOffersToClient->FilterInfo = true;
-
-        $this->dtgOffersToClient->MetaAddColumn('IdOffer', "Name=ID");
+//        $this->dtgOffersToClient->MetaAddColumn('IdOffer', "Name=ID");
+        $this->dtgOffersToClient->AddColumn(new QDataGridColumn('Restaurant', '<?= $_FORM->getRestaurantName($_ITEM); ?>', 'HtmlEntities=false', 'Width=100', array('OrderByClause' => QQ::OrderBy(QQN::Offer()->IdRestaurantObject->RestaurantName), 'ReverseOrderByClause' => QQ::OrderBy(QQN::Offer()->IdRestaurantObject->RestaurantName, false))));
         $this->dtgOffersToClient->MetaAddColumn('Description');
         $this->dtgOffersToClient->MetaAddColumn('OfferedCoins', "Name=Coins per Person");
         $this->dtgOffersToClient->MetaAddColumn('MaxOffers', "Name=Total Offers");
         $this->dtgOffersToClient->AddColumn(new QDataGridColumn('Remaing Offers', '<?= $_FORM->actionsCalculateRemainOffer($_ITEM); ?>', 'HtmlEntities=false', 'Width=100'));
         $this->dtgOffersToClient->AddColumn(new QDataGridColumn('', '<?= $_FORM->actionsRender($_ITEM); ?>', 'HtmlEntities=false', 'Width=100'));
-        
-        
+
+
 
         $user = @unserialize($_SESSION['TobUser']);
         $searchTipo = QQ::NotIn(QQN::Offer()->IdOffer, QQ::SubSql("SELECT  IdOffer from balance where iduser = " . $user->IdUser));
@@ -65,21 +65,20 @@ class ViewListOffersToClientForm extends QForm {
         $orElemento1 = QQ::IsNull(QQN::Offer()->DateTo);
         $orElemento2 = QQ::GreaterOrEqual(QQN::Offer()->DateTo, QDateTime::Now());
         $orCondicion = QQ::OrCondition($orElemento1, $orElemento2);
-        
-        if(isset($_GET['value'])  && !empty($_GET['value'])){
+
+        if (isset($_GET['value']) && !empty($_GET['value'])) {
             $filter = QQ::Equal(QQN::Offer()->IdRestaurant, $_GET['value']);
-            
+
             $this->dtgOffersToClient->AdditionalConditions = QQ::AndCondition(
-                        $searchTipo, $searchTipo2, $searchTipo3, $searchTipo3, $orCondicion, $filter
-        );
-            
-        }else{
+                            $searchTipo, $searchTipo2, $searchTipo3, $searchTipo3, $orCondicion, $filter
+            );
+        } else {
             $this->dtgOffersToClient->AdditionalConditions = QQ::AndCondition(
-                        $searchTipo, $searchTipo2, $searchTipo3, $searchTipo3, $orCondicion
+                            $searchTipo, $searchTipo2, $searchTipo3, $searchTipo3, $orCondicion
             );
         }
 
-        
+
 
         $this->btnNewModelo = new QButton($this);
         $this->btnNewModelo->Text = '<i class="icon wb-plus" aria-hidden="true"></i>';
@@ -99,18 +98,27 @@ class ViewListOffersToClientForm extends QForm {
 
     public function actionFilter_Click($strFormId, $strControlId, $strParameter) {
         $user = @unserialize($_SESSION['TobUser']);
+
+        $searchTipo = QQ::NotIn(QQN::Offer()->IdOffer, QQ::SubSql("SELECT  IdOffer from balance where iduser = " . $user->IdUser));
+        $searchTipo2 = QQ::LessThan(QQN::Offer()->AppliedOffers, QQN::Offer()->MaxOffers);
+        $searchTipo3 = QQ::LessOrEqual(QQN::Offer()->DateFrom, QDateTime::Now());
+
+        $orElemento1 = QQ::IsNull(QQN::Offer()->DateTo);
+        $orElemento2 = QQ::GreaterOrEqual(QQN::Offer()->DateTo, QDateTime::Now());
+        $orCondicion = QQ::OrCondition($orElemento1, $orElemento2);
+
         if (trim($this->txtModelo->Text != "")) {
-            $searchTipo = QQ::Like(QQN::Offer()->Description, "%" . trim($this->txtModelo->Text) . "%");
+            $filtro = QQ::Like(QQN::Offer()->Description, "%" . trim($this->txtModelo->Text) . "%");
+            $this->dtgOffersToClient->AdditionalConditions = QQ::AndCondition(
+                            $filtro, $searchTipo, $searchTipo2, $searchTipo3, $searchTipo3, $orCondicion
+            );
         } else {
-            $searchTipo = QQ::NotIn(QQN::Offer()->IdOffer, QQ::SubSql("SELECT  IdOffer from balance where iduser = " . $user->IdUser));
+            $this->dtgOffersToClient->AdditionalConditions = QQ::AndCondition(
+                            $searchTipo, $searchTipo2, $searchTipo3, $searchTipo3, $orCondicion
+            );
         }
 
-        $this->dtgOffersToClient->AdditionalConditions = QQ::AndCondition(
-                        $searchTipo
-        );
-
         $this->dtgOffersToClient->Refresh();
-
 
         QApplication::ExecuteJavaScript("showSuccess('Filter correctly!');");
     }
@@ -128,6 +136,13 @@ class ViewListOffersToClientForm extends QForm {
         $apliedOffers = $id->AppliedOffers;
 
         return "<center>" . ($maxOffer - $apliedOffers) . "</center>";
+    }
+
+    public function getRestaurantName(Offer $offer) {
+
+        $restaurantName = $offer->IdRestaurantObject->RestaurantName;
+
+        return "<left>" . $restaurantName . "</left>";
     }
 
     public function actionsRender(Offer $id) {

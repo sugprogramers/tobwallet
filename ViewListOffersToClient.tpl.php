@@ -130,108 +130,17 @@ require(__CONFIGURATION__ . '/header.inc.php');
 <?php $this->dlgConfirm->Render(); ?>
 <?php $this->RenderEnd(); ?>
 
-
-
-
-
 <script>
     (function (document, window, $) {
         'use strict';
         $('#vendedor').addClass('active open');
         $('#productodefecto').addClass('active');
 
-//        function hasGetUserMedia() {
-//            // Note: Opera builds are unprefixed.
-//            return !!(navigator.getUserMedia || navigator.webkitGetUserMedia ||
-//                    navigator.mozGetUserMedia || navigator.msGetUserMedia);
-//        }
-//
-//        if (hasGetUserMedia()) {
-//            alert('si tiene');
-//        } else {
-//            alert('getUserMedia() is not supported in your browser');
-//        }
-
-//        var video = document.querySelector('video');
-//
-//        if (navigator.getUserMedia) {
-//            navigator.getUserMedia({audio: true, video: true}, function (stream) {
-//                video.src = stream;
-//            }, onFailSoHard);
-//        } else if (navigator.webkitGetUserMedia) {
-//            navigator.webkitGetUserMedia('audio, video', function (stream) {
-//                video.src = window.webkitURL.createObjectURL(stream);
-//            }, onFailSoHard);
-//        } else {
-//            video.src = 'somevideo.webm'; // fallback.
-//        }
-
-
     })(document, window, jQuery);
 </script>
 
 <?php require(__CONFIGURATION__ . '/footer.inc.php'); ?>
 
-<script>
-
-//    $('#reader').html5_qrcode(function (data) {
-//        alert(data);
-//    },
-//            function (error) {
-//                console.log(error);
-//            }, function (videoError) {
-//        console.log(videoError);
-//    }
-//    );
-</script>
-
-<script type="text/javascript">
-
-//    function muestracamera() {
-//        let scanner = new Instascan.Scanner({video: document.getElementById('v')});
-//        scanner.addListener('scan', function (content) {
-//            alert(content);
-//        });
-//        Instascan.Camera.getCameras().then(function (cameras) {
-//            if (cameras.length > 0) {
-//                scanner.start(cameras[1]);
-//            } else {
-//                console.error('No cameras found.');
-//            }
-//        }).catch(function (e) {
-//            console.error(e);
-//        });
-//    }
-
-</script>
-
-
-<script>
-
-</script>
-
-
-
-<script>
-//  var player = document.getElementById('player'); 
-//  var snapshotCanvas = document.getElementById('snapshot');
-//  var captureButton = document.getElementById('capture');
-//
-//  var handleSuccess = function(stream) {
-//    // Attach the video stream to the video element and autoplay.
-//    player.srcObject = stream;
-//  };
-//
-//  captureButton.addEventListener('click', function() {
-//    var context = snapshot.getContext('2d');
-//    // Draw the video frame to the canvas.
-//    context.drawImage(player, 0, 0, snapshotCanvas.width, 
-//        snapshotCanvas.height);
-//  });
-//
-//  navigator.mediaDevices.getUserMedia({video: true})
-//      .then(handleSuccess);
-</script>
 </body>
 
 </html>

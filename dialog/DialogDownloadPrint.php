@@ -1,8 +1,5 @@
 <?php
 
-//require('qrcode/phpqrcode.php');
-//require('download.php');
-
 class DialogDownloadPrint extends QDialogBox {
 
     public $mctRestaurant;
@@ -13,7 +10,6 @@ class DialogDownloadPrint extends QDialogBox {
     public $ID = 0;
     public $strClosePanelMethod;
     public $strPathFile;
-    private $imagespath;
     public $strObjectId;
     public $fileName;
 
@@ -91,7 +87,6 @@ class DialogDownloadPrint extends QDialogBox {
 
     public function CloseSelf($blnChangesMade) {
         $strMethod = $this->strClosePanelMethod;
-        //if($strMethod!= NULL)
         $this->objForm->$strMethod($blnChangesMade, $this->ID);
         $this->HideDialogBox();
     }
@@ -101,17 +96,10 @@ class DialogDownloadPrint extends QDialogBox {
             $obj = Restaurant::LoadByIdRestaurant($id);
             $this->mctRestaurant->objRestaurant = $obj;
 
-            /* $obj = User::LoadByIdUser(intval($id));
-              $this->mctUsuario->objUser = $obj;
-              $this->mctUsuario->blnEditMode = TRUE;
-              $this->mctUsuario->Refresh();
-              $this->lstStatus->SelectedValue = $obj->StatusUser;
-              $this->lstMiningOption->SelectedValue = $obj->MiningOption; */
         } catch (Exception $exc) {
             QApplication::ExecuteJavaScript("showWarning('Error " . str_replace("'", "\'", $exc->getMessage()) . "');");
         }
     }
-
 }
 
 ?>
