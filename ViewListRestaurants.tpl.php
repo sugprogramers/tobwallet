@@ -101,9 +101,13 @@
                                 </div>
                             </div>
                         </div>
+                        
+                        
                         <div class="example">
                             <div class="table-responsive">
+                                <!-- <?php //$this->dtgUsuarios->Render(); ?> -->
                                 <?php $this->dtgRestaurants->Render(); ?>
+                                
                             </div>
 
                         </div>
@@ -122,6 +126,7 @@
 <!-- End Page -->
 
 <?php $this->dlgDialogEditRestaurant->Render(); ?>
+<?php //$this->dlgDialogPermit->Render(); ?>
 <?php $this->dlgConfirm->Render(); ?>
 <?php $this->dlgQRConfirm->Render(); ?>
 

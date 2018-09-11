@@ -8,7 +8,7 @@
 <div class="col-sm-4 contentRestaurant">
     <div class="row" style="height: 180px">
         <div class="col-sm-12">
-            <img class="thumbnail" src="<?php _p(__VIRTUAL_DIRECTORY__ . __SUBDIRECTORY__ . '/upload/' . (($_ITEM->Logo == null) ? 'empty.jpg' : $_ITEM->Logo))?>" style="max-height: 100%;max-width: 100%">
+            <img class="thumbnail" src="<?php _p(__VIRTUAL_DIRECTORY__ . __SUBDIRECTORY__ . '/upload/' . $_ITEM->Logo)?>" style="max-height: 100%;max-width: 100%">
         </div>
     </div>
     <div class="row">

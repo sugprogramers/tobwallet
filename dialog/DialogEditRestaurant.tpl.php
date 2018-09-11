@@ -8,7 +8,6 @@
         width:100%;
         height: 300px;
     }
-    
 </style>
 <div class="dialog-content">
 
@@ -23,8 +22,7 @@
        .form-group {
     margin-bottom: 10px;
 }
-</style>
-    
+    </style>
         <div class="example-wrap">
             <div class="nav-tabs-vertical">
                 <ul class="nav nav-tabs margin-right-25" data-plugin="nav-tabs" role="tablist">
@@ -36,11 +34,6 @@
                     <?php if($_CONTROL->hasQR == TRUE){ ?>
                     <li role="presentation"><a data-toggle="tab" href="#exampleTabsLeftThree" aria-controls="exampleTabsLeftThree"
                       role="tab">QR Code</a></li>
-                    <?php }?>
-                    
-                    <?php if($_CONTROL->txtUploadPhoto != ''){ ?>
-                    <li role="presentation"><a data-toggle="tab" href="#exampleTabsLeftFour" aria-controls="exampleTabsLeftFour"
-                      role="tab">Logo</a></li>
                     <?php }?>
                     
                 </ul>
@@ -104,23 +97,6 @@
                                 </div>                     
                             </div>
                         </div>
-                        
-                        <div class="form-group text-center">
-                            <div class="col-sm-4">
-                                <div style="position:relative;">
-                                    <a class='btn btn-default btn-outline'  href='javascript:;'>
-                                        Upload Photo
-                                        <?php $_CONTROL->txtUploadPhoto->RenderWithError(); ?>
-                                        <div style="display: none">
-                                            <?php $_CONTROL->txtUpload->RenderWithError() ?>
-                                        </div>
-                                    </a>
-                                    <span class='label label-default label-outline' id="upload-file-info2"></span>
-                                </div>
-                            </div>
-                                
-                        </div>
-                        
                     </div>
                     <div class="tab-pane" id="exampleTabsLeftTwo" role="tabpanel">
                         <div class="form-group row">
@@ -174,16 +150,6 @@
                         </div>
                     </div>
                     <?php }?>
-                      
-                    <?php if( $_CONTROL->txtUploadPhoto != ''){?>
-                    <div class="tab-pane" id="exampleTabsLeftFour" role="tabpanel">
-                        <div class="form-group row">
-                            <div class="col-sm-12" style="height: 250px">
-                                <img src="<?php _p(__VIRTUAL_DIRECTORY__ . __SUBDIRECTORY__ . '/upload/' . $_CONTROL->mctRestaurant->objRestaurant->Logo)?>" style="max-height: 100%;max-width: 100%" />
-                            </div>
-                        </div>
-                    </div>
-                    <?php }?>
                   </div>
                 </div>
               </div>
@@ -193,7 +159,7 @@
 <!-- start ui-dialog-footer -->
 <div class="dialog-footer ui-helper-clearfix">
     <div class="dialog-buttons ui-dialog-buttonset">
-        <?php $_CONTROL->btnSave->RenderWithError(); ?>
+        <?php $_CONTROL->btnSave->Render(); ?>
         &nbsp;&nbsp;
         <?php $_CONTROL->btnCancel->Render(); ?>
     </div>
@@ -318,8 +284,10 @@
         });
     }
     
-    function btnSave_Click(){
-        alert('otro click?');
-    }
+    //define event when change input value
+    
+    
+    
+    
 
 </script>
