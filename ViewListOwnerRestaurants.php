@@ -37,6 +37,7 @@ class ViewListOwnerRestaurantForm extends QForm {
     }
 
     protected function Form_Create() {
+        $this->strAction = __VIRTUAL_DIRECTORY__ . __SUBDIRECTORY__ . "/ownerRestaurants";
         $this->objDefaultWaitIcon = new QWaitIcon($this);
 
         $this->dlgDialogEditRestaurant = new DialogEditRestaurant($this, 'close_edit');

@@ -24,7 +24,7 @@ class ViewListRestaurantForm extends QForm {
     protected $btnFilter;
     protected $btnEraserFilter;
     protected $dlgQRConfirm;
-
+    
     protected function Form_Run() {
 
         $Datos1 = @unserialize($_SESSION['TobAdmin']);
@@ -38,6 +38,8 @@ class ViewListRestaurantForm extends QForm {
     }
 
     protected function Form_Create() {
+        $this->strAction = __VIRTUAL_DIRECTORY__ . __SUBDIRECTORY__ . "/restaurants";
+        
         $this->objDefaultWaitIcon = new QWaitIcon($this);
 
         $this->dlgDialogEditRestaurant = new DialogEditRestaurant($this, 'close_edit', null, TRUE);
@@ -92,6 +94,7 @@ class ViewListRestaurantForm extends QForm {
         $this->btnEraserFilter->HtmlEntities = false;
         $this->btnEraserFilter->Text = '<i class="fas fa-eraser" aria-hidden="true"></i>';
         $this->btnEraserFilter->AddAction(new QClickEvent(), new QAjaxAction('eraseFilter_Click'));
+        
     }
 
     protected function items_Found() {
