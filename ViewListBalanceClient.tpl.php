@@ -49,12 +49,10 @@ require(__CONFIGURATION__ . '/header.inc.php');
     <div class="page-content container-fluid">
         <!-- Panel Table Add Row -->
         <div class="panel">
-            <header class="panel-heading">
+            <!-- <header class="panel-heading">
                 <h3 class="panel-title">Current Balance</h3>
-            </header>
+            </header> -->
             <div class="panel-body" style="min-height:260px;">
-
-
                 <div class="row">
 
                     <div id="Found1" style="display:none;" class="vertical-align text-center">
@@ -75,7 +73,7 @@ require(__CONFIGURATION__ . '/header.inc.php');
 
                         <style>
                             .hola1:after {
-                                content: "FILTERS";
+                                content: "Coins";
                             }
 
                         </style>
@@ -86,10 +84,10 @@ require(__CONFIGURATION__ . '/header.inc.php');
                             <div class="row">
 
                                 <div class="col-sm-3 form-group">
-                                    <?php $this->txtModelo->Render(); ?>
+                                    <?php //$this->txtModelo->Render(); ?>
                                 </div>
                                 <div class="col-sm-2 form-group">
-                                    <?php $this->btnFilter->Render(); ?>
+                                    <?php //$this->btnFilter->Render(); ?>
                                 </div>
                                 <div class="col-sm-5 form-group">
                                 </div>

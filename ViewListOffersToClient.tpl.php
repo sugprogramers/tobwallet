@@ -49,9 +49,9 @@ require(__CONFIGURATION__ . '/header.inc.php');
     <div class="page-content container-fluid">
         <!-- Panel Table Add Row -->
         <div class="panel">
-            <header class="panel-heading">
+            <!-- <header class="panel-heading">
                 <h3 class="panel-title">Available Offers</h3>
-            </header>
+            </header> -->
             <div class="panel-body" style="min-height:260px;">
 
 

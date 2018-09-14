@@ -95,7 +95,7 @@ class ViewListOffersToClientForm extends QForm {
         $this->btnNewModelo->AddAction(new QClickEvent(), new QAjaxAction('btnNewModelo_Click'));
 
         $this->txtModelo = new QTextBox($this);
-        $this->txtModelo->Placeholder = "Nombre";
+        $this->txtModelo->Placeholder = "Description";
 
         $this->btnFilter = new QButton($this);
         $this->btnFilter->CssClass = "btn btn-success";
@@ -164,7 +164,7 @@ class ViewListOffersToClientForm extends QForm {
             $editCtrl = new QLabel($this->dtgOffersToClient, $controlID);
             $editCtrl->HtmlEntities = FALSE;
             $editCtrl->Cursor = QCursor::Pointer;
-            $editCtrl->Text = '<div  class="btn btn-sm btn-icon btn-flat btn-default" data-toggle="tooltip" data-original-title="Editar">
+            $editCtrl->Text = '<div  class="btn btn-sm btn-icon btn-flat btn-default" data-toggle="tooltip" data-original-title="Validate">
                             <i class="icon wb-camera" aria-hidden="true"></i>
                           </div>';
             $editCtrl->ActionParameter = $id->IdOffer;
@@ -178,7 +178,7 @@ class ViewListOffersToClientForm extends QForm {
             $validatePhotoCtrl = new QLabel($this->dtgOffersToClient, $controlID);
             $validatePhotoCtrl->HtmlEntities = FALSE;
             $validatePhotoCtrl->Cursor = QCursor::Pointer;
-            $validatePhotoCtrl->Text = '<div  class="btn btn-sm btn-icon btn-flat btn-default" data-toggle="tooltip" data-original-title="Editar">
+            $validatePhotoCtrl->Text = '<div  class="btn btn-sm btn-icon btn-flat btn-default" data-toggle="tooltip" data-original-title="Photo">
                             <i class="icon wb-camera" aria-hidden="true"></i>
                           </div>';
             $validatePhotoCtrl->ActionParameter = $id->IdOffer;
