@@ -2,8 +2,10 @@
 
 require('includes/configuration/prepend.inc.php');
 require_once('dialog/DialogEditUser.php');
+require_once('dialog/DialogEditStatusUser.php');
 require_once('dialog/DialogConfirm.php');
 require('general.php');
+require('utilities.php');
 
 class ViewListUsuarioForm extends QForm {
 
@@ -12,11 +14,19 @@ class ViewListUsuarioForm extends QForm {
     protected $btnNewUsuario;
     protected $dlgConfirm;
     protected $dlgDialogEditUser;
+    protected $dlgDialogEditStatusUser;
+    
     protected $dlgDialogPermit;
     protected $lblWallet;
     
     protected $txtNombre;
+    protected $lstFilterUserType;
+    protected $lstFilterUserStatus;
     protected $btnFilter;
+    
+    protected $alertTypes;
+    
+    protected $btnEraserFilter;
     
 
     protected function Form_Run() {
@@ -35,6 +45,7 @@ class ViewListUsuarioForm extends QForm {
         $this->objDefaultWaitIcon = new QWaitIcon($this);
 
         $this->dlgDialogEditUser = new DialogEditUser($this, 'close_edit');
+        $this->dlgDialogEditStatusUser = new DialogEditStatusUser($this, 'close_edit');
         $this->dlgConfirm = new DialogConfirm($this, "close_confirm");
 
         $this->dtgUsuarios = new UserDataGrid($this);
@@ -50,16 +61,19 @@ class ViewListUsuarioForm extends QForm {
         $this->dtgUsuarios->SortDirection = true;
 
         //$this->dtgUsuarios->MetaAddColumn('IdUser', "Name=ID");
-        $this->dtgUsuarios->MetaAddColumn('Email');
+        //$this->dtgUsuarios->MetaAddColumn('Email');
+        
+        $this->dtgUsuarios->AddColumn(new QDataGridColumn('Email', '<?= $_ITEM->Email ?>', 'Width=120'));
+        
         //$this->dtgUsuarios->MetaAddColumn('Password');
         $this->dtgUsuarios->MetaAddColumn('FirstName');
         $this->dtgUsuarios->MetaAddColumn('LastName');
         
-        $this->dtgUsuarios->AddColumn(new QDataGridColumn('User Type', '<?= $_FORM->userTypeRender($_ITEM); ?>', 'HtmlEntities=false', 'Width=100'));
+        $this->dtgUsuarios->AddColumn(new QDataGridColumn('User Type', '<?= $_FORM->userTypeRender($_ITEM); ?>', 'HtmlEntities=false', 'Width=100',
+                array('OrderByClause' => QQ::OrderBy(QQN::User()->UserType), 'ReverseOrderByClause' => QQ::OrderBy(QQN::User()->UserType, false))));
         
         $this->dtgUsuarios->AddColumn(new QDataGridColumn('Status', '<?= $_FORM->statusRender($_ITEM); ?>', 'HtmlEntities=false', 'Width=100',
-              array('OrderByClause' => QQ::OrderBy(QQN::User()->StatusUser), 'ReverseOrderByClause' => QQ::OrderBy(QQN::User()->StatusUser, false))
-                ));
+              array('OrderByClause' => QQ::OrderBy(QQN::User()->StatusUser), 'ReverseOrderByClause' => QQ::OrderBy(QQN::User()->StatusUser, false))));
         
         $this->dtgUsuarios->AddColumn(new QDataGridColumn('Images', '<?= $_FORM->imagesRender($_ITEM); ?>', 'HtmlEntities=false'));
         
@@ -82,6 +96,32 @@ class ViewListUsuarioForm extends QForm {
         $this->btnFilter->HtmlEntities = false;
         $this->btnFilter->Text = '<i class="icon fa-filter" aria-hidden="true"></i>';
         $this->btnFilter->AddAction(new QClickEvent(), new QAjaxAction('actionFilter_Click'));
+        
+        $this->alertTypes = getAlertTypes();
+        
+        $this->btnEraserFilter = new QButton($this);
+        $this->btnEraserFilter->CssClass = "btn btn-success";
+        $this->btnEraserFilter->HtmlEntities = false;
+        $this->btnEraserFilter->Text = '<i class="fas fa-eraser" aria-hidden="true"></i>';
+        $this->btnEraserFilter->AddAction(new QClickEvent(), new QAjaxAction('eraseFilter_Click'));
+        
+        
+        $this->lstFilterUserType = new QListBox($this);
+        $this->lstFilterUserType->CssClass = "form-control input-sm editHidden";
+        $this->lstFilterUserType->AddItem(new QListItem("User Type", "S"));
+        foreach(getUserTypes() as $x => $x_value) {
+            $this->lstFilterUserType->AddItem(new QListItem($x_value, $x));
+        }
+        
+        
+        $this->lstFilterUserStatus = new QListBox($this);
+        $this->lstFilterUserStatus->CssClass = "form-control input-sm editHidden";
+        $this->lstFilterUserStatus->AddItem(new QListItem("User Status", 0));
+        foreach(getStatusUsers() as $x => $x_value) {
+            $this->lstFilterUserStatus->AddItem(new QListItem($x_value, $x));
+        }
+        
+        
     }
 
     protected function items_Found() {
@@ -93,22 +133,55 @@ class ViewListUsuarioForm extends QForm {
         }
     }
     
+    public function eraseFilter_Click($strFormId, $strControlId, $strParameter) {
+        $this->lstFilterUserType->SelectedValue = "S";
+        $this->lstFilterUserStatus->SelectedValue = 0;
+        $this->txtNombre->Text = "";
+        /*
+        $this->txtlocation->Text = "";
+        $this->txtNombre->Text = "";
+        $this->txtowner->Text = "";
+        */
+        $searchTipo = QQ::All();
+        $this->dtgUsuarios->AdditionalConditions = QQ::AndCondition($searchTipo);
+        $this->dtgUsuarios->Refresh();
+        
+        QApplication::ExecuteJavaScript("showAlert('".$this->alertTypes['success']."','Filter eraser correctly!');");
+        //QApplication::ExecuteJavaScript("showSuccess('Filter eraser correctly!');");
+    }
+    
      public function actionFilter_Click($strFormId, $strControlId, $strParameter) {
-        if (trim($this->txtNombre->Text != "")) {
-            $searchTipo = QQ::OrCondition(
+        $cond1= QQ::NotEqual(QQN::User()->IdUser, null);
+        $cond2= QQ::NotEqual(QQN::User()->IdUser, null);
+        $cond3= QQ::NotEqual(QQN::User()->IdUser, null);
+        
+        if($this->lstFilterUserType->SelectedValue != "S"){
+            $cond1 = QQ::Equal(QQN::User()->UserType, $this->lstFilterUserType->SelectedValue);
+        }else{
+            $cond1= QQ::NotEqual(QQN::User()->IdUser, null);
+        }
+        
+        if($this->lstFilterUserStatus->SelectedValue != 0){
+            $cond2 = QQ::Equal(QQN::User()->StatusUser, $this->lstFilterUserStatus->SelectedValue);
+        }else{
+            $cond2= QQ::NotEqual(QQN::User()->IdUser, null);
+        }
+        
+        if(trim($this->txtNombre->Text) != ""){
+            $cond3 = QQ::OrCondition(
                     QQ::Like(QQN::User()->FirstName, "%".trim($this->txtNombre->Text)."%"),
                     QQ::Like(QQN::User()->LastName, "%".trim($this->txtNombre->Text)."%"),
                     QQ::Like(QQN::User()->Email, "%".trim($this->txtNombre->Text)."%")
              );
-        }
-        else {
-            $searchTipo = QQ::All();
+        }else{
+            $cond3= QQ::NotEqual(QQN::User()->IdUser, null);
         }
 
-        $this->dtgUsuarios->AdditionalConditions = QQ::AndCondition($searchTipo);
+        $this->dtgUsuarios->AdditionalConditions = QQ::AndCondition($cond1, $cond2, $cond3);
         $this->dtgUsuarios->Refresh();
 
-        QApplication::ExecuteJavaScript("showSuccess('Filter correctly!');");
+        //QApplication::ExecuteJavaScript("showSuccess('Filter correctly!');");
+        QApplication::ExecuteJavaScript("showAlert('".$this->alertTypes['success']."','Filter correctly!');");
     }
 
     public function btnNewUsuario_Click($strFormId, $strControlId, $strParameter) {
@@ -162,6 +235,22 @@ class ViewListUsuarioForm extends QForm {
     }
     
     
+    protected function changeStatus_Click($strFormId, $strControlId, $strParameter) {
+        
+        try{
+            $obj = User::LoadByIdUser($strControlId);
+            $obj->StatusUser = 2;
+            $obj->Save();
+            $this->dtgUsuarios->Refresh();
+            QApplication::ExecuteJavaScript("showAlert('".$this->alertTypes['success']."','Status Updated Correctly');");
+            
+        } catch (Exception $ex) {
+            QApplication::ExecuteJavaScript("showAlert('".$this->alertTypes['warning']."','".$ex->getMessage()."');");
+
+        }
+    }
+    
+    
     public function userTypeRender(User $obj) {
         if ($obj->UserType == 'C') {
             return '<div class="label label-table label-info">Customer</div>';
@@ -171,22 +260,54 @@ class ViewListUsuarioForm extends QForm {
     }
 
     public function statusRender(User $obj) {
+        
+        $controlID = $obj->IdUser;
+        $editCtrl = $this->dtgUsuarios->GetChildControl($controlID);
+        
+        $strTemplate = '';
+        
         if ($obj->StatusUser == 1) {
-            return '<div class="label label-table label-warning">Register</div>';
+            $strTemplate = 
+            '<div class="btn btn-xs btn-warning" data-toggle="tooltip" data-original-title="pending approval"> Register </div>';
         } else if ($obj->StatusUser == 2) {
-            return '<div class="label label-table label-success">Approved</div>';
-        } if ($obj->StatusUser == 3) {
-            return '<div class="label label-table label-danger">Rejected</div>';
-        } if ($obj->StatusUser == 4) {
-            return '<div class="label label-table label-primary">Mining</div>';
+            $strTemplate = '<div class="label label-table label-success">Approved</div>';
+            
+        } else if ($obj->StatusUser == 3) {
+            $strTemplate = '<div class="label label-table label-danger">Rejected</div>';
+            
+        } else if ($obj->StatusUser == 4) {
+            $strTemplate = '<div class="label label-table label-primary">Mining</div>';
+            
         } else {
-            return '<div class="label label-table label-default">None</div>';
+            $strTemplate = '<div class="label label-table label-default">None</div>';
         }
+        
+        if (!$editCtrl) {
+            $editCtrl = new QLabel($this->dtgUsuarios, $controlID);
+            $editCtrl->HtmlEntities = FALSE;
+            $editCtrl->Cursor = QCursor::Pointer;
+           
+            $editCtrl->ActionParameter = $obj->IdUser;
+            $editCtrl->AddAction(new QClickEvent(), new QAjaxAction('changeStatus_Click'));
+        }
+ $editCtrl->Text = $strTemplate;
+        return "<center>" . $editCtrl->Render(false) . "</center>";
+        
     }
     
      public function imagesRender(User $obj) {
-         return   '<div style="font-size:12px;">'
+        $template='';
+        if($obj->ImagePhoto == null || $obj->ImagePhoto==''){
+            $template = '<div style="font-size:12px;"> not found photo! </div>';
+        }else{
+            $template = '<div style="font-size:12px;">'
                       . '<a href="'.__UPLOAD_PATH__."/".$obj->ImagePhoto.'"  target="_blank">Photo</a></div>';
+        }
+         
+         
+         return   /*'<div style="font-size:12px;">'
+                      . '<a href="'.__UPLOAD_PATH__."/".$obj->ImagePhoto.'"  target="_blank">Photo</a></div>';*/
+        $template;
         
     }
 
@@ -287,9 +408,13 @@ class ViewListUsuarioForm extends QForm {
             $users = User::LoadByIdUser(intval($id));
             $users->Delete();
             $this->items_Found();
-            QApplication::ExecuteJavaScript("showSuccess('Deleted successfully!');");
+            
+            QApplication::ExecuteJavaScript("showAlert('".$this->alertTypes['success']."','Deleted successfully!');");
+            //QApplication::ExecuteJavaScript("showSuccess('Deleted successfully!');");
         } catch (QMySqliDatabaseException $ex) {
-            QApplication::ExecuteJavaScript("showWarning('Error " . str_replace("'", "\'", $ex->getMessage()) . "');");
+            
+            QApplication::ExecuteJavaScript("showAlert('".$this->alertTypes['warning']."','".str_replace("'", "\'", $ex->getMessage())."');");
+            //QApplication::ExecuteJavaScript("showWarning('Error " . str_replace("'", "\'", $ex->getMessage()) . "');");
         }
     }
 
@@ -297,7 +422,8 @@ class ViewListUsuarioForm extends QForm {
         if ($update) {
             $this->dtgUsuarios->Refresh();
             $this->items_Found();
-            QApplication::ExecuteJavaScript("showSuccess('Data updated correctly');");
+            QApplication::ExecuteJavaScript("showAlert('".$this->alertTypes['success']."','Data updated correctly');");
+            //QApplication::ExecuteJavaScript("showSuccess('Data updated correctly');");
         }
     }
 

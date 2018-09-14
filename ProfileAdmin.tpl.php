@@ -53,6 +53,7 @@
             <div class="col-md-9">
                 <!-- Panel -->
                 <div class="panel">
+                    <div class="panel-heading" id="alertContent"></div>
                     <div class="panel-body nav-tabs-animate">
                         <ul class="nav nav-tabs nav-tabs-line" data-plugin="nav-tabs" role="tablist">
                             <li class="active" role="presentation"><a data-toggle="tab" href="#personal-info" aria-controls="personal-info" role="tab"><?php _p("Personal Information"); ?></a></li>

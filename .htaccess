@@ -45,6 +45,10 @@ RewriteRule ^logout$    LogOut.php [L]
 RewriteRule ^logoutuser$    LogOutUser.php [L]
 RewriteRule ^login/(.*)$    LoginUser.php/$1 [L]
 RewriteRule ^login$    LoginUser.php [L]
+
+RewriteRule ^loginAdministratorTOB/(.*)$    LoginAdmin.php/$1 [L]
+RewriteRule ^loginAdministratorTOB$    LoginAdmin.php [L]
+
 RewriteRule ^profileuser/(.*)$    ProfileUser.php/$1 [L]
 RewriteRule ^profileuser$    ProfileUser.php [L]
 RewriteRule ^forgot/(.*)$    ViewForgotPassword.php/$1 [L]

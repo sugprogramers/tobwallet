@@ -1,6 +1,7 @@
 <?php
 
 require('includes/configuration/prepend.inc.php');
+require('utilities.php');
 
 
 class DialogEditRestaurant extends QDialogBox {
@@ -28,6 +29,10 @@ class DialogEditRestaurant extends QDialogBox {
     
     public $txtfile;
     public $haserror;
+    
+    
+    public $alertTypes;
+    public $errorDialog;
 
     public function __construct($objParentObject, $strClosePanelMethod, $strControlId = null, $fromAdmin = FALSE) {
         // Call the Parent
@@ -116,7 +121,10 @@ class DialogEditRestaurant extends QDialogBox {
         $this->txtfile->Height = 200;
         $this->txtfile->Width = 200;*/
         
-     $this->haserror = false;
+        $this->haserror = false;
+        
+        $this->alertTypes = getAlertTypes();
+        $this->errorDialog = false;
         
     }
 
@@ -196,8 +204,13 @@ class DialogEditRestaurant extends QDialogBox {
                 $this->mctRestaurant->SaveRestaurant();
                 
             }
-            $this->CloseSelf(TRUE);
+            //$this->CloseSelf(TRUE);
+            $this->CloseSelf(false);
+            QApplication::ExecuteJavaScript("showAlert('".$this->alertTypes['success']."','Data Saved Successfull!')");
         } catch (Exception $exc) {
+            
+            
+            
             QApplication::ExecuteJavaScript("showWarning('Error: " . str_replace("'", "\'", $exc->getMessage()) . "');");
             if($this->haserror){
                 $this->ShowDialogBox();
@@ -226,6 +239,8 @@ class DialogEditRestaurant extends QDialogBox {
             $this->strIdUser = $obj->IdUser;
             $this->mctRestaurant->objRestaurant = $obj;
             $this->mctRestaurant->blnEditMode = TRUE;
+            
+            
             
             QApplication::ExecuteJavaScript("loadMap(".$obj->Latitude.",".$obj->Longitude.");");
             

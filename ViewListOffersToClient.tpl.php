@@ -76,10 +76,12 @@ require(__CONFIGURATION__ . '/header.inc.php');
 
                         <style>
                             .hola1:after {
-                                content: "Filtrar";
+                                content: "FILTERS";
                             }
-
                         </style>
+                        
+                        <div id="alertContent"></div>
+                        
                         <div class="example example-box hola1">
                             <div class="row">
 

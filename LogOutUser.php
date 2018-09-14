@@ -10,6 +10,6 @@ $Admin = @unserialize($_SESSION['TobAdmin']);
 
 unset($_SESSION['TobUser']);
 
-
+@session_destroy();
 QApplication::Redirect(__VIRTUAL_DIRECTORY__ . __SUBDIRECTORY__ . '/profileadmin');
 ?>

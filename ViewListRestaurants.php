@@ -20,10 +20,14 @@ class ViewListRestaurantForm extends QForm {
     protected $dlgDialogEditRestaurant;
     protected $dlgDialogPermit;
     protected $lblWallet;
+    protected $txtlocation;
     protected $txtNombre;
+    protected $txtowner;
     protected $btnFilter;
     protected $btnEraserFilter;
     protected $dlgQRConfirm;
+    
+    protected $alertTypes;
     
     protected function Form_Run() {
 
@@ -69,6 +73,8 @@ class ViewListRestaurantForm extends QForm {
         $this->dtgRestaurants->MetaAddColumn('Longitude');
         $this->dtgRestaurants->MetaAddColumn('Latitude');
         
+        $this->dtgRestaurants->AddColumn(new QDataGridColumn('Logo', '<?= $_FORM->imagesRender($_ITEM); ?>', 'HtmlEntities=false'));
+        
         $this->dtgRestaurants->AddColumn(new QDataGridColumn('', '<?= $_FORM->actionsRender($_ITEM); ?>', 'HtmlEntities=false', 'Width=100'));
         
         $this->lblWallet = new QLabel($this);
@@ -80,8 +86,15 @@ class ViewListRestaurantForm extends QForm {
         $this->btnNewRestaurant->HtmlEntities = false;
         $this->btnNewRestaurant->AddAction(new QClickEvent(), new QAjaxAction('btnNewRestaurant_Click'));
         
+        
+        $this->txtlocation = new QTextBox($this);
+        $this->txtlocation->Placeholder = "Country or City";
+        
         $this->txtNombre = new QTextBox($this);
         $this->txtNombre->Placeholder = "Restaurant Name";
+        
+        $this->txtowner = new QTextBox($this);
+        $this->txtowner->Placeholder = "Owner";
 
         $this->btnFilter = new QButton($this);
         $this->btnFilter->CssClass = "btn btn-success";
@@ -95,6 +108,8 @@ class ViewListRestaurantForm extends QForm {
         $this->btnEraserFilter->Text = '<i class="fas fa-eraser" aria-hidden="true"></i>';
         $this->btnEraserFilter->AddAction(new QClickEvent(), new QAjaxAction('eraseFilter_Click'));
         
+        $this->alertTypes = getAlertTypes();
+        
     }
 
     protected function items_Found() {
@@ -107,29 +122,38 @@ class ViewListRestaurantForm extends QForm {
     }
     
     public function eraseFilter_Click($strFormId, $strControlId, $strParameter) {
+        $this->txtlocation->Text = "";
         $this->txtNombre->Text = "";
+        $this->txtowner->Text = "";
         
         $searchTipo = QQ::All();
         $this->dtgRestaurants->AdditionalConditions = QQ::AndCondition($searchTipo);
         $this->dtgRestaurants->Refresh();
         
-        QApplication::ExecuteJavaScript("showSuccess('Filter eraser correctly!');");
+        QApplication::ExecuteJavaScript("showAlert('".$this->alertTypes['success']."','Filter eraser correctly!');");
+        //QApplication::ExecuteJavaScript("showSuccess('Filter eraser correctly!');");
     }
     
     public function actionFilter_Click($strFormId, $strControlId, $strParameter) {
-        if (trim($this->txtNombre->Text != "")) {
-            $searchTipo = QQ::OrCondition(
-                    QQ::Like(QQN::Restaurant()->RestaurantName, "%".trim($this->txtNombre->Text)."%")
-             );
-        }
-        else {
-            $searchTipo = QQ::All();
+        $cond1= QQ::NotEqual(QQN::Restaurant()->IdRestaurant, null);
+        $cond2= QQ::NotEqual(QQN::Restaurant()->IdRestaurant, null);
+        $cond3= QQ::NotEqual(QQN::Restaurant()->IdRestaurant, null);
+        
+        if(trim($this->txtlocation->Text) != ""){
+            $cond1 = QQ::OrCondition(QQ::Like(QQN::Restaurant()->Country, "%".$this->txtlocation->Text."%"),
+            QQ::Like(QQN::Restaurant()->City, "%".$this->txtlocation->Text."%"));
         }
         
-        $this->dtgRestaurants->AdditionalConditions = QQ::AndCondition($searchTipo);
+        if(trim($this->txtNombre->Text) != ""){
+            QApplication::ExecuteJavaScript("showSuccess('".$this->txtNombre->Text."');");
+            $cond2 = QQ::OrCondition(QQ::Like(QQN::Restaurant()->RestaurantName, "%".$this->txtNombre->Text."%"));
+        }
+        
+        $this->dtgRestaurants->AdditionalConditions = QQ::AndCondition($cond1,$cond2);
         $this->dtgRestaurants->Refresh();
 
-        QApplication::ExecuteJavaScript("showSuccess('Filter correctly!');");
+        //QApplication::ExecuteJavaScript("showSuccess('Filter correctly!');");
+        QApplication::ExecuteJavaScript("showAlert('".$this->alertTypes['success']."','Filter correctly!');");
     }
 
     public function btnNewRestaurant_Click($strFormId, $strControlId, $strParameter) {
@@ -182,12 +206,16 @@ class ViewListRestaurantForm extends QForm {
         }
     }
     
-     public function imagesRender(User $obj) {
-         return   '<div style="font-size:12px;"><a href="'.__UPLOAD_PATH__."/".$obj->ImageDriver.'" target="_blank" >Driver License</a>'
-                      . '<br>'
-                      . '<a href="'.__UPLOAD_PATH__."/".$obj->ImagePhoto.'"  target="_blank">Photo</a></div>';
-        
-     }
+    public function imagesRender(Restaurant $obj) {
+        $template='';
+        if($obj->Logo == null || $obj->Logo==''){
+            $template = '<div style="font-size:12px;"> not found logo! </div>';
+        }else{
+            $template = '<div style="font-size:12px;">'
+                      . '<a href="'.__UPLOAD_PATH__."/".$obj->Logo.'"  target="_blank">Logo</a></div>';
+        }
+        return $template;
+    }
 
     public function loginRender(Restaurant $obj) {
         $controlID = 'login' . $obj->IdRestaurant;

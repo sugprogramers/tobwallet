@@ -25,6 +25,18 @@ class ViewListOffersToOwnerForm extends QForm {
     protected $btnFilter;
     protected  $dlgQRConfirm;
     
+    
+    protected $btnEraserFilter;
+    
+    protected $calCalendarPopup;
+    protected $txtFilterFrom;
+    protected $btnFilterFrom;
+    
+    protected $txtFilterTo;
+    
+    protected $alertTypes;
+
+
 
     protected function Form_Run() {
 
@@ -82,13 +94,32 @@ class ViewListOffersToOwnerForm extends QForm {
         $this->btnNewOffer->AddAction(new QClickEvent(), new QAjaxAction('btnNewOffer_Click'));
         
         $this->txtNombre = new QTextBox($this);
-        $this->txtNombre->Placeholder = "Email or Firtname or Lastname";
+        $this->txtNombre->Placeholder = "Description";
 
         $this->btnFilter = new QButton($this);
         $this->btnFilter->CssClass = "btn btn-success";
         $this->btnFilter->HtmlEntities = false;
         $this->btnFilter->Text = '<i class="icon fa-filter" aria-hidden="true"></i>';
         $this->btnFilter->AddAction(new QClickEvent(), new QAjaxAction('actionFilter_Click'));
+        
+        /*
+        $this->calCalendarPopup = new QCalendar($this);
+        $this->txtFilterFrom = new QDateTimeTextBox($this);
+        $this->btnFilterFrom = new QCalendar($this, $this->txtFilterFrom);
+        $this->txtFilterFrom->AddAction(new QFocusEvent(), new QBlurControlAction($this->txtFilterFrom));
+        $this->txtFilterFrom->AddAction(new QClickEvent(), new QShowCalendarAction($this->btnFilterFrom));
+        */
+        
+        
+        //$this->txtFilterTo = new QDateTimeTextBox($this);
+        
+        $this->btnEraserFilter = new QButton($this);
+        $this->btnEraserFilter->CssClass = "btn btn-success";
+        $this->btnEraserFilter->HtmlEntities = false;
+        $this->btnEraserFilter->Text = '<i class="fas fa-eraser" aria-hidden="true"></i>';
+        $this->btnEraserFilter->AddAction(new QClickEvent(), new QAjaxAction('eraseFilter_Click'));
+        
+        $this->alertTypes = getAlertTypes();
         
     }
 
@@ -99,6 +130,19 @@ class ViewListOffersToOwnerForm extends QForm {
         } else {
             QApplication::ExecuteJavaScript("itemsFound(2);");
         }
+    }
+    
+    public function eraseFilter_Click($strFormId, $strControlId, $strParameter) {
+        //$this->txtFilterFrom->Text = "";
+        //$this->txtFilterTo->Text = "";
+        $this->txtNombre->Text = "";
+        
+        $searchTipo = QQ::All();
+        $this->dtgOffers->AdditionalConditions = QQ::AndCondition($searchTipo);
+        $this->dtgOffers->Refresh();
+        
+        QApplication::ExecuteJavaScript("showAlert('".$this->alertTypes['success']."','Filter eraser correctly!');");
+        //QApplication::ExecuteJavaScript("showSuccess('Filter eraser correctly!');");
     }
     
      public function actionFilter_Click($strFormId, $strControlId, $strParameter) {
@@ -114,8 +158,8 @@ class ViewListOffersToOwnerForm extends QForm {
         $this->dtgOffers->AdditionalConditions = QQ::AndCondition($searchTipo);
         
         $this->dtgOffers->Refresh();
-
-        QApplication::ExecuteJavaScript("showSuccess('Filter correctly!');");
+        QApplication::ExecuteJavaScript("showAlert('".$this->alertTypes['success']."','Filter correctly!');");
+        //QApplication::ExecuteJavaScript("showSuccess('Filter correctly!');");
     }
 
     public function btnNewOffer_Click($strFormId, $strControlId, $strParameter) {
@@ -158,14 +202,7 @@ class ViewListOffersToOwnerForm extends QForm {
     protected function plan_Click($strFormId, $strControlId, $strParameter) {
         
         $offer = Offer::LoadByIdOffer($strParameter);
-        /*if($offer && $offer->MiningOption>0) {
-            
-            $this->lblWallet->Text = "<b>For the user:</b> $User->Email <br><br><b>The wallet Address is:</b> $Restaurant->Address";
-            QApplication::ExecuteJavaScript("$('#ventaModal').modal('show');");
-        }
-        else{
-             QApplication::ExecuteJavaScript("showWarning('" . htmlentities("Wallet Address is empty.") . "');");
-        }*/
+        
     }
     
      public function imagesRender(User $obj) {
@@ -308,9 +345,11 @@ class ViewListOffersToOwnerForm extends QForm {
             $offers = Restaurant::LoadByIdRestaurant(intval($id));
             $restaurants->Delete();
             $this->items_Found();
-            QApplication::ExecuteJavaScript("showSuccess('Deleted successfully!');");
+            //QApplication::ExecuteJavaScript("showSuccess('Deleted successfully!');");
+            QApplication::ExecuteJavaScript("showAlert('".$this->alertTypes['success']."','Deleted successfully!');");
         } catch (QMySqliDatabaseException $ex) {
-            QApplication::ExecuteJavaScript("showWarning('Error " . str_replace("'", "\'", $ex->getMessage()) . "');");
+            QApplication::ExecuteJavaScript("showAlert('".$this->alertTypes['warning']."','".str_replace("'", "\'", $ex->getMessage())."');");
+            //QApplication::ExecuteJavaScript("showWarning('Error " . str_replace("'", "\'", $ex->getMessage()) . "');");
         }
     }
 
@@ -318,7 +357,8 @@ class ViewListOffersToOwnerForm extends QForm {
         if ($update) {
             $this->dtgOffers->Refresh();
             $this->items_Found();
-            QApplication::ExecuteJavaScript("showSuccess('Data updated correctly');");
+            QApplication::ExecuteJavaScript("showAlert('".$this->alertTypes['success']."','Data updated correctly!');");
+            //QApplication::ExecuteJavaScript("showSuccess('Data updated correctly');");
         }
     }
 

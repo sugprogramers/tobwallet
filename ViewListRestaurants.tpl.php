@@ -56,9 +56,13 @@
     <div class="page-content container-fluid">
         <!-- Panel Table Add Row -->
         <div class="panel">
-            <header class="panel-heading">
+            <!-- <header class="panel-heading">
                 <h3 class="panel-title">View Restaurants</h3>
-            </header>
+            </header> -->
+            
+            
+            
+            
             <div class="panel-body" style="min-height:260px;">
 
                 <div class="row">
@@ -80,20 +84,24 @@
                         
                         <style>
                             .hola1:after {
-                                content: "Search";
+                                content: "FILTERS";
                             }
 
                         </style>
+                        <div id="alertContent"></div>
                         <div class="example example-box hola1">
                             <div class="row">
-                                <div class="col-sm-5 form-group">
+                                <div class="col-sm-2 form-group">
+                                    <?php $this->txtlocation->Render(); ?>
+                                </div>
+                                <div class="col-sm-4 form-group">
                                     <?php $this->txtNombre->Render(); ?>
                                 </div>
                                 <div class="col-sm-2 form-group">
                                     <?php $this->btnFilter->Render(); ?>
                                     <?php $this->btnEraserFilter->Render(); ?>
                                 </div>
-                                <div class="col-sm-3 form-group">
+                                <div class="col-sm-2 form-group">
                                     
                                 </div>
                                 <div class="col-sm-2 form-group">
@@ -113,6 +121,8 @@
                 <div class="site-action" > <?php $this->btnNewRestaurant->Render(); ?></div>
                 <!-- End Example Basic Sort -->
             </div>
+            
+            
             <!-- End Panel Body -->
         </div>
         <!-- End Panel -->

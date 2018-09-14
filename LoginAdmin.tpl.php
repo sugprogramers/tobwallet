@@ -7,8 +7,10 @@
         <meta name="author" content="">
 
         <title><?php _p("Login TOB WALLET"); ?></title>
+
         
         <link rel="shortcut icon" href="<?php _p(__VIRTUAL_DIRECTORY__ . __SUBDIRECTORY__); ?>/template/assets/images/logo2_T_icon.ico">
+
         
         <!-- Stylesheets -->
         <link rel="stylesheet" href="<?php _p(__VIRTUAL_DIRECTORY__ . __SUBDIRECTORY__); ?>/template/assets/css/bootstrap.min.css">
@@ -89,7 +91,7 @@
                         </center>
                     </div>
                     <h3 class="font-size-24" ><?php _p("Log in"); ?></h3>
-                    <p><?php _p("Welcome, log in to access the system."); ?></p>
+                    <p><?php _p("Welcome Administrator, log in to access the system."); ?></p>
 
                     <?= $this->RenderBegin(); ?>
                     <div class="form-group">
@@ -112,6 +114,8 @@
                     </span>
                     <?= $this->txtPassword->Render(); ?>  
                   </div>
+                        
+                        
                        
                         <!--<input type="password" class="form-control" id="inputPassword" name="password" placeholder="Password"> -->
                     </div>
@@ -122,7 +126,7 @@
 
                     <center><p>Still no account? Please go to <a href="register">Register</a></p></center> 
                    
-                   <!-- <center><p>Desea iniciar session como admin? <a href="loginadmin">Login Admin</a></p></center> -->
+                   
                      
                     <footer class="page-copyright">
                         <p>WEBSITE BY SUG</p>

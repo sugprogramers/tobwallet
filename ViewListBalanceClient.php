@@ -4,6 +4,7 @@ require('includes/configuration/prepend.inc.php');
 require_once('dialog/DialogValidateOffer.php');
 require_once('dialog/DialogConfirm.php');
 require('general.php');
+require('utilities.php');
 
 class ViewListBalanceClientForm extends QForm {
 
@@ -16,6 +17,8 @@ class ViewListBalanceClientForm extends QForm {
     protected $btnFilter;
     protected $btnExcel;
     protected $lblTotal;
+    
+    protected $alertTypes;
 
     protected function Form_Run() {
 
@@ -78,6 +81,8 @@ class ViewListBalanceClientForm extends QForm {
         $this->lblTotal = new QLabel($this);
         $this->lblTotal->Text = "<b>Total Earned Coins: " . $this->getCurrentAmountCoins() . "</b>";
         $this->lblTotal->HtmlEntities = false;
+        
+        $this->alertTypes = getAlertTypes();
     }
 
     public function getCurrentAmountCoins() {
@@ -106,7 +111,8 @@ class ViewListBalanceClientForm extends QForm {
         );
 
         $this->dtgOffersToClient->Refresh();
-        QApplication::ExecuteJavaScript("showSuccess('Filter correctly!');");
+        QApplication::ExecuteJavaScript("showAlert('".$this->alertTypes['success']."','Filter correctly!');");
+        //QApplication::ExecuteJavaScript("showSuccess('Filter correctly!');");
     }
 
     public function btnNewModelo_Click($strFormId, $strControlId, $strParameter) {
@@ -173,9 +179,11 @@ class ViewListBalanceClientForm extends QForm {
             $users = Offer::LoadByIdOffer(intval($id));
             $users->Delete();
             $this->items_Found();
-            QApplication::ExecuteJavaScript("showSuccess('Eliminado Correctamente!');");
+            //QApplication::ExecuteJavaScript("showSuccess('Eliminado Correctamente!');");
+            QApplication::ExecuteJavaScript("showAlert('".$this->alertTypes['success']."','Deleted successfully!');");
         } catch (QMySqliDatabaseException $ex) {
-            QApplication::ExecuteJavaScript("showWarning('Error " . str_replace("'", "\'", $ex->getMessage()) . "');");
+            QApplication::ExecuteJavaScript("showAlert('".$this->alertTypes['warning']."','".str_replace("'", "\'", $ex->getMessage())."');");
+            //QApplication::ExecuteJavaScript("showWarning('Error " . str_replace("'", "\'", $ex->getMessage()) . "');");
         }
     }
 
@@ -184,7 +192,8 @@ class ViewListBalanceClientForm extends QForm {
         if ($update) {
             $this->dtgOffersToClient->Refresh();
             $this->items_Found();
-            QApplication::ExecuteJavaScript("showSuccess('¡Datos actualizados correctamente!');");
+            QApplication::ExecuteJavaScript("showAlert('".$this->alertTypes['success']."','Data updated correctly!');");
+            //QApplication::ExecuteJavaScript("showSuccess('¡Datos actualizados correctamente!');");
         }
     }
 

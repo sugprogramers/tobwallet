@@ -2,6 +2,8 @@
 require('./qcubed.inc.php');
 require './general.php';
 
+require('utilities.php');
+
 class ProfileAdmin extends QForm {
 
     protected $user;
@@ -17,16 +19,13 @@ class ProfileAdmin extends QForm {
     protected $txtAddress;
     protected $txtDni;
     protected $txtSerieBoleta;
-
-
-    /*
-     * Buttons
-     */
+    
+    protected $alertTypes;
+    
     protected $btnSave;
     protected $btnSavePass;
    
     protected function Form_Run() {
-
         $Datos1 = @unserialize($_SESSION['TobAdmin']);
        
         if ($Datos1) {
@@ -35,8 +34,6 @@ class ProfileAdmin extends QForm {
         } else {
             QApplication::Redirect(__VIRTUAL_DIRECTORY__ . __SUBDIRECTORY__ .  '/login');
         }
-        
-        
     }
 
     protected function Form_Create() {
@@ -88,18 +85,17 @@ class ProfileAdmin extends QForm {
         $this->btnSave = new QButton($this);
         $this->btnSave->Text = '<i class="icon fa-floppy-o" aria-hidden="true"></i> Save Profile';
         $this->btnSave->HtmlEntities = false;
-        $this->btnSave->CssClass = "btn btn-raised btn-primary";// "site-action btn-raised btn btn-primary btn-floating";
+        $this->btnSave->CssClass = "btn btn-raised btn-primary";
         $this->btnSave->AddAction(new QClickEvent(), new QAjaxAction('btnSave_Click'));
 
         
         $this->btnSavePass = new QButton($this);
         $this->btnSavePass->Text = '<i class="icon fa-floppy-o" aria-hidden="true"></i> ' . htmlentities("Save Password");
-        $this->btnSavePass->CssClass = "btn btn-raised btn-primary";//"site-action-toggle btn-raised btn btn-primary btn-floating";
+        $this->btnSavePass->CssClass = "btn btn-raised btn-primary";
         $this->btnSavePass->HtmlEntities = false;
         $this->btnSavePass->AddAction(new QClickEvent(), new QAjaxAction('btnSavePass_Click'));
         
-
-      
+        $this->alertTypes = getAlertTypes();
     }
 
    
@@ -107,12 +103,16 @@ class ProfileAdmin extends QForm {
     protected function btnSave_Click($strFormId, $strControlId, $strParameter) {
        
         try {
+            
             $this->mctUser->SaveAdministrator();
             $this->mctUser->Refresh();
-            QApplication::ExecuteJavaScript("showSuccess('data saved correctly!');");
+            
+            QApplication::ExecuteJavaScript("showAlert('".$this->alertTypes['success']."','Data Saved Correctly!');");
+            //QApplication::ExecuteJavaScript("showSuccess('data saved correctly!');");
          } catch (Exception $exc) {
             $msg = addslashes($exc->getMessage());
-            QApplication::ExecuteJavaScript("showWarning('Error: $msg');");
+            QApplication::ExecuteJavaScript("showAlert('".$this->alertTypes['warning']."','".$msg."');");
+            //QApplication::ExecuteJavaScript("showWarning('Error: $msg');");
         }
     }
 
