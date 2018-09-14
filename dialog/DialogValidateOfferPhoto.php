@@ -7,7 +7,7 @@ class DialogValidateOfferPhoto extends QDialogBox {
     public $btnNo;
     public $ID = 0;
     public $strClosePanelMethod;
-    public $btnValidarQr;
+    public $btnSubeFoto;
     public $btnValidarUbicacion;
     public $btnHideClick;
     public $txtCurrentAddress;
@@ -27,7 +27,7 @@ class DialogValidateOfferPhoto extends QDialogBox {
         $this->isAutosize = true;
         $this->Resizable = FALSE;
 
-        $this->strTemplate = __DOCROOT__ . __SUBDIRECTORY__ . '/dialog/DialogValidateOffer.tpl.php';
+        $this->strTemplate = __DOCROOT__ . __SUBDIRECTORY__ . '/dialog/DialogValidateOfferPhoto.tpl.php';
         $this->strClosePanelMethod = $strClosePanelMethod;
 
 
@@ -46,11 +46,11 @@ class DialogValidateOfferPhoto extends QDialogBox {
         $this->btnNo->CssClass = "btn btn-raised btn-danger";
         $this->btnNo->AddAction(new QClickEvent(), new QAjaxControlAction($this, 'btnNo_Click'));
 
-        $this->btnValidarQr = new QButton($this);
-        $this->btnValidarQr->Text = '<i class="icon wb-camera" aria-hidden="true"></i> Validate QR ';
-        $this->btnValidarQr->HtmlEntities = false;
-        $this->btnValidarQr->CssClass = "btn btn-raised btn-secondary";
-        $this->btnValidarQr->AddAction(new QClickEvent(), new QAjaxControlAction($this, 'btnMostrarCamera_Click'));
+        $this->btnSubeFoto = new QButton($this);
+        $this->btnSubeFoto->Text = '<i class="fa fa-cloud-upload" aria-hidden="true"></i> Save';
+        $this->btnSubeFoto->HtmlEntities = false;
+        $this->btnSubeFoto->CssClass = "btn btn-raised btn-secondary";
+        $this->btnSubeFoto->AddAction(new QClickEvent(), new QAjaxControlAction($this, 'btnSubirFoto_Click'));
 
         $this->btnValidarUbicacion = new QButton($this);
         $this->btnValidarUbicacion->Text = '<i class="fas fa-location-arrow" aria-hidden="true"></i> Validate Location ';
@@ -77,9 +77,8 @@ class DialogValidateOfferPhoto extends QDialogBox {
         $this->txtMessage->Refresh();
     }
 
-    public function btnMostrarCamera_Click($strFormId, $strControlId, $strParameter) {
-
-        QApplication::ExecuteJavaScript("muestracamera();");
+    public function btnSubirFoto_Click($strFormId, $strControlId, $strParameter) {
+        QApplication::ExecuteJavaScript("subirFoto();");
     }
 
     public function btnHideClick_Click($strFormId, $strControlId, $strParameter) {
@@ -96,18 +95,18 @@ class DialogValidateOfferPhoto extends QDialogBox {
                 QApplication::ExecuteJavaScript("showSuccess('Verificacion correcta 1/2 ...');");
                 QApplication::ExecuteJavaScript("getLocation();");
 
-                $this->btnValidarQr->Text = '<i class="icon wb-camera" aria-hidden="true"></i> Validate QR <i class="icon fa-check" aria-hidden="true"></i>';
-                $this->btnValidarQr->CssClass = "btn btn-raised btn-success";
+                $this->btnSubeFoto->Text = '<i class="icon wb-camera" aria-hidden="true"></i> Validate QR <i class="icon fa-check" aria-hidden="true"></i>';
+                $this->btnSubeFoto->CssClass = "btn btn-raised btn-success";
                 $this->btnValidarUbicacion->Enabled = true;
                 $this->txtHideText->Text = "gps:";
                 $this->txtHideText->Refresh();
                 $this->btnValidarUbicacion->Refresh();
             } else {
                 QApplication::ExecuteJavaScript("showError('La imagen qr no coincide con la oferta');");
-                $this->btnValidarQr->Text = '<i class="icon wb-camera" aria-hidden="true"></i> Validate QR <i class="icon fa-close" aria-hidden="true"></i>';
-                $this->btnValidarQr->CssClass = "btn btn-raised btn-danger";
+                $this->btnSubeFoto->Text = '<i class="icon wb-camera" aria-hidden="true"></i> Validate QR <i class="icon fa-close" aria-hidden="true"></i>';
+                $this->btnSubeFoto->CssClass = "btn btn-raised btn-danger";
             }
-            $this->btnValidarQr->Refresh();
+            $this->btnSubeFoto->Refresh();
         } else if ($preText == "gps") {
 
             if ($this->txtCurrentAddress->Text == "") {

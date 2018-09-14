@@ -60,13 +60,6 @@ function getAddressName(latitude, longitude) {
     });
 }
 
-//function printQrImage(source) {
-//    popup = window.open();
-//    popup.document.write(ImagetoPrint(source));
-//    popup.focus(); 
-//    popup.print();
-//}
-
 
 function ImagetoPrint(source) {
     return "<html><head><script>function step1(){\n" +
@@ -83,16 +76,124 @@ function printQrImage(source) {
     pwa.document.close();
 }
 
-function downloadFile(nombre,ruta) {
+function downloadFile(nombre, ruta) {
 
     var source = ruta;
-
     var a = document.createElement('a');
-
     a.download = nombre;
     a.target = '_blank';
     a.href = source;
 
     a.click();
+
+}
+
+
+// PARA MANEJAR LA CAPTURA DE LA FOTO
+
+function abrecamaramovil() {
+
+    var $canvas = document.getElementById("canvasfoto"),
+            $canvasoriginal = document.getElementById("canvasfotooriginal"),
+            inputFileImage = document.getElementById('inputfileimagen');
+
+    var resolucionMaxima = 300;
+    inputFileImage.addEventListener('change', handleFiles);
+
+    function handleFiles(e) {
+
+        var _URL = window.URL || window.webkitURL;
+        var ctx = $canvas.getContext('2d');
+        var ctxorig = $canvasoriginal.getContext('2d');
+        img = document.createElement("img");
+        var imgwidth = 0;
+        var imgheight = 0;
+        img.src = _URL.createObjectURL(e.target.files[0]);
+//        alert('This file size is: ' + e.target.files[0].size / 1024 / 1024 + "MB");
+
+        img.onload = function () {
+
+            imgwidth = this.width;
+            imgheight = this.height;
+
+//          REESCALANDO:
+            var escala = 0;
+            if (imgwidth > imgheight) {
+                escala = imgwidth / resolucionMaxima;
+            } else {
+                escala = imgheight / resolucionMaxima;
+            }
+
+            var alturaEscala = imgheight / escala;
+            var anchoEscala = imgwidth / escala;
+
+
+            $canvas.height = alturaEscala;
+            $canvas.width = anchoEscala;
+            ctx.clearRect(0, 0, 300, 300);
+            ctx.drawImage(img, 0, 0, Math.round(anchoEscala), Math.round(alturaEscala));
+
+            console.log("ancho: " + imgwidth + " ; altura: " + imgheight);
+            console.log("ancho escala: " + anchoEscala + " ; altura escala: " + alturaEscala);
+
+            //GUARDAR IMAGEN ORIGINAL 
+            $canvasoriginal.height = imgheight;
+            $canvasoriginal.width = imgwidth;
+            ctxorig.clearRect(0, 0, 10000, 10000);
+            ctxorig.drawImage(img, 0, 0, imgwidth, imgheight);
+        };
+    }
+}
+
+function subirFoto() {
+
+    var $canvas = document.getElementById("canvasfoto");
+    var foto = $canvas.toDataURL(); //Esta es la foto, en base 64
+    var xhr = new XMLHttpRequest();
+    xhr.open("POST", "./guardar_foto.php", true);
+    xhr.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
+    xhr.send(encodeURIComponent(foto)); //Codificar y enviar
+
+    xhr.onreadystatechange = function () {
+        if (xhr.readyState == XMLHttpRequest.DONE && xhr.status == 200) {
+
+            alert("se envio correctamente");
+            console.log("La foto fue enviada correctamente");
+            console.log(xhr);
+        }
+    };
+}
+
+
+function rotarcanvas() {
+
+    var canvas = document.getElementById("canvasfoto");
+    var canvasoriginal = document.getElementById("canvasfotooriginal");
+
+    var $ctxcanvas = canvas.getContext('2d');
+    var $ctxcanvasoriginal = canvasoriginal.getContext('2d');
+    $ctxcanvas.rotate(90 * Math.PI / 180);
+    $ctxcanvasoriginal.rotate(90 * Math.PI / 180);
+
+
+    $ctxcanvas.clearRect(0, 0, canvas.width, canvas.height);
+
+    // save the unrotated context of the canvas so we can restore it later
+    // the alternative is to untranslate & unrotate after drawing
+    $ctxcanvas.save();
+
+    // move to the center of the canvas
+    $ctxcanvas.translate(canvas.width / 2, canvas.height / 2);
+
+    // rotate the canvas to the specified degrees
+    $ctxcanvas.rotate(90 * Math.PI / 180);
+
+    // draw the image
+    // since the context is rotated, the image will be rotated also
+    $ctxcanvas.drawImage(image, -image.width / 2, -image.width / 2);
+
+    // we’re done with the rotating so restore the unrotated context
+    $ctxcanvas.restore();
+
 
 }

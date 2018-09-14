@@ -113,7 +113,7 @@ require(__CONFIGURATION__ . '/header.inc.php');
                 <div class="site-action">
                     <?php // $this->btnNewModelo->Render(); ?>
                 </div>
-              
+
 
                 <!-- End Example Basic Sort -->
             </div>
@@ -126,6 +126,7 @@ require(__CONFIGURATION__ . '/header.inc.php');
 <!-- End Page -->
 <!-- es necesario para mostrar el dialog-->
 <?php $this->dlgDialogEditModelo->Render(); ?>
+<?php $this->dlgValidateOfferPhoto->Render(); ?>
 <!-- es nxxxxxxxxxxxxg-->
 <?php $this->dlgConfirm->Render(); ?>
 <?php $this->RenderEnd(); ?>
@@ -139,8 +140,80 @@ require(__CONFIGURATION__ . '/header.inc.php');
     })(document, window, jQuery);
 </script>
 
+
 <?php require(__CONFIGURATION__ . '/footer.inc.php'); ?>
 
+
+
+<script>
+
+
+//    $(document).ready(function () {
+//
+//        var _URL = window.URL || window.webkitURL;
+//
+//        alert("1");
+//        console.log($('#inputfileimagen'));
+//        $('#inputfileimagen').on('change', function () {
+//            var file = $(this)[0].files[0];
+//
+//            alert("1");
+//
+//            img = new Image();
+//            var imgwidth = 0;
+//            var imgheight = 0;
+//            var maxwidth = 640;
+//            var maxheight = 640;
+//
+//            alert("2");
+//
+//            console.log("ancho: " + imgwidth + " ; altura: " + imgheight);
+//
+//            img.src = _URL.createObjectURL(file);
+//            img.onload = function () {
+//                imgwidth = this.width;
+//                imgheight = this.height;
+//
+////                $("#width").text(imgwidth);
+////                $("#height").text(imgheight);
+//                console.log("ancho: " + imgwidth + " ; altura: " + imgheight);
+//
+//
+////                if (imgwidth <= maxwidth && imgheight <= maxheight) {
+////
+////                    var formData = new FormData();
+////                    formData.append('fileToUpload', $('#file')[0].files[0]);
+////
+////                    $.ajax({
+////                        url: 'upload_image.php',
+////                        type: 'POST',
+////                        data: formData,
+////                        processData: false,
+////                        contentType: false,
+////                        dataType: 'json',
+////                        success: function (response) {
+////                            if (response.status == 1) {
+////                                $("#prev_img").attr("src", "upload/" + response.returnText);
+////                                $("#prev_img").show();
+////                                $("#response").text("Upload successfully");
+////                            } else {
+////                                $("#response").text(response.returnText);
+////                            }
+////                        }
+////                    });
+////                } else {
+////                    $("#response").text("Image size must be " + maxwidth + "X" + maxheight);
+////                }
+//            };
+//            img.onerror = function () {
+//
+//                $("#response").text("not a valid file: " + file.type);
+//            };
+//
+//        });
+//    });
+
+</script>
 </body>
 
 </html>

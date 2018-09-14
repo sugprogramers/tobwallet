@@ -2,6 +2,7 @@
 
 require('includes/configuration/prepend.inc.php');
 require_once('dialog/DialogValidateOffer.php');
+require_once('dialog/DialogValidateOfferPhoto.php');
 require_once('dialog/DialogConfirm.php');
 require('general.php');
 
@@ -12,6 +13,7 @@ class ViewListOffersToClientForm extends QForm {
     protected $btnNewModelo;
     protected $dlgConfirm;
     protected $dlgDialogEditModelo;
+    protected $dlgValidateOfferPhoto;
     protected $txtModelo;
     protected $btnFilter;
     protected $btnExcel;
@@ -33,6 +35,8 @@ class ViewListOffersToClientForm extends QForm {
         $this->objDefaultWaitIcon = new QWaitIcon($this);
 
         $this->dlgDialogEditModelo = new DialogValidateOffer($this, 'close_edit', $this->user->IdUser);
+        $this->dlgValidateOfferPhoto = new DialogValidateOfferPhoto($this, 'close_edit');
+
         $this->dlgConfirm = new DialogConfirm($this, "close_confirm");
 
         $this->dtgOffersToClient = new OfferDataGrid($this);
@@ -159,7 +163,21 @@ class ViewListOffersToClientForm extends QForm {
             $editCtrl->ActionParameter = $id->IdOffer;
             $editCtrl->AddAction(new QClickEvent(), new QAjaxAction('validateoffer_Click'));
         }
-        return "<center>" . $editCtrl->Render(false) . "</center>";
+
+
+        $controlID = 'photo' . $id->IdOffer;
+        $validatePhotoCtrl = $this->dtgOffersToClient->GetChildControl($controlID);
+        if (!$validatePhotoCtrl) {
+            $validatePhotoCtrl = new QLabel($this->dtgOffersToClient, $controlID);
+            $validatePhotoCtrl->HtmlEntities = FALSE;
+            $validatePhotoCtrl->Cursor = QCursor::Pointer;
+            $validatePhotoCtrl->Text = '<div  class="btn btn-sm btn-icon btn-flat btn-default" data-toggle="tooltip" data-original-title="Editar">
+                            <i class="icon wb-camera" aria-hidden="true"></i>
+                          </div>';
+            $validatePhotoCtrl->ActionParameter = $id->IdOffer;
+            $validatePhotoCtrl->AddAction(new QClickEvent(), new QAjaxAction('validateofferphoto_Click'));
+        }
+        return "<center>" . $editCtrl->Render(false) . " " . $validatePhotoCtrl->Render(false) . "</center>";
     }
 
     public function validateoffer_Click($strFormId, $strControlId, $strParameter) {
@@ -168,6 +186,15 @@ class ViewListOffersToClientForm extends QForm {
         $this->dlgDialogEditModelo->ID = intval($strParameter);
         $this->dlgDialogEditModelo->ShowDialogBox();
     }
+
+    public function validateofferphoto_Click($strFormId, $strControlId, $strParameter) {
+        $this->dlgValidateOfferPhoto->Title = addslashes("<i class='icon wb-edit'></i> Validating offer ...");
+        $this->dlgValidateOfferPhoto->txtMessage = "aaaaaaaaaa";
+        $this->dlgValidateOfferPhoto->ID = intval($strParameter);
+        $this->dlgValidateOfferPhoto->ShowDialogBox();
+    }
+
+    
 
     public function edit_Click($strFormId, $strControlId, $strParameter) {
         $this->dlgDialogEditModelo->Title = addslashes("<i class='icon wb-edit'></i> Apply offer");
