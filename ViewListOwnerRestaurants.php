@@ -7,6 +7,7 @@ require_once('dialog/DialogConfirm.php');
 require_once('dialog/DialogQR.php');
 require_once('dialog/DialogDownloadPrint.php');
 require('general.php');
+require('utilities.php');
 
 class ViewListOwnerRestaurantForm extends QForm {
 
@@ -108,6 +109,8 @@ class ViewListOwnerRestaurantForm extends QForm {
         );
         $this->dtgRestaurants->AdditionalConditions = QQ::AndCondition($searchTipo);
         $this->dtgRestaurants->Refresh();
+        
+        $this->alertTypes = getAlertTypes();
     }
     
     

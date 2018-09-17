@@ -7,6 +7,7 @@ require_once('dialog/DialogConfirm.php');
 require_once('dialog/DialogEditOffer.php');
 require_once('dialog/DialogQR.php');
 require('general.php');
+require('utilities.php');
 
 //require('qrcode/phpqrcode.php');
 
@@ -342,8 +343,8 @@ class ViewListOffersToOwnerForm extends QForm {
 
     protected function delete($id) {
         try {
-            $offers = Restaurant::LoadByIdRestaurant(intval($id));
-            $restaurants->Delete();
+            $offers = Offer::LoadByIdOffer(intval($id));
+            $offers->Delete();
             $this->items_Found();
             //QApplication::ExecuteJavaScript("showSuccess('Deleted successfully!');");
             QApplication::ExecuteJavaScript("showAlert('".$this->alertTypes['success']."','Deleted successfully!');");

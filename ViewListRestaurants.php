@@ -6,6 +6,7 @@ require_once('dialog/DialogEditRestaurant.php');
 require_once('dialog/DialogConfirm.php');
 require_once('dialog/DialogQR.php');
 require('general.php');
+require('utilities.php');
 
 //require('qrcode/phpqrcode.php');
 

@@ -1,7 +1,7 @@
 <?php
 
 require('includes/configuration/prepend.inc.php');
-require('utilities.php');
+
 
 
 class DialogEditRestaurant extends QDialogBox {
