@@ -299,6 +299,7 @@
 				case 'MaxOffers': return QQN::Offer()->MaxOffers;
 				case 'AppliedOffers': return QQN::Offer()->AppliedOffers;
 				case 'MaxCoins': return QQN::Offer()->MaxCoins;
+				case 'Status': return QQN::Offer()->Status;
 				default: throw new QCallerException('Simple Property not found in OfferDataGrid content: ' . $mixContent);
 			} else if ($mixContent instanceof QQAssociationNode)
 				throw new QCallerException('Content QQNode cannot go through any "To Many" association nodes.');

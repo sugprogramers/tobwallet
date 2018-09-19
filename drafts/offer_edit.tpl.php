@@ -35,6 +35,8 @@
 
 		<?php $this->txtMaxCoins->RenderWithName(); ?>
 
+		<?php $this->txtStatus->RenderWithName(); ?>
+
 	</div>
 
 	<div id="formActions">

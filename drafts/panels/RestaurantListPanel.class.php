@@ -89,9 +89,10 @@
 			$this->dtgRestaurants->MetaAddColumn('Latitude');
 			$this->dtgRestaurants->MetaAddColumn('QrCode');
 			$this->dtgRestaurants->MetaAddColumn('Qtycoins');
-			$this->dtgRestaurants->MetaAddColumn(QQN::Restaurant()->IdUserObject);
+			$this->dtgRestaurants->MetaAddColumn('IdUser');
 			$this->dtgRestaurants->MetaAddColumn('Type');
 			$this->dtgRestaurants->MetaAddColumn('Logo');
+			$this->dtgRestaurants->MetaAddColumn('Status');
 
 			// Setup the Create New button
 			$this->btnCreateNew = new QButton($this);

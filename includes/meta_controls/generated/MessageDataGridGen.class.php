@@ -1,9 +1,9 @@
 <?php
 	/**
 	 * This is the "Meta" DataGrid class for the List functionality
-	 * of the Restaurant class.  This code-generated class
+	 * of the Message class.  This code-generated class
 	 * contains a QDataGrid class which can be used by any QForm or QPanel,
-	 * listing a collection of Restaurant objects.  It includes
+	 * listing a collection of Message objects.  It includes
 	 * functionality to perform pagination and sorting on columns.
 	 *
 	 * To take advantage of some (or all) of these control objects, you
@@ -18,7 +18,7 @@
 	 * @subpackage MetaControls
 	 *
 	 */
-	class RestaurantDataGridGen extends QDataGrid {
+	class MessageDataGridGen extends QDataGrid {
 		protected $conAdditionalConditions;
 		protected $clsAdditionalClauses;
 
@@ -40,9 +40,9 @@
 
 		/**
 		 * Given the description of the Column's contents, this is a simple, express
-		 * way of adding a column to this Restaurant datagrid.  The description of a column's
+		 * way of adding a column to this Message datagrid.  The description of a column's
 		 * content can be either a text string description of a simple field name
-		 * in the Restaurant object, or it can be any QQNode extending from QQN::Restaurant().
+		 * in the Message object, or it can be any QQNode extending from QQN::Message().
 		 *
 		 * MetaAddColumn will automatically pre-configure the column with the name, html
 		 * and sort rules given the content being specified.
@@ -50,7 +50,7 @@
 		 * Any of these things can be overridden with OverrideParameters.
 		 *
 		 * Finally, $mixContents can also be an array of contents, if displaying and/or
-		 * sorting using two fields from the Restaurant object.
+		 * sorting using two fields from the Message object.
 		 *
 		 * @param mixed $mixContents
 		 * @param string $objOverrideParameters[]
@@ -134,7 +134,7 @@
 		 *
 		 * Also, $mixContent cannot be an array.  Only a single field can be specified.
 		 *
-		 * @param mixed $mixContent string or QQNode from Restaurant
+		 * @param mixed $mixContent string or QQNode from Message
 		 * @param string $strTypeClassName the name of the TypeClass to use $NameArray against
 		 * @param mixed $objOverrideParameters
 		 */
@@ -194,10 +194,10 @@
 		public function MetaAddEditLinkColumn($strLinkUrl, $strLinkHtml = 'Edit', $strColumnTitle = 'Edit', $intArgumentType = QMetaControlArgumentType::PathInfo) {
 			switch ($intArgumentType) {
 				case QMetaControlArgumentType::QueryString:
-					$strLinkUrl .= (strpos($strLinkUrl, '?') !== false ? '&' : '?').'intIdRestaurant=<?=urlencode($_ITEM->IdRestaurant)?>';
+					$strLinkUrl .= (strpos($strLinkUrl, '?') !== false ? '&' : '?').'intIdMessage=<?=urlencode($_ITEM->IdMessage)?>';
 					break;
 				case QMetaControlArgumentType::PathInfo:
-					$strLinkUrl .= '/<?=urlencode($_ITEM->IdRestaurant)?>';
+					$strLinkUrl .= '/<?=urlencode($_ITEM->IdMessage)?>';
 					break;
 				default:
 					throw new QCallerException('Unable to pass arguments with this intArgumentType: ' . $intArgumentType);
@@ -218,7 +218,7 @@
 		 * @param string $strColumnTitle the HTML of the link text
 		 */
 		public function MetaAddEditProxyColumn(QControlProxy $pxyControl, $strLinkHtml = 'Edit', $strColumnTitle = 'Edit') {
-			$strHtml = '<a href="#" <?= $_FORM->GetControl("' . $pxyControl->ControlId . '")->RenderAsEvents($_ITEM->IdRestaurant, false); ?>>' . $strLinkHtml . '</a>';
+			$strHtml = '<a href="#" <?= $_FORM->GetControl("' . $pxyControl->ControlId . '")->RenderAsEvents($_ITEM->IdMessage, false); ?>>' . $strLinkHtml . '</a>';
 			$colEditColumn = new QDataGridColumn($strColumnTitle, $strHtml, 'HtmlEntities=False');
 			$this->AddColumn($colEditColumn);
 			return $colEditColumn;
@@ -245,7 +245,7 @@
 
 			// Remember!  We need to first set the TotalItemCount, which will affect the calcuation of LimitClause below
 			if ($this->Paginator) {
-				$this->TotalItemCount = Restaurant::QueryCount($objConditions);
+				$this->TotalItemCount = Message::QueryCount($objConditions);
 			}
 
 			// If a column is selected to be sorted, and if that column has a OrderByClause set on it, then let's add
@@ -257,16 +257,16 @@
 			if ($objClause = $this->LimitClause)
 				array_push($objClauses, $objClause);
 
-			// Set the DataSource to be a Query result from Restaurant, given the clauses above
-			$this->DataSource = Restaurant::QueryArray($objConditions, $objClauses);
+			// Set the DataSource to be a Query result from Message, given the clauses above
+			$this->DataSource = Message::QueryArray($objConditions, $objClauses);
 		}
 
 
 		/**
 		 * Used internally by the Meta-based Add Column tools.
 		 *
-		 * Given a QQNode or a Text String, this will return a Restaurant-based QQNode.
-		 * It will also verify that it is a proper Restaurant-based QQNode, and will throw an exception otherwise.
+		 * Given a QQNode or a Text String, this will return a Message-based QQNode.
+		 * It will also verify that it is a proper Message-based QQNode, and will throw an exception otherwise.
 		 *
 		 * @param mixed $mixContent
 		 * @return QQNode
@@ -275,7 +275,7 @@
 			if ($mixContent instanceof QQNode) {
 				if (!$mixContent->_ParentNode)
 					throw new QCallerException('Content QQNode cannot be a Top Level Node');
-				if ($mixContent->_RootTableName == 'restaurant') {
+				if ($mixContent->_RootTableName == 'message') {
 					if (($mixContent instanceof QQReverseReferenceNode) && !($mixContent->_PropertyName))
 						throw new QCallerException('Content QQNode cannot go through any "To Many" association nodes.');
 					$objCurrentNode = $mixContent;
@@ -287,22 +287,16 @@
 					}
 					return $mixContent;
 				} else
-					throw new QCallerException('Content QQNode has a root table of "' . $mixContent->_RootTableName . '". Must be a root of "restaurant".');
+					throw new QCallerException('Content QQNode has a root table of "' . $mixContent->_RootTableName . '". Must be a root of "message".');
 			} else if (is_string($mixContent)) switch ($mixContent) {
-				case 'IdRestaurant': return QQN::Restaurant()->IdRestaurant;
-				case 'Country': return QQN::Restaurant()->Country;
-				case 'City': return QQN::Restaurant()->City;
-				case 'Address': return QQN::Restaurant()->Address;
-				case 'RestaurantName': return QQN::Restaurant()->RestaurantName;
-				case 'Longitude': return QQN::Restaurant()->Longitude;
-				case 'Latitude': return QQN::Restaurant()->Latitude;
-				case 'QrCode': return QQN::Restaurant()->QrCode;
-				case 'Qtycoins': return QQN::Restaurant()->Qtycoins;
-				case 'IdUser': return QQN::Restaurant()->IdUser;
-				case 'Type': return QQN::Restaurant()->Type;
-				case 'Logo': return QQN::Restaurant()->Logo;
-				case 'Status': return QQN::Restaurant()->Status;
-				default: throw new QCallerException('Simple Property not found in RestaurantDataGrid content: ' . $mixContent);
+				case 'IdMessage': return QQN::Message()->IdMessage;
+				case 'IdUser': return QQN::Message()->IdUser;
+				case 'IdUserObject': return QQN::Message()->IdUserObject;
+				case 'Type': return QQN::Message()->Type;
+				case 'Body': return QQN::Message()->Body;
+				case 'CreatedDate': return QQN::Message()->CreatedDate;
+				case 'IsRead': return QQN::Message()->IsRead;
+				default: throw new QCallerException('Simple Property not found in MessageDataGrid content: ' . $mixContent);
 			} else if ($mixContent instanceof QQAssociationNode)
 				throw new QCallerException('Content QQNode cannot go through any "To Many" association nodes.');
 			else

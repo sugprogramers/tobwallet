@@ -2,7 +2,7 @@
 
 //require('utilities.php');
 
-class DialogEditUser extends QDialogBox {
+class DialogMessage extends QDialogBox {
 
     public $mctUsuario;
     public $txtEmail;
@@ -38,7 +38,7 @@ class DialogEditUser extends QDialogBox {
         $this->Width = 750;
         $this->Resizable = false;
         $this->isAutosize = true;
-        $this->strTemplate = __DOCROOT__ . __SUBDIRECTORY__ . '/dialog/DialogEditUser.tpl.php';
+        $this->strTemplate = __DOCROOT__ . __SUBDIRECTORY__ . '/dialog/DialogMessage.tpl.php';
         $this->strClosePanelMethod = $strClosePanelMethod;
 
         // controles generados
@@ -142,12 +142,15 @@ class DialogEditUser extends QDialogBox {
             
             $this->CloseSelf(true);
         } catch (Exception $exc) {
+            
             if($this->errorDialog == true){
                 //QApplication::ExecuteJavaScript("showWarning('Error: " . str_replace("'", "\'", $exc->getMessage()) . "');");
-                QApplication::ExecuteJavaScript("showDialogAlert('".$this->alertTypes['warning']."','".str_replace("'", "\'", $exc->getMessage())."');");
+                QApplication::ExecuteJavaScript("showDialogAlert('".$this->alertTypes['warning']."','".$exc->getMessage()."');");
+                
             }else{
-                QApplication::ExecuteJavaScript("showAlert('".$this->alertTypes['warning']."','".str_replace("'", "\'", $exc->getMessage())."');");
+                QApplication::ExecuteJavaScript("showAlert('".$this->alertTypes['warning']."','".$exc->getMessage()."');");
             }
+            
         }
     }
 

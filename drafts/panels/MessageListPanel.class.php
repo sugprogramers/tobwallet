@@ -1,13 +1,13 @@
 <?php
 	/**
 	 * This is the abstract Panel class for the List All functionality
-	 * of the Offer class.  This code-generated class
+	 * of the Message class.  This code-generated class
 	 * contains a datagrid to display an HTML page that can
-	 * list a collection of Offer objects.  It includes
+	 * list a collection of Message objects.  It includes
 	 * functionality to perform pagination and sorting on columns.
 	 *
 	 * To take advantage of some (or all) of these control objects, you
-	 * must create a new QPanel which extends this OfferListPanelBase
+	 * must create a new QPanel which extends this MessageListPanelBase
 	 * class.
 	 *
 	 * Any and all changes to this file will be overwritten with any subsequent re-
@@ -17,12 +17,12 @@
 	 * @subpackage Drafts
 	 *
 	 */
-	class OfferListPanel extends QPanel {
-		// Local instance of the Meta DataGrid to list Offers
+	class MessageListPanel extends QPanel {
+		// Local instance of the Meta DataGrid to list Messages
 		/**
-		 * @var OfferDataGrid
+		 * @var MessageDataGrid
 		 */
-		public $dtgOffers;
+		public $dtgMessages;
 
 		// Other public QControls in this panel
 		/**
@@ -58,55 +58,51 @@
 			$this->strCloseEditPanelMethod = $strCloseEditPanelMethod;
 
 			// Setup the Template
-			$this->Template = __DOCROOT__ . __PANEL_DRAFTS__ . '/OfferListPanel.tpl.php';
+			$this->Template = __DOCROOT__ . __PANEL_DRAFTS__ . '/MessageListPanel.tpl.php';
 
 			// Instantiate the Meta DataGrid
-			$this->dtgOffers = new OfferDataGrid($this);
+			$this->dtgMessages = new MessageDataGrid($this);
 
 			// Style the DataGrid (if desired)
-			$this->dtgOffers->CssClass = 'datagrid';
-			$this->dtgOffers->AlternateRowStyle->CssClass = 'alternate';
+			$this->dtgMessages->CssClass = 'datagrid';
+			$this->dtgMessages->AlternateRowStyle->CssClass = 'alternate';
 
 			// Add Pagination (if desired)
-			$this->dtgOffers->Paginator = new QPaginator($this->dtgOffers);
-			$this->dtgOffers->ItemsPerPage = 8;
+			$this->dtgMessages->Paginator = new QPaginator($this->dtgMessages);
+			$this->dtgMessages->ItemsPerPage = 8;
 
 			// Use the MetaDataGrid functionality to add Columns for this datagrid
 
 			// Create an Edit Column
 			$this->pxyEdit = new QControlProxy($this);
 			$this->pxyEdit->AddAction(new QClickEvent(), new QAjaxControlAction($this, 'pxyEdit_Click'));
-			$this->dtgOffers->MetaAddEditProxyColumn($this->pxyEdit, 'Edit', 'Edit');
+			$this->dtgMessages->MetaAddEditProxyColumn($this->pxyEdit, 'Edit', 'Edit');
 
-			// Create the Other Columns (note that you can use strings for offer's properties, or you
-			// can traverse down QQN::offer() to display fields that are down the hierarchy)
-			$this->dtgOffers->MetaAddColumn('IdOffer');
-			$this->dtgOffers->MetaAddColumn('Description');
-			$this->dtgOffers->MetaAddColumn('OfferedCoins');
-			$this->dtgOffers->MetaAddColumn('DateFrom');
-			$this->dtgOffers->MetaAddColumn('DateTo');
-			$this->dtgOffers->MetaAddColumn(QQN::Offer()->IdRestaurantObject);
-			$this->dtgOffers->MetaAddColumn('MaxOffers');
-			$this->dtgOffers->MetaAddColumn('AppliedOffers');
-			$this->dtgOffers->MetaAddColumn('MaxCoins');
-			$this->dtgOffers->MetaAddColumn('Status');
+			// Create the Other Columns (note that you can use strings for message's properties, or you
+			// can traverse down QQN::message() to display fields that are down the hierarchy)
+			$this->dtgMessages->MetaAddColumn('IdMessage');
+			$this->dtgMessages->MetaAddColumn(QQN::Message()->IdUserObject);
+			$this->dtgMessages->MetaAddColumn('Type');
+			$this->dtgMessages->MetaAddColumn('Body');
+			$this->dtgMessages->MetaAddColumn('CreatedDate');
+			$this->dtgMessages->MetaAddColumn('IsRead');
 
 			// Setup the Create New button
 			$this->btnCreateNew = new QButton($this);
-			$this->btnCreateNew->Text = QApplication::Translate('Create a New') . ' ' . QApplication::Translate('Offer');
+			$this->btnCreateNew->Text = QApplication::Translate('Create a New') . ' ' . QApplication::Translate('Message');
 			$this->btnCreateNew->AddAction(new QClickEvent(), new QAjaxControlAction($this, 'btnCreateNew_Click'));
 		}
 
 		public function pxyEdit_Click($strFormId, $strControlId, $strParameter) {
 			$strParameterArray = explode(',', $strParameter);
-			$objEditPanel = new OfferEditPanel($this, $this->strCloseEditPanelMethod, $strParameterArray[0]);
+			$objEditPanel = new MessageEditPanel($this, $this->strCloseEditPanelMethod, $strParameterArray[0]);
 
 			$strMethodName = $this->strSetEditPanelMethod;
 			$this->objForm->$strMethodName($objEditPanel);
 		}
 
 		public function btnCreateNew_Click($strFormId, $strControlId, $strParameter) {
-			$objEditPanel = new OfferEditPanel($this, $this->strCloseEditPanelMethod, null);
+			$objEditPanel = new MessageEditPanel($this, $this->strCloseEditPanelMethod, null);
 			$strMethodName = $this->strSetEditPanelMethod;
 			$this->objForm->$strMethodName($objEditPanel);
 		}

@@ -299,6 +299,10 @@
 				case 'Country': return QQN::Organization()->Country;
 				case 'City': return QQN::Organization()->City;
 				case 'Address': return QQN::Organization()->Address;
+				case 'IdOrganizationType': return QQN::Organization()->IdOrganizationType;
+				case 'IdOrganizationTypeObject': return QQN::Organization()->IdOrganizationTypeObject;
+				case 'IdOwner': return QQN::Organization()->IdOwner;
+				case 'IdOwnerObject': return QQN::Organization()->IdOwnerObject;
 				default: throw new QCallerException('Simple Property not found in OrganizationDataGrid content: ' . $mixContent);
 			} else if ($mixContent instanceof QQAssociationNode)
 				throw new QCallerException('Content QQNode cannot go through any "To Many" association nodes.');

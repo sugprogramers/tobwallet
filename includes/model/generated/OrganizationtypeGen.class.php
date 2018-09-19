@@ -18,6 +18,8 @@
 	 * @property-read integer $IdOrganizationType the value for intIdOrganizationType (Read-Only PK)
 	 * @property string $Name the value for strName (Not Null)
 	 * @property string $Description the value for strDescription 
+	 * @property-read Organization $_OrganizationAsIdOrganizationType the value for the private _objOrganizationAsIdOrganizationType (Read-Only) if set due to an expansion on the organization.IdOrganizationType reverse relationship
+	 * @property-read Organization[] $_OrganizationAsIdOrganizationTypeArray the value for the private _objOrganizationAsIdOrganizationTypeArray (Read-Only) if set due to an ExpandAsArray on the organization.IdOrganizationType reverse relationship
 	 * @property-read boolean $__Restored whether or not this object was restored from the database (as opposed to created new)
 	 */
 	class OrganizationtypeGen extends QBaseClass implements IteratorAggregate {
@@ -51,6 +53,22 @@
 		const DescriptionMaxLength = 45;
 		const DescriptionDefault = null;
 
+
+		/**
+		 * Private member variable that stores a reference to a single OrganizationAsIdOrganizationType object
+		 * (of type Organization), if this Organizationtype object was restored with
+		 * an expansion on the organization association table.
+		 * @var Organization _objOrganizationAsIdOrganizationType;
+		 */
+		private $_objOrganizationAsIdOrganizationType;
+
+		/**
+		 * Private member variable that stores a reference to an array of OrganizationAsIdOrganizationType objects
+		 * (of type Organization[]), if this Organizationtype object was restored with
+		 * an ExpandAsArray on the organization association table.
+		 * @var Organization[] _objOrganizationAsIdOrganizationTypeArray;
+		 */
+		private $_objOrganizationAsIdOrganizationTypeArray = null;
 
 		/**
 		 * Protected array of virtual attributes for this object (e.g. extra/other calculated and/or non-object bound
@@ -379,6 +397,46 @@
 			if (!$objDbRow) {
 				return null;
 			}
+			// See if we're doing an array expansion on the previous item
+			$strAlias = $strAliasPrefix . 'IdOrganizationType';
+			$strAliasName = array_key_exists($strAlias, $strColumnAliasArray) ? $strColumnAliasArray[$strAlias] : $strAlias;
+			if (($strExpandAsArrayNodes) && is_array($arrPreviousItems) && count($arrPreviousItems)) {
+				foreach ($arrPreviousItems as $objPreviousItem) {
+					if ($objPreviousItem->intIdOrganizationType == $objDbRow->GetColumn($strAliasName, 'Integer')) {
+						// We are.  Now, prepare to check for ExpandAsArray clauses
+						$blnExpandedViaArray = false;
+						if (!$strAliasPrefix)
+							$strAliasPrefix = 'organizationtype__';
+
+
+						// Expanding reverse references: OrganizationAsIdOrganizationType
+						$strAlias = $strAliasPrefix . 'organizationasidorganizationtype__IdOrganization';
+						$strAliasName = array_key_exists($strAlias, $strColumnAliasArray) ? $strColumnAliasArray[$strAlias] : $strAlias;
+						if ((array_key_exists($strAlias, $strExpandAsArrayNodes)) &&
+							(!is_null($objDbRow->GetColumn($strAliasName)))) {
+							if(null === $objPreviousItem->_objOrganizationAsIdOrganizationTypeArray)
+								$objPreviousItem->_objOrganizationAsIdOrganizationTypeArray = array();
+							if ($intPreviousChildItemCount = count($objPreviousItem->_objOrganizationAsIdOrganizationTypeArray)) {
+								$objPreviousChildItems = $objPreviousItem->_objOrganizationAsIdOrganizationTypeArray;
+								$objChildItem = Organization::InstantiateDbRow($objDbRow, $strAliasPrefix . 'organizationasidorganizationtype__', $strExpandAsArrayNodes, $objPreviousChildItems, $strColumnAliasArray);
+								if ($objChildItem) {
+									$objPreviousItem->_objOrganizationAsIdOrganizationTypeArray[] = $objChildItem;
+								}
+							} else {
+								$objPreviousItem->_objOrganizationAsIdOrganizationTypeArray[] = Organization::InstantiateDbRow($objDbRow, $strAliasPrefix . 'organizationasidorganizationtype__', $strExpandAsArrayNodes, null, $strColumnAliasArray);
+							}
+							$blnExpandedViaArray = true;
+						}
+
+						// Either return false to signal array expansion, or check-to-reset the Alias prefix and move on
+						if ($blnExpandedViaArray) {
+							return false;
+						} else if ($strAliasPrefix == 'organizationtype__') {
+							$strAliasPrefix = null;
+						}
+					}
+				}
+			}
 
 			// Create a new instance of the Organizationtype object
 			$objToReturn = new Organizationtype();
@@ -394,6 +452,9 @@
 			if (isset($arrPreviousItems) && is_array($arrPreviousItems)) {
 				foreach ($arrPreviousItems as $objPreviousItem) {
 					if ($objToReturn->IdOrganizationType != $objPreviousItem->IdOrganizationType) {
+						continue;
+					}
+					if (array_diff($objPreviousItem->_objOrganizationAsIdOrganizationTypeArray, $objToReturn->_objOrganizationAsIdOrganizationTypeArray) != null) {
 						continue;
 					}
 
@@ -416,6 +477,19 @@
 
 
 
+
+			// Check for OrganizationAsIdOrganizationType Virtual Binding
+			$strAlias = $strAliasPrefix . 'organizationasidorganizationtype__IdOrganization';
+			$strAliasName = array_key_exists($strAlias, $strColumnAliasArray) ? $strColumnAliasArray[$strAlias] : $strAlias;
+			$blnExpanded = $strExpandAsArrayNodes && array_key_exists($strAlias, $strExpandAsArrayNodes);
+			if ($blnExpanded && null === $objToReturn->_objOrganizationAsIdOrganizationTypeArray)
+				$objToReturn->_objOrganizationAsIdOrganizationTypeArray = array();
+			if (!is_null($objDbRow->GetColumn($strAliasName))) {
+				if ($blnExpanded)
+					$objToReturn->_objOrganizationAsIdOrganizationTypeArray[] = Organization::InstantiateDbRow($objDbRow, $strAliasPrefix . 'organizationasidorganizationtype__', $strExpandAsArrayNodes, null, $strColumnAliasArray);
+				else
+					$objToReturn->_objOrganizationAsIdOrganizationType = Organization::InstantiateDbRow($objDbRow, $strAliasPrefix . 'organizationasidorganizationtype__', $strExpandAsArrayNodes, null, $strColumnAliasArray);
+			}
 
 			return $objToReturn;
 		}
@@ -659,6 +733,22 @@
 				// (If restored via a "Many-to" expansion)
 				////////////////////////////
 
+				case '_OrganizationAsIdOrganizationType':
+					/**
+					 * Gets the value for the private _objOrganizationAsIdOrganizationType (Read-Only)
+					 * if set due to an expansion on the organization.IdOrganizationType reverse relationship
+					 * @return Organization
+					 */
+					return $this->_objOrganizationAsIdOrganizationType;
+
+				case '_OrganizationAsIdOrganizationTypeArray':
+					/**
+					 * Gets the value for the private _objOrganizationAsIdOrganizationTypeArray (Read-Only)
+					 * if set due to an ExpandAsArray on the organization.IdOrganizationType reverse relationship
+					 * @return Organization[]
+					 */
+					return $this->_objOrganizationAsIdOrganizationTypeArray;
+
 
 				case '__Restored':
 					return $this->__blnRestored;
@@ -742,6 +832,156 @@
 		///////////////////////////////
 		// ASSOCIATED OBJECTS' METHODS
 		///////////////////////////////
+
+			
+		
+		// Related Objects' Methods for OrganizationAsIdOrganizationType
+		//-------------------------------------------------------------------
+
+		/**
+		 * Gets all associated OrganizationsAsIdOrganizationType as an array of Organization objects
+		 * @param QQClause[] $objOptionalClauses additional optional QQClause objects for this query
+		 * @return Organization[]
+		*/
+		public function GetOrganizationAsIdOrganizationTypeArray($objOptionalClauses = null) {
+			if ((is_null($this->intIdOrganizationType)))
+				return array();
+
+			try {
+				return Organization::LoadArrayByIdOrganizationType($this->intIdOrganizationType, $objOptionalClauses);
+			} catch (QCallerException $objExc) {
+				$objExc->IncrementOffset();
+				throw $objExc;
+			}
+		}
+
+		/**
+		 * Counts all associated OrganizationsAsIdOrganizationType
+		 * @return int
+		*/
+		public function CountOrganizationsAsIdOrganizationType() {
+			if ((is_null($this->intIdOrganizationType)))
+				return 0;
+
+			return Organization::CountByIdOrganizationType($this->intIdOrganizationType);
+		}
+
+		/**
+		 * Associates a OrganizationAsIdOrganizationType
+		 * @param Organization $objOrganization
+		 * @return void
+		*/
+		public function AssociateOrganizationAsIdOrganizationType(Organization $objOrganization) {
+			if ((is_null($this->intIdOrganizationType)))
+				throw new QUndefinedPrimaryKeyException('Unable to call AssociateOrganizationAsIdOrganizationType on this unsaved Organizationtype.');
+			if ((is_null($objOrganization->IdOrganization)))
+				throw new QUndefinedPrimaryKeyException('Unable to call AssociateOrganizationAsIdOrganizationType on this Organizationtype with an unsaved Organization.');
+
+			// Get the Database Object for this Class
+			$objDatabase = Organizationtype::GetDatabase();
+
+			// Perform the SQL Query
+			$objDatabase->NonQuery('
+				UPDATE
+					`organization`
+				SET
+					`IdOrganizationType` = ' . $objDatabase->SqlVariable($this->intIdOrganizationType) . '
+				WHERE
+					`IdOrganization` = ' . $objDatabase->SqlVariable($objOrganization->IdOrganization) . '
+			');
+		}
+
+		/**
+		 * Unassociates a OrganizationAsIdOrganizationType
+		 * @param Organization $objOrganization
+		 * @return void
+		*/
+		public function UnassociateOrganizationAsIdOrganizationType(Organization $objOrganization) {
+			if ((is_null($this->intIdOrganizationType)))
+				throw new QUndefinedPrimaryKeyException('Unable to call UnassociateOrganizationAsIdOrganizationType on this unsaved Organizationtype.');
+			if ((is_null($objOrganization->IdOrganization)))
+				throw new QUndefinedPrimaryKeyException('Unable to call UnassociateOrganizationAsIdOrganizationType on this Organizationtype with an unsaved Organization.');
+
+			// Get the Database Object for this Class
+			$objDatabase = Organizationtype::GetDatabase();
+
+			// Perform the SQL Query
+			$objDatabase->NonQuery('
+				UPDATE
+					`organization`
+				SET
+					`IdOrganizationType` = null
+				WHERE
+					`IdOrganization` = ' . $objDatabase->SqlVariable($objOrganization->IdOrganization) . ' AND
+					`IdOrganizationType` = ' . $objDatabase->SqlVariable($this->intIdOrganizationType) . '
+			');
+		}
+
+		/**
+		 * Unassociates all OrganizationsAsIdOrganizationType
+		 * @return void
+		*/
+		public function UnassociateAllOrganizationsAsIdOrganizationType() {
+			if ((is_null($this->intIdOrganizationType)))
+				throw new QUndefinedPrimaryKeyException('Unable to call UnassociateOrganizationAsIdOrganizationType on this unsaved Organizationtype.');
+
+			// Get the Database Object for this Class
+			$objDatabase = Organizationtype::GetDatabase();
+
+			// Perform the SQL Query
+			$objDatabase->NonQuery('
+				UPDATE
+					`organization`
+				SET
+					`IdOrganizationType` = null
+				WHERE
+					`IdOrganizationType` = ' . $objDatabase->SqlVariable($this->intIdOrganizationType) . '
+			');
+		}
+
+		/**
+		 * Deletes an associated OrganizationAsIdOrganizationType
+		 * @param Organization $objOrganization
+		 * @return void
+		*/
+		public function DeleteAssociatedOrganizationAsIdOrganizationType(Organization $objOrganization) {
+			if ((is_null($this->intIdOrganizationType)))
+				throw new QUndefinedPrimaryKeyException('Unable to call UnassociateOrganizationAsIdOrganizationType on this unsaved Organizationtype.');
+			if ((is_null($objOrganization->IdOrganization)))
+				throw new QUndefinedPrimaryKeyException('Unable to call UnassociateOrganizationAsIdOrganizationType on this Organizationtype with an unsaved Organization.');
+
+			// Get the Database Object for this Class
+			$objDatabase = Organizationtype::GetDatabase();
+
+			// Perform the SQL Query
+			$objDatabase->NonQuery('
+				DELETE FROM
+					`organization`
+				WHERE
+					`IdOrganization` = ' . $objDatabase->SqlVariable($objOrganization->IdOrganization) . ' AND
+					`IdOrganizationType` = ' . $objDatabase->SqlVariable($this->intIdOrganizationType) . '
+			');
+		}
+
+		/**
+		 * Deletes all associated OrganizationsAsIdOrganizationType
+		 * @return void
+		*/
+		public function DeleteAllOrganizationsAsIdOrganizationType() {
+			if ((is_null($this->intIdOrganizationType)))
+				throw new QUndefinedPrimaryKeyException('Unable to call UnassociateOrganizationAsIdOrganizationType on this unsaved Organizationtype.');
+
+			// Get the Database Object for this Class
+			$objDatabase = Organizationtype::GetDatabase();
+
+			// Perform the SQL Query
+			$objDatabase->NonQuery('
+				DELETE FROM
+					`organization`
+				WHERE
+					`IdOrganizationType` = ' . $objDatabase->SqlVariable($this->intIdOrganizationType) . '
+			');
+		}
 
 
 
@@ -845,6 +1085,7 @@
      * @property-read QQNode $Description
      *
      *
+     * @property-read QQReverseReferenceNodeOrganization $OrganizationAsIdOrganizationType
 
      * @property-read QQNode $_PrimaryKeyNode
      **/
@@ -860,6 +1101,8 @@
 					return new QQNode('Name', 'Name', 'VarChar', $this);
 				case 'Description':
 					return new QQNode('Description', 'Description', 'VarChar', $this);
+				case 'OrganizationAsIdOrganizationType':
+					return new QQReverseReferenceNodeOrganization($this, 'organizationasidorganizationtype', 'reverse_reference', 'IdOrganizationType');
 
 				case '_PrimaryKeyNode':
 					return new QQNode('IdOrganizationType', 'IdOrganizationType', 'Integer', $this);
@@ -880,6 +1123,7 @@
      * @property-read QQNode $Description
      *
      *
+     * @property-read QQReverseReferenceNodeOrganization $OrganizationAsIdOrganizationType
 
      * @property-read QQNode $_PrimaryKeyNode
      **/
@@ -895,6 +1139,8 @@
 					return new QQNode('Name', 'Name', 'string', $this);
 				case 'Description':
 					return new QQNode('Description', 'Description', 'string', $this);
+				case 'OrganizationAsIdOrganizationType':
+					return new QQReverseReferenceNodeOrganization($this, 'organizationasidorganizationtype', 'reverse_reference', 'IdOrganizationType');
 
 				case '_PrimaryKeyNode':
 					return new QQNode('IdOrganizationType', 'IdOrganizationType', 'integer', $this);

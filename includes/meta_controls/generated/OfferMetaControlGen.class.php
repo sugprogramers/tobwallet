@@ -34,6 +34,8 @@
 	 * @property-read QLabel $AppliedOffersLabel
 	 * @property QIntegerTextBox $MaxCoinsControl
 	 * @property-read QLabel $MaxCoinsLabel
+	 * @property QIntegerTextBox $StatusControl
+	 * @property-read QLabel $StatusLabel
 	 * @property-read string $TitleVerb a verb indicating whether or not this is being edited or created
 	 * @property-read boolean $EditMode a boolean indicating whether or not this is being edited or created
 	 */
@@ -107,6 +109,11 @@
 		 * @access protected
 		 */
 		protected $txtMaxCoins;
+		/**
+		 * @var QIntegerTextBox txtStatus
+		 * @access protected
+		 */
+		protected $txtStatus;
 
 		// Controls that allow the viewing of Offer's individual data fields
 		/**
@@ -149,6 +156,11 @@
 		 * @access protected
 		 */
 		protected $lblMaxCoins;
+		/**
+		 * @var QLabel lblStatus
+		 * @access protected
+		 */
+		protected $lblStatus;
 
 		// QListBox Controls (if applicable) to edit Unique ReverseReferences and ManyToMany References
 
@@ -491,6 +503,32 @@
 			return $this->lblMaxCoins;
 		}
 
+		/**
+		 * Create and setup QIntegerTextBox txtStatus
+		 * @param string $strControlId optional ControlId to use
+		 * @return QIntegerTextBox
+		 */
+		public function txtStatus_Create($strControlId = null) {
+			$this->txtStatus = new QIntegerTextBox($this->objParentObject, $strControlId);
+			$this->txtStatus->Name = QApplication::Translate('Status');
+			$this->txtStatus->Text = $this->objOffer->Status;
+			return $this->txtStatus;
+		}
+
+		/**
+		 * Create and setup QLabel lblStatus
+		 * @param string $strControlId optional ControlId to use
+		 * @param string $strFormat optional sprintf format to use
+		 * @return QLabel
+		 */
+		public function lblStatus_Create($strControlId = null, $strFormat = null) {
+			$this->lblStatus = new QLabel($this->objParentObject, $strControlId);
+			$this->lblStatus->Name = QApplication::Translate('Status');
+			$this->lblStatus->Text = $this->objOffer->Status;
+			$this->lblStatus->Format = $strFormat;
+			return $this->lblStatus;
+		}
+
 
 
 		/**
@@ -539,6 +577,9 @@
 			if ($this->txtMaxCoins) $this->txtMaxCoins->Text = $this->objOffer->MaxCoins;
 			if ($this->lblMaxCoins) $this->lblMaxCoins->Text = $this->objOffer->MaxCoins;
 
+			if ($this->txtStatus) $this->txtStatus->Text = $this->objOffer->Status;
+			if ($this->lblStatus) $this->lblStatus->Text = $this->objOffer->Status;
+
 		}
 
 
@@ -570,6 +611,7 @@
 				if ($this->txtMaxOffers) $this->objOffer->MaxOffers = $this->txtMaxOffers->Text;
 				if ($this->txtAppliedOffers) $this->objOffer->AppliedOffers = $this->txtAppliedOffers->Text;
 				if ($this->txtMaxCoins) $this->objOffer->MaxCoins = $this->txtMaxCoins->Text;
+				if ($this->txtStatus) $this->objOffer->Status = $this->txtStatus->Text;
 
 				// Update any UniqueReverseReferences (if any) for controls that have been created for it
 
@@ -666,6 +708,12 @@
 				case 'MaxCoinsLabel':
 					if (!$this->lblMaxCoins) return $this->lblMaxCoins_Create();
 					return $this->lblMaxCoins;
+				case 'StatusControl':
+					if (!$this->txtStatus) return $this->txtStatus_Create();
+					return $this->txtStatus;
+				case 'StatusLabel':
+					if (!$this->lblStatus) return $this->lblStatus_Create();
+					return $this->lblStatus;
 				default:
 					try {
 						return parent::__get($strName);
@@ -706,6 +754,8 @@
 						return ($this->txtAppliedOffers = QType::Cast($mixValue, 'QControl'));
 					case 'MaxCoinsControl':
 						return ($this->txtMaxCoins = QType::Cast($mixValue, 'QControl'));
+					case 'StatusControl':
+						return ($this->txtStatus = QType::Cast($mixValue, 'QControl'));
 					default:
 						return parent::__set($strName, $mixValue);
 				}

@@ -23,11 +23,13 @@
 
 		<?php $_CONTROL->txtQtycoins->RenderWithName(); ?>
 
-		<?php $_CONTROL->lstIdUserObject->RenderWithName(); ?>
+		<?php $_CONTROL->txtIdUser->RenderWithName(); ?>
 
 		<?php $_CONTROL->txtType->RenderWithName(); ?>
 
 		<?php $_CONTROL->txtLogo->RenderWithName(); ?>
+
+		<?php $_CONTROL->txtStatus->RenderWithName(); ?>
 
 	</div>
 

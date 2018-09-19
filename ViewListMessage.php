@@ -1,24 +1,23 @@
 <?php
 require('includes/configuration/prepend.inc.php');
+require_once('dialog/DialogMessage.php');
+
 require_once('dialog/DialogEditUser.php');
 require_once('dialog/DialogConfirm.php');
 require_once('dialog/DialogAddCoins.php');
 require('general.php');
 require('utilities.php');
 
-class ViewListUsuarioForm extends QForm {
+class ViewListMessage extends QForm {
 
     protected $user;
-    protected $dtgUsuarios;
-    protected $btnNewUsuario;
+    protected $dtgMessages;
+    protected $btnNewMessage;
     protected $dlgConfirm;
-    protected $dlgDialogEditUser;
-    protected $dlgDialogEditStatusUser;
     
     protected $dlgDialogAddCoins;
-
-
-    protected $dlgDialogPermit;
+    
+    protected $dlgDialogMessage;
     protected $lblWallet;
     
     protected $txtNombre;
@@ -29,7 +28,6 @@ class ViewListUsuarioForm extends QForm {
     protected $alertTypes;
     
     protected $btnEraserFilter;
-    
 
     protected function Form_Run() {
 
@@ -45,52 +43,48 @@ class ViewListUsuarioForm extends QForm {
 
     protected function Form_Create() {
         $this->objDefaultWaitIcon = new QWaitIcon($this);
-
-        $this->dlgDialogEditUser = new DialogEditUser($this, 'close_edit');
+        
+        $this->dlgDialogMessage = new DialogMessage($this, 'close_edit');
+        
         $this->dlgConfirm = new DialogConfirm($this, "close_confirm");
-        $this->dlgDialogAddCoins = new DialogAddCoins($this, 'close_add');
-
-        $this->dtgUsuarios = new UserDataGrid($this);
-        $this->dtgUsuarios->Paginator = new QPaginator($this->dtgUsuarios);
-        $this->dtgUsuarios->Paginator->strLabelForPrevious = '<i class="icon wb-chevron-left-mini"></i>';
-        $this->dtgUsuarios->Paginator->strLabelForNext = '<i class="icon wb-chevron-right-mini"></i>';
-        $this->dtgUsuarios->ItemsPerPage = 20;
-        $this->dtgUsuarios->CssClass = 'table table-bordered table-striped toggle-circle';
-        $this->dtgUsuarios->UseAjax = true;
-        $this->dtgUsuarios->WaitIcon = $this->objDefaultWaitIcon;
-        $this->dtgUsuarios->ShowFilter = false;
-        $this->dtgUsuarios->SortColumnIndex = 4;
-        $this->dtgUsuarios->SortDirection = true;
-
-        //$this->dtgUsuarios->MetaAddColumn('IdUser', "Name=ID");
-        //$this->dtgUsuarios->MetaAddColumn('Email');
+        $this->dtgMessages = new UserDataGrid($this);
+        $this->dtgMessages->Paginator = new QPaginator($this->dtgMessages);
+        $this->dtgMessages->Paginator->strLabelForPrevious = '<i class="icon wb-chevron-left-mini"></i>';
+        $this->dtgMessages->Paginator->strLabelForNext = '<i class="icon wb-chevron-right-mini"></i>';
+        $this->dtgMessages->ItemsPerPage = 20;
+        $this->dtgMessages->CssClass = 'table table-bordered table-striped toggle-circle';
+        $this->dtgMessages->UseAjax = true;
+        $this->dtgMessages->WaitIcon = $this->objDefaultWaitIcon;
+        $this->dtgMessages->ShowFilter = false;
+        $this->dtgMessages->SortColumnIndex = 4;
+        $this->dtgMessages->SortDirection = true;
         
-        $this->dtgUsuarios->AddColumn(new QDataGridColumn('Email', '<?= $_ITEM->Email ?>', 'Width=120'));
+        $this->dtgMessages->AddColumn(new QDataGridColumn('Email', '<?= $_ITEM->Email ?>', 'Width=120'));
         
-        //$this->dtgUsuarios->MetaAddColumn('Password');
-        $this->dtgUsuarios->MetaAddColumn('FirstName');
-        $this->dtgUsuarios->MetaAddColumn('LastName');
+        //$this->dtgMessages->MetaAddColumn('Password');
+        $this->dtgMessages->MetaAddColumn('FirstName');
+        $this->dtgMessages->MetaAddColumn('LastName');
         
-        $this->dtgUsuarios->AddColumn(new QDataGridColumn('User Type', '<?= $_FORM->userTypeRender($_ITEM); ?>', 'HtmlEntities=false', 'Width=100',
+        $this->dtgMessages->AddColumn(new QDataGridColumn('User Type', '<?= $_FORM->userTypeRender($_ITEM); ?>', 'HtmlEntities=false', 'Width=100',
                 array('OrderByClause' => QQ::OrderBy(QQN::User()->UserType), 'ReverseOrderByClause' => QQ::OrderBy(QQN::User()->UserType, false))));
         
-        $this->dtgUsuarios->AddColumn(new QDataGridColumn('Status', '<?= $_FORM->statusRender($_ITEM); ?>', 'HtmlEntities=false', 'Width=100',
+        $this->dtgMessages->AddColumn(new QDataGridColumn('Status', '<?= $_FORM->statusRender($_ITEM); ?>', 'HtmlEntities=false', 'Width=100',
               array('OrderByClause' => QQ::OrderBy(QQN::User()->StatusUser), 'ReverseOrderByClause' => QQ::OrderBy(QQN::User()->StatusUser, false))));
         
-        $this->dtgUsuarios->MetaAddColumn('Totalqtycoins');
+        $this->dtgMessages->MetaAddColumn('Totalqtycoins');
         
-        $this->dtgUsuarios->AddColumn(new QDataGridColumn('Images', '<?= $_FORM->imagesRender($_ITEM); ?>', 'HtmlEntities=false'));
+        $this->dtgMessages->AddColumn(new QDataGridColumn('Images', '<?= $_FORM->imagesRender($_ITEM); ?>', 'HtmlEntities=false'));
         
-        $this->dtgUsuarios->AddColumn(new QDataGridColumn('', '<?= $_FORM->actionsRender($_ITEM); ?>', 'HtmlEntities=false', 'Width=100'));
+        $this->dtgMessages->AddColumn(new QDataGridColumn('', '<?= $_FORM->actionsRender($_ITEM); ?>', 'HtmlEntities=false', 'Width=100'));
         
         $this->lblWallet = new QLabel($this);
         $this->lblWallet->HtmlEntities = false;
         
-        $this->btnNewUsuario = new QButton($this);
-        $this->btnNewUsuario->Text = '<i class="icon wb-plus" aria-hidden="true"></i>';
-        $this->btnNewUsuario->CssClass = "site-action-toggle btn-raised btn btn-primary btn-floating";
-        $this->btnNewUsuario->HtmlEntities = false;
-        $this->btnNewUsuario->AddAction(new QClickEvent(), new QAjaxAction('btnNewUsuario_Click'));
+        $this->btnNewMessage = new QButton($this);
+        $this->btnNewMessage->Text = '<i class="icon wb-plus" aria-hidden="true"></i>';
+        $this->btnNewMessage->CssClass = "site-action-toggle btn-raised btn btn-primary btn-floating";
+        $this->btnNewMessage->HtmlEntities = false;
+        $this->btnNewMessage->AddAction(new QClickEvent(), new QAjaxAction('btnNewMessage_Click'));
         
         $this->txtNombre = new QTextBox($this);
         $this->txtNombre->Placeholder = "Email or Firtname or Lastname";
@@ -138,8 +132,8 @@ class ViewListUsuarioForm extends QForm {
         $this->lstFilterUserStatus->SelectedValue = 0;
         $this->txtNombre->Text = "";
         $searchTipo = QQ::All();
-        $this->dtgUsuarios->AdditionalConditions = QQ::AndCondition($searchTipo);
-        $this->dtgUsuarios->Refresh();
+        $this->dtgMessages->AdditionalConditions = QQ::AndCondition($searchTipo);
+        $this->dtgMessages->Refresh();
         
         QApplication::ExecuteJavaScript("showAlert('".$this->alertTypes['success']."','Filter eraser correctly!');");
         //QApplication::ExecuteJavaScript("showSuccess('Filter eraser correctly!');");
@@ -172,14 +166,14 @@ class ViewListUsuarioForm extends QForm {
             $cond3= QQ::NotEqual(QQN::User()->IdUser, null);
         }
 
-        $this->dtgUsuarios->AdditionalConditions = QQ::AndCondition($cond1, $cond2, $cond3);
-        $this->dtgUsuarios->Refresh();
+        $this->dtgMessages->AdditionalConditions = QQ::AndCondition($cond1, $cond2, $cond3);
+        $this->dtgMessages->Refresh();
 
         //QApplication::ExecuteJavaScript("showSuccess('Filter correctly!');");
         QApplication::ExecuteJavaScript("showAlert('".$this->alertTypes['success']."','Filter correctly!');");
     }
 
-    public function btnNewUsuario_Click($strFormId, $strControlId, $strParameter) {
+    public function btnNewMessage_Click($strFormId, $strControlId, $strParameter) {
         $this->dlgDialogEditUser->Title = addslashes("<i class='icon wb-plus'></i> New User");
         $this->dlgDialogEditUser->createNew();
         $this->dlgDialogEditUser->ShowDialogBox();
@@ -204,9 +198,9 @@ class ViewListUsuarioForm extends QForm {
     
     public function planRender(User $obj) {
         $controlID = 'plan' . $obj->IdUser;
-        $addCtrl = $this->dtgUsuarios->GetChildControl($controlID);
+        $addCtrl = $this->dtgMessages->GetChildControl($controlID);
         if (!$addCtrl) {
-            $addCtrl = new QLabel($this->dtgUsuarios, $controlID);
+            $addCtrl = new QLabel($this->dtgMessages, $controlID);
             $addCtrl->HtmlEntities = FALSE;
             $addCtrl->Cursor = QCursor::Pointer;            
             $addCtrl->ActionParameter = $obj->IdUser;
@@ -233,7 +227,7 @@ class ViewListUsuarioForm extends QForm {
             $obj = User::LoadByIdUser($strControlId);
             $obj->StatusUser = 2;
             $obj->Save();
-            $this->dtgUsuarios->Refresh();
+            $this->dtgMessages->Refresh();
             QApplication::ExecuteJavaScript("showAlert('".$this->alertTypes['success']."','Status Updated Correctly');");
             
         } catch (Exception $ex) {
@@ -253,7 +247,7 @@ class ViewListUsuarioForm extends QForm {
     public function statusRender(User $obj) {
         
         $controlID = $obj->IdUser;
-        $editCtrl = $this->dtgUsuarios->GetChildControl($controlID);
+        $editCtrl = $this->dtgMessages->GetChildControl($controlID);
         
         $strTemplate = '';
         
@@ -274,7 +268,7 @@ class ViewListUsuarioForm extends QForm {
         }
         
         if (!$editCtrl) {
-            $editCtrl = new QLabel($this->dtgUsuarios, $controlID);
+            $editCtrl = new QLabel($this->dtgMessages, $controlID);
             $editCtrl->HtmlEntities = FALSE;
             $editCtrl->Cursor = QCursor::Pointer;
            
@@ -310,9 +304,9 @@ class ViewListUsuarioForm extends QForm {
 
     public function permisoRender(Usuario $obj) {
         $controlID = 'perm' . $obj->IdUsuario;
-        $addCtrl = $this->dtgUsuarios->GetChildControl($controlID);
+        $addCtrl = $this->dtgMessages->GetChildControl($controlID);
         if (!$addCtrl) {
-            $addCtrl = new QLabel($this->dtgUsuarios, $controlID);
+            $addCtrl = new QLabel($this->dtgMessages, $controlID);
             $addCtrl->HtmlEntities = FALSE;
             $addCtrl->Cursor = QCursor::Pointer;
             $addCtrl->Text = '<div  class="btn btn-sm btn-icon btn-flat btn-default" data-toggle="tooltip" data-original-title="Permiso">
@@ -332,9 +326,9 @@ class ViewListUsuarioForm extends QForm {
 
     public function actionsRender(User $id) {
         $controlID = 'edit' . $id->IdUser;
-        $editCtrl = $this->dtgUsuarios->GetChildControl($controlID);
+        $editCtrl = $this->dtgMessages->GetChildControl($controlID);
         if (!$editCtrl) {
-            $editCtrl = new QLabel($this->dtgUsuarios, $controlID);
+            $editCtrl = new QLabel($this->dtgMessages, $controlID);
             $editCtrl->HtmlEntities = FALSE;
             $editCtrl->Cursor = QCursor::Pointer;
             $editCtrl->Text = '<div  class="btn btn-sm btn-icon btn-flat btn-default" data-toggle="tooltip" data-original-title="Edit">
@@ -345,9 +339,9 @@ class ViewListUsuarioForm extends QForm {
         }
 
         $controlID2 = 'del' . $id->IdUser;
-        $deleteCtrl = $this->dtgUsuarios->GetChildControl($controlID2);
+        $deleteCtrl = $this->dtgMessages->GetChildControl($controlID2);
         if (!$deleteCtrl) {
-            $deleteCtrl = new QLabel($this->dtgUsuarios, $controlID2);
+            $deleteCtrl = new QLabel($this->dtgMessages, $controlID2);
             $deleteCtrl->HtmlEntities = FALSE;
             $deleteCtrl->Cursor = QCursor::Pointer;
             $deleteCtrl->Text = '<div  class="btn btn-sm btn-icon btn-flat btn-default" data-toggle="tooltip" data-original-title="Delete">
@@ -358,9 +352,9 @@ class ViewListUsuarioForm extends QForm {
         }
         
         $controlID3 = 'add' . $id->IdUser;
-        $addCtrl = $this->dtgUsuarios->GetChildControl($controlID3);
+        $addCtrl = $this->dtgMessages->GetChildControl($controlID3);
         if (!$addCtrl) {
-            $addCtrl = new QLabel($this->dtgUsuarios, $controlID3);
+            $addCtrl = new QLabel($this->dtgMessages, $controlID3);
             $addCtrl->HtmlEntities = FALSE;
             $addCtrl->Cursor = QCursor::Pointer;
             $addCtrl->Text = '<div class="btn btn-sm btn-icon btn-flat btn-default" data-toggle="tooltip" data-original-title="Add coins">
@@ -409,7 +403,7 @@ class ViewListUsuarioForm extends QForm {
 
     public function close_edit($update) {
         if ($update) {
-            $this->dtgUsuarios->Refresh();
+            $this->dtgMessages->Refresh();
             $this->items_Found();
             QApplication::ExecuteJavaScript("showAlert('".$this->alertTypes['success']."','Data updated correctly');");
         }
@@ -419,7 +413,7 @@ class ViewListUsuarioForm extends QForm {
         if ($answer) {
             $this->delete($id);
         }
-        $this->dtgUsuarios->Refresh();
+        $this->dtgMessages->Refresh();
     }
     
     
@@ -427,11 +421,11 @@ class ViewListUsuarioForm extends QForm {
         /*if ($answer) {
             $this->delete($id);
         }*/
-        $this->dtgUsuarios->Refresh();
+        $this->dtgMessages->Refresh();
         QApplication::ExecuteJavaScript("showAlert('".$this->alertTypes['success']."','Added coins!');");
     }
 
 }
 
-ViewListUsuarioForm::Run('ViewListUsuarioForm');
+ViewListMessage::Run('ViewListMessage');
 ?>

@@ -42,6 +42,13 @@ function getOfferStatus(){
     );
 }
 
+function getMessageTypeToAdmin(){
+    return array(
+        1 => "Other",
+        2 => "Aprobbe User"
+    );
+}
+
 ?>
 
 

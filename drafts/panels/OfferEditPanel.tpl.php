@@ -23,6 +23,8 @@
 
 		<?php $_CONTROL->txtMaxCoins->RenderWithName(); ?>
 
+		<?php $_CONTROL->txtStatus->RenderWithName(); ?>
+
 	</div>
 
 	<div id="formActions">

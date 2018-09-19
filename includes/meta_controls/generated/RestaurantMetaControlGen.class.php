@@ -34,12 +34,14 @@
 	 * @property-read QLabel $QrCodeLabel
 	 * @property QIntegerTextBox $QtycoinsControl
 	 * @property-read QLabel $QtycoinsLabel
-	 * @property QListBox $IdUserControl
+	 * @property QIntegerTextBox $IdUserControl
 	 * @property-read QLabel $IdUserLabel
 	 * @property QTextBox $TypeControl
 	 * @property-read QLabel $TypeLabel
 	 * @property QTextBox $LogoControl
 	 * @property-read QLabel $LogoLabel
+	 * @property QIntegerTextBox $StatusControl
+	 * @property-read QLabel $StatusLabel
 	 * @property-read string $TitleVerb a verb indicating whether or not this is being edited or created
 	 * @property-read boolean $EditMode a boolean indicating whether or not this is being edited or created
 	 */
@@ -114,10 +116,10 @@
 		 */
 		protected $txtQtycoins;
 		/**
-		 * @var QListBox lstIdUserObject
+		 * @var QIntegerTextBox txtIdUser
 		 * @access protected
 		 */
-		protected $lstIdUserObject;
+		protected $txtIdUser;
 		/**
 		 * @var QTextBox txtType
 		 * @access protected
@@ -128,6 +130,11 @@
 		 * @access protected
 		 */
 		protected $txtLogo;
+		/**
+		 * @var QIntegerTextBox txtStatus
+		 * @access protected
+		 */
+		protected $txtStatus;
 
 		// Controls that allow the viewing of Restaurant's individual data fields
 		/**
@@ -185,6 +192,11 @@
 		 * @access protected
 		 */
 		protected $lblLogo;
+		/**
+		 * @var QLabel lblStatus
+		 * @access protected
+		 */
+		protected $lblStatus;
 
 		// QListBox Controls (if applicable) to edit Unique ReverseReferences and ManyToMany References
 
@@ -512,36 +524,30 @@
 		}
 
 		/**
-		 * Create and setup QListBox lstIdUserObject
+		 * Create and setup QIntegerTextBox txtIdUser
 		 * @param string $strControlId optional ControlId to use
-		 * @return QListBox
+		 * @return QIntegerTextBox
 		 */
-		public function lstIdUserObject_Create($strControlId = null) {
-			$this->lstIdUserObject = new QListBox($this->objParentObject, $strControlId);
-			$this->lstIdUserObject->Name = QApplication::Translate('Id User Object');
-			$this->lstIdUserObject->Required = true;
-			if (!$this->blnEditMode)
-				$this->lstIdUserObject->AddItem(QApplication::Translate('- Select One -'), null);
-			$objIdUserObjectArray = User::LoadAll();
-			if ($objIdUserObjectArray) foreach ($objIdUserObjectArray as $objIdUserObject) {
-				$objListItem = new QListItem($objIdUserObject->__toString(), $objIdUserObject->IdUser);
-				if (($this->objRestaurant->IdUserObject) && ($this->objRestaurant->IdUserObject->IdUser == $objIdUserObject->IdUser))
-					$objListItem->Selected = true;
-				$this->lstIdUserObject->AddItem($objListItem);
-			}
-			return $this->lstIdUserObject;
+		public function txtIdUser_Create($strControlId = null) {
+			$this->txtIdUser = new QIntegerTextBox($this->objParentObject, $strControlId);
+			$this->txtIdUser->Name = QApplication::Translate('Id User');
+			$this->txtIdUser->Text = $this->objRestaurant->IdUser;
+			$this->txtIdUser->Required = true;
+			return $this->txtIdUser;
 		}
 
 		/**
 		 * Create and setup QLabel lblIdUser
 		 * @param string $strControlId optional ControlId to use
+		 * @param string $strFormat optional sprintf format to use
 		 * @return QLabel
 		 */
-		public function lblIdUser_Create($strControlId = null) {
+		public function lblIdUser_Create($strControlId = null, $strFormat = null) {
 			$this->lblIdUser = new QLabel($this->objParentObject, $strControlId);
-			$this->lblIdUser->Name = QApplication::Translate('Id User Object');
-			$this->lblIdUser->Text = ($this->objRestaurant->IdUserObject) ? $this->objRestaurant->IdUserObject->__toString() : null;
+			$this->lblIdUser->Name = QApplication::Translate('Id User');
+			$this->lblIdUser->Text = $this->objRestaurant->IdUser;
 			$this->lblIdUser->Required = true;
+			$this->lblIdUser->Format = $strFormat;
 			return $this->lblIdUser;
 		}
 
@@ -597,6 +603,32 @@
 			return $this->lblLogo;
 		}
 
+		/**
+		 * Create and setup QIntegerTextBox txtStatus
+		 * @param string $strControlId optional ControlId to use
+		 * @return QIntegerTextBox
+		 */
+		public function txtStatus_Create($strControlId = null) {
+			$this->txtStatus = new QIntegerTextBox($this->objParentObject, $strControlId);
+			$this->txtStatus->Name = QApplication::Translate('Status');
+			$this->txtStatus->Text = $this->objRestaurant->Status;
+			return $this->txtStatus;
+		}
+
+		/**
+		 * Create and setup QLabel lblStatus
+		 * @param string $strControlId optional ControlId to use
+		 * @param string $strFormat optional sprintf format to use
+		 * @return QLabel
+		 */
+		public function lblStatus_Create($strControlId = null, $strFormat = null) {
+			$this->lblStatus = new QLabel($this->objParentObject, $strControlId);
+			$this->lblStatus->Name = QApplication::Translate('Status');
+			$this->lblStatus->Text = $this->objRestaurant->Status;
+			$this->lblStatus->Format = $strFormat;
+			return $this->lblStatus;
+		}
+
 
 
 		/**
@@ -634,25 +666,17 @@
 			if ($this->txtQtycoins) $this->txtQtycoins->Text = $this->objRestaurant->Qtycoins;
 			if ($this->lblQtycoins) $this->lblQtycoins->Text = $this->objRestaurant->Qtycoins;
 
-			if ($this->lstIdUserObject) {
-					$this->lstIdUserObject->RemoveAllItems();
-				if (!$this->blnEditMode)
-					$this->lstIdUserObject->AddItem(QApplication::Translate('- Select One -'), null);
-				$objIdUserObjectArray = User::LoadAll();
-				if ($objIdUserObjectArray) foreach ($objIdUserObjectArray as $objIdUserObject) {
-					$objListItem = new QListItem($objIdUserObject->__toString(), $objIdUserObject->IdUser);
-					if (($this->objRestaurant->IdUserObject) && ($this->objRestaurant->IdUserObject->IdUser == $objIdUserObject->IdUser))
-						$objListItem->Selected = true;
-					$this->lstIdUserObject->AddItem($objListItem);
-				}
-			}
-			if ($this->lblIdUser) $this->lblIdUser->Text = ($this->objRestaurant->IdUserObject) ? $this->objRestaurant->IdUserObject->__toString() : null;
+			if ($this->txtIdUser) $this->txtIdUser->Text = $this->objRestaurant->IdUser;
+			if ($this->lblIdUser) $this->lblIdUser->Text = $this->objRestaurant->IdUser;
 
 			if ($this->txtType) $this->txtType->Text = $this->objRestaurant->Type;
 			if ($this->lblType) $this->lblType->Text = $this->objRestaurant->Type;
 
 			if ($this->txtLogo) $this->txtLogo->Text = $this->objRestaurant->Logo;
 			if ($this->lblLogo) $this->lblLogo->Text = $this->objRestaurant->Logo;
+
+			if ($this->txtStatus) $this->txtStatus->Text = $this->objRestaurant->Status;
+			if ($this->lblStatus) $this->lblStatus->Text = $this->objRestaurant->Status;
 
 		}
 
@@ -685,9 +709,10 @@
 				if ($this->txtLatitude) $this->objRestaurant->Latitude = $this->txtLatitude->Text;
 				if ($this->txtQrCode) $this->objRestaurant->QrCode = $this->txtQrCode->Text;
 				if ($this->txtQtycoins) $this->objRestaurant->Qtycoins = $this->txtQtycoins->Text;
-				if ($this->lstIdUserObject) $this->objRestaurant->IdUser = $this->lstIdUserObject->SelectedValue;
+				if ($this->txtIdUser) $this->objRestaurant->IdUser = $this->txtIdUser->Text;
 				if ($this->txtType) $this->objRestaurant->Type = $this->txtType->Text;
 				if ($this->txtLogo) $this->objRestaurant->Logo = $this->txtLogo->Text;
+				if ($this->txtStatus) $this->objRestaurant->Status = $this->txtStatus->Text;
 
 				// Update any UniqueReverseReferences (if any) for controls that have been created for it
 
@@ -785,8 +810,8 @@
 					if (!$this->lblQtycoins) return $this->lblQtycoins_Create();
 					return $this->lblQtycoins;
 				case 'IdUserControl':
-					if (!$this->lstIdUserObject) return $this->lstIdUserObject_Create();
-					return $this->lstIdUserObject;
+					if (!$this->txtIdUser) return $this->txtIdUser_Create();
+					return $this->txtIdUser;
 				case 'IdUserLabel':
 					if (!$this->lblIdUser) return $this->lblIdUser_Create();
 					return $this->lblIdUser;
@@ -802,6 +827,12 @@
 				case 'LogoLabel':
 					if (!$this->lblLogo) return $this->lblLogo_Create();
 					return $this->lblLogo;
+				case 'StatusControl':
+					if (!$this->txtStatus) return $this->txtStatus_Create();
+					return $this->txtStatus;
+				case 'StatusLabel':
+					if (!$this->lblStatus) return $this->lblStatus_Create();
+					return $this->lblStatus;
 				default:
 					try {
 						return parent::__get($strName);
@@ -843,11 +874,13 @@
 					case 'QtycoinsControl':
 						return ($this->txtQtycoins = QType::Cast($mixValue, 'QControl'));
 					case 'IdUserControl':
-						return ($this->lstIdUserObject = QType::Cast($mixValue, 'QControl'));
+						return ($this->txtIdUser = QType::Cast($mixValue, 'QControl'));
 					case 'TypeControl':
 						return ($this->txtType = QType::Cast($mixValue, 'QControl'));
 					case 'LogoControl':
 						return ($this->txtLogo = QType::Cast($mixValue, 'QControl'));
+					case 'StatusControl':
+						return ($this->txtStatus = QType::Cast($mixValue, 'QControl'));
 					default:
 						return parent::__set($strName, $mixValue);
 				}

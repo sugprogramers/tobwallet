@@ -64,6 +64,7 @@
 			$this->dtgOffers->MetaAddColumn('MaxOffers');
 			$this->dtgOffers->MetaAddColumn('AppliedOffers');
 			$this->dtgOffers->MetaAddColumn('MaxCoins');
+			$this->dtgOffers->MetaAddColumn('Status');
 		}
 	}
 ?>

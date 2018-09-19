@@ -33,6 +33,8 @@
 		protected $txtCountry;
 		protected $txtCity;
 		protected $txtAddress;
+		protected $lstIdOrganizationTypeObject;
+		protected $lstIdOwnerObject;
 
 		// Other ListBoxes (if applicable) via Unique ReverseReferences and ManyToMany References
 
@@ -78,6 +80,8 @@
 			$this->txtCountry = $this->mctOrganization->txtCountry_Create();
 			$this->txtCity = $this->mctOrganization->txtCity_Create();
 			$this->txtAddress = $this->mctOrganization->txtAddress_Create();
+			$this->lstIdOrganizationTypeObject = $this->mctOrganization->lstIdOrganizationTypeObject_Create();
+			$this->lstIdOwnerObject = $this->mctOrganization->lstIdOwnerObject_Create();
 
 			// Create Buttons and Actions on this Form
 			$this->btnSave = new QButton($this);

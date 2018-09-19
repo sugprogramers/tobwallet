@@ -32,9 +32,10 @@
 		public $txtLatitude;
 		public $txtQrCode;
 		public $txtQtycoins;
-		public $lstIdUserObject;
+		public $txtIdUser;
 		public $txtType;
 		public $txtLogo;
+		public $txtStatus;
 
 		// Other ListBoxes (if applicable) via Unique ReverseReferences and ManyToMany References
 
@@ -82,9 +83,10 @@
 			$this->txtLatitude = $this->mctRestaurant->txtLatitude_Create();
 			$this->txtQrCode = $this->mctRestaurant->txtQrCode_Create();
 			$this->txtQtycoins = $this->mctRestaurant->txtQtycoins_Create();
-			$this->lstIdUserObject = $this->mctRestaurant->lstIdUserObject_Create();
+			$this->txtIdUser = $this->mctRestaurant->txtIdUser_Create();
 			$this->txtType = $this->mctRestaurant->txtType_Create();
 			$this->txtLogo = $this->mctRestaurant->txtLogo_Create();
+			$this->txtStatus = $this->mctRestaurant->txtStatus_Create();
 
 			// Create Buttons and Actions on this Form
 			$this->btnSave = new QButton($this);

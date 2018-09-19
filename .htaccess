@@ -65,9 +65,6 @@ RewriteRule ^miningoptions$    ViewUserMiningOptions.php [L]
 RewriteRule ^kcoinversion/(.*)$    KcoinVersion.php/$1 [L]
 RewriteRule ^kcoinversion$    KcoinVersion.php [L]
 
-
-
-
 RewriteRule ^modelo/(.*)$    ViewListModelo.php/$1 [L]
 RewriteRule ^modelo    ViewListModelo.php [L]
 RewriteRule ^materia_prima/(.*)$    ViewListMateriaPrima.php/$1 [L]
@@ -141,7 +138,6 @@ RewriteRule ^reporteventasproductovendedor$    VendedorVentasProductos.php [L]
 RewriteRule ^reporteventasmensualesvendedor/(.*)$    VendedorVentasMensuales.php/$1 [L]
 RewriteRule ^reporteventasmensualesvendedor    VendedorVentasMensuales.php [L]
 
-
 #To tobwallet
 
 RewriteRule ^organizations/(.*)$    ViewListOrganizations.php/$1 [L]
@@ -160,3 +156,6 @@ RewriteRule ^balance    ViewListBalanceClient.php [L]
 
 RewriteRule ^DashboardRestaurant/(.*)$    DashboardRestaurant.php/$1 [L]
 RewriteRule ^DashboardRestaurant    DashboardRestaurant.php [L]
+
+RewriteRule ^messages/(.*)$    ViewListMessage.php/$1 [L]
+RewriteRule ^messages$    ViewListMessage.php [L]

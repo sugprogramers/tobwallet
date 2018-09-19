@@ -1,38 +1,34 @@
 <?php
 	/**
 	 * This is a quick-and-dirty draft QForm object to do Create, Edit, and Delete functionality
-	 * of the Offer class.  It uses the code-generated
-	 * OfferMetaControl class, which has meta-methods to help with
-	 * easily creating/defining controls to modify the fields of a Offer columns.
+	 * of the Message class.  It uses the code-generated
+	 * MessageMetaControl class, which has meta-methods to help with
+	 * easily creating/defining controls to modify the fields of a Message columns.
 	 *
 	 * Any display customizations and presentation-tier logic can be implemented
 	 * here by overriding existing or implementing new methods, properties and variables.
 	 * 
 	 * NOTE: This file is overwritten on any code regenerations.  If you want to make
-	 * permanent changes, it is STRONGLY RECOMMENDED to move both offer_edit.php AND
-	 * offer_edit.tpl.php out of this Form Drafts directory.
+	 * permanent changes, it is STRONGLY RECOMMENDED to move both message_edit.php AND
+	 * message_edit.tpl.php out of this Form Drafts directory.
 	 *
 	 * @package My QCubed Application
 	 * @subpackage FormBaseObjects
 	 */
-	abstract class OfferEditFormBase extends QForm {
-		// Local instance of the OfferMetaControl
+	abstract class MessageEditFormBase extends QForm {
+		// Local instance of the MessageMetaControl
 		/**
-		 * @var OfferMetaControlGen mctOffer
+		 * @var MessageMetaControlGen mctMessage
 		 */
-		protected $mctOffer;
+		protected $mctMessage;
 
-		// Controls for Offer's Data Fields
-		protected $lblIdOffer;
-		protected $txtDescription;
-		protected $txtOfferedCoins;
-		protected $calDateFrom;
-		protected $calDateTo;
-		protected $lstIdRestaurantObject;
-		protected $txtMaxOffers;
-		protected $txtAppliedOffers;
-		protected $txtMaxCoins;
-		protected $txtStatus;
+		// Controls for Message's Data Fields
+		protected $lblIdMessage;
+		protected $lstIdUserObject;
+		protected $txtType;
+		protected $txtBody;
+		protected $calCreatedDate;
+		protected $chkIsRead;
 
 		// Other ListBoxes (if applicable) via Unique ReverseReferences and ManyToMany References
 
@@ -63,21 +59,17 @@
 		protected function Form_Create() {
 			parent::Form_Create();
 
-			// Use the CreateFromPathInfo shortcut (this can also be done manually using the OfferMetaControl constructor)
+			// Use the CreateFromPathInfo shortcut (this can also be done manually using the MessageMetaControl constructor)
 			// MAKE SURE we specify "$this" as the MetaControl's (and thus all subsequent controls') parent
-			$this->mctOffer = OfferMetaControl::CreateFromPathInfo($this);
+			$this->mctMessage = MessageMetaControl::CreateFromPathInfo($this);
 
-			// Call MetaControl's methods to create qcontrols based on Offer's data fields
-			$this->lblIdOffer = $this->mctOffer->lblIdOffer_Create();
-			$this->txtDescription = $this->mctOffer->txtDescription_Create();
-			$this->txtOfferedCoins = $this->mctOffer->txtOfferedCoins_Create();
-			$this->calDateFrom = $this->mctOffer->calDateFrom_Create();
-			$this->calDateTo = $this->mctOffer->calDateTo_Create();
-			$this->lstIdRestaurantObject = $this->mctOffer->lstIdRestaurantObject_Create();
-			$this->txtMaxOffers = $this->mctOffer->txtMaxOffers_Create();
-			$this->txtAppliedOffers = $this->mctOffer->txtAppliedOffers_Create();
-			$this->txtMaxCoins = $this->mctOffer->txtMaxCoins_Create();
-			$this->txtStatus = $this->mctOffer->txtStatus_Create();
+			// Call MetaControl's methods to create qcontrols based on Message's data fields
+			$this->lblIdMessage = $this->mctMessage->lblIdMessage_Create();
+			$this->lstIdUserObject = $this->mctMessage->lstIdUserObject_Create();
+			$this->txtType = $this->mctMessage->txtType_Create();
+			$this->txtBody = $this->mctMessage->txtBody_Create();
+			$this->calCreatedDate = $this->mctMessage->calCreatedDate_Create();
+			$this->chkIsRead = $this->mctMessage->chkIsRead_Create();
 
 			// Create Buttons and Actions on this Form
 			$this->btnSave = new QButton($this);
@@ -91,9 +83,9 @@
 
 			$this->btnDelete = new QButton($this);
 			$this->btnDelete->Text = QApplication::Translate('Delete');
-			$this->btnDelete->AddAction(new QClickEvent(), new QConfirmAction(sprintf(QApplication::Translate('Are you SURE you want to DELETE this %s?'), QApplication::Translate('Offer'))));
+			$this->btnDelete->AddAction(new QClickEvent(), new QConfirmAction(sprintf(QApplication::Translate('Are you SURE you want to DELETE this %s?'), QApplication::Translate('Message'))));
 			$this->btnDelete->AddAction(new QClickEvent(), new QAjaxAction('btnDelete_Click'));
-			$this->btnDelete->Visible = $this->mctOffer->EditMode;
+			$this->btnDelete->Visible = $this->mctMessage->EditMode;
 		}
 
 		/**
@@ -126,14 +118,14 @@
 		// Button Event Handlers
 
 		protected function btnSave_Click($strFormId, $strControlId, $strParameter) {
-			// Delegate "Save" processing to the OfferMetaControl
-			$this->mctOffer->SaveOffer();
+			// Delegate "Save" processing to the MessageMetaControl
+			$this->mctMessage->SaveMessage();
 			$this->RedirectToListPage();
 		}
 
 		protected function btnDelete_Click($strFormId, $strControlId, $strParameter) {
-			// Delegate "Delete" processing to the OfferMetaControl
-			$this->mctOffer->DeleteOffer();
+			// Delegate "Delete" processing to the MessageMetaControl
+			$this->mctMessage->DeleteMessage();
 			$this->RedirectToListPage();
 		}
 
@@ -144,7 +136,7 @@
 		// Other Methods
 
 		protected function RedirectToListPage() {
-			QApplication::Redirect(__VIRTUAL_DIRECTORY__ . __FORM_DRAFTS__ . '/offer_list.php');
+			QApplication::Redirect(__VIRTUAL_DIRECTORY__ . __FORM_DRAFTS__ . '/message_list.php');
 		}
 	}
 ?>

@@ -80,9 +80,6 @@
             </div>
         </div>
 
-
-
-
         <div class="form-group row">
             <label class="col-sm-4 control-label"><?php _p("Country/City"); ?> </label>
             <div class="col-sm-4">
@@ -116,34 +113,6 @@
                 </div>                     
             </div>
         </div>
-        
-        <!-- <div class="form-group row">
-            <label class="col-sm-4 control-label"><?php //_p("Year Graduation /Your Cohort"); ?> </label>
-            <div class="col-sm-4">
-                <div class="input-group">
-                    <span class="input-group-addon">
-                        <i class="icon fa-calendar-check-o" aria-hidden="true"></i>
-                    </span>
-                    <?php //$_CONTROL->txtYearGraduation->RenderWithError(); ?>
-                </div>                     
-            </div>
-            <div class="col-sm-4 unidos">
-                <?php //$_CONTROL->txtCohort->RenderWithError(); ?>
-            </div>
-        </div> -->
-        
-        <!--<div class="form-group row">
-            <label class="col-sm-4 control-label"><?php _p("Your Cohort"); ?> </label>
-            <div class="col-sm-8">
-                <div class="input-group">
-                    <span class="input-group-addon">
-                        <i class="icon fa-book" aria-hidden="true"></i>
-                    </span>
-                    
-                </div>                     
-            </div>
-        </div> -->
-       
         
         <div class="form-group row">
             <label class="col-sm-4 control-label"><?php _p("Birthday"); ?> </label>

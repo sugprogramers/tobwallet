@@ -24,6 +24,7 @@
 	 * @property integer $MaxOffers the value for intMaxOffers 
 	 * @property integer $AppliedOffers the value for intAppliedOffers 
 	 * @property integer $MaxCoins the value for intMaxCoins 
+	 * @property integer $Status the value for intStatus 
 	 * @property Restaurant $IdRestaurantObject the value for the Restaurant object referenced by intIdRestaurant (Not Null)
 	 * @property-read Balance $_BalanceAsIdOffer the value for the private _objBalanceAsIdOffer (Read-Only) if set due to an expansion on the balance.IdOffer reverse relationship
 	 * @property-read Balance[] $_BalanceAsIdOfferArray the value for the private _objBalanceAsIdOfferArray (Read-Only) if set due to an ExpandAsArray on the balance.IdOffer reverse relationship
@@ -108,6 +109,14 @@
 
 
 		/**
+		 * Protected member variable that maps to the database column offer.Status
+		 * @var integer intStatus
+		 */
+		protected $intStatus;
+		const StatusDefault = null;
+
+
+		/**
 		 * Private member variable that stores a reference to a single BalanceAsIdOffer object
 		 * (of type Balance), if this Offer object was restored with
 		 * an expansion on the balance association table.
@@ -171,6 +180,7 @@
 			$this->intMaxOffers = Offer::MaxOffersDefault;
 			$this->intAppliedOffers = Offer::AppliedOffersDefault;
 			$this->intMaxCoins = Offer::MaxCoinsDefault;
+			$this->intStatus = Offer::StatusDefault;
 		}
 
 
@@ -447,6 +457,7 @@
 			$objBuilder->AddSelectItem($strTableName, 'MaxOffers', $strAliasPrefix . 'MaxOffers');
 			$objBuilder->AddSelectItem($strTableName, 'AppliedOffers', $strAliasPrefix . 'AppliedOffers');
 			$objBuilder->AddSelectItem($strTableName, 'MaxCoins', $strAliasPrefix . 'MaxCoins');
+			$objBuilder->AddSelectItem($strTableName, 'Status', $strAliasPrefix . 'Status');
 		}
 
 
@@ -535,6 +546,8 @@
 			$objToReturn->intAppliedOffers = $objDbRow->GetColumn($strAliasName, 'Integer');
 			$strAliasName = array_key_exists($strAliasPrefix . 'MaxCoins', $strColumnAliasArray) ? $strColumnAliasArray[$strAliasPrefix . 'MaxCoins'] : $strAliasPrefix . 'MaxCoins';
 			$objToReturn->intMaxCoins = $objDbRow->GetColumn($strAliasName, 'Integer');
+			$strAliasName = array_key_exists($strAliasPrefix . 'Status', $strColumnAliasArray) ? $strColumnAliasArray[$strAliasPrefix . 'Status'] : $strAliasPrefix . 'Status';
+			$objToReturn->intStatus = $objDbRow->GetColumn($strAliasName, 'Integer');
 
 			if (isset($arrPreviousItems) && is_array($arrPreviousItems)) {
 				foreach ($arrPreviousItems as $objPreviousItem) {
@@ -712,7 +725,8 @@
 							`IdRestaurant`,
 							`MaxOffers`,
 							`AppliedOffers`,
-							`MaxCoins`
+							`MaxCoins`,
+							`Status`
 						) VALUES (
 							' . $objDatabase->SqlVariable($this->strDescription) . ',
 							' . $objDatabase->SqlVariable($this->fltOfferedCoins) . ',
@@ -721,7 +735,8 @@
 							' . $objDatabase->SqlVariable($this->intIdRestaurant) . ',
 							' . $objDatabase->SqlVariable($this->intMaxOffers) . ',
 							' . $objDatabase->SqlVariable($this->intAppliedOffers) . ',
-							' . $objDatabase->SqlVariable($this->intMaxCoins) . '
+							' . $objDatabase->SqlVariable($this->intMaxCoins) . ',
+							' . $objDatabase->SqlVariable($this->intStatus) . '
 						)
 					');
 
@@ -744,7 +759,8 @@
 							`IdRestaurant` = ' . $objDatabase->SqlVariable($this->intIdRestaurant) . ',
 							`MaxOffers` = ' . $objDatabase->SqlVariable($this->intMaxOffers) . ',
 							`AppliedOffers` = ' . $objDatabase->SqlVariable($this->intAppliedOffers) . ',
-							`MaxCoins` = ' . $objDatabase->SqlVariable($this->intMaxCoins) . '
+							`MaxCoins` = ' . $objDatabase->SqlVariable($this->intMaxCoins) . ',
+							`Status` = ' . $objDatabase->SqlVariable($this->intStatus) . '
 						WHERE
 							`IdOffer` = ' . $objDatabase->SqlVariable($this->intIdOffer) . '
 					');
@@ -831,6 +847,7 @@
 			$this->intMaxOffers = $objReloaded->intMaxOffers;
 			$this->intAppliedOffers = $objReloaded->intAppliedOffers;
 			$this->intMaxCoins = $objReloaded->intMaxCoins;
+			$this->intStatus = $objReloaded->intStatus;
 		}
 
 
@@ -913,6 +930,13 @@
 					 * @return integer
 					 */
 					return $this->intMaxCoins;
+
+				case 'Status':
+					/**
+					 * Gets the value for intStatus 
+					 * @return integer
+					 */
+					return $this->intStatus;
 
 
 				///////////////////
@@ -1081,6 +1105,19 @@
 					 */
 					try {
 						return ($this->intMaxCoins = QType::Cast($mixValue, QType::Integer));
+					} catch (QCallerException $objExc) {
+						$objExc->IncrementOffset();
+						throw $objExc;
+					}
+
+				case 'Status':
+					/**
+					 * Sets the value for intStatus 
+					 * @param integer $mixValue
+					 * @return integer
+					 */
+					try {
+						return ($this->intStatus = QType::Cast($mixValue, QType::Integer));
 					} catch (QCallerException $objExc) {
 						$objExc->IncrementOffset();
 						throw $objExc;
@@ -1318,6 +1355,7 @@
 			$strToReturn .= '<element name="MaxOffers" type="xsd:int"/>';
 			$strToReturn .= '<element name="AppliedOffers" type="xsd:int"/>';
 			$strToReturn .= '<element name="MaxCoins" type="xsd:int"/>';
+			$strToReturn .= '<element name="Status" type="xsd:int"/>';
 			$strToReturn .= '<element name="__blnRestored" type="xsd:boolean"/>';
 			$strToReturn .= '</sequence></complexType>';
 			return $strToReturn;
@@ -1360,6 +1398,8 @@
 				$objToReturn->intAppliedOffers = $objSoapObject->AppliedOffers;
 			if (property_exists($objSoapObject, 'MaxCoins'))
 				$objToReturn->intMaxCoins = $objSoapObject->MaxCoins;
+			if (property_exists($objSoapObject, 'Status'))
+				$objToReturn->intStatus = $objSoapObject->Status;
 			if (property_exists($objSoapObject, '__blnRestored'))
 				$objToReturn->__blnRestored = $objSoapObject->__blnRestored;
 			return $objToReturn;
@@ -1409,6 +1449,7 @@
 			$iArray['MaxOffers'] = $this->intMaxOffers;
 			$iArray['AppliedOffers'] = $this->intAppliedOffers;
 			$iArray['MaxCoins'] = $this->intMaxCoins;
+			$iArray['Status'] = $this->intStatus;
 			return new ArrayIterator($iArray);
 		}
 
@@ -1440,6 +1481,7 @@
      * @property-read QQNode $MaxOffers
      * @property-read QQNode $AppliedOffers
      * @property-read QQNode $MaxCoins
+     * @property-read QQNode $Status
      *
      *
      * @property-read QQReverseReferenceNodeBalance $BalanceAsIdOffer
@@ -1472,6 +1514,8 @@
 					return new QQNode('AppliedOffers', 'AppliedOffers', 'Integer', $this);
 				case 'MaxCoins':
 					return new QQNode('MaxCoins', 'MaxCoins', 'Integer', $this);
+				case 'Status':
+					return new QQNode('Status', 'Status', 'Integer', $this);
 				case 'BalanceAsIdOffer':
 					return new QQReverseReferenceNodeBalance($this, 'balanceasidoffer', 'reverse_reference', 'IdOffer');
 
@@ -1499,6 +1543,7 @@
      * @property-read QQNode $MaxOffers
      * @property-read QQNode $AppliedOffers
      * @property-read QQNode $MaxCoins
+     * @property-read QQNode $Status
      *
      *
      * @property-read QQReverseReferenceNodeBalance $BalanceAsIdOffer
@@ -1531,6 +1576,8 @@
 					return new QQNode('AppliedOffers', 'AppliedOffers', 'integer', $this);
 				case 'MaxCoins':
 					return new QQNode('MaxCoins', 'MaxCoins', 'integer', $this);
+				case 'Status':
+					return new QQNode('Status', 'Status', 'integer', $this);
 				case 'BalanceAsIdOffer':
 					return new QQReverseReferenceNodeBalance($this, 'balanceasidoffer', 'reverse_reference', 'IdOffer');
 

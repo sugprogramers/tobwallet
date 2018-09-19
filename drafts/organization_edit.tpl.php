@@ -37,6 +37,10 @@
 
 		<?php $this->txtAddress->RenderWithName(); ?>
 
+		<?php $this->lstIdOrganizationTypeObject->RenderWithName(); ?>
+
+		<?php $this->lstIdOwnerObject->RenderWithName(); ?>
+
 	</div>
 
 	<div id="formActions">

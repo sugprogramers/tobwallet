@@ -35,11 +35,13 @@
 
 		<?php $this->txtQtycoins->RenderWithName(); ?>
 
-		<?php $this->lstIdUserObject->RenderWithName(); ?>
+		<?php $this->txtIdUser->RenderWithName(); ?>
 
 		<?php $this->txtType->RenderWithName(); ?>
 
 		<?php $this->txtLogo->RenderWithName(); ?>
+
+		<?php $this->txtStatus->RenderWithName(); ?>
 
 	</div>
 

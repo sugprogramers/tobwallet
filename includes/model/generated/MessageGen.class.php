@@ -1,45 +1,81 @@
 <?php
 	/**
-	 * The abstract ClientGen class defined here is
+	 * The abstract MessageGen class defined here is
 	 * code-generated and contains all the basic CRUD-type functionality as well as
 	 * basic methods to handle relationships and index-based loading.
 	 *
-	 * To use, you should use the Client subclass which
-	 * extends this ClientGen class.
+	 * To use, you should use the Message subclass which
+	 * extends this MessageGen class.
 	 *
 	 * Because subsequent re-code generations will overwrite any changes to this
 	 * file, you should leave this file unaltered to prevent yourself from losing
 	 * any information or code changes.  All customizations should be done by
 	 * overriding existing or implementing new methods, properties and variables
-	 * in the Client class.
+	 * in the Message class.
 	 *
 	 * @package My QCubed Application
 	 * @subpackage GeneratedDataObjects
-	 * @property-read integer $IdClient the value for intIdClient (Read-Only PK)
+	 * @property-read integer $IdMessage the value for intIdMessage (Read-Only PK)
 	 * @property integer $IdUser the value for intIdUser (Not Null)
+	 * @property integer $Type the value for intType (Not Null)
+	 * @property string $Body the value for strBody (Not Null)
+	 * @property QDateTime $CreatedDate the value for dttCreatedDate (Not Null)
+	 * @property boolean $IsRead the value for blnIsRead 
 	 * @property User $IdUserObject the value for the User object referenced by intIdUser (Not Null)
 	 * @property-read boolean $__Restored whether or not this object was restored from the database (as opposed to created new)
 	 */
-	class ClientGen extends QBaseClass implements IteratorAggregate {
+	class MessageGen extends QBaseClass implements IteratorAggregate {
 
 		///////////////////////////////////////////////////////////////////////
 		// PROTECTED MEMBER VARIABLES and TEXT FIELD MAXLENGTHS (if applicable)
 		///////////////////////////////////////////////////////////////////////
 
 		/**
-		 * Protected member variable that maps to the database PK Identity column client.IdClient
-		 * @var integer intIdClient
+		 * Protected member variable that maps to the database PK Identity column message.IdMessage
+		 * @var integer intIdMessage
 		 */
-		protected $intIdClient;
-		const IdClientDefault = null;
+		protected $intIdMessage;
+		const IdMessageDefault = null;
 
 
 		/**
-		 * Protected member variable that maps to the database column client.IdUser
+		 * Protected member variable that maps to the database column message.IdUser
 		 * @var integer intIdUser
 		 */
 		protected $intIdUser;
 		const IdUserDefault = null;
+
+
+		/**
+		 * Protected member variable that maps to the database column message.Type
+		 * @var integer intType
+		 */
+		protected $intType;
+		const TypeDefault = null;
+
+
+		/**
+		 * Protected member variable that maps to the database column message.Body
+		 * @var string strBody
+		 */
+		protected $strBody;
+		const BodyDefault = null;
+
+
+		/**
+		 * Protected member variable that maps to the database column message.CreatedDate
+		 * @var QDateTime dttCreatedDate
+		 */
+		protected $dttCreatedDate;
+		const CreatedDateDefault = null;
+
+
+		/**
+		 * Protected member variable that maps to the database column message.IsRead
+		 * @var boolean blnIsRead
+		 */
+		protected $blnIsRead;
+		const IsReadDefault = null;
 
 
 		/**
@@ -66,7 +102,7 @@
 
 		/**
 		 * Protected member variable that contains the object pointed by the reference
-		 * in the database column client.IdUser.
+		 * in the database column message.IdUser.
 		 *
 		 * NOTE: Always use the IdUserObject property getter to correctly retrieve this User object.
 		 * (Because this class implements late binding, this variable reference MAY be null.)
@@ -81,8 +117,12 @@
 		 */
 		public function Initialize()
 		{
-			$this->intIdClient = Client::IdClientDefault;
-			$this->intIdUser = Client::IdUserDefault;
+			$this->intIdMessage = Message::IdMessageDefault;
+			$this->intIdUser = Message::IdUserDefault;
+			$this->intType = Message::TypeDefault;
+			$this->strBody = Message::BodyDefault;
+			$this->dttCreatedDate = (Message::CreatedDateDefault === null)?null:new QDateTime(Message::CreatedDateDefault);
+			$this->blnIsRead = Message::IsReadDefault;
 		}
 
 
@@ -99,33 +139,33 @@
 		}
 
 		/**
-		 * Load a Client from PK Info
-		 * @param integer $intIdClient
+		 * Load a Message from PK Info
+		 * @param integer $intIdMessage
 		 * @param QQClause[] $objOptionalClauses additional optional QQClause objects for this query
-		 * @return Client
+		 * @return Message
 		 */
-		public static function Load($intIdClient, $objOptionalClauses = null) {
+		public static function Load($intIdMessage, $objOptionalClauses = null) {
 			// Use QuerySingle to Perform the Query
-			return Client::QuerySingle(
+			return Message::QuerySingle(
 				QQ::AndCondition(
-					QQ::Equal(QQN::Client()->IdClient, $intIdClient)
+					QQ::Equal(QQN::Message()->IdMessage, $intIdMessage)
 				),
 				$objOptionalClauses
 			);
 		}
 
 		/**
-		 * Load all Clients
+		 * Load all Messages
 		 * @param QQClause[] $objOptionalClauses additional optional QQClause objects for this query
-		 * @return Client[]
+		 * @return Message[]
 		 */
 		public static function LoadAll($objOptionalClauses = null) {
 			if (func_num_args() > 1) {
 				throw new QCallerException("LoadAll must be called with an array of optional clauses as a single argument");
 			}
-			// Call Client::QueryArray to perform the LoadAll query
+			// Call Message::QueryArray to perform the LoadAll query
 			try {
-				return Client::QueryArray(QQ::All(), $objOptionalClauses);
+				return Message::QueryArray(QQ::All(), $objOptionalClauses);
 			} catch (QCallerException $objExc) {
 				$objExc->IncrementOffset();
 				throw $objExc;
@@ -133,12 +173,12 @@
 		}
 
 		/**
-		 * Count all Clients
+		 * Count all Messages
 		 * @return int
 		 */
 		public static function CountAll() {
-			// Call Client::QueryCount to perform the CountAll query
-			return Client::QueryCount(QQ::All());
+			// Call Message::QueryCount to perform the CountAll query
+			return Message::QueryCount(QQ::All());
 		}
 
 
@@ -160,12 +200,12 @@
 		 */
 		protected static function BuildQueryStatement(&$objQueryBuilder, QQCondition $objConditions, $objOptionalClauses, $mixParameterArray, $blnCountOnly) {
 			// Get the Database Object for this Class
-			$objDatabase = Client::GetDatabase();
+			$objDatabase = Message::GetDatabase();
 
-			// Create/Build out the QueryBuilder object with Client-specific SELET and FROM fields
-			$objQueryBuilder = new QQueryBuilder($objDatabase, 'client');
-			Client::GetSelectFields($objQueryBuilder);
-			$objQueryBuilder->AddFromItem('client');
+			// Create/Build out the QueryBuilder object with Message-specific SELET and FROM fields
+			$objQueryBuilder = new QQueryBuilder($objDatabase, 'message');
+			Message::GetSelectFields($objQueryBuilder);
+			$objQueryBuilder->AddFromItem('message');
 
 			// Set "CountOnly" option (if applicable)
 			if ($blnCountOnly)
@@ -212,30 +252,30 @@
 		}
 
 		/**
-		 * Static Qcubed Query method to query for a single Client object.
+		 * Static Qcubed Query method to query for a single Message object.
 		 * Uses BuildQueryStatment to perform most of the work.
 		 * @param QQCondition $objConditions any conditions on the query, itself
 		 * @param QQClause[] $objOptionalClausees additional optional QQClause objects for this query
 		 * @param mixed[] $mixParameterArray a array of name-value pairs to perform PrepareStatement with
-		 * @return Client the queried object
+		 * @return Message the queried object
 		 */
 		public static function QuerySingle(QQCondition $objConditions, $objOptionalClauses = null, $mixParameterArray = null) {
 			// Get the Query Statement
 			try {
-				$strQuery = Client::BuildQueryStatement($objQueryBuilder, $objConditions, $objOptionalClauses, $mixParameterArray, false);
+				$strQuery = Message::BuildQueryStatement($objQueryBuilder, $objConditions, $objOptionalClauses, $mixParameterArray, false);
 			} catch (QCallerException $objExc) {
 				$objExc->IncrementOffset();
 				throw $objExc;
 			}
 
-			// Perform the Query, Get the First Row, and Instantiate a new Client object
+			// Perform the Query, Get the First Row, and Instantiate a new Message object
 			$objDbResult = $objQueryBuilder->Database->Query($strQuery);
 
 			// Do we have to expand anything?
 			if ($objQueryBuilder->ExpandAsArrayNodes) {
 				$objToReturn = array();
 				while ($objDbRow = $objDbResult->GetNextRow()) {
-					$objItem = Client::InstantiateDbRow($objDbRow, null, $objQueryBuilder->ExpandAsArrayNodes, $objToReturn, $objQueryBuilder->ColumnAliasArray);
+					$objItem = Message::InstantiateDbRow($objDbRow, null, $objQueryBuilder->ExpandAsArrayNodes, $objToReturn, $objQueryBuilder->ColumnAliasArray);
 					if ($objItem)
 						$objToReturn[] = $objItem;
 				}
@@ -250,22 +290,22 @@
 				$objDbRow = $objDbResult->GetNextRow();
 				if(null === $objDbRow)
 					return null;
-				return Client::InstantiateDbRow($objDbRow, null, null, null, $objQueryBuilder->ColumnAliasArray);
+				return Message::InstantiateDbRow($objDbRow, null, null, null, $objQueryBuilder->ColumnAliasArray);
 			}
 		}
 
 		/**
-		 * Static Qcubed Query method to query for an array of Client objects.
+		 * Static Qcubed Query method to query for an array of Message objects.
 		 * Uses BuildQueryStatment to perform most of the work.
 		 * @param QQCondition $objConditions any conditions on the query, itself
 		 * @param QQClause[] $objOptionalClausees additional optional QQClause objects for this query
 		 * @param mixed[] $mixParameterArray a array of name-value pairs to perform PrepareStatement with
-		 * @return Client[] the queried objects as an array
+		 * @return Message[] the queried objects as an array
 		 */
 		public static function QueryArray(QQCondition $objConditions, $objOptionalClauses = null, $mixParameterArray = null) {
 			// Get the Query Statement
 			try {
-				$strQuery = Client::BuildQueryStatement($objQueryBuilder, $objConditions, $objOptionalClauses, $mixParameterArray, false);
+				$strQuery = Message::BuildQueryStatement($objQueryBuilder, $objConditions, $objOptionalClauses, $mixParameterArray, false);
 			} catch (QCallerException $objExc) {
 				$objExc->IncrementOffset();
 				throw $objExc;
@@ -273,11 +313,11 @@
 
 			// Perform the Query and Instantiate the Array Result
 			$objDbResult = $objQueryBuilder->Database->Query($strQuery);
-			return Client::InstantiateDbResult($objDbResult, $objQueryBuilder->ExpandAsArrayNodes, $objQueryBuilder->ColumnAliasArray);
+			return Message::InstantiateDbResult($objDbResult, $objQueryBuilder->ExpandAsArrayNodes, $objQueryBuilder->ColumnAliasArray);
 		}
 
 		/**
-		 * Static Qcubed Query method to query for a count of Client objects.
+		 * Static Qcubed Query method to query for a count of Message objects.
 		 * Uses BuildQueryStatment to perform most of the work.
 		 * @param QQCondition $objConditions any conditions on the query, itself
 		 * @param QQClause[] $objOptionalClausees additional optional QQClause objects for this query
@@ -287,7 +327,7 @@
 		public static function QueryCount(QQCondition $objConditions, $objOptionalClauses = null, $mixParameterArray = null) {
 			// Get the Query Statement
 			try {
-				$strQuery = Client::BuildQueryStatement($objQueryBuilder, $objConditions, $objOptionalClauses, $mixParameterArray, true);
+				$strQuery = Message::BuildQueryStatement($objQueryBuilder, $objConditions, $objOptionalClauses, $mixParameterArray, true);
 			} catch (QCallerException $objExc) {
 				$objExc->IncrementOffset();
 				throw $objExc;
@@ -318,16 +358,16 @@
 
 		public static function QueryArrayCached(QQCondition $objConditions, $objOptionalClauses = null, $mixParameterArray = null, $blnForceUpdate = false) {
 			// Get the Database Object for this Class
-			$objDatabase = Client::GetDatabase();
+			$objDatabase = Message::GetDatabase();
 
-			$strQuery = Client::BuildQueryStatement($objQueryBuilder, $objConditions, $objOptionalClauses, $mixParameterArray, false);
+			$strQuery = Message::BuildQueryStatement($objQueryBuilder, $objConditions, $objOptionalClauses, $mixParameterArray, false);
 
-			$objCache = new QCache('qquery/client', $strQuery);
+			$objCache = new QCache('qquery/message', $strQuery);
 			$cacheData = $objCache->GetData();
 
 			if (!$cacheData || $blnForceUpdate) {
 				$objDbResult = $objQueryBuilder->Database->Query($strQuery);
-				$arrResult = Client::InstantiateDbResult($objDbResult, $objQueryBuilder->ExpandAsArrayNodes, $objQueryBuilder->ColumnAliasArray);
+				$arrResult = Message::InstantiateDbResult($objDbResult, $objQueryBuilder->ExpandAsArrayNodes, $objQueryBuilder->ColumnAliasArray);
 				$objCache->SaveData(serialize($arrResult));
 			} else {
 				$arrResult = unserialize($cacheData);
@@ -337,7 +377,7 @@
 		}
 
 		/**
-		 * Updates a QQueryBuilder with the SELECT fields for this Client
+		 * Updates a QQueryBuilder with the SELECT fields for this Message
 		 * @param QQueryBuilder $objBuilder the Query Builder object to update
 		 * @param string $strPrefix optional prefix to add to the SELECT fields
 		 */
@@ -346,12 +386,16 @@
 				$strTableName = $strPrefix;
 				$strAliasPrefix = $strPrefix . '__';
 			} else {
-				$strTableName = 'client';
+				$strTableName = 'message';
 				$strAliasPrefix = '';
 			}
 
-			$objBuilder->AddSelectItem($strTableName, 'IdClient', $strAliasPrefix . 'IdClient');
+			$objBuilder->AddSelectItem($strTableName, 'IdMessage', $strAliasPrefix . 'IdMessage');
 			$objBuilder->AddSelectItem($strTableName, 'IdUser', $strAliasPrefix . 'IdUser');
+			$objBuilder->AddSelectItem($strTableName, 'Type', $strAliasPrefix . 'Type');
+			$objBuilder->AddSelectItem($strTableName, 'Body', $strAliasPrefix . 'Body');
+			$objBuilder->AddSelectItem($strTableName, 'CreatedDate', $strAliasPrefix . 'CreatedDate');
+			$objBuilder->AddSelectItem($strTableName, 'IsRead', $strAliasPrefix . 'IsRead');
 		}
 
 
@@ -361,16 +405,16 @@
 		///////////////////////////////
 
 		/**
-		 * Instantiate a Client from a Database Row.
+		 * Instantiate a Message from a Database Row.
 		 * Takes in an optional strAliasPrefix, used in case another Object::InstantiateDbRow
-		 * is calling this Client::InstantiateDbRow in order to perform
+		 * is calling this Message::InstantiateDbRow in order to perform
 		 * early binding on referenced objects.
 		 * @param DatabaseRowBase $objDbRow
 		 * @param string $strAliasPrefix
 		 * @param string $strExpandAsArrayNodes
 		 * @param QBaseClass $arrPreviousItem
 		 * @param string[] $strColumnAliasArray
-		 * @return Client
+		 * @return Message
 		*/
 		public static function InstantiateDbRow($objDbRow, $strAliasPrefix = null, $strExpandAsArrayNodes = null, $arrPreviousItems = null, $strColumnAliasArray = array()) {
 			// If blank row, return null
@@ -378,18 +422,26 @@
 				return null;
 			}
 
-			// Create a new instance of the Client object
-			$objToReturn = new Client();
+			// Create a new instance of the Message object
+			$objToReturn = new Message();
 			$objToReturn->__blnRestored = true;
 
-			$strAliasName = array_key_exists($strAliasPrefix . 'IdClient', $strColumnAliasArray) ? $strColumnAliasArray[$strAliasPrefix . 'IdClient'] : $strAliasPrefix . 'IdClient';
-			$objToReturn->intIdClient = $objDbRow->GetColumn($strAliasName, 'Integer');
+			$strAliasName = array_key_exists($strAliasPrefix . 'IdMessage', $strColumnAliasArray) ? $strColumnAliasArray[$strAliasPrefix . 'IdMessage'] : $strAliasPrefix . 'IdMessage';
+			$objToReturn->intIdMessage = $objDbRow->GetColumn($strAliasName, 'Integer');
 			$strAliasName = array_key_exists($strAliasPrefix . 'IdUser', $strColumnAliasArray) ? $strColumnAliasArray[$strAliasPrefix . 'IdUser'] : $strAliasPrefix . 'IdUser';
 			$objToReturn->intIdUser = $objDbRow->GetColumn($strAliasName, 'Integer');
+			$strAliasName = array_key_exists($strAliasPrefix . 'Type', $strColumnAliasArray) ? $strColumnAliasArray[$strAliasPrefix . 'Type'] : $strAliasPrefix . 'Type';
+			$objToReturn->intType = $objDbRow->GetColumn($strAliasName, 'Integer');
+			$strAliasName = array_key_exists($strAliasPrefix . 'Body', $strColumnAliasArray) ? $strColumnAliasArray[$strAliasPrefix . 'Body'] : $strAliasPrefix . 'Body';
+			$objToReturn->strBody = $objDbRow->GetColumn($strAliasName, 'Blob');
+			$strAliasName = array_key_exists($strAliasPrefix . 'CreatedDate', $strColumnAliasArray) ? $strColumnAliasArray[$strAliasPrefix . 'CreatedDate'] : $strAliasPrefix . 'CreatedDate';
+			$objToReturn->dttCreatedDate = $objDbRow->GetColumn($strAliasName, 'DateTime');
+			$strAliasName = array_key_exists($strAliasPrefix . 'IsRead', $strColumnAliasArray) ? $strColumnAliasArray[$strAliasPrefix . 'IsRead'] : $strAliasPrefix . 'IsRead';
+			$objToReturn->blnIsRead = $objDbRow->GetColumn($strAliasName, 'Bit');
 
 			if (isset($arrPreviousItems) && is_array($arrPreviousItems)) {
 				foreach ($arrPreviousItems as $objPreviousItem) {
-					if ($objToReturn->IdClient != $objPreviousItem->IdClient) {
+					if ($objToReturn->IdMessage != $objPreviousItem->IdMessage) {
 						continue;
 					}
 
@@ -408,7 +460,7 @@
 
 			// Prepare to Check for Early/Virtual Binding
 			if (!$strAliasPrefix)
-				$strAliasPrefix = 'client__';
+				$strAliasPrefix = 'message__';
 
 			// Check for IdUserObject Early Binding
 			$strAlias = $strAliasPrefix . 'IdUser__IdUser';
@@ -423,11 +475,11 @@
 		}
 
 		/**
-		 * Instantiate an array of Clients from a Database Result
+		 * Instantiate an array of Messages from a Database Result
 		 * @param DatabaseResultBase $objDbResult
 		 * @param string $strExpandAsArrayNodes
 		 * @param string[] $strColumnAliasArray
-		 * @return Client[]
+		 * @return Message[]
 		 */
 		public static function InstantiateDbResult(QDatabaseResultBase $objDbResult, $strExpandAsArrayNodes = null, $strColumnAliasArray = null) {
 			$objToReturn = array();
@@ -443,14 +495,14 @@
 			if ($strExpandAsArrayNodes) {
 				$objToReturn = array();
 				while ($objDbRow = $objDbResult->GetNextRow()) {
-					$objItem = Client::InstantiateDbRow($objDbRow, null, $strExpandAsArrayNodes, $objToReturn, $strColumnAliasArray);
+					$objItem = Message::InstantiateDbRow($objDbRow, null, $strExpandAsArrayNodes, $objToReturn, $strColumnAliasArray);
 					if ($objItem) {
 						$objToReturn[] = $objItem;
 					}
 				}
 			} else {
 				while ($objDbRow = $objDbResult->GetNextRow())
-					$objToReturn[] = Client::InstantiateDbRow($objDbRow, null, null, null, $strColumnAliasArray);
+					$objToReturn[] = Message::InstantiateDbRow($objDbRow, null, null, null, $strColumnAliasArray);
 			}
 
 			return $objToReturn;
@@ -463,33 +515,33 @@
 		///////////////////////////////////////////////////
 			
 		/**
-		 * Load a single Client object,
-		 * by IdClient Index(es)
-		 * @param integer $intIdClient
+		 * Load a single Message object,
+		 * by IdMessage Index(es)
+		 * @param integer $intIdMessage
 		 * @param QQClause[] $objOptionalClauses additional optional QQClause objects for this query
-		 * @return Client
+		 * @return Message
 		*/
-		public static function LoadByIdClient($intIdClient, $objOptionalClauses = null) {
-			return Client::QuerySingle(
+		public static function LoadByIdMessage($intIdMessage, $objOptionalClauses = null) {
+			return Message::QuerySingle(
 				QQ::AndCondition(
-					QQ::Equal(QQN::Client()->IdClient, $intIdClient)
+					QQ::Equal(QQN::Message()->IdMessage, $intIdMessage)
 				),
 				$objOptionalClauses
 			);
 		}
 			
 		/**
-		 * Load an array of Client objects,
+		 * Load an array of Message objects,
 		 * by IdUser Index(es)
 		 * @param integer $intIdUser
 		 * @param QQClause[] $objOptionalClauses additional optional QQClause objects for this query
-		 * @return Client[]
+		 * @return Message[]
 		*/
 		public static function LoadArrayByIdUser($intIdUser, $objOptionalClauses = null) {
-			// Call Client::QueryArray to perform the LoadArrayByIdUser query
+			// Call Message::QueryArray to perform the LoadArrayByIdUser query
 			try {
-				return Client::QueryArray(
-					QQ::Equal(QQN::Client()->IdUser, $intIdUser),
+				return Message::QueryArray(
+					QQ::Equal(QQN::Message()->IdUser, $intIdUser),
 					$objOptionalClauses);
 			} catch (QCallerException $objExc) {
 				$objExc->IncrementOffset();
@@ -498,15 +550,15 @@
 		}
 
 		/**
-		 * Count Clients
+		 * Count Messages
 		 * by IdUser Index(es)
 		 * @param integer $intIdUser
 		 * @return int
 		*/
 		public static function CountByIdUser($intIdUser) {
-			// Call Client::QueryCount to perform the CountByIdUser query
-			return Client::QueryCount(
-				QQ::Equal(QQN::Client()->IdUser, $intIdUser)
+			// Call Message::QueryCount to perform the CountByIdUser query
+			return Message::QueryCount(
+				QQ::Equal(QQN::Message()->IdUser, $intIdUser)
 			);
 		}
 
@@ -524,14 +576,14 @@
 		//////////////////////////
 
 		/**
-		 * Save this Client
+		 * Save this Message
 		 * @param bool $blnForceInsert
 		 * @param bool $blnForceUpdate
 		 * @return int
 		 */
 		public function Save($blnForceInsert = false, $blnForceUpdate = false) {
 			// Get the Database Object for this Class
-			$objDatabase = Client::GetDatabase();
+			$objDatabase = Message::GetDatabase();
 
 			$mixToReturn = null;
 
@@ -539,15 +591,23 @@
 				if ((!$this->__blnRestored) || ($blnForceInsert)) {
 					// Perform an INSERT query
 					$objDatabase->NonQuery('
-						INSERT INTO `client` (
-							`IdUser`
+						INSERT INTO `message` (
+							`IdUser`,
+							`Type`,
+							`Body`,
+							`CreatedDate`,
+							`IsRead`
 						) VALUES (
-							' . $objDatabase->SqlVariable($this->intIdUser) . '
+							' . $objDatabase->SqlVariable($this->intIdUser) . ',
+							' . $objDatabase->SqlVariable($this->intType) . ',
+							' . $objDatabase->SqlVariable($this->strBody) . ',
+							' . $objDatabase->SqlVariable($this->dttCreatedDate) . ',
+							' . $objDatabase->SqlVariable($this->blnIsRead) . '
 						)
 					');
 
 					// Update Identity column and return its value
-					$mixToReturn = $this->intIdClient = $objDatabase->InsertId('client', 'IdClient');
+					$mixToReturn = $this->intIdMessage = $objDatabase->InsertId('message', 'IdMessage');
 				} else {
 					// Perform an UPDATE query
 
@@ -556,11 +616,15 @@
 					// Perform the UPDATE query
 					$objDatabase->NonQuery('
 						UPDATE
-							`client`
+							`message`
 						SET
-							`IdUser` = ' . $objDatabase->SqlVariable($this->intIdUser) . '
+							`IdUser` = ' . $objDatabase->SqlVariable($this->intIdUser) . ',
+							`Type` = ' . $objDatabase->SqlVariable($this->intType) . ',
+							`Body` = ' . $objDatabase->SqlVariable($this->strBody) . ',
+							`CreatedDate` = ' . $objDatabase->SqlVariable($this->dttCreatedDate) . ',
+							`IsRead` = ' . $objDatabase->SqlVariable($this->blnIsRead) . '
 						WHERE
-							`IdClient` = ' . $objDatabase->SqlVariable($this->intIdClient) . '
+							`IdMessage` = ' . $objDatabase->SqlVariable($this->intIdMessage) . '
 					');
 				}
 
@@ -578,66 +642,70 @@
 		}
 
 		/**
-		 * Delete this Client
+		 * Delete this Message
 		 * @return void
 		 */
 		public function Delete() {
-			if ((is_null($this->intIdClient)))
-				throw new QUndefinedPrimaryKeyException('Cannot delete this Client with an unset primary key.');
+			if ((is_null($this->intIdMessage)))
+				throw new QUndefinedPrimaryKeyException('Cannot delete this Message with an unset primary key.');
 
 			// Get the Database Object for this Class
-			$objDatabase = Client::GetDatabase();
+			$objDatabase = Message::GetDatabase();
 
 
 			// Perform the SQL Query
 			$objDatabase->NonQuery('
 				DELETE FROM
-					`client`
+					`message`
 				WHERE
-					`IdClient` = ' . $objDatabase->SqlVariable($this->intIdClient) . '');
+					`IdMessage` = ' . $objDatabase->SqlVariable($this->intIdMessage) . '');
 		}
 
 		/**
-		 * Delete all Clients
+		 * Delete all Messages
 		 * @return void
 		 */
 		public static function DeleteAll() {
 			// Get the Database Object for this Class
-			$objDatabase = Client::GetDatabase();
+			$objDatabase = Message::GetDatabase();
 
 			// Perform the Query
 			$objDatabase->NonQuery('
 				DELETE FROM
-					`client`');
+					`message`');
 		}
 
 		/**
-		 * Truncate client table
+		 * Truncate message table
 		 * @return void
 		 */
 		public static function Truncate() {
 			// Get the Database Object for this Class
-			$objDatabase = Client::GetDatabase();
+			$objDatabase = Message::GetDatabase();
 
 			// Perform the Query
 			$objDatabase->NonQuery('
-				TRUNCATE `client`');
+				TRUNCATE `message`');
 		}
 
 		/**
-		 * Reload this Client from the database.
+		 * Reload this Message from the database.
 		 * @return void
 		 */
 		public function Reload() {
 			// Make sure we are actually Restored from the database
 			if (!$this->__blnRestored)
-				throw new QCallerException('Cannot call Reload() on a new, unsaved Client object.');
+				throw new QCallerException('Cannot call Reload() on a new, unsaved Message object.');
 
 			// Reload the Object
-			$objReloaded = Client::Load($this->intIdClient);
+			$objReloaded = Message::Load($this->intIdMessage);
 
 			// Update $this's local variables to match
 			$this->IdUser = $objReloaded->IdUser;
+			$this->intType = $objReloaded->intType;
+			$this->strBody = $objReloaded->strBody;
+			$this->dttCreatedDate = $objReloaded->dttCreatedDate;
+			$this->blnIsRead = $objReloaded->blnIsRead;
 		}
 
 
@@ -658,12 +726,12 @@
 				///////////////////
 				// Member Variables
 				///////////////////
-				case 'IdClient':
+				case 'IdMessage':
 					/**
-					 * Gets the value for intIdClient (Read-Only PK)
+					 * Gets the value for intIdMessage (Read-Only PK)
 					 * @return integer
 					 */
-					return $this->intIdClient;
+					return $this->intIdMessage;
 
 				case 'IdUser':
 					/**
@@ -671,6 +739,34 @@
 					 * @return integer
 					 */
 					return $this->intIdUser;
+
+				case 'Type':
+					/**
+					 * Gets the value for intType (Not Null)
+					 * @return integer
+					 */
+					return $this->intType;
+
+				case 'Body':
+					/**
+					 * Gets the value for strBody (Not Null)
+					 * @return string
+					 */
+					return $this->strBody;
+
+				case 'CreatedDate':
+					/**
+					 * Gets the value for dttCreatedDate (Not Null)
+					 * @return QDateTime
+					 */
+					return $this->dttCreatedDate;
+
+				case 'IsRead':
+					/**
+					 * Gets the value for blnIsRead 
+					 * @return boolean
+					 */
+					return $this->blnIsRead;
 
 
 				///////////////////
@@ -737,6 +833,58 @@
 						throw $objExc;
 					}
 
+				case 'Type':
+					/**
+					 * Sets the value for intType (Not Null)
+					 * @param integer $mixValue
+					 * @return integer
+					 */
+					try {
+						return ($this->intType = QType::Cast($mixValue, QType::Integer));
+					} catch (QCallerException $objExc) {
+						$objExc->IncrementOffset();
+						throw $objExc;
+					}
+
+				case 'Body':
+					/**
+					 * Sets the value for strBody (Not Null)
+					 * @param string $mixValue
+					 * @return string
+					 */
+					try {
+						return ($this->strBody = QType::Cast($mixValue, QType::String));
+					} catch (QCallerException $objExc) {
+						$objExc->IncrementOffset();
+						throw $objExc;
+					}
+
+				case 'CreatedDate':
+					/**
+					 * Sets the value for dttCreatedDate (Not Null)
+					 * @param QDateTime $mixValue
+					 * @return QDateTime
+					 */
+					try {
+						return ($this->dttCreatedDate = QType::Cast($mixValue, QType::DateTime));
+					} catch (QCallerException $objExc) {
+						$objExc->IncrementOffset();
+						throw $objExc;
+					}
+
+				case 'IsRead':
+					/**
+					 * Sets the value for blnIsRead 
+					 * @param boolean $mixValue
+					 * @return boolean
+					 */
+					try {
+						return ($this->blnIsRead = QType::Cast($mixValue, QType::Boolean));
+					} catch (QCallerException $objExc) {
+						$objExc->IncrementOffset();
+						throw $objExc;
+					}
+
 
 				///////////////////
 				// Member Objects
@@ -762,7 +910,7 @@
 
 						// Make sure $mixValue is a SAVED User object
 						if (is_null($mixValue->IdUser))
-							throw new QCallerException('Unable to set an unsaved IdUserObject for this Client');
+							throw new QCallerException('Unable to set an unsaved IdUserObject for this Message');
 
 						// Update Local Member Variables
 						$this->objIdUserObject = $mixValue;
@@ -809,17 +957,21 @@
 		////////////////////////////////////////
 
 		public static function GetSoapComplexTypeXml() {
-			$strToReturn = '<complexType name="Client"><sequence>';
-			$strToReturn .= '<element name="IdClient" type="xsd:int"/>';
+			$strToReturn = '<complexType name="Message"><sequence>';
+			$strToReturn .= '<element name="IdMessage" type="xsd:int"/>';
 			$strToReturn .= '<element name="IdUserObject" type="xsd1:User"/>';
+			$strToReturn .= '<element name="Type" type="xsd:int"/>';
+			$strToReturn .= '<element name="Body" type="xsd:string"/>';
+			$strToReturn .= '<element name="CreatedDate" type="xsd:dateTime"/>';
+			$strToReturn .= '<element name="IsRead" type="xsd:boolean"/>';
 			$strToReturn .= '<element name="__blnRestored" type="xsd:boolean"/>';
 			$strToReturn .= '</sequence></complexType>';
 			return $strToReturn;
 		}
 
 		public static function AlterSoapComplexTypeArray(&$strComplexTypeArray) {
-			if (!array_key_exists('Client', $strComplexTypeArray)) {
-				$strComplexTypeArray['Client'] = Client::GetSoapComplexTypeXml();
+			if (!array_key_exists('Message', $strComplexTypeArray)) {
+				$strComplexTypeArray['Message'] = Message::GetSoapComplexTypeXml();
 				User::AlterSoapComplexTypeArray($strComplexTypeArray);
 			}
 		}
@@ -828,18 +980,26 @@
 			$objArrayToReturn = array();
 
 			foreach ($objSoapArray as $objSoapObject)
-				array_push($objArrayToReturn, Client::GetObjectFromSoapObject($objSoapObject));
+				array_push($objArrayToReturn, Message::GetObjectFromSoapObject($objSoapObject));
 
 			return $objArrayToReturn;
 		}
 
 		public static function GetObjectFromSoapObject($objSoapObject) {
-			$objToReturn = new Client();
-			if (property_exists($objSoapObject, 'IdClient'))
-				$objToReturn->intIdClient = $objSoapObject->IdClient;
+			$objToReturn = new Message();
+			if (property_exists($objSoapObject, 'IdMessage'))
+				$objToReturn->intIdMessage = $objSoapObject->IdMessage;
 			if ((property_exists($objSoapObject, 'IdUserObject')) &&
 				($objSoapObject->IdUserObject))
 				$objToReturn->IdUserObject = User::GetObjectFromSoapObject($objSoapObject->IdUserObject);
+			if (property_exists($objSoapObject, 'Type'))
+				$objToReturn->intType = $objSoapObject->Type;
+			if (property_exists($objSoapObject, 'Body'))
+				$objToReturn->strBody = $objSoapObject->Body;
+			if (property_exists($objSoapObject, 'CreatedDate'))
+				$objToReturn->dttCreatedDate = new QDateTime($objSoapObject->CreatedDate);
+			if (property_exists($objSoapObject, 'IsRead'))
+				$objToReturn->blnIsRead = $objSoapObject->IsRead;
 			if (property_exists($objSoapObject, '__blnRestored'))
 				$objToReturn->__blnRestored = $objSoapObject->__blnRestored;
 			return $objToReturn;
@@ -852,7 +1012,7 @@
 			$objArrayToReturn = array();
 
 			foreach ($objArray as $objObject)
-				array_push($objArrayToReturn, Client::GetSoapObjectFromObject($objObject, true));
+				array_push($objArrayToReturn, Message::GetSoapObjectFromObject($objObject, true));
 
 			return unserialize(serialize($objArrayToReturn));
 		}
@@ -862,6 +1022,8 @@
 				$objObject->objIdUserObject = User::GetSoapObjectFromObject($objObject->objIdUserObject, false);
 			else if (!$blnBindRelatedObjects)
 				$objObject->intIdUser = null;
+			if ($objObject->dttCreatedDate)
+				$objObject->dttCreatedDate = $objObject->dttCreatedDate->qFormat(QDateTime::FormatSoap);
 			return $objObject;
 		}
 
@@ -876,8 +1038,12 @@
 			///////////////////
 			// Member Variables
 			///////////////////
-			$iArray['IdClient'] = $this->intIdClient;
+			$iArray['IdMessage'] = $this->intIdMessage;
 			$iArray['IdUser'] = $this->intIdUser;
+			$iArray['Type'] = $this->intType;
+			$iArray['Body'] = $this->strBody;
+			$iArray['CreatedDate'] = $this->dttCreatedDate;
+			$iArray['IsRead'] = $this->blnIsRead;
 			return new ArrayIterator($iArray);
 		}
 
@@ -899,29 +1065,41 @@
     /**
      * @uses QQNode
      *
-     * @property-read QQNode $IdClient
+     * @property-read QQNode $IdMessage
      * @property-read QQNode $IdUser
      * @property-read QQNodeUser $IdUserObject
+     * @property-read QQNode $Type
+     * @property-read QQNode $Body
+     * @property-read QQNode $CreatedDate
+     * @property-read QQNode $IsRead
      *
      *
 
      * @property-read QQNode $_PrimaryKeyNode
      **/
-	class QQNodeClient extends QQNode {
-		protected $strTableName = 'client';
-		protected $strPrimaryKey = 'IdClient';
-		protected $strClassName = 'Client';
+	class QQNodeMessage extends QQNode {
+		protected $strTableName = 'message';
+		protected $strPrimaryKey = 'IdMessage';
+		protected $strClassName = 'Message';
 		public function __get($strName) {
 			switch ($strName) {
-				case 'IdClient':
-					return new QQNode('IdClient', 'IdClient', 'Integer', $this);
+				case 'IdMessage':
+					return new QQNode('IdMessage', 'IdMessage', 'Integer', $this);
 				case 'IdUser':
 					return new QQNode('IdUser', 'IdUser', 'Integer', $this);
 				case 'IdUserObject':
 					return new QQNodeUser('IdUser', 'IdUserObject', 'Integer', $this);
+				case 'Type':
+					return new QQNode('Type', 'Type', 'Integer', $this);
+				case 'Body':
+					return new QQNode('Body', 'Body', 'Blob', $this);
+				case 'CreatedDate':
+					return new QQNode('CreatedDate', 'CreatedDate', 'DateTime', $this);
+				case 'IsRead':
+					return new QQNode('IsRead', 'IsRead', 'Bit', $this);
 
 				case '_PrimaryKeyNode':
-					return new QQNode('IdClient', 'IdClient', 'Integer', $this);
+					return new QQNode('IdMessage', 'IdMessage', 'Integer', $this);
 				default:
 					try {
 						return parent::__get($strName);
@@ -934,29 +1112,41 @@
 	}
 
     /**
-     * @property-read QQNode $IdClient
+     * @property-read QQNode $IdMessage
      * @property-read QQNode $IdUser
      * @property-read QQNodeUser $IdUserObject
+     * @property-read QQNode $Type
+     * @property-read QQNode $Body
+     * @property-read QQNode $CreatedDate
+     * @property-read QQNode $IsRead
      *
      *
 
      * @property-read QQNode $_PrimaryKeyNode
      **/
-	class QQReverseReferenceNodeClient extends QQReverseReferenceNode {
-		protected $strTableName = 'client';
-		protected $strPrimaryKey = 'IdClient';
-		protected $strClassName = 'Client';
+	class QQReverseReferenceNodeMessage extends QQReverseReferenceNode {
+		protected $strTableName = 'message';
+		protected $strPrimaryKey = 'IdMessage';
+		protected $strClassName = 'Message';
 		public function __get($strName) {
 			switch ($strName) {
-				case 'IdClient':
-					return new QQNode('IdClient', 'IdClient', 'integer', $this);
+				case 'IdMessage':
+					return new QQNode('IdMessage', 'IdMessage', 'integer', $this);
 				case 'IdUser':
 					return new QQNode('IdUser', 'IdUser', 'integer', $this);
 				case 'IdUserObject':
 					return new QQNodeUser('IdUser', 'IdUserObject', 'integer', $this);
+				case 'Type':
+					return new QQNode('Type', 'Type', 'integer', $this);
+				case 'Body':
+					return new QQNode('Body', 'Body', 'string', $this);
+				case 'CreatedDate':
+					return new QQNode('CreatedDate', 'CreatedDate', 'QDateTime', $this);
+				case 'IsRead':
+					return new QQNode('IsRead', 'IsRead', 'boolean', $this);
 
 				case '_PrimaryKeyNode':
-					return new QQNode('IdClient', 'IdClient', 'integer', $this);
+					return new QQNode('IdMessage', 'IdMessage', 'integer', $this);
 				default:
 					try {
 						return parent::__get($strName);

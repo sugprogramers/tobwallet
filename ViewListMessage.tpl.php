@@ -37,10 +37,13 @@
         var pnl = document.getElementById('Found2');
         pnl.style.visibility = "visible";
         pnl.style.display = "block";
+
     }
 
 </script>
 
+
+<!-- Page -->
 <div class="page">
     <div class="page-header">
         <h1 class="page-title"> <i class="site-menu-icon wb-users" aria-hidden="true"></i> Users</h1>
@@ -111,17 +114,17 @@
                 <div class="site-action" > <?php $this->btnNewUsuario->Render(); ?></div>
                 <!-- End Example Basic Sort -->
             </div>
-            <!-- End Panel Body -->
         </div>
-        <!-- End Panel -->
     </div>
-    <!-- End Container -->
 </div>
 <!-- End Page -->
 
-<?php $this->dlgDialogEditUser->Render(); ?>
-<?php $this->dlgDialogAddCoins->Render(); ?>
+<?php $this->dlgDialogMessage->Render(); ?>
 <?php $this->dlgConfirm->Render(); ?>
+
+
+
+
 
 <div class="modal fade modal-3d-slit in" id="ventaModal" aria-hidden="true" aria-labelledby="examplePositionCenter"
      role="dialog" tabindex="-1"  data-backdrop="static" data-keyboard="false">
@@ -149,7 +152,20 @@
     </div>
 </div>
 
+
+
+
+
+
+
 <?php $this->RenderEnd(); ?>
+
+
+
+
+
+
+
 
 <script>
     (function (document, window, $) {
@@ -159,7 +175,15 @@
     })(document, window, jQuery);
 </script>
 
+
+
+
 <?php require(__CONFIGURATION__ . '/footer.inc.php'); ?>
+
+
+
+
+ 
 
 
 </body>
