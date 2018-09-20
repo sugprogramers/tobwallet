@@ -1,13 +1,11 @@
 <?php
-/*
-    Tomar una fotografía y guardarla en un archivo
-    @date 2017-11-22
-    @author parzibyte
-    @web parzibyte.me/blog
-*/
+
+require('includes/configuration/prepend.inc.php');
+
 
 $imagenCodificada = file_get_contents("php://input"); //Obtener la imagen
-if(strlen($imagenCodificada) <= 0) exit("No se recibió ninguna imagen");
+if (strlen($imagenCodificada) <= 0)
+    exit("No se recibió ninguna imagen");
 //La imagen traerá al inicio data:image/png;base64, cosa que debemos remover
 $imagenCodificadaLimpia = str_replace("data:image/png;base64,", "", urldecode($imagenCodificada));
 
@@ -15,11 +13,13 @@ $imagenCodificadaLimpia = str_replace("data:image/png;base64,", "", urldecode($i
 //todo el contenido lo guardamos en un archivo
 $imagenDecodificada = base64_decode($imagenCodificadaLimpia);
 
+$iduser = $_SESSION['tobwalletiduser'];
+$idoffer = $_SESSION['tobwalletidoffer'];
 //Calcular un nombre único
-$nombreImagenGuardada = "foto_" . uniqid() . ".png";
+$nombreImagenGuardada = "foto_" . $iduser . "_" . $idoffer . ".png";
 
 //Escribir el archivo
-file_put_contents($nombreImagenGuardada, $imagenDecodificada);
+file_put_contents("./photoclientoffer/" . $nombreImagenGuardada, $imagenDecodificada);
 
 //Terminar y regresar el nombre de la foto
 exit($nombreImagenGuardada);

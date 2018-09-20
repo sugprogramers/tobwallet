@@ -14,3 +14,8 @@ function showDialogAlert(type, msg){
             '</div>';
     $("#alertDialogContent").html(tpl);
 }
+
+function hideDialogAlert(){
+    var tpl ='';
+    $("#alertDialogContent").html(tpl);
+}

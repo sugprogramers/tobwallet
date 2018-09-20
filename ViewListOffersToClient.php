@@ -19,7 +19,6 @@ class ViewListOffersToClientForm extends QForm {
     protected $txtModelo;
     protected $btnFilter;
     protected $btnExcel;
-    
     protected $alertTypes;
 
     protected function Form_Run() {
@@ -61,9 +60,7 @@ class ViewListOffersToClientForm extends QForm {
         $this->dtgOffersToClient->MetaAddColumn('OfferedCoins', "Name=Coins per Person");
         $this->dtgOffersToClient->MetaAddColumn('MaxOffers', "Name=Total Offers");
         $this->dtgOffersToClient->AddColumn(new QDataGridColumn('Remaing Offers', '<?= $_FORM->actionsCalculateRemainOffer($_ITEM); ?>', 'HtmlEntities=false', 'Width=100'));
-        $this->dtgOffersToClient->AddColumn(new QDataGridColumn('', '<?= $_FORM->actionsRender($_ITEM); ?>', 'HtmlEntities=false', 'Width=100'));
-
-
+        $this->dtgOffersToClient->AddColumn(new QDataGridColumn('Validate', '<?= $_FORM->actionsRender($_ITEM); ?>', 'HtmlEntities=false', 'Width=100'));
 
         $user = @unserialize($_SESSION['TobUser']);
         $searchTipo = QQ::NotIn(QQN::Offer()->IdOffer, QQ::SubSql("SELECT  IdOffer from balance where iduser = " . $user->IdUser));
@@ -86,8 +83,6 @@ class ViewListOffersToClientForm extends QForm {
             );
         }
 
-
-
         $this->btnNewModelo = new QButton($this);
         $this->btnNewModelo->Text = '<i class="icon wb-plus" aria-hidden="true"></i>';
         $this->btnNewModelo->CssClass = "site-action-toggle btn-raised btn btn-primary btn-floating";
@@ -102,7 +97,7 @@ class ViewListOffersToClientForm extends QForm {
         $this->btnFilter->HtmlEntities = false;
         $this->btnFilter->Text = '<i class="icon fa-filter" aria-hidden="true"></i>';
         $this->btnFilter->AddAction(new QClickEvent(), new QAjaxAction('actionFilter_Click'));
-        
+
         $this->alertTypes = getAlertTypes();
     }
 
@@ -130,8 +125,7 @@ class ViewListOffersToClientForm extends QForm {
 
         $this->dtgOffersToClient->Refresh();
 
-        //QApplication::ExecuteJavaScript("showSuccess('Filter correctly!');");
-        QApplication::ExecuteJavaScript("showAlert('".$this->alertTypes['success']."','Filter correctly!');");
+        QApplication::ExecuteJavaScript("showAlert('" . $this->alertTypes['success'] . "','Filter correctly!');");
     }
 
     public function btnNewModelo_Click($strFormId, $strControlId, $strParameter) {
@@ -164,8 +158,8 @@ class ViewListOffersToClientForm extends QForm {
             $editCtrl = new QLabel($this->dtgOffersToClient, $controlID);
             $editCtrl->HtmlEntities = FALSE;
             $editCtrl->Cursor = QCursor::Pointer;
-            $editCtrl->Text = '<div  class="btn btn-sm btn-icon btn-flat btn-default" data-toggle="tooltip" data-original-title="Validate">
-                            <i class="icon wb-camera" aria-hidden="true"></i>
+            $editCtrl->Text = '<div  class="btn btn-sm btn-icon btn-flat btn-default" data-toggle="tooltip" data-original-title="Validate by QR Code">
+                            <i class="fa fa-qrcode" aria-hidden="true"></i>
                           </div>';
             $editCtrl->ActionParameter = $id->IdOffer;
             $editCtrl->AddAction(new QClickEvent(), new QAjaxAction('validateoffer_Click'));
@@ -178,30 +172,32 @@ class ViewListOffersToClientForm extends QForm {
             $validatePhotoCtrl = new QLabel($this->dtgOffersToClient, $controlID);
             $validatePhotoCtrl->HtmlEntities = FALSE;
             $validatePhotoCtrl->Cursor = QCursor::Pointer;
-            $validatePhotoCtrl->Text = '<div  class="btn btn-sm btn-icon btn-flat btn-default" data-toggle="tooltip" data-original-title="Photo">
-                            <i class="icon wb-camera" aria-hidden="true"></i>
+            $validatePhotoCtrl->Text = '<div  class="btn btn-sm btn-icon btn-flat btn-default" data-toggle="tooltip" data-original-title="Validate by Photo">
+                            <i class="fa fa-camera" aria-hidden="true"></i>
                           </div>';
             $validatePhotoCtrl->ActionParameter = $id->IdOffer;
             $validatePhotoCtrl->AddAction(new QClickEvent(), new QAjaxAction('validateofferphoto_Click'));
         }
         return "<center>" . $editCtrl->Render(false) . " " . $validatePhotoCtrl->Render(false) . "</center>";
+
+//        return "<center>" . $editCtrl->Render(false) . "</center>";
     }
 
     public function validateoffer_Click($strFormId, $strControlId, $strParameter) {
         $this->dlgDialogEditModelo->Title = addslashes("<i class='icon wb-edit'></i> Validating offer ...");
         $this->dlgDialogEditModelo->txtMessage = "";
         $this->dlgDialogEditModelo->ID = intval($strParameter);
+//        $this->dlgDialogEditModelo->loadDefault();
         $this->dlgDialogEditModelo->ShowDialogBox();
     }
 
     public function validateofferphoto_Click($strFormId, $strControlId, $strParameter) {
         $this->dlgValidateOfferPhoto->Title = addslashes("<i class='icon wb-edit'></i> Validating offer ...");
-        $this->dlgValidateOfferPhoto->txtMessage = "aaaaaaaaaa";
+        $this->dlgValidateOfferPhoto->txtMessage = "";
         $this->dlgValidateOfferPhoto->ID = intval($strParameter);
+        $this->dlgValidateOfferPhoto->loadDefault();
         $this->dlgValidateOfferPhoto->ShowDialogBox();
     }
-
-    
 
     public function edit_Click($strFormId, $strControlId, $strParameter) {
         $this->dlgDialogEditModelo->Title = addslashes("<i class='icon wb-edit'></i> Apply offer");
@@ -222,10 +218,10 @@ class ViewListOffersToClientForm extends QForm {
             $users = Offer::LoadByIdOffer(intval($id));
             $users->Delete();
             $this->items_Found();
-            QApplication::ExecuteJavaScript("showAlert('".$this->alertTypes['success']."','Deleted successfully!');");
+            QApplication::ExecuteJavaScript("showAlert('" . $this->alertTypes['success'] . "','Deleted successfully!');");
             //QApplication::ExecuteJavaScript("showSuccess('Eliminado Correctamente!');");
         } catch (QMySqliDatabaseException $ex) {
-            QApplication::ExecuteJavaScript("showAlert('".$this->alertTypes['warning']."','".str_replace("'", "\'", $ex->getMessage())."');");
+            QApplication::ExecuteJavaScript("showAlert('" . $this->alertTypes['warning'] . "','" . str_replace("'", "\'", $ex->getMessage()) . "');");
             //QApplication::ExecuteJavaScript("showWarning('Error " . str_replace("'", "\'", $ex->getMessage()) . "');");
         }
     }
@@ -235,7 +231,7 @@ class ViewListOffersToClientForm extends QForm {
         if ($update) {
             $this->dtgOffersToClient->Refresh();
             $this->items_Found();
-            QApplication::ExecuteJavaScript("showAlert('".$this->alertTypes['success']."','Data updated correctly!');");
+            QApplication::ExecuteJavaScript("showAlert('" . $this->alertTypes['success'] . "','Data updated correctly!');");
             //QApplication::ExecuteJavaScript("showSuccess('¡Datos actualizados correctamente!');");
         }
     }

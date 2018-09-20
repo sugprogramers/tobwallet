@@ -17,14 +17,13 @@ class ViewListBalanceClientForm extends QForm {
     protected $btnFilter;
     protected $btnExcel;
     protected $lblTotal;
-    
     protected $alertTypes;
 
     protected function Form_Run() {
 
         $Datos1 = @unserialize($_SESSION['TobUser']);
 
-        if ($Datos1 && $Datos1->UserType=="C") {
+        if ($Datos1 && $Datos1->UserType == "C") {
             $this->user = User::LoadByEmail($Datos1->Email);
         } else {
             QApplication::Redirect(__VIRTUAL_DIRECTORY__ . __SUBDIRECTORY__ . '/login');
@@ -56,6 +55,7 @@ class ViewListBalanceClientForm extends QForm {
         $this->dtgOffersToClient->AddColumn(new QDataGridColumn('Restaurant', '<?= $_FORM->getRestaurant($_ITEM); ?>', 'HtmlEntities=false', 'Width=auto'));
         $this->dtgOffersToClient->MetaAddColumn('Date');
         $this->dtgOffersToClient->MetaAddColumn('AmountExchangedCoins', "Name=Earned Coins");
+        $this->dtgOffersToClient->AddColumn(new QDataGridColumn('Photo', '<?= $_FORM->getPhotoOffer($_ITEM); ?>', 'HtmlEntities=false', 'Width=200'));
 
         $user = @unserialize($_SESSION['TobUser']);
         $searchTipo = QQ::Equal(QQN::Balance()->IdUser, $user->IdUser);
@@ -81,7 +81,7 @@ class ViewListBalanceClientForm extends QForm {
         $this->lblTotal = new QLabel($this);
         $this->lblTotal->Text = "<b>Total Earned Coins: " . $this->getCurrentAmountCoins() . "</b>";
         $this->lblTotal->HtmlEntities = false;
-        
+
         $this->alertTypes = getAlertTypes();
     }
 
@@ -105,13 +105,13 @@ class ViewListBalanceClientForm extends QForm {
         } else {
             $searchTipo = QQ::Equal(QQN::Balance()->IdUser, $user->IdUser);
         }
-        
+
         $this->dtgOffersToClient->AdditionalConditions = QQ::AndCondition(
                         $searchTipo
         );
 
         $this->dtgOffersToClient->Refresh();
-        QApplication::ExecuteJavaScript("showAlert('".$this->alertTypes['success']."','Filter correctly!');");
+        QApplication::ExecuteJavaScript("showAlert('" . $this->alertTypes['success'] . "','Filter correctly!');");
         //QApplication::ExecuteJavaScript("showSuccess('Filter correctly!');");
     }
 
@@ -127,6 +127,13 @@ class ViewListBalanceClientForm extends QForm {
         $offer = $balance->IdOfferObject->Description;
 
         return "<center>" . $offer . "</center>";
+    }
+
+    public function getPhotoOffer(Balance $balance) {
+        $user = @unserialize($_SESSION['TobUser']);
+        $nameimage = "foto_" . $user->IdUser . "_" . $balance->IdOffer . ".png";
+
+        return '<img src="' . __VIRTUAL_DIRECTORY__ . __SUBDIRECTORY__ . '/photoclientoffer/' . $nameimage . '"  class="img-responsive">';
     }
 
     public function getRestaurant(Balance $balance) {
@@ -180,9 +187,9 @@ class ViewListBalanceClientForm extends QForm {
             $users->Delete();
             $this->items_Found();
             //QApplication::ExecuteJavaScript("showSuccess('Eliminado Correctamente!');");
-            QApplication::ExecuteJavaScript("showAlert('".$this->alertTypes['success']."','Deleted successfully!');");
+            QApplication::ExecuteJavaScript("showAlert('" . $this->alertTypes['success'] . "','Deleted successfully!');");
         } catch (QMySqliDatabaseException $ex) {
-            QApplication::ExecuteJavaScript("showAlert('".$this->alertTypes['warning']."','".str_replace("'", "\'", $ex->getMessage())."');");
+            QApplication::ExecuteJavaScript("showAlert('" . $this->alertTypes['warning'] . "','" . str_replace("'", "\'", $ex->getMessage()) . "');");
             //QApplication::ExecuteJavaScript("showWarning('Error " . str_replace("'", "\'", $ex->getMessage()) . "');");
         }
     }
@@ -192,7 +199,7 @@ class ViewListBalanceClientForm extends QForm {
         if ($update) {
             $this->dtgOffersToClient->Refresh();
             $this->items_Found();
-            QApplication::ExecuteJavaScript("showAlert('".$this->alertTypes['success']."','Data updated correctly!');");
+            QApplication::ExecuteJavaScript("showAlert('" . $this->alertTypes['success'] . "','Data updated correctly!');");
             //QApplication::ExecuteJavaScript("showSuccess('¡Datos actualizados correctamente!');");
         }
     }

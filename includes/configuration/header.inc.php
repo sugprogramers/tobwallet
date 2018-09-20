@@ -79,8 +79,7 @@
         <script src="<?php _p(__VIRTUAL_DIRECTORY__ . __SUBDIRECTORY__); ?>/template/assets/vendor/modernizr/modernizr.min.js"></script>
         <script src="<?php _p(__VIRTUAL_DIRECTORY__ . __SUBDIRECTORY__); ?>/template/assets/vendor/breakpoints/breakpoints.min.js"></script>
 
-        <script src="<?php _p(__VIRTUAL_DIRECTORY__ . __SUBDIRECTORY__); ?>/template/assets/js/instascan/instascan.min.js"></script>
-        <script src="<?php _p(__VIRTUAL_DIRECTORY__ . __SUBDIRECTORY__); ?>/template/assets/js/qrcodegpssetting/app.js"></script>
+
 
         <!--<script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyACJapLIVhm-uVWitwICh24232jYdkP1SQ&signed_in=true"></script>-->
 <!--        <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyAXfH16XT0bi2DuXuQRr7lIDEys3eKSxQM&signed_in=true"</script>-->

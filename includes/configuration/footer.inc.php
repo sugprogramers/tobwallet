@@ -124,14 +124,14 @@
 <script src="<?php _p(__VIRTUAL_DIRECTORY__ . __SUBDIRECTORY__); ?>/template/assets/js/qrcode/html5-qrcode.min.js"></script>
 <script src="<?php _p(__VIRTUAL_DIRECTORY__ . __SUBDIRECTORY__); ?>/template/assets/js/qrcode/jsqrcode-combined.min.js"></script>
 
-
 <script src="<?php _p(__VIRTUAL_DIRECTORY__ . __SUBDIRECTORY__); ?>/utilities/alerts.js"></script>
 <script src="<?php _p(__VIRTUAL_DIRECTORY__ . __SUBDIRECTORY__); ?>/utilities/mapUtilities.js"></script>
 
-
+<script src="<?php _p(__VIRTUAL_DIRECTORY__ . __SUBDIRECTORY__); ?>/template/assets/js/instascan/instascan.min.js"></script>
+<script src="<?php _p(__VIRTUAL_DIRECTORY__ . __SUBDIRECTORY__); ?>/template/assets/js/qrcodegpssetting/app.js"></script>
 <!--<script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyAXfH16XT0bi2DuXuQRr7lIDEys3eKSxQM&callback=initMap"</script>-->
 <!--<script async defer
-        src="https://maps.googleapis.com/maps/api/js?key=AIzaSyAqTXclqkC6GafrzLs8x55R_3MTj_FlpD8&callback=initMap">
+src="https://maps.googleapis.com/maps/api/js?key=AIzaSyAqTXclqkC6GafrzLs8x55R_3MTj_FlpD8&callback=initMap">
 </script>-->
 <script async defer
         src="https://maps.googleapis.com/maps/api/js?key=AIzaSyAqTXclqkC6GafrzLs8x55R_3MTj_FlpD8&callback=initMap">

@@ -10,6 +10,7 @@ class DialogValidateOffer extends QDialogBox {
     public $btnValidarQr;
     public $btnValidarUbicacion;
     public $btnHideClick;
+    public $btnHideClickLoadDefault;
     public $txtCurrentAddress;
     public $txtHideText;
 
@@ -33,6 +34,47 @@ class DialogValidateOffer extends QDialogBox {
 
         $this->txtMessage = "default message...";
 
+//        $this->btnYes = new QButton($this);
+//        $this->btnYes->Text = '<i class="icon fa-check" aria-hidden="true"></i> Apply';
+//        $this->btnYes->HtmlEntities = false;
+//        $this->btnYes->Enabled = FALSE;
+//        $this->btnYes->CssClass = "btn btn-raised btn-primary";
+//        $this->btnYes->AddAction(new QClickEvent(), new QAjaxControlAction($this, 'btnYes_Click'));
+//
+//        $this->btnNo = new QButton($this);
+//        $this->btnNo->Text = '<i class="icon fa-close" aria-hidden="true"></i> Cancel';
+//        $this->btnNo->HtmlEntities = false;
+//        $this->btnNo->CssClass = "btn btn-raised btn-danger";
+//        $this->btnNo->AddAction(new QClickEvent(), new QAjaxControlAction($this, 'btnNo_Click'));
+//
+//        $this->btnValidarQr = new QButton($this);
+//        $this->btnValidarQr->Text = '<i class="icon wb-camera" aria-hidden="true"></i> Validate QR ';
+//        $this->btnValidarQr->HtmlEntities = false;
+//        $this->btnValidarQr->CssClass = "btn btn-raised btn-secondary";
+//        $this->btnValidarQr->AddAction(new QClickEvent(), new QAjaxControlAction($this, 'btnMostrarCamera_Click'));
+//
+//        $this->btnValidarUbicacion = new QButton($this);
+//        $this->btnValidarUbicacion->Text = '<i class="fas fa-location-arrow" aria-hidden="true"></i> Validate Location ';
+//        $this->btnValidarUbicacion->HtmlEntities = false;
+//        $this->btnValidarUbicacion->CssClass = "btn btn-raised btn-secondary";
+//        $this->btnValidarUbicacion->Enabled = false;
+//        $this->btnValidarUbicacion->AddAction(new QClickEvent(), new QAjaxControlAction($this, 'btnHideClick_Click'));
+//
+//        $this->btnHideClick = new QButton($this);
+//        $this->btnHideClick->Text = '';
+//        $this->btnHideClick->HtmlEntities = false;
+//        $this->btnHideClick->CssClass = "hide";
+//        $this->btnHideClick->AddAction(new QClickEvent(), new QAjaxControlAction($this, 'btnHideClick_Click'));
+//
+//        $this->txtCurrentAddress = new QTextBox($this);
+//        $this->txtCurrentAddress->Enabled = false;
+//
+//        $this->txtHideText = new QTextBox($this);
+//        $this->txtHideText->CssClass = "hide";
+        $this->loadDefault();
+    }
+
+    public function loadDefault() {
         $this->btnYes = new QButton($this);
         $this->btnYes->Text = '<i class="icon fa-check" aria-hidden="true"></i> Apply';
         $this->btnYes->HtmlEntities = false;
@@ -93,7 +135,7 @@ class DialogValidateOffer extends QDialogBox {
 
         if ($preText == "qr") {
             if ($info == $idRestaurant) {
-                QApplication::ExecuteJavaScript("showSuccess('Verificacion correcta 1/2 ...');");
+                QApplication::ExecuteJavaScript("showSuccess('Correct verification 1/2 ...');");
                 QApplication::ExecuteJavaScript("getLocation();");
 
                 $this->btnValidarQr->Text = '<i class="icon wb-camera" aria-hidden="true"></i> Validate QR <i class="icon fa-check" aria-hidden="true"></i>';
@@ -103,7 +145,7 @@ class DialogValidateOffer extends QDialogBox {
                 $this->txtHideText->Refresh();
                 $this->btnValidarUbicacion->Refresh();
             } else {
-                QApplication::ExecuteJavaScript("showError('La imagen qr no coincide con la oferta');");
+                QApplication::ExecuteJavaScript("showError('The qr image does not match the offer');");
                 $this->btnValidarQr->Text = '<i class="icon wb-camera" aria-hidden="true"></i> Validate QR <i class="icon fa-close" aria-hidden="true"></i>';
                 $this->btnValidarQr->CssClass = "btn btn-raised btn-danger";
             }
@@ -111,7 +153,7 @@ class DialogValidateOffer extends QDialogBox {
         } else if ($preText == "gps") {
 
             if ($this->txtCurrentAddress->Text == "") {
-                QApplication::ExecuteJavaScript("showWarning('Porfavor active su GPS para la continuar');");
+                QApplication::ExecuteJavaScript("showWarning('Please activate your GPS to continue');");
             } else {
                 $latLong = explode(";", $info);
                 $txtLat = $latLong[0];
@@ -122,7 +164,7 @@ class DialogValidateOffer extends QDialogBox {
                 $objLon = $objRestaurant->Longitude;
 
                 if ((abs($txtLat) - abs($objLat)) < 1 && (abs($txtLong) - abs($objLon)) < 1) {
-                    QApplication::ExecuteJavaScript("showSuccess('Verificacion correcta 2/2 ...');");
+                    QApplication::ExecuteJavaScript("showSuccess('Correct verification 2/2 ...');");
 
                     $this->btnValidarUbicacion->Text = '<i class="icon wb-camera" aria-hidden="true"></i> Validate Location <i class="icon fa-check" aria-hidden="true"></i>';
                     $this->btnValidarUbicacion->CssClass = "btn btn-raised btn-success";
@@ -130,7 +172,7 @@ class DialogValidateOffer extends QDialogBox {
                 } else {
                     $this->btnValidarUbicacion->Text = '<i class="icon wb-camera" aria-hidden="true"></i> Validate Location <i class="icon fa-close" aria-hidden="true"></i>';
                     $this->btnValidarUbicacion->CssClass = "btn btn-raised btn-danger";
-                    QApplication::ExecuteJavaScript("showError('Usted no se encuentra cerca del restaurante ');");
+                    QApplication::ExecuteJavaScript("showError('You are not near the restaurant ');");
                 }
                 $this->btnYes->Refresh();
                 $this->btnValidarUbicacion->Refresh();
@@ -159,14 +201,14 @@ class DialogValidateOffer extends QDialogBox {
                 $objBalance->IdOffer = $objOffer->IdOffer;
 
                 $objBalance->Save();
-                QApplication::ExecuteJavaScript("showSuccess('Oferta aplicada correctamente ...');");
+                QApplication::ExecuteJavaScript("showSuccess('Offer applied correctly ...');");
             } else {
-                QApplication::ExecuteJavaScript("showWarning('Lo sentimos, ya has aplicado a esta oferta en otra instancia!');");
+                QApplication::ExecuteJavaScript("showWarning('Sorry, you have already applied to this offer in another instance!');");
             }
 
             $this->CloseSelf(true);
         } else {
-            QApplication::ExecuteJavaScript("showError('Lo sentimos, ya se ha alcanzado el maximo de ofertas :(');");
+            QApplication::ExecuteJavaScript("showError('Sorry, the maximum number of offers has already been reached!');");
         }
     }
 
