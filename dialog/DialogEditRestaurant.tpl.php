@@ -24,7 +24,7 @@
     margin-bottom: 10px;
 }
 </style>
-<div id="alertDialogContent"></div>
+<div class="alertDialogContent"></div>
     
         <div class="example-wrap">
             <div class="nav-tabs-vertical">

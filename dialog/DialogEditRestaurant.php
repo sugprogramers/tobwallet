@@ -221,7 +221,8 @@ class DialogEditRestaurant extends QDialogBox {
             $this->CloseSelf(false);
             QApplication::ExecuteJavaScript("showAlert('".$this->alertTypes['success']."','Data Saved Successfull!')");
         } catch (Exception $exc) {
-            QApplication::ExecuteJavaScript("showWarning('Error: " . str_replace("'", "\'", $exc->getMessage()) . "');");
+            //QApplication::ExecuteJavaScript("showWarning('Error: " . str_replace("'", "\'", $exc->getMessage()) . "');");
+            QApplication::ExecuteJavaScript("showDialogAlert('".$this->alertTypes['warning']."','".str_replace("'", "\'", $exc->getMessage())."');");
             if($this->haserror){
                 $this->ShowDialogBox();
             }

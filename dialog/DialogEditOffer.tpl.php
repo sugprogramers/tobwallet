@@ -17,6 +17,7 @@
     margin-bottom: 10px;
 }
        </style>
+       <div class="alertDialogContent"></div>
        
         <div class="form-group row">
             <label class="col-sm-4 control-label"><?php _p("Restaurant"); ?> </label>
