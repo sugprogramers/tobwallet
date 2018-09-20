@@ -12,6 +12,7 @@ require('utilities.php');
 class ViewListOwnerRestaurantForm extends QForm {
 
     protected $user;
+    protected $admin;
     protected $restaurant;
     protected $dtgUsuarios;
     protected $dtgRestaurants;
@@ -71,8 +72,10 @@ class ViewListOwnerRestaurantForm extends QForm {
         $this->dtgRestaurants->MetaAddColumn('Latitude');
         
         $this->dtgRestaurants->AddColumn(new QDataGridColumn('Logo', '<?= $_FORM->imagesRender($_ITEM); ?>', 'HtmlEntities=false'));
-
-        $this->dtgRestaurants->AddColumn(new QDataGridColumn('', '<?= $_FORM->actionsRender($_ITEM); ?>', 'HtmlEntities=false', 'Width=100'));
+        
+        if($this->user->StatusUser == 2){
+            $this->dtgRestaurants->AddColumn(new QDataGridColumn('', '<?= $_FORM->actionsRender($_ITEM); ?>', 'HtmlEntities=false', 'Width=100'));
+        }
 
         $this->lblWallet = new QLabel($this);
         $this->lblWallet->HtmlEntities = false;
@@ -112,8 +115,6 @@ class ViewListOwnerRestaurantForm extends QForm {
         
         $this->alertTypes = getAlertTypes();
     }
-    
-    
 
     protected function items_Found() {
         $countProjects = Restaurant::CountAll();
@@ -208,21 +209,6 @@ class ViewListOwnerRestaurantForm extends QForm {
         }
     }
 
-    /* public function statusRender(User $obj) {
-
-      if ($obj->StatusUser == 1) {
-      return '<div class="label label-table label-warning">Register</div>';
-      } else if ($obj->StatusUser == 2) {
-      return '<div class="label label-table label-success">Approved</div>';
-      } if ($obj->StatusUser == 3) {
-      return '<div class="label label-table label-danger">Rejected</div>';
-      } if ($obj->StatusUser == 4) {
-      return '<div class="label label-table label-primary">Mining</div>';
-      } else {
-      return '<div class="label label-table label-default">None</div>';
-      }
-      } */
-
     public function imagesRender(Restaurant $obj) {
         $template='';
         if($obj->Logo == null || $obj->Logo==''){
@@ -231,65 +217,7 @@ class ViewListOwnerRestaurantForm extends QForm {
             $template = '<div style="font-size:12px;">'
                       . '<a href="'.__UPLOAD_PATH__."/".$obj->Logo.'"  target="_blank">Logo</a></div>';
         }
-         
-         
-         return   /*'<div style="font-size:12px;">'
-                      . '<a href="'.__UPLOAD_PATH__."/".$obj->ImagePhoto.'"  target="_blank">Photo</a></div>';*/
-        $template;
-        
-    }
-
-    public function loginRender(Restaurant $obj) {
-        $controlID = 'login' . $obj->IdRestaurant;
-        $addCtrl = $this->dtgRestaurants->GetChildControl($controlID);
-        if (!$addCtrl) {
-            $addCtrl = new QLabel($this->dtgRestaurants, $controlID);
-            $addCtrl->HtmlEntities = FALSE;
-            $addCtrl->Cursor = QCursor::Pointer;
-            $addCtrl->Text = '<div  class="btn btn-sm btn-icon btn-flat btn-default" data-toggle="tooltip" data-original-title="Login">
-                            <i class="icon fa-sign-in" aria-hidden="true"></i>
-                          </div>';
-            $addCtrl->ActionParameter = $obj->IdRestaurant;
-            $addCtrl->AddAction(new QClickEvent(), new QAjaxAction('login_Click'));
-        }
-        return '<center>' . $addCtrl->Render(false) . '</center>';
-    }
-
-    protected function login_Click($strFormId, $strControlId, $strParameter) {
-        $User = Usuario::LoadByIdUsuario($strParameter);
-
-        if ($User) {
-            $User->Password = 'NULL';
-            $_SESSION['TobUser'] = serialize($User);
-            QApplication::Redirect(__VIRTUAL_DIRECTORY__ . __SUBDIRECTORY__ . '/profileuser');
-            return;
-        }
-    }
-
-    public function permisoRender(Restaurant $obj) {
-        $controlID = 'perm' . $obj->IdRestaurant;
-        $addCtrl = $this->dtgRestaurants->GetChildControl($controlID);
-        if (!$addCtrl) {
-            $addCtrl = new QLabel($this->dtgRestaurants, $controlID);
-            $addCtrl->HtmlEntities = FALSE;
-            $addCtrl->Cursor = QCursor::Pointer;
-            $addCtrl->Text = '<div  class="btn btn-sm btn-icon btn-flat btn-default" data-toggle="tooltip" data-original-title="Permiso">
-                            <i class="icon fa-check" aria-hidden="true"></i>
-                          </div>';
-            $addCtrl->ActionParameter = $obj->IdRestaurant;
-            $addCtrl->AddAction(new QClickEvent(), new QAjaxAction('permiso_Click'));
-        }
-        return '<center>' . $addCtrl->Render(false) . '</center>';
-    }
-
-    protected function permiso_Click($strFormId, $strControlId, $strParameter) {
-
-        $this->dlgDialogPermit->Title = addslashes("<i class='icon wb-edit'></i> Permisos Usuario");
-        $this->dlgDialogPermit->loadDefault($strParameter);
-        $this->dlgDialogPermit->ShowDialogBox();
-
-        //$strJavaScript ="$('[data-plugin=\"switchery\"]').load();";
-        //QApplication::ExecuteJavaScript($strJavaScript);
+        return $template;
     }
 
     public function actionsRender(Restaurant $id) {
@@ -382,10 +310,15 @@ class ViewListOwnerRestaurantForm extends QForm {
     protected function delete($id) {
         try {
             $restaurants = Restaurant::LoadByIdRestaurant(intval($id));
-            $restaurants->Delete();
-            $this->items_Found();
-            //QApplication::ExecuteJavaScript("showSuccess('Deleted successfully!');");
-            QApplication::ExecuteJavaScript("showAlert('".$this->alertTypes['success']."','Deleted successfully!');");
+            
+            if($this->user->StatusUser ==2){
+                $restaurants->Delete();
+                $this->items_Found();
+                //QApplication::ExecuteJavaScript("showSuccess('Deleted successfully!');");
+                QApplication::ExecuteJavaScript("showAlert('".$this->alertTypes['success']."','Deleted successfully!');");
+            }else{
+                QApplication::ExecuteJavaScript("showAlert('".$this->alertTypes['warning']."','You don\'t have permission to delete!');");
+            }
         } catch (QMySqliDatabaseException $ex) {
             QApplication::ExecuteJavaScript("showAlert('".$this->alertTypes['warning']."','".str_replace("'", "\'", $ex->getMessage())."');");
             //QApplication::ExecuteJavaScript("showWarning('Error " . str_replace("'", "\'", $ex->getMessage()) . "');");

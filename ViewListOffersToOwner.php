@@ -8,6 +8,7 @@ require_once('dialog/DialogEditOffer.php');
 require_once('dialog/DialogQR.php');
 require('general.php');
 require('utilities.php');
+require('permissions.php');
 
 //require('qrcode/phpqrcode.php');
 
@@ -24,8 +25,7 @@ class ViewListOffersToOwnerForm extends QForm {
     protected $lblWallet;
     protected $txtNombre;
     protected $btnFilter;
-    protected  $dlgQRConfirm;
-    
+    protected $dlgQRConfirm;
     
     protected $btnEraserFilter;
     
@@ -36,9 +36,9 @@ class ViewListOffersToOwnerForm extends QForm {
     protected $txtFilterTo;
     
     protected $alertTypes;
-
-
-
+    
+    protected $calQJQCalendar;
+    
     protected function Form_Run() {
 
         $Datos1 = @unserialize($_SESSION['TobUser']);
@@ -83,7 +83,9 @@ class ViewListOffersToOwnerForm extends QForm {
         $this->dtgOffers->MetaAddColumn('DateFrom', "Name=Valid From");
         $this->dtgOffers->MetaAddColumn('DateTo', "Name=Valid To");
         
-        $this->dtgOffers->AddColumn(new QDataGridColumn('', '<?= $_FORM->actionsRender($_ITEM); ?>', 'HtmlEntities=false', 'Width=100'));
+        if($this->user->StatusUser == 2){
+            $this->dtgOffers->AddColumn(new QDataGridColumn('', '<?= $_FORM->actionsRender($_ITEM); ?>', 'HtmlEntities=false', 'Width=100'));
+        }
         
         $this->lblWallet = new QLabel($this);
         $this->lblWallet->HtmlEntities = false;
@@ -103,17 +105,6 @@ class ViewListOffersToOwnerForm extends QForm {
         $this->btnFilter->Text = '<i class="icon fa-filter" aria-hidden="true"></i>';
         $this->btnFilter->AddAction(new QClickEvent(), new QAjaxAction('actionFilter_Click'));
         
-        /*
-        $this->calCalendarPopup = new QCalendar($this);
-        $this->txtFilterFrom = new QDateTimeTextBox($this);
-        $this->btnFilterFrom = new QCalendar($this, $this->txtFilterFrom);
-        $this->txtFilterFrom->AddAction(new QFocusEvent(), new QBlurControlAction($this->txtFilterFrom));
-        $this->txtFilterFrom->AddAction(new QClickEvent(), new QShowCalendarAction($this->btnFilterFrom));
-        */
-        
-        
-        //$this->txtFilterTo = new QDateTimeTextBox($this);
-        
         $this->btnEraserFilter = new QButton($this);
         $this->btnEraserFilter->CssClass = "btn btn-success";
         $this->btnEraserFilter->HtmlEntities = false;
@@ -121,6 +112,8 @@ class ViewListOffersToOwnerForm extends QForm {
         $this->btnEraserFilter->AddAction(new QClickEvent(), new QAjaxAction('eraseFilter_Click'));
         
         $this->alertTypes = getAlertTypes();
+        
+        $this->calQJQCalendar = new QCalendar($this);
         
     }
 
@@ -322,7 +315,7 @@ class ViewListOffersToOwnerForm extends QForm {
     }
 
     public function edit_Click($strFormId, $strControlId, $strParameter) {
-        $this->dlgDialogEditOffer->Title = addslashes("<i class='icon wb-edit'></i> Edit Restaurant");
+        $this->dlgDialogEditOffer->Title = addslashes("<i class='icon wb-edit'></i> Edit Offer");
         $this->dlgDialogEditOffer->loadDefault($strParameter);
         $this->dlgDialogEditOffer->ShowDialogBox();
     }
@@ -344,10 +337,14 @@ class ViewListOffersToOwnerForm extends QForm {
     protected function delete($id) {
         try {
             $offers = Offer::LoadByIdOffer(intval($id));
-            $offers->Delete();
-            $this->items_Found();
-            //QApplication::ExecuteJavaScript("showSuccess('Deleted successfully!');");
-            QApplication::ExecuteJavaScript("showAlert('".$this->alertTypes['success']."','Deleted successfully!');");
+            
+            if($this->user->StatusUser ==2){
+                $offers->Delete();
+                $this->items_Found();
+                QApplication::ExecuteJavaScript("showAlert('".$this->alertTypes['success']."','Deleted successfully!');");
+            }else{
+                QApplication::ExecuteJavaScript("showAlert('".$this->alertTypes['warning']."','You don\'t have permission to delete!');");
+            }
         } catch (QMySqliDatabaseException $ex) {
             QApplication::ExecuteJavaScript("showAlert('".$this->alertTypes['warning']."','".str_replace("'", "\'", $ex->getMessage())."');");
             //QApplication::ExecuteJavaScript("showWarning('Error " . str_replace("'", "\'", $ex->getMessage()) . "');");

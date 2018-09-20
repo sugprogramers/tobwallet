@@ -4,21 +4,11 @@
 
 class DialogMessage extends QDialogBox {
 
-    public $mctUsuario;
-    public $txtEmail;
-    public $txtPassword;
-    public $txtFirstname;
-    public $txtMiddlename;
-    public $txtLastname;
-    public $txtCountry;
-    public $txtCity;
-    public $txtPhone;
-    public $txtBirthday;
-    public $lstStatus;
-    public $lstUserType;
-    public $txtUserType;
-    public $txtStatus;
-    public $txtWalletAddress;
+    public $mctMessage;
+    
+    public $lstType;
+    public $txtBody;
+    
     public $btnSave;
     public $btnCancel;
     public $strClosePanelMethod;
@@ -42,55 +32,21 @@ class DialogMessage extends QDialogBox {
         $this->strClosePanelMethod = $strClosePanelMethod;
 
         // controles generados
-        $this->mctUsuario = UserMetaControl::CreateFromPathInfo($this);
-
-        $this->txtEmail = $this->mctUsuario->txtEmail_Create();
-        $this->txtEmail->Placeholder = "Email";
-
-        $this->txtPassword = $this->mctUsuario->txtPassword_Create();
-        $this->txtPassword->Placeholder = htmlentities("Password");
-
-        $this->txtFirstname = $this->mctUsuario->txtFirstName_Create();
-        $this->txtFirstname->Placeholder = "First Name";
+        $this->mctMessage = MessageMetaControl::CreateFromPathInfo($this);
         
-        $this->txtMiddlename = $this->mctUsuario->txtMiddleName_Create();
-        $this->txtMiddlename->Placeholder = "Middle Name";
-
-        $this->txtLastname = $this->mctUsuario->txtLastName_Create();
-        $this->txtLastname->Placeholder = "Last Name";
-
-        $this->txtCountry = $this->mctUsuario->txtCountry_Create();
-        $this->txtCountry->Placeholder = htmlentities("Country");
+        $this->txtBody = $this->mctMessage->txtBody_Create();
+        $this->txtBody->CssClass = "form-control input-sm editHidden";
         
-        $this->txtCity = $this->mctUsuario->txtCity_Create();
-        $this->txtCity->Placeholder = htmlentities("City");
-
-        $this->txtPhone = $this->mctUsuario->txtPhone_Create();
-        $this->txtPhone->Placeholder = htmlentities("Phone");
-
-        $this->txtBirthday = $this->mctUsuario->calBirthday_Create();
-        $this->txtBirthday->DateTimePickerType = QDateTimePickerType::Date;
-        
-        $this->txtStatus = $this->mctUsuario->txtStatusUser_Create();        
-        $this->lstStatus = new QListBox($this);
-        $this->lstStatus->CssClass = "form-control input-sm editHidden"; 
-        $this->lstStatus->AddItem(new QListItem("Register", 1));
-        $this->lstStatus->AddItem(new QListItem("Approved", 2));
-        $this->lstStatus->AddItem(new QListItem("Rejected", 3));
-        $this->lstStatus->AddItem(new QListItem("Mining", 4));
-        
-        $this->txtUserType = $this->mctUsuario->txtUserType_Create();
-        $this->lstUserType = new QListBox($this);
-        $this->lstUserType->CssClass = "form-control input-sm editHidden"; 
-        $this->lstUserType->AddItem(new QListItem("Customer", 'C'));
-        $this->lstUserType->AddItem(new QListItem("Owner", 'O'));
-        
-        $this->txtWalletAddress = $this->mctUsuario->txtWalletAddress_Create();   
+        $this->lstType = new QListBox($this);
+        $this->lstType->CssClass = "form-control input-sm editHidden";
+        foreach(getMessageTypeToAdmin() as $x => $x_value) {
+            $this->lstType->AddItem(new QListItem($x_value, $x));
+        }
         
         //buttons
         $this->btnSave = new QButton($this);
         $this->btnSave->HtmlEntities = FALSE;
-        $this->btnSave->Text = '<i class="icon fa-check" aria-hidden="true"></i> Save';
+        $this->btnSave->Text = '<i class="icon fa-check" aria-hidden="true"></i> Send';
         $this->btnSave->CssClass = "btn btn-primary btn-raised ";
         $this->btnSave->AddAction(new QClickEvent(), new QAjaxControlAction($this, 'btnSave_Click'));
 
@@ -102,90 +58,66 @@ class DialogMessage extends QDialogBox {
         
         $this->alertTypes = getAlertTypes();
         $this->errorDialog = false;
-        
     }
 
     // eventos buttons
     public function btnSave_Click($strFormId, $strControlId, $strParameter) {
-       
         try {
-            if (!isEmail(trim($this->txtEmail->Text))) {
-                $this->txtEmail->SetFocus();
+            if (trim($this->txtBody->Text) == "") {
+                $this->txtBody->SetFocus();
                 $this->errorDialog = true;
-                throw new Exception("You must enter a valid Email");
+                throw new Exception("You must enter a message");
             }
             
-            if(strcmp(trim($this->txtPassword->Text), "") === 0){
-                $this->txtPassword->SetFocus();
-                $this->errorDialog = true;
-                throw new Exception("You must enter a valid password");
+            $this->mctMessage->objMessage->Type = $this->lstType->SelectedValue;
+            
+            $this->mctMessage->objMessage->IdUser = 2;
+            $this->mctMessage->objMessage->IsRead = 0;
+            
+            if($this->mctMessage->objMessage->IdMessage == null){
+                $this->mctMessage->objMessage->CreatedDate = QDateTime::Now();
             }
             
-            if (!is_numeric(trim($this->txtPhone->Text))) {
-                $this->txtPhone->SetFocus();
-                $this->errorDialog = true;
-                throw new Exception("You must enter a valid phone number");
-            }
-            
-            //cuando es new
-            if ($this->mctUsuario->objUser->IdUser == null) {
-                $this->mctUsuario->objUser->ImagePhoto = '';
-                $this->mctUsuario->objUser->WalletAddress= '';
-            }
-            //siempre
-            $this->txtStatus->Text = $this->lstStatus->SelectedValue;
-            $this->txtUserType->Text = $this->lstUserType->SelectedValue;
-            
-            //salvar
-            $this->mctUsuario->SaveUser();
+            $this->mctMessage->SaveMessage();
             QApplication::ExecuteJavaScript("showAlert('".$this->alertTypes['success']."','Data Saved Correctly!');");
             
             $this->CloseSelf(true);
         } catch (Exception $exc) {
-            
             if($this->errorDialog == true){
-                //QApplication::ExecuteJavaScript("showWarning('Error: " . str_replace("'", "\'", $exc->getMessage()) . "');");
                 QApplication::ExecuteJavaScript("showDialogAlert('".$this->alertTypes['warning']."','".$exc->getMessage()."');");
                 
             }else{
                 QApplication::ExecuteJavaScript("showAlert('".$this->alertTypes['warning']."','".$exc->getMessage()."');");
             }
-            
         }
     }
 
     public function btnCancel_Click($strFormId, $strControlId, $strParameter) {
         $this->CloseSelf(FALSE);
     }
-
-    //funciones de carga
+    
     public function createNew() {
-        $this->mctUsuario->objUser = new User();
-        $this->mctUsuario->Refresh();
+        $this->mctMessage->objMessage = new Message();
+        $this->mctMessage->Refresh();
     }
 
     public function loadDefault($id) {
         try {
-            $obj = User::LoadByIdUser(intval($id));
-            $this->mctUsuario->objUser = $obj;
-            $this->mctUsuario->blnEditMode = TRUE;
-            $this->mctUsuario->Refresh();
-            $this->lstStatus->SelectedValue = $obj->StatusUser;
-            $this->lstUserType->SelectedValue = $obj->UserType;
-            
+            $obj = Message::LoadByIdMessage(intval($id));
+            $this->mctMessage->objMessage = $obj;
+            $this->mctMessage->blnEditMode = TRUE;
+            $this->mctMessage->Refresh();
         } catch (Exception $exc) {
-            //QApplication::ExecuteJavaScript("showWarning('Error " . str_replace("'", "\'", $exc->getMessage()) . "');");
             QApplication::ExecuteJavaScript("showAlert('".$this->alertTypes['warning']."','".$exc->getMessage()."');");
         }
     }
-
-    // aditional funciones
+    
     public function CloseSelf($blnChangesMade) {
         $strMethod = $this->strClosePanelMethod;
         $this->objForm->$strMethod($blnChangesMade);
         $this->HideDialogBox();
     }
-
+    
 }
 
 ?>

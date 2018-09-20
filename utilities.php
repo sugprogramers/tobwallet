@@ -19,8 +19,7 @@ function getStatusUsers(){
     return array(
         1 => "Register",
         2 => "Approved",
-        3 => "Rejected",
-        4 => "Mining"
+        3 => "Rejected"
         );
 }
 
@@ -28,8 +27,7 @@ function getStatusRestaurants(){
     return array(
         1 => "Register",
         2 => "Approved",
-        3 => "Rejected",
-        4 => "Mining"
+        3 => "Rejected"
         );
 }
 
@@ -45,7 +43,7 @@ function getOfferStatus(){
 function getMessageTypeToAdmin(){
     return array(
         1 => "Other",
-        2 => "Aprobbe User"
+        2 => "Approve User"
     );
 }
 

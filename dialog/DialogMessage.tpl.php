@@ -20,175 +20,28 @@
        <div id="alertDialogContent"></div>
        
         <div class="form-group row">
-            <label class="col-sm-4 control-label">Email / Password</label>
+            <label class="col-sm-4 control-label">Type</label>
             <div class="col-sm-4">
                 <div class="input-group">
                     <span class="input-group-addon">
                         <i class="icon wb-user" aria-hidden="true"></i>
                     </span>
-                    <?php $_CONTROL->txtEmail->RenderWithError(); ?>
+                    <?php $_CONTROL->lstType->RenderWithError(); ?>
                 </div>                     
-            </div>
-            <div class="col-sm-4 unidos">
-                <?php $_CONTROL->txtPassword->RenderWithError(); ?>
             </div>
         </div>
-
-
-      <!--  <div class="form-group row">
-            <label class="col-sm-4 control-label"><?php _p("Password"); ?> </label>
-            <div class="col-sm-8">
-                <div class="input-group">
-                    <span class="input-group-addon">
-                        <i class="icon fa-key" aria-hidden="true"></i>
-                    </span>
-                    
-                </div>                     
-            </div>
-        </div> -->
-
        
         <div class="form-group row">
-            <label class="col-sm-4 control-label">First/Middle/Last Name </label>
-            <div class="col-sm-4">
+            <label class="col-sm-4 control-label">Body</label>
+            <div class="col-sm-8">
                 <div class="input-group">
                     <span class="input-group-addon">
                         <i class="icon fa-font" aria-hidden="true"></i>
                     </span>
-                    <?php $_CONTROL->txtFirstname->RenderWithError(); ?>
-                </div>                     
-            </div>
-            
-            
-            <div class="col-sm-2 unidos">
-                 <!-- <div class="input-group">
-                  <span class="input-group-addon">
-                        <i class="icon wb-text" aria-hidden="true"></i>
-                    </span> -->
-                    <?php $_CONTROL->txtMiddlename->RenderWithError(); ?>
-                <!--</div>  -->                   
-            </div>
-            
-            
-             <div class="col-sm-2 unidos" >
-                <!-- <div class="input-group">
-                    <span class="input-group-addon">
-                        <i class="icon wb-text" aria-hidden="true"></i>
-                    </span>-->
-                    <?php $_CONTROL->txtLastname->RenderWithError(); ?>
-                <!-- </div> -->                   
-            </div>
-        </div>
-
-        <div class="form-group row">
-            <label class="col-sm-4 control-label"><?php _p("Country/City"); ?> </label>
-            <div class="col-sm-4">
-                <div class="input-group">
-                    <span class="input-group-addon">
-                        <i class="icon wb-map" aria-hidden="true"></i>
-                    </span>
-                    <?php $_CONTROL->txtCountry->RenderWithError(); ?>
-                </div>                     
-            </div>
-            
-             <div class="col-sm-4 unidos">
-                <!-- <div class="input-group">
-                    <span class="input-group-addon">
-                        <i class="icon fa-phone" aria-hidden="true"></i>
-                    </span> -->
-                    <?php $_CONTROL->txtCity->RenderWithError(); ?>
-                <!-- </div> -->                    
-            </div>
-        </div>
-
-        
-         <div class="form-group row">
-            <label class="col-sm-4 control-label"><?php _p("Phone"); ?> </label>
-            <div class="col-sm-8">
-                <div class="input-group">
-                    <span class="input-group-addon">
-                        <i class="icon fa-phone" aria-hidden="true"></i>
-                    </span>
-                    <?php $_CONTROL->txtPhone->RenderWithError(); ?>
+                    <?php $_CONTROL->txtBody->RenderWithError(); ?>
                 </div>                     
             </div>
         </div>
-        
-        <div class="form-group row">
-            <label class="col-sm-4 control-label"><?php _p("Birthday"); ?> </label>
-            <div class="col-sm-8">
-                <div class="input-group">
-                    <span class="input-group-addon">
-                        <i class="icon fa-calendar" aria-hidden="true"></i>
-                    </span>
-                    <?php $_CONTROL->txtBirthday->RenderWithError(); ?>
-                </div>                     
-            </div>
-        </div>
-        
-        
-        <div class="form-group row">
-            <label class="col-sm-4 control-label"><?php _p("Status"); ?> </label>
-            <div class="col-sm-8">
-                <div class="input-group">
-                    <span class="input-group-addon">
-                        <i class="icon fa-list" aria-hidden="true"></i>
-                    </span>
-                    <?php $_CONTROL->lstStatus->RenderWithError(); ?>
-                </div>                     
-            </div>
-        </div>
-        
-        <div class="form-group row">
-            <label class="col-sm-4 control-label"><?php _p("User Type"); ?> </label>
-            <div class="col-sm-8">
-                <div class="input-group">
-                    <span class="input-group-addon">
-                        <i class="icon fa-list" aria-hidden="true"></i>
-                    </span>
-                    <?php $_CONTROL->lstUserType->RenderWithError(); ?>
-                </div>                     
-            </div>
-        </div>
-       
-        <!-- <div class="form-group row">
-            <label class="col-sm-4 control-label"><?php //_p("Plan"); ?> </label>
-            <div class="col-sm-8">
-                <div class="input-group">
-                    <span class="input-group-addon">
-                        <i class="icon fa-list" aria-hidden="true"></i>
-                    </span>
-                    <?php //$_CONTROL->lstMiningOption->RenderWithError(); ?>
-                </div>                     
-            </div>
-        </div> -->
-        
-        <div class="form-group row">
-            <label class="col-sm-4 control-label"><?php _p("Wallet Address"); ?> </label>
-            <div class="col-sm-8">
-                <div class="input-group">
-                    <span class="input-group-addon">
-                        <i class="icon fa-list" aria-hidden="true"></i>
-                    </span>
-                    <?php $_CONTROL->txtWalletAddress->RenderWithError(); ?>
-                </div>                     
-            </div>
-        </div>
-        
-        <!-- <div class="form-group row">
-            <label class="col-sm-4 control-label"><?php _p("Number Master Node"); ?> </label>
-            <div class="col-sm-8">
-                <div class="input-group">
-                    <span class="input-group-addon">
-                        <i class="icon fa-list" aria-hidden="true"></i>
-                    </span>
-                    <?php //$_CONTROL->txtNumberMasterNode->RenderWithError(); ?>
-                </div>                     
-            </div>
-        </div> -->
-        
-        
-        
     </div>                    
 
 

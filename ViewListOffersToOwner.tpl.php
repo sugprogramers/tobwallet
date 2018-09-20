@@ -55,11 +55,7 @@
     </div>
     
     <div class="page-content container-fluid">
-        <!-- Panel Table Add Row -->
         <div class="panel">
-            <!-- <header class="panel-heading">
-                <h3 class="panel-title">View Offers</h3>
-            </header> -->
             <div class="panel-body" style="min-height:260px;">
 
                 <div class="row">
@@ -74,29 +70,24 @@
                             <br>
                         </div> 
                     </div>
-
-                    <!-- Example Basic Sort -->
                     <div id="Found2" style="display:none;"  class="example-wrap">
-                        
-                        
                         <style>
                             .hola1:after {
                                 content: "FILTERS";
                             }
 
                         </style>
-                        
                         <div id="alertContent"></div>
+                        
+                        <?php if($this->user->StatusUser !=2){ ?>
+                        <div class="alert alert-warning alert-dismissible">
+                            <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
+                            Your status is: <strong><?php _p(getStatusUsers()[$this->user->StatusUser]) ?></strong>, to change your status, contact the administrator
+                        </div>
+                        <?php }?>
                         
                         <div class="example example-box hola1">
                             <div class="row">
-                                <!-- <div class="col-sm-3 form-group">
-                                    <?php //$this->txtFilterFrom->Render(); ?>
-                                    <?php //$this->btnFilterFrom->Render(); ?>
-                                </div>
-                                <div class="col-sm-3 form-group">
-                                    <?php //$this->txtFilterTo->Render(); ?>
-                                </div> -->
                                 
                                 <div class="col-sm-5 form-group">
                                     <?php $this->txtNombre->Render(); ?>
@@ -114,34 +105,23 @@
                             </div>
                         </div>
                         
-                        
                         <div class="example">
                             <div class="table-responsive">
-                                <!-- <?php //$this->dtgUsuarios->Render(); ?> -->
                                 <?php $this->dtgOffers->Render(); ?>
-                                
                             </div>
-
                         </div>
                     </div>
-
                 </div>
+                <?php if($this->user->StatusUser ==2){ ?>
                 <div class="site-action"> <?php $this->btnNewOffer->Render(); ?></div>
-                <!-- End Example Basic Sort -->
-            </div>
-            <!-- End Panel Body -->
+                <?php }?>
+            </div>>
         </div>
-        <!-- End Panel -->
     </div>
-    <!-- End Container -->
 </div>
-<!-- End Page -->
 
 <?php $this->dlgDialogEditOffer->Render(); ?>
-<?php //$this->dlgDialogPermit->Render(); ?>
 <?php $this->dlgConfirm->Render(); ?>
-
-
 
 <div class="modal fade modal-3d-slit in" id="ventaModal" aria-hidden="true" aria-labelledby="examplePositionCenter"
      role="dialog" tabindex="-1"  data-backdrop="static" data-keyboard="false">

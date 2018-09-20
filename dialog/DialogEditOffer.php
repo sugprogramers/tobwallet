@@ -24,7 +24,13 @@ class DialogEditOffer extends QDialogBox {
     public $btnSave;
     public $btnCancel;
     
+    public $userTemp;
     
+    
+    
+    public $alertTypes;
+    
+    protected $errorDialog;
 
     public function __construct($objParentObject, $strClosePanelMethod, $strControlId = null, $strParentId = null) {
         // Call the Parent
@@ -92,33 +98,50 @@ class DialogEditOffer extends QDialogBox {
         $this->btnCancel->CssClass = "btn btn-danger btn-raised ";
         $this->btnCancel->AddAction(new QClickEvent(), new QAjaxControlAction($this, 'btnCancel_Click'));
         
+        
+        $this->alertTypes = getAlertTypes();
+        $this->errorDialog = false;
     }
     
     public function btnSave_Click($strFormId, $strControlId, $strParameter) {
-       
+        $Datos1;
         try {
+            
+            if($Datos1 = @unserialize($_SESSION['TobUser'])){
+                if ($Datos1) {
+                    $this->userTemp = User::LoadByEmail($Datos1->Email);
+                    
+                    if($this->userTemp->StatusUser != 2){
+                        $this->errorDialog = true;
+                        throw new Exception("You do not have permission to save or update!");
+                    }
+                } 
+            }
+            
             if(!is_numeric(trim($this->txtOfferedCoins->Text))){
                 $this->txtOfferedCoins->SetFocus();
-                throw new Exception("Debe ingresar un valor válido");
+                $this->errorDialog = true;
+                throw new Exception("You must enter a valid value");
             }
             
             if(!is_numeric(trim($this->txtMaxOffers->Text))){
                 $this->txtMaxOffers->SetFocus();
-                throw new Exception("Debe ingresar un valor válido");
+                $this->errorDialog = true;
+                throw new Exception("You must enter a valid value");
             }
             
             $this->mctOffer->objOffer->IdRestaurant = $this->lstRestaurants->SelectedValue;
-            
             $this->mctOffer->objOffer->AppliedOffers = 0;
-            //siempre
-            //$this->txtStatus->Text = $this->lstStatus->SelectedValue;
-            //$this->txtMiningOption->Text = $this->lstMiningOption->SelectedValue;
-            //salvar
             $this->mctOffer->SaveOffer();
             
             $this->CloseSelf(TRUE);
         } catch (Exception $exc) {
-            QApplication::ExecuteJavaScript("showWarning('Error: " . str_replace("'", "\'", $exc->getMessage()) . "');");
+            if($this->errorDialog == true){
+                QApplication::ExecuteJavaScript("showDialogAlert('".$this->alertTypes['warning']."','".str_replace("'", "\'", $exc->getMessage())."');");
+            }else{
+                QApplication::ExecuteJavaScript("showAlert('".$this->alertTypes['warning']."','".str_replace("'", "\'", $exc->getMessage())."');");
+            }
+            $this->errorDialog = false;
         }
     }
 
@@ -133,20 +156,16 @@ class DialogEditOffer extends QDialogBox {
     }
 
     public function loadDefault($id) {
-        
-        
         try {
             $obj = Offer::LoadByIdOffer($id);
             $this->mctOffer->objOffer = $obj;
             $this->mctOffer->blnEditMode = TRUE;
             $this->mctOffer->Refresh();
-            
         } catch (Exception $exc) {
             QApplication::ExecuteJavaScript("showWarning('Error " . str_replace("'", "\'", $exc->getMessage()) . "');");
         }
     }
-
-    // aditional funciones
+    
     public function CloseSelf($blnChangesMade) {
         $strMethod = $this->strClosePanelMethod;
         $this->objForm->$strMethod($blnChangesMade);

@@ -30,6 +30,7 @@ class DialogEditRestaurant extends QDialogBox {
     public $txtfile;
     public $haserror;
     
+    public $userTemp;
     
     public $alertTypes;
     public $errorDialog;
@@ -127,11 +128,23 @@ class DialogEditRestaurant extends QDialogBox {
         $this->errorDialog = false;
         
     }
+    
 
     // eventos buttons
     public function btnSave_Click($strFormId, $strControlId, $strParameter) {
+        $Datos1;
        
         try {
+            if($Datos1 = @unserialize($_SESSION['TobUser'])){
+                if ($Datos1) {
+                    $this->userTemp = User::LoadByEmail($Datos1->Email);
+                    
+                    if($this->userTemp->StatusUser != 2){
+                        throw new Exception("You don\'t have permission to save or update!");
+                    }
+                } 
+            }
+            
             if ($this->txtUploadPhoto->File != null && $this->txtUploadPhoto->Size > 5000000) {
                 $size = $this->txtUploadPhoto->Size / 1000000;
                 QApplication::ExecuteJavaScript("showWarning('Error Size Image Photo is  $size Megabytes, <br>Verify that it is less than 5 Megabytes');");
@@ -208,9 +221,6 @@ class DialogEditRestaurant extends QDialogBox {
             $this->CloseSelf(false);
             QApplication::ExecuteJavaScript("showAlert('".$this->alertTypes['success']."','Data Saved Successfull!')");
         } catch (Exception $exc) {
-            
-            
-            
             QApplication::ExecuteJavaScript("showWarning('Error: " . str_replace("'", "\'", $exc->getMessage()) . "');");
             if($this->haserror){
                 $this->ShowDialogBox();

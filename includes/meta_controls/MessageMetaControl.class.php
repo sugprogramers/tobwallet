@@ -19,6 +19,8 @@
 	 * @subpackage MetaControls
 	 */
 	class MessageMetaControl extends MessageMetaControlGen {
+            public $objMessage;
+            public $blnEditMode;
 		// Initialize fields with default values from database definition
 /*
 		public function __construct($objParentObject, Message $objMessage) {

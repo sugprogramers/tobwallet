@@ -1,4 +1,5 @@
 function showAlert(type, msg){
+    $("#alertContent").html('');
     var tpl ='<div class="alert '+ type+'">'+
             '<a href="#" class="close" data-dismiss="alert" aria_label="close">&times</a>'+
             '<span>'+msg+'</span>'+

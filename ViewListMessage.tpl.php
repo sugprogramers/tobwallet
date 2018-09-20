@@ -6,7 +6,6 @@
 <?php $this->RenderBegin(); ?>
 <?php $this->objDefaultWaitIcon->Render(); ?>
 
-
 <script>
     function itemsFound(value) {
 
@@ -16,8 +15,8 @@
         } else { //2 = yeah data
             showFound2();
         }
-
     }
+    
     function showFound1() {
         var pnl = document.getElementById('Found2');
         pnl.style.visibility = "hidden";
@@ -26,7 +25,6 @@
         var pnl = document.getElementById('Found1');
         pnl.style.visibility = "visible";
         pnl.style.display = "block";
-
     }
 
     function showFound2() {
@@ -46,7 +44,7 @@
 <!-- Page -->
 <div class="page">
     <div class="page-header">
-        <h1 class="page-title"> <i class="site-menu-icon wb-users" aria-hidden="true"></i> Users</h1>
+        <h1 class="page-title"> <i class="site-menu-icon far fa-envelope" aria-hidden="true"></i> Messages</h1>
     </div>
     <div class="page-content container-fluid">
         <!-- Panel Table Add Row -->
@@ -58,10 +56,10 @@
                     <div id="Found1" style="display:none;" class="vertical-align text-center" >
                         <div class="page-content vertical-align-middle">
                             <header>
-                                <div class="animation-slide-top" style="font-size: 65px;margin-right:0px;padding: 0px;color:#ccc;"><i class="icon wb-users" aria-hidden="true"></i></div>
-                                <p   style="font-size: 22px;color: #848484;">No registered users were found.</p>
+                                <div class="animation-slide-top" style="font-size: 65px;margin-right:0px;padding: 0px;color:#ccc;"><i class="icon far fa-envelope" aria-hidden="true"></i></div>
+                                <p   style="font-size: 22px;color: #848484;">No registered messages were found.</p>
                             </header>
-                            <p class="error-advise animation-slide-left" style="font-size: 12px;">You must register a new user.</p>
+                            <p class="error-advise animation-slide-left" style="font-size: 12px;">You must register a new message.</p>
                             <br>
                         </div> 
                     </div>
@@ -79,13 +77,7 @@
                         <div class="example example-box hola1">
                             <div class="row">
                                 <div class="col-sm-2 form-group">
-                                    <?php $this->lstFilterUserType->Render(); ?>
-                                </div>
-                                <div class="col-sm-2 form-group">
-                                    <?php $this->lstFilterUserStatus->Render(); ?>
-                                </div>
-                                <div class="col-sm-4 form-group">
-                                    <?php $this->txtNombre->Render(); ?>
+                                    <?php $this->lstFilterType->Render(); ?>
                                 </div>
                                 <div class="col-sm-2 form-group">
                                     <?php $this->btnFilter->Render(); ?>
@@ -100,10 +92,9 @@
                             </div>
                         </div>
                         
-                        
                         <div class="example">
                             <div class="table-responsive">
-                                <?php $this->dtgUsuarios->Render(); ?>
+                                <?php $this->dtgMessages->Render(); ?>
                                 
                             </div>
 
@@ -111,7 +102,7 @@
                     </div>
 
                 </div>
-                <div class="site-action" > <?php $this->btnNewUsuario->Render(); ?></div>
+                <div class="site-action" > <?php $this->btnNewMessage->Render(); ?></div>
                 <!-- End Example Basic Sort -->
             </div>
         </div>
@@ -137,7 +128,7 @@
                 <h4 class="modal-title"><?php _p("Wallet Address"); ?></h4>
             </div>
             <div class="modal-body">
-                <h5><?php $this->lblWallet->Render(); ?></h5>
+                <h5><?php //$this->lblWallet->Render(); ?></h5>
       
             </div>
             <div class="modal-footer">
@@ -152,20 +143,7 @@
     </div>
 </div>
 
-
-
-
-
-
-
 <?php $this->RenderEnd(); ?>
-
-
-
-
-
-
-
 
 <script>
     (function (document, window, $) {
