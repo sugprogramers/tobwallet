@@ -244,7 +244,7 @@
         /* prueba: clases js */
         var content = document.getElementById('map');
         
-        var ownerMap = initMap2();
+        /*var ownerMap = initMap2();
         ownerMap.setMapContent(content);
         ownerMap.currentMap();
         
@@ -254,7 +254,7 @@
             alert('error');
         }
         
-        return;
+        return;*/
         
         
         if (navigator.geolocation) {

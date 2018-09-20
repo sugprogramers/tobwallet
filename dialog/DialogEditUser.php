@@ -77,7 +77,6 @@ class DialogEditUser extends QDialogBox {
         $this->lstStatus->AddItem(new QListItem("Register", 1));
         $this->lstStatus->AddItem(new QListItem("Approved", 2));
         $this->lstStatus->AddItem(new QListItem("Rejected", 3));
-        $this->lstStatus->AddItem(new QListItem("Mining", 4));
         
         $this->txtUserType = $this->mctUsuario->txtUserType_Create();
         $this->lstUserType = new QListBox($this);
