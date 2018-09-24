@@ -90,8 +90,11 @@ function downloadFile(nombre, ruta) {
 
 var image = document.createElement("img");
 var imageoriginal = document.createElement("img");
+var img = document.createElement("img");
 var altura = 0;
 var ancho = 0;
+var orientacionBeta = 0;
+var orientacionGamma = 0;
 function abrecamaramovil() {
 
     var $canvas = document.getElementById("canvasfoto"),
@@ -105,6 +108,12 @@ function abrecamaramovil() {
 
     function handleFiles(e) {
 
+//        if (orientacionBeta > orientacionGamma) {
+//            alert("parado");
+//        } else {
+//            alert("hechadito");
+//        }
+
         $canvas.style.display = "block";
         imgDefault.style.display = "none";
         hideDialogAlert();
@@ -112,7 +121,7 @@ function abrecamaramovil() {
         var _URL = window.URL || window.webkitURL;
         var ctx = $canvas.getContext('2d');
         var ctxorig = $canvasoriginal.getContext('2d');
-        img = document.createElement("img");
+//        img = document.createElement("img");
         var imgwidth = 0;
         var imgheight = 0;
         img.src = _URL.createObjectURL(e.target.files[0]);
@@ -121,9 +130,6 @@ function abrecamaramovil() {
 
             imgwidth = this.width;
             imgheight = this.height;
-//
-//            alert(imgwidth);
-//            alert(imgheight);
 
 //          REESCALANDO:
             var escala = 0;
@@ -141,9 +147,6 @@ function abrecamaramovil() {
             ctx.clearRect(0, 0, 300, 300);
             ctx.drawImage(img, 0, 0, Math.round(anchoEscala), Math.round(alturaEscala));
 
-            console.log("ancho: " + imgwidth + " ; altura: " + imgheight);
-            console.log("ancho escala: " + anchoEscala + " ; altura escala: " + alturaEscala);
-
             //GUARDAR IMAGEN ORIGINAL 
             $canvasoriginal.height = imgheight / 2;
             $canvasoriginal.width = imgwidth / 2;
@@ -153,11 +156,27 @@ function abrecamaramovil() {
 //          BOTON QUE RESETEA EL ESTILO DE LOS BOTONES  DESDE EL CONTROLADOR
             $('#c15').click();
 
+//            alert(orientacionBeta);
+//            alert(orientacionGamma);
+
             resetValues();
             image.src = $canvas.toDataURL();
             imageoriginal.src = $canvasoriginal.toDataURL();
+            alert("acca");
         };
+
+        setTimeout(function () {
+//                alert('holasssssssssssssss');
+            if (orientacionBeta > orientacionGamma) {
+                alert("parado");
+            } else {
+                alert("hechadito");
+            }
+        }, 500);
     }
+
+
+
 }
 
 function subirFotoAjax() {
@@ -169,15 +188,13 @@ function subirFotoAjax() {
     if ($canvaspreview.style.display === "none") {
         showDialogAlert('alert-warning', 'You have not taken any pictures yet!');
     } else {
+        showDialogAlert('alert-warning', 'Uploading photo, please wait ...');
         $.ajax({
             url: './guardar_foto.php',
             type: 'POST',
             data: encodeURIComponent(foto),
             processData: false, // tell jQuery not to process the data
             contentType: false, // tell jQuery not to set contentType
-            beforeSend: function (xhr) {
-                showDialogAlert('alert-warning', 'Uploading photo, please wait ...');
-            },
             success: function (data) {
                 setTimeout(function () {
                     showDialogAlert('alert-success', 'Photo uploaded correctly ... 1/2 !');
@@ -189,9 +206,10 @@ function subirFotoAjax() {
             },
             error: function (jqXHR, textStatus, errorThrown) {
                 //para aplicar los estilos al boton desde el controlador
+                alert(errorThrown);
                 $('#c17').val('photo:no');
                 $('#c14').click();
-                showDialogAlert('alert-error', 'ERROR! The photo can not be uploaded');
+                showDialogAlert('alert-danger', 'ERROR! The photo can not be uploaded');
             }
         });
     }
@@ -267,3 +285,40 @@ function drawRotated2() {
         myImageOrigin = null;
     };
 }
+
+
+// PARA MANIPULAR LA ORIENTACION DEL MOVIL
+contador = 0;
+$(document).ready(function () {
+
+    if (window.DeviceOrientationEvent) {
+        alert('si se puede');
+        window.addEventListener("deviceorientation", deviceOrientationListener);
+    } else {
+        alert('nicagando');
+    }
+
+    function deviceOrientationListener(event) {
+
+        contador++;
+//        alert(event.alpha);
+
+//        alert(contador);
+
+        orientacionBeta = (event.beta < 0) ? event.beta * -1 : event.beta;
+        orientacionGamma = (event.gamma < 0) ? event.gamma * -1 : event.gamma;
+
+        if (contador < 5) {
+//            alert(orientacionBeta);
+
+        }
+
+
+
+        $('#divmuestra').html(orientacionBeta + "::" + orientacionGamma);
+
+
+
+    }
+
+});

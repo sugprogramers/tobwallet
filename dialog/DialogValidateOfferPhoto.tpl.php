@@ -1,11 +1,11 @@
 <div class="dialog-content">  
 
-    <div id="alertDialogContent"></div>
+    <div class="alertDialogContent"></div>
 
     <table class="formTableDialog" cellspacing="0">
 <!--        <tr>
             <td>
-                <span class="confirm-delete-message"><?php // _p($_CONTROL->txtMessage);                                                 ?></span>
+                <span class="confirm-delete-message"><?php // _p($_CONTROL->txtMessage);                                                  ?></span>
 
             </td>
         </tr>-->
@@ -107,6 +107,7 @@
 
 
 </div>
+<div id="divmuestra"> hola</div>
 
 
 <!-- start ui-dialog-footer -->

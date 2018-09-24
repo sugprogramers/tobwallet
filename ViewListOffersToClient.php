@@ -187,7 +187,7 @@ class ViewListOffersToClientForm extends QForm {
         $this->dlgDialogEditModelo->Title = addslashes("<i class='icon wb-edit'></i> Validating offer ...");
         $this->dlgDialogEditModelo->txtMessage = "";
         $this->dlgDialogEditModelo->ID = intval($strParameter);
-//        $this->dlgDialogEditModelo->loadDefault();
+        $this->dlgDialogEditModelo->loadDefault();
         $this->dlgDialogEditModelo->ShowDialogBox();
     }
 

@@ -1,4 +1,6 @@
 <div class="dialog-content">  
+    <div class="alertDialogContent"></div>
+
     <table class="formTableDialog" cellspacing="10">
         <tr>
             <td>

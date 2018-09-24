@@ -125,7 +125,7 @@ class DialogValidateOfferPhoto extends QDialogBox {
                 $this->btnValidarUbicacion->Enabled = true;
                 $this->btnValidarUbicacion->Refresh();
             } else {
-                $this->btnSubeFoto->Text = '<i class="fa fa-cloud-upload" aria-hidden="true"></i> Validate QR <i class="icon fa-close" aria-hidden="true"></i>';
+                $this->btnSubeFoto->Text = '<i class="fa fa-cloud-upload" aria-hidden="true"></i> Save <i class="icon fa-close" aria-hidden="true"></i>';
                 $this->btnSubeFoto->CssClass = "btn btn-raised btn-danger";
             }
             $this->btnSubeFoto->Refresh();

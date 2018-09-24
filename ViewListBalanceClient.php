@@ -132,8 +132,15 @@ class ViewListBalanceClientForm extends QForm {
     public function getPhotoOffer(Balance $balance) {
         $user = @unserialize($_SESSION['TobUser']);
         $nameimage = "foto_" . $user->IdUser . "_" . $balance->IdOffer . ".png";
+        $rutaimagen = __VIRTUAL_DIRECTORY__ . __SUBDIRECTORY__ . '/photoclientoffer/' . $nameimage;
+        $filePath = __CUSTOMER_OFFER_PHOTOS . "/" . $nameimage;
+        $exists = file_exists($filePath);
 
-        return '<img src="' . __VIRTUAL_DIRECTORY__ . __SUBDIRECTORY__ . '/photoclientoffer/' . $nameimage . '"  class="img-responsive">';
+        if ($exists) {
+            return '<a href="' . $rutaimagen . '" target="_blank">  <img src="' . $rutaimagen . '"  class="img-responsive"></a>';
+        } else {
+            return '';
+        }
     }
 
     public function getRestaurant(Balance $balance) {
